@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from "./pages/MainPage";
 import { theme } from "./theme";
 import Test from "./pages/Test";
+import SignUp from "./pages/SignUp";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -58,7 +59,11 @@ table {
 }
 body {
   font-weight: 300;
+<<<<<<< HEAD
+  font-family: "Inter";
+=======
   font-family: Inter;
+>>>>>>> 051e1046c59d1d39a11e4837348d884277c2dc9d
   background-color:${(props) => props.theme.bgColor};
   color:black;
   line-height: 1.2;
@@ -77,6 +82,10 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <Test />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
   },
 ]);
 
