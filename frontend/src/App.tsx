@@ -1,6 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Main from "./pages/Main";
+import Main from "./pages/MainPage";
 import { theme } from "./theme";
 import Test from "./pages/Test";
 
@@ -58,7 +58,7 @@ table {
 }
 body {
   font-weight: 300;
-  font-family: 'Source Serif 4', serif;
+  font-family: Inter;
   background-color:${(props) => props.theme.bgColor};
   color:black;
   line-height: 1.2;

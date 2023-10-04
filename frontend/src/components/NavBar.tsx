@@ -74,7 +74,6 @@ const MiniProfile = styled.img`
   width: 41px;
   height: 41px;
   border-radius: 41px;
-  border: 1px solid #ececec;
   background: lightgray 50% / cover no-repeat;
 `;
 
@@ -101,6 +100,7 @@ const Right = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 function NavBar() {
   return (
     <Background>
