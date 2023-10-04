@@ -1,7 +1,13 @@
-import styled from "styled-components";
+
+import {styled} from "styled-components";
 
 const [name, email, id, intro] = '';
 
+const Background = styled.div`
+    width: 100vw;
+    height: 100vh;
+    background: #121212;    
+`;
 const SignUpBox = styled.div`
     display: flex;
     flex-direction: column;
@@ -10,15 +16,14 @@ const SignUpBox = styled.div`
     height: 900px;
 
     position: relative; /* 추후 박스 하단에 추가 버튼을 위치시키기 위한 설정 */
-    /* background: #b6b6b6; */
-
     margin: 0 auto; /* 페이지 중앙에 나타나도록 설정 */
-    /* margin-top: 66px; */
     margin-bottom: 32px;
     /* padding: 40px 20px; */
 
     flex-shrink: 0;
     text-align: left;
+    color: white;
+    /* color: #2f2f2f; */
     
 `;
 
@@ -47,9 +52,11 @@ const InfoBox = styled.div`
         font-weight: 600;
         margin-bottom: 30px;
     }  
-    
-    &:focus + p {
-        color: #2ED279;
+
+    &:focus-within{
+        p{
+            color: #38E788;
+        }
     }
 
 `;
@@ -70,9 +77,10 @@ const InputBox = styled.input`
     margin-bottom: 20px;
 
     &:focus {
-        border-bottom: 2px solid #2ED279;
+        border-bottom: 2px solid #38E788;
     }
 
+    
 `;
 
 const ButtonBox = styled.div`
@@ -101,45 +109,47 @@ const ButtonStyle = styled.button<{bgColor:string}>`
 
 
 function SignUp(){
+
     return(
-        <SignUpBox>
-            <Header>
-                <h1>환영합니다!</h1>
-                <p>기본 회원정보를 등록해주세요.</p>
-            </Header>
+        <Background>
+            <SignUpBox>
+                <Header>
+                    <h1>환영합니다!</h1>
+                    <p>기본 회원정보를 등록해주세요.</p>
+                </Header>
 
-            <InfoBox>
-                <p>이름</p>
-                <label>
-                    <InputBox type='text' value={name} placeholder='이름을 입력하세요' width={"30%"}/>
-                </label>
-            </InfoBox>
-            <InfoBox>
-                <p>이메일</p>
-                <label>
-                    <InputBox type='email' value={email} placeholder='이메일을 입력하세요' width={"35%"}/>
-                </label>
-            </InfoBox>
-            <InfoBox>
-                <p>아이디</p>
-                <label>
-                    <InputBox type='text' value={id} placeholder='아이디를 입력하세요' width={"26%"}/>
-                </label>
-            </InfoBox>
-            <InfoBox>
-                <p>한 줄 소개</p>
-                <label>
-                    <InputBox type='text' value={intro} placeholder='당신을 한 줄로 소개해보세요' width={"50%"}/>
-                </label>
-            </InfoBox>
+                <InfoBox>
+                    <p>이름</p>
+                    <label>
+                        <InputBox type='text' value={name} placeholder='이름을 입력하세요' width={"30%"}/>
+                    </label>
+                </InfoBox>
+                <InfoBox>
+                    <p>이메일</p>
+                    <label>
+                        <InputBox type='email' value={email} placeholder='이메일을 입력하세요' width={"35%"}/>
+                    </label>
+                </InfoBox>
+                <InfoBox>
+                    <p>아이디</p>
+                    <label>
+                        <InputBox type='text' value={id} placeholder='아이디를 입력하세요' width={"26%"}/>
+                    </label>
+                </InfoBox>
+                <InfoBox>
+                    <p>한 줄 소개</p>
+                    <label>
+                        <InputBox type='text' value={intro} placeholder='당신을 한 줄로 소개해보세요' width={"50%"}/>
+                    </label>
+                </InfoBox>
 
-            <ButtonBox>
-                <ButtonStyle type='submit' bgColor="#D9D9D9" color="#000000">취소</ButtonStyle>
-                <ButtonStyle type='submit' bgColor="#38E788" color="#FFFFFF">다음</ButtonStyle>
-            </ButtonBox>
+                <ButtonBox>
+                    <ButtonStyle type='submit' bgColor="#D9D9D9" color="#000000">취소</ButtonStyle>
+                    <ButtonStyle type='submit' bgColor="#38E788" color="#FFFFFF">다음</ButtonStyle>
+                </ButtonBox>
 
-
-        </SignUpBox>
+            </SignUpBox>
+        </Background>
     )
 
 }
