@@ -1,0 +1,35 @@
+version: "3.8"
+
+# volumes:
+#   build_folder: null
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    env_file:
+      - "./backend/db/.env"
+    ports:
+      - "3306:3306"
+    platform: linux/amd64
+#    volumes:
+      # - ./elk/logs/mysql_data:/var/var/log
+#      - ./backend/db/init/:/docker-entrypoint-initdb.d/
+      # - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "mysqldb"]
+    #   timeout: 20s
+    #   retries: 10
+    # command: ["--general-log", "--general-log-file=/var/log/mysql.log"]
+
+  backend:
+    build: ./backend
+    restart: always
+    depends_on:		
+      - mysqldb
+    ports:
+      - 8080:8080
+#       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/console-log
+#       SPRING_DATASOURCE_USERNAME: root
+#       SPRING_DATASOURCE_PASSWORD: 12345678
+#       SPRING_PROFILES_ACTIVE: dev
