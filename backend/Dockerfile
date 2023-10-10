@@ -1,4 +1,8 @@
 FROM openjdk:17
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=build/libs/app.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+#ENTRYPOINT ["java","-jar","/app.jar"]
+
+COPY wait-for-it.sh wait-for-it.sh
+RUN chmod +x wait-for-it.sh
+ENTRYPOINT ["./wait-for-it.sh", "mysqldb:3306", "-s", "-t", "100", "--"]
