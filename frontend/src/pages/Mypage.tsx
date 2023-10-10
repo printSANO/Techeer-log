@@ -178,6 +178,52 @@ const Circle = styled.span`
   background-color: ${(props) => props.theme.red};
 `;
 
+const TagLists = styled.div`
+  position: relative;
+  left: -13.5rem;
+  width: 11.5rem;
+`;
+
+const TagList = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #ececec;
+  font-family: Inter;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border-bottom: 1px solid #a0a0a0;
+  line-height: 1.5;
+  position: absolute;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  width: 11rem;
+`;
+
+const Tags = styled.li`
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: bold;
+  color: #63e6be;
+  position: absolute;
+  top: 3rem;
+`;
+
+const Tag = styled.a`
+  color: inherit;
+`;
+
+const Count = styled.span`
+  color: #acacac;
+  margin-left: 0.5rem;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+`;
+
 function MyPage() {
   return (
     <Background>
@@ -221,6 +267,15 @@ function MyPage() {
               <Input placeholder="검색어를 입력하세요" />
             </Section>
           </Search>
+          <TagLists>
+            <TagList>태그 목록</TagList>
+            <ul style={{ listStyle: "none" }}>
+              <Tags>
+                <Tag>전체 보기</Tag>
+                <Count>(0)</Count>
+              </Tags>
+            </ul>
+          </TagLists>
           <Posts>
             <NoPostImg src={nopost} />
             <NoPostWord>포스트가 없습니다.</NoPostWord>
