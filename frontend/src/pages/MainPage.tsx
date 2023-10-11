@@ -112,7 +112,7 @@ const Row = styled.div`
 const Box = styled.div`
   width: 310px;
   height: 380px;
-  background-color: #2d2d2d;
+  background-color: #1e1e1e;
   border-radius: 10px;
 `;
 
