@@ -4,6 +4,7 @@ import Main from "./pages/MainPage";
 import { theme } from "./theme";
 import Test from "./pages/Test";
 import SignUp from "./pages/SignUp";
+import BoardPage from "./pages/BoardPage";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
+  },
+  {
+    path: "/board",
+    element: <BoardPage />,
   },
 ]);
 
