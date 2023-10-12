@@ -41,7 +41,7 @@ const Recent = styled.img`
   align-items: center;
 `;
 
-const NewWord = styled.p`
+const NewWord = styled.a`
   display: flex;
   width: 40px;
   height: 24px;
@@ -61,7 +61,7 @@ const Heart = styled.img`
   height: 18px;
 `;
 
-const NewWord2 = styled.p`
+const NewWord2 = styled.a`
   color: #fff;
   text-align: center;
   font-family: Inter;

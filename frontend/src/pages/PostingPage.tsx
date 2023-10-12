@@ -13,7 +13,7 @@ const LeftBox = styled.div`
 `;
 
 const Title = styled.div`
-  max-height: 580px;
+  max-height: 540px;
 
   padding-top: 2rem;
   padding-left: 3rem;
@@ -33,8 +33,9 @@ const TitleWrite = styled.textarea`
   font-weight: bold;
   font-family: inherit;
   color: #ececec;
-  textarea{
-    
+  height: 66px;
+  &::placeholder {
+    color: #aaaaaa; // placeholder 텍스트의 색상을 원하는 색상으로 변경합니다.
   }
 `;
 
@@ -59,6 +60,7 @@ const WriteTag = styled.textarea`
   border: none;
   color: #ececec;
   font-family: inherit;
+  resize: none;
 `;
 
 function PostingPage() {
