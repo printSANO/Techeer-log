@@ -44,8 +44,4 @@ public class Password {
         return getValue().equals(password.getValue());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getValue());
-    }
 }

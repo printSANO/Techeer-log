@@ -36,8 +36,5 @@ public class Username {
         return getValue().equals(username.getValue());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getValue());
-    }
+
 }

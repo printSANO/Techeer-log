@@ -1,12 +1,14 @@
 package consolelog.member.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
 public class Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_Id")
+    @Column(name = "member_id")
     private long id;
 
     @Embedded
@@ -22,6 +24,7 @@ public class Member {
 
     }
 
+    @Builder
     public Member(Long id, Username username, Password password, Email email) {
         this.id = id;
         this.username = username;
@@ -29,5 +32,23 @@ public class Member {
         this.email = email;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email.getValue();
+    }
+
+    public String getUsername() {
+        return username.getValue();
+    }
+
+    public String getPassword() {
+        return password.getValue();
+    }
 
 }
+
+
+
