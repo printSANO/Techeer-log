@@ -1,5 +1,8 @@
 package consolelog.member.dto;
 
+import lombok.Getter;
+
+@Getter
 public class SignupRequest {
 
     private String email;
