@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 // 댓글 정보를 클라이언트로 응답하기 위한 목적
 @Getter
 public class CommentResponse {
