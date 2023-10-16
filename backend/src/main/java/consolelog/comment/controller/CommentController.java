@@ -17,7 +17,7 @@ public class CommentController {
     }
 
     //댓글 추가
-    @PostMapping("api/v1/comment")
+    @PostMapping("/posts/{id}/comment")
     public ResponseEntity<Void> addComment(@PathVariable(name = "id") Long postId,
                                            @Valid @RequestBody NewCommentRequest newCommentRequest,
                                            @Login AuthInfo authInfo) {
@@ -26,7 +26,7 @@ public class CommentController {
     }
 
     //대댓글
-    @PostMapping("api/v1/comment/reply")
+    @PostMapping("/comment/{id}/reply")
     public ResponseEntity<Void> addReply(@PathVariable(name = "id") Long CommentId,
                                          @Valid @RequestBody NewReplyRequest newReplyRequest,
                                          @Login AuthInfo authInfo) {
@@ -35,14 +35,14 @@ public class CommentController {
     }
 
 
-    @GetMapping("post/api/v1/comment")
+    @GetMapping("/posts/{id}/comment")
     public ResponseEntity<CommentResponse> findComments(@PathVariable(name = "id") Long postId,
                                                         @Login AuthInfo authInfo) {
         commentService.deleteComment(commentId, authInfo);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/api/v1/comment&post_id=1")
+    @DeleteMapping("/comment/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable(name = "id") Long commentId,
                                               @Login AuthInfo authInfo) {
         commentService.deleteComment(commentId, authInfo);
