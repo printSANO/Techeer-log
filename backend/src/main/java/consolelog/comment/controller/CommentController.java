@@ -1,9 +1,12 @@
 package consolelog.comment.controller;
 
 import consolelog.comment.dto.CommentResponse;
+import consolelog.comment.dto.NewCommentRequest;
 import consolelog.comment.service.CommentService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.net.URI;
 
