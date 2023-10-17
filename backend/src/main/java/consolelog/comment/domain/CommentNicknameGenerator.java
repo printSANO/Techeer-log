@@ -1,9 +1,11 @@
 package consolelog.comment.domain;
 
+import consolelog.comment.repository.CommentRepository;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Member;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 // 댓글 닉네임을 생성할때 익명 여부, 사용자 정보, 게시물 정보 고려해 적절한 닉네임 반환하는 역할
@@ -27,6 +29,7 @@ public class CommentNicknameGenerator {
         return getAnonymousNickname(post, member);
     }
 
+    //현재 사용자 =게시물 작성자&익명작성자 -> 익명 닉네임 반환
     private String getAnonymousNickname(Post post, Member member) {
         if (post.isOwner(member.getId()) && post.isAnonymous()) {
             return post.getNickname();
@@ -37,9 +40,14 @@ public class CommentNicknameGenerator {
     private String findPreviousAnonymousNicknameOrElseNewRandomNickname(Post post, Member member) {
         List<String> commentNicknamesByPostAndMember = commentRepository.findNickNamesByPostAndMember(post, member);
         return commentNicknamesByPostAndMember.stream()
-
+                .filter(nickmage -> !nickname.equals(member.getNickname()))
+                .findFirst()
+                .orElse(generateNewRandomNickname(post));
     }
 
-    private 
-
+    private String generateNewRandomNickname(Post post) {
+        Set<String> alreadyUsedNickname = new HashSet<>(commentRepository.findNicknamesByPostId(post.getId()));
+        alreadyUsedNickname.add(post.getNickname());
+        return RandomNIcknameGenerator.generate(alreadyUsedNickname);
+    }
 }

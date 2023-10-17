@@ -41,8 +41,9 @@ public class CommentResponse {
                 comment.isAuthrized(accessMemberId), comment.getCommentLikesCount(), isLike, replyResponses);
     }
 
-    public static CommentResponse softRemovedOf{Comment comment, List<ReplyResponse> replyResponses} {
-        return new CommentResponse(comment.getId(), null, null, null, false)
+    public static CommentResponse softRemovedOf(Comment comment, List<ReplyResponse> replyResponses) {
+        return new CommentResponse(comment.getId(), null, null, null, false,
+                false, 0, false, replyResponses);
     }
 
 }
