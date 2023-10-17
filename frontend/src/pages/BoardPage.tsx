@@ -102,8 +102,13 @@ const Sentence = styled.p`
 `;
 
 const BoardImage = styled.img`
+
+    margin: auto;
+    display: block;
+    margin-bottom: 10%;
     width: 546px;
     height: 327px;
+
 `;
 
 const Box = styled.div`
