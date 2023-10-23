@@ -6,6 +6,7 @@ import more from "../assets/More.png";
 import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
 import profileimg from "../assets/ProfileImg.png";
+import LoginModal from "../components/LoginModal";
 
 const Background = styled.div`
   width: 100vw;
@@ -13,6 +14,7 @@ const Background = styled.div`
   background: #121212;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const Header = styled.div`
@@ -204,62 +206,74 @@ const Like = styled.div`
   line-height: normal;
 `;
 
+const ModalWrapper = styled.div`
+  position: absolute;
+  z-index: 2;
+`;
+
 function MainPage() {
   return (
-    <Background>
-      <NavBar />
-      <Header>
-        <Headers>
-          <Buttonleft>
-            <Heart src={heart}></Heart>
-            <NewWord2>좋아요 순</NewWord2>
-          </Buttonleft>
-          <Buttonright>
-            <Recent src={clock} />
-            <NewWord>최신</NewWord>
-          </Buttonright>
-        </Headers>
-        <More src={more} />
-      </Header>
-      <Row>
-        <Box>
-          <MainImg src={mainimg} />
-          <Bottom>
-            <Title>개발자가 되고싶으시다구요? (매운맛)</Title>
-            <Detail>결과에서 오는 성취감도 없으면 그만두세요. 힘들어요.</Detail>
-            <Info>5일전 ∙ 33개의 댓글</Info>
-            <Line src={line} />
-            <DetailUnder>
-              <a style={{ display: "flex", paddingTop: "4px" }}>
-                <ProfileImg src={profileimg} />
-                <span style={{ color: "#fff", paddingLeft: "5px" }}>
-                  by
-                  <b
-                    style={{
-                      color: "#ECECEC",
-                      fontWeight: "bold",
-                      paddingLeft: "5px",
-                    }}
-                  >
-                    junjun
-                  </b>
-                </span>
-              </a>
-              <Like>❤︎ 54</Like>
-            </DetailUnder>
-          </Bottom>
-        </Box>
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-        <Box />
-      </Row>
-    </Background>
+    <>
+      <Background>
+        <NavBar />
+        <Header>
+          <Headers>
+            <Buttonleft>
+              <Heart src={heart}></Heart>
+              <NewWord2>좋아요 순</NewWord2>
+            </Buttonleft>
+            <Buttonright>
+              <Recent src={clock} />
+              <NewWord>최신</NewWord>
+            </Buttonright>
+          </Headers>
+          <More src={more} />
+        </Header>
+        <Row>
+          <Box>
+            <MainImg src={mainimg} />
+            <Bottom>
+              <Title>개발자가 되고싶으시다구요? (매운맛)</Title>
+              <Detail>
+                결과에서 오는 성취감도 없으면 그만두세요. 힘들어요.
+              </Detail>
+              <Info>5일전 ∙ 33개의 댓글</Info>
+              <Line src={line} />
+              <DetailUnder>
+                <a style={{ display: "flex", paddingTop: "4px" }}>
+                  <ProfileImg src={profileimg} />
+                  <span style={{ color: "#fff", paddingLeft: "5px" }}>
+                    by
+                    <b
+                      style={{
+                        color: "#ECECEC",
+                        fontWeight: "bold",
+                        paddingLeft: "5px",
+                      }}
+                    >
+                      junjun
+                    </b>
+                  </span>
+                </a>
+                <Like>❤︎ 54</Like>
+              </DetailUnder>
+            </Bottom>
+          </Box>
+          <Box />
+          <Box />
+          <Box />
+          <Box />
+          <Box />
+          <Box />
+          <Box />
+          <Box />
+          <Box />
+        </Row>
+        <ModalWrapper>
+          <LoginModal />
+        </ModalWrapper>
+      </Background>
+    </>
   );
 }
 
