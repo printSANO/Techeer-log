@@ -10,7 +10,7 @@ import lombok.Getter;
 @Embeddable
 public class Message {
 
-    private static final int MAX_MESSAGE_LEGTH = 500;
+    private static final int MAX_MESSAGE_LEGTH = 255;
 
     @Column(name = "message", nullable = false)
     private String value;

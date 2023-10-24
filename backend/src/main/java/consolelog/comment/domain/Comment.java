@@ -3,14 +3,13 @@ package consolelog.comment.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
-import org.apache.logging.log4j.message.Message;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -44,15 +43,8 @@ public class Comment {
 
     private String nickname;
 
-
     @Embedded
     private Message message;
-
-    private boolean softRemoved;
-
-    //댓글 좋아요 수
-    private int likeCount;
-
     @CreatedDate
     private LocalDateTime created_at;
 
@@ -99,10 +91,6 @@ public class Comment {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Comment getParent() {
         return parent;
     }
@@ -122,42 +110,37 @@ public class Comment {
         return post;
     }
 
-
-    public String getNickname() {
-        if (isBlocked()) {
-            return BLIND_COMMENT_MESSAGE;
-        }
-        return nickname;
-    }
-
-    public Message getMessage() {
-        return message;
-    }
-
-
-    public boolean isSoftRemoved() {
-        return softRemoved;
-    }
-
-    public void setSoftRemoved(boolean softRemoved) {
-        this.softRemoved = softRemoved;
-    }
-
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
-    }
-
     public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public int getCommentLikesCount() {
+        return likeCount;
     }
-//뭔 소린지 일도 모르겠습니다
+
+    public void deleteChild(Comment reply) {
+        children.remove(reply);
+    }
+
+    public boolean isParent() {
+        return Objects.isNull(parent);
+    }
+
+    public boolean hasNoReply() {
+        return children.isEmpty();
+    }
+
+    public void addCommentLike(CommentLike commentLike) {
+        commentLikes.add(commentLike);
+    }
+
+    public void deleteLike(CommentLike commentLike) {
+        commentLikes.remove(commentLike);
+        commentLike.delete();
+    }
+
+    public Long getBoardId() {
+        return post.getBoardId();
+    }
 }
 
