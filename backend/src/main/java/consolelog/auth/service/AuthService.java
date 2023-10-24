@@ -3,6 +3,7 @@ package consolelog.auth.service;
 import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.dto.LoginRequest;
+import consolelog.auth.exception.LoginFailedException;
 import consolelog.auth.repository.AuthRepository;
 import org.springframework.stereotype.Service;
 
