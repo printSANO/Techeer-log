@@ -4,6 +4,7 @@ import moon from "../assets/Moon.png";
 import magnifyingglass from "../assets/MagnifyingGlass.png";
 import miniprofile from "../assets/MiniProfile.png";
 import underpolygon from "../assets/UnderTri.png";
+import { Link } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -29,10 +30,10 @@ const Title = styled.p`
   flex-shrink: 0;
   color: #ececec;
   text-align: center;
-  font-family: Inter;
-  font-size: 20px;
+  font-family: Fira Mono;
+  font-size: 1.3125rem;
   font-style: normal;
-  font-weight: 700;
+  font-weight: bold;
   line-height: normal;
 `;
 
@@ -45,7 +46,7 @@ const Search = styled.img`
   width: 28px;
   height: 28px;
 `;
-const WriteButton = styled.div`
+const WriteButton = styled.button`
   width: 111px;
   height: 41px;
   border-radius: 20px;
@@ -53,6 +54,8 @@ const WriteButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  background: transparent;
 `;
 
 const Button = styled.div`
@@ -104,15 +107,19 @@ const Right = styled.div`
 function NavBar() {
   return (
     <Background>
-      <Left>
-        <Logo src={logo} />
-        <Title>Console.log</Title>
-      </Left>
+      <Link to={"/"}>
+        <Left>
+          <Logo src={logo} />
+          <Title>Console.log</Title>
+        </Left>
+      </Link>
       <Right>
         <Theme src={moon} />
         <Search src={magnifyingglass} />
         <WriteButton>
-          <Button>새 글 작성</Button>
+          <Link to={"/posting"}>
+            <Button>새 글 작성</Button>
+          </Link>
         </WriteButton>
         <MiniProfile src={miniprofile} />
         <Menu src={underpolygon} />
