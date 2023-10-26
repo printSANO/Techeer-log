@@ -4,6 +4,7 @@ import Main from "./pages/MainPage";
 import { theme } from "./theme";
 import Test from "./pages/Test";
 import SignUp from "./pages/SignUp";
+import BoardPage from "./pages/BoardPage";
 import MyPage from "./pages/Mypage";
 import PostingPage from "./pages/PostingPage";
 
@@ -93,6 +94,11 @@ const router = createBrowserRouter([
     path: "/posting",
     element: <PostingPage />,
   },
+  {
+    path: "/board",
+    element: <BoardPage />,
+  },
+
 ]);
 
 function App() {
