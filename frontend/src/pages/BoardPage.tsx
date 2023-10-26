@@ -3,6 +3,9 @@ import NavBar from "../components/NavBar";
 import boardimg from "../assets/BoardImg.png"
 import heartline from "../assets/Heart.png"
 import share from "../assets/Share.png"
+import userimg from "../assets/UserImg.png"
+import github from "../assets/GitHub.png"
+import mail from "../assets/Mail.png"
 
 const Background = styled.div`
     width: 100vw;
@@ -59,7 +62,6 @@ const DateTime = styled.p`
     font-weight: 400;
     /* line-height: normal; */
 `;
-
 
 const KeyWord = styled.a`
     
@@ -123,7 +125,6 @@ const SideBox = styled.div`
     left: -7rem;
     box-sizing: inherit;
 `
-
 const AbsoluteBox = styled.div`
     position: absolute;
     left: 100%;
@@ -195,7 +196,183 @@ const Share = styled.img`
     width: 24px;
     height: 24px;
 `
+const Bottom = styled.div`
+    box-sizing: inherit;
+    margin-top: 30%;
+    margin-bottom: 2rem;
+    /* margin-left: auto;
+    margin-right: auto; */
+    display: block;
+`;
 
+const ProfileBox = styled.div`
+    box-sizing: inherit;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+`;
+const Profile = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const UserBox = styled.div`
+    box-sizing: inherit;
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 1.5rem;
+    margin: 10px;
+`;
+const UserImg = styled.img`
+    width: 135px;
+    height: 135px;
+`;
+const UserText = styled.div`
+    display: felx;
+    flex-direction: column;
+    margin-left: 2rem;
+`;
+const UserName = styled.p`
+    margin-bottom: 10px;
+    color: #ECECEC;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 700;
+`;
+const UserIntro = styled.p`
+    color: #ECECEC;
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 200;
+`;
+const HorizonLine = styled.div`
+    width: 100%;
+    height: 1px;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    background: #252525;
+`;
+const UserLink = styled.div`
+    display: flex;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+`;
+const GitHub = styled.img`
+    margin: 0px 15px;
+    margin-left: 0px;
+    width: 35px;
+    height: 35px;
+    fill: #C0C0C0;
+`
+const Mail = styled.img`
+    margin: auto 10px;
+    margin-top: 5px;
+    margin-left: 0px;
+    width: 38px;
+    height: 32px;
+`;
+
+const CommentArea = styled.div`
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+`;
+const InputBox = styled.div`
+    display: block;
+`;
+const CommentCnt = styled.p`
+    color: #ececec;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 600;
+`;
+const Input = styled.textarea`
+    margin: 1.5rem 0px;
+    height: 70px;
+    width: 100%;
+    padding: 1rem 1rem 1.5rem;
+    outline: none;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #ececec;
+    background: #1e1e1e;
+    line-height: 1.75;
+    min-height: 6rem;
+`;
+const BtnWrapper = styled.div`
+    display: flex;
+    justify-content: end;
+`;
+const InputBtn = styled.button`
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: #96f2d7;
+    height: 2.5rem;
+    padding: 0 1.5rem;
+
+    color: #121212;
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    cursor: pointer;
+`;
+
+const CommentBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 3rem 0;
+    border-bottom: 1px solid #2a2a2a;
+`;
+
+const CommentUserBox = styled.div`
+    display: flex;
+    align-items: center;
+`;
+const CommentImg = styled.img`
+    width: 57px;
+    height: 57px;
+`;
+const CommentInfo = styled.div`
+    display: felx;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 1rem;
+`;
+const CommentUser = styled.p`
+    margin-bottom: 4px;
+    color: #ECECEC;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 500;
+`;
+const CommentTime = styled.p`
+    color: #b8b8b8;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+`;
+
+const Comment = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 2.5rem 0;
+`;
+const CommentLine = styled.p`
+    color: #ECECEC;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 0.5rem;
+`;
 
 export default function BoardPage(){
     return(
@@ -240,8 +417,6 @@ export default function BoardPage(){
                         </AbsoluteBox>
                     </Box>
                 </Header>
-
-                
                 
                 <Main>
                     <BoardImage src={boardimg}/>
@@ -249,6 +424,50 @@ export default function BoardPage(){
                     비동기 작업이란 특정 코드의 로직이 끝날 때까지 기다리지 않고, 나머지 코드를 먼저 실행하는 것이에요. 웹사이트 개발에는 비동기 작업을 자주 사용해요. 서버에서 데이터를 불러올 때 오래 걸릴 수도 있는데, 그동안 다른 코드를 실행하지 않고 가만히 기다리면 웹 사이트를 로딩하는 게 굉장히 오래 걸리기 때문이죠.
                     </Sentence>
                 </Main>
+
+                <Bottom>
+                    <ProfileBox>
+                        <Profile>
+                            <UserBox>
+                                <UserImg src={userimg}></UserImg>  
+                            </UserBox>
+                            <UserText>
+                                <UserName>송유림</UserName>
+                                <UserIntro>안녕하세요.</UserIntro>
+                            </UserText>
+                        </Profile>
+                        <HorizonLine/>
+                        <UserLink>
+                            <GitHub src={github}/>
+                            <Mail src={mail}/>
+                        </UserLink>
+                    </ProfileBox> 
+                </Bottom>
+
+                <CommentArea>
+                    <InputBox>
+                        <CommentCnt>1개의 댓글</CommentCnt>
+                        <Input placeholder="댓글을 작성하세요"/>
+                        <BtnWrapper>
+                            <InputBtn>댓글 작성</InputBtn>
+                        </BtnWrapper>
+                    </InputBox>
+
+                    <CommentBox>
+                        <CommentUserBox>
+                            <CommentImg src={userimg}/>
+                            <CommentInfo>
+                                <CommentUser>송유림</CommentUser>
+                                <CommentTime>1일 전</CommentTime>
+                            </CommentInfo>
+                        </CommentUserBox>
+                        <Comment>
+                            <CommentLine>잘 봤습니다.</CommentLine>
+                            <CommentLine>잘 봤습니다.</CommentLine>
+                        </Comment>
+                        
+                    </CommentBox>
+                </CommentArea>
 
 
 
