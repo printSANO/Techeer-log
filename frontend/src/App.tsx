@@ -5,6 +5,8 @@ import { theme } from "./theme";
 import Test from "./pages/Test";
 import SignUp from "./pages/SignUp";
 import BoardPage from "./pages/BoardPage";
+import MyPage from "./pages/Mypage";
+import PostingPage from "./pages/PostingPage";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -60,7 +62,7 @@ table {
 }
 body {
   font-weight: 300;
-  font-family: "Inter";
+  font-family: Inter;
   background-color:${(props) => props.theme.bgColor};
   color:black;
   line-height: 1.2;
@@ -83,6 +85,14 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
+  },
+  {
+    path: "/mypage",
+    element: <MyPage />,
+  },
+  {
+    path: "/posting",
+    element: <PostingPage />,
   },
   {
     path: "/board",
