@@ -1,5 +1,6 @@
 package consolelog.member.domain;
 
+import consolelog.member.exception.InvalidUsernameException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -8,17 +9,24 @@ import java.util.regex.Pattern;
 
 @Getter
 @Embeddable
-public class loginID {
+public class LoginID {
 
     private static final Pattern PATTERN = Pattern.compile("^[0-9a-zA-Z]{4,16}$");
 
     @Column(name = "username")
     private String value;
 
-    protected loginID() {
+    //encryptor  추가해야함
+    protected LoginID() {
     }
 
-    public loginID(String value) {
+    private static void validate(String value) {
+        if (!PATTERN.matcher(value).matches()) {
+            throw new InvalidUsernameException();
+        }
+    }
+
+    public LoginID(String value) {
         this.value = value;
     }
 
@@ -31,7 +39,7 @@ public class loginID {
             return false;
         }
 
-        loginID loginID = (loginID) o;
+        LoginID loginID = (LoginID) o;
         return getValue().equals(loginID.getValue());
     }
 
