@@ -1,4 +1,4 @@
-package consolelog.comment.advice;
+package consolelog.advice;
 
 public class BadRequestException extends BusinessException {
 
