@@ -38,7 +38,8 @@ public class RefreshTokenService {
         savedToken.validateSameToken(refreshToken);
     }
 
-    private void deleteToken(Long memberId) {
+    @Transactional
+    public void deleteToken(Long memberId) {
         refreshTokenRepository.deleteAllByMemberId(memberId);
     }
 
