@@ -1,5 +1,6 @@
 package consolelog.config;
 
+import consolelog.support.AuthInterceptor;
 import consolelog.support.token.TokenManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
