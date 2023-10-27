@@ -1,7 +1,7 @@
 package consolelog.member.exception;
 
 
-public class DulicateNicknameException {
+public class DuplicateNicknameException {
     private static final String MESSAGE = "이미 존재하는 닉네임입니다.";
 
     public DuplicateNicknameException {
