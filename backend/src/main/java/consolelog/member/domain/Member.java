@@ -12,7 +12,7 @@ public class Member {
     private long id;
 
     @Embedded
-    private loginID loginID;
+    private LoginID loginID;
 
     @Embedded
     private Password password;
@@ -22,33 +22,29 @@ public class Member {
 
 
     @Enumerated(EnumType.STRING)
-    private RoleType roleType = RoleType.;
+    private RoleType roleType = RoleType.USER;
 
     public Member() {
     }
 
 
     @Builder
-    public Member(loginID loginID, Password password, Nickname nickname) {
+    public Member(Long id, LoginID loginID, Password password, Nickname nickname) {
         this.id = id;
         this.loginID = loginID;
         this.password = password;
         this.nickname = nickname;
     }
 
+
     public void updateNickname(Nickname nickname) {
         this.nickname = nickname;
-    }
-
-    public static Member applicant(loginID loginID, Password password, Nickname nickname) {
-        Member member = new Member(loginID, password, nickname);
-        member.roleType = RoleType.APPLICANT;
-        return member;
     }
 
     public Long getId() {
         return id;
     }
+
     public String getNickname() {
         return nickname.getValue();
     }

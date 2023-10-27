@@ -1,5 +1,6 @@
 package consolelog.member.domain;
 
+import consolelog.member.exception.InvalidNicknameException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -22,7 +23,15 @@ public class Nickname {
     }
 
     public Nickname(String value) {
+        validate(value);
         this.value = value;
+    }
+
+    private void validate(String value) {
+        if (value.length() < MIN_LENGTH || value.length() > MAX_LENGTH
+                || !PATTERN.matcher(value).matches()) {
+            throw new InvalidNicknameException();
+        }
     }
 
     @Override
