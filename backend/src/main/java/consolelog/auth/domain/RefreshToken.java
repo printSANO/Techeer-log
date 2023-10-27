@@ -21,15 +21,12 @@ public class RefreshToken {
 
     // @Entity 와 @Embedded 는 기본 생성자가 필요하다
     protected RefreshToken() {
-
     }
-
 
     public RefreshToken(Long memberId, String token) {
         this.memberId = memberId;
         this.token = token;
     }
-
 
     public void validateSameToken(String token) {
         if (!this.token.equals(token))
