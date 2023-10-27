@@ -27,9 +27,9 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(value = "/signup/exists", params = "username")
-    public ResponseEntity<UniqueResponse> validateUniqueUsername(@RequestParam String username) {
-        UniqueResponse uniqueResponse = memberService.checkUniqueUsername(username);
+    @GetMapping(value = "/signup/exists", params = "loginID")
+    public ResponseEntity<UniqueResponse> validateUniqueLoginID(@RequestParam String loginID) {
+        UniqueResponse uniqueResponse = memberService.checkUniqueLoginID(loginID);
         return ResponseEntity.ok(uniqueResponse);
     }
 
