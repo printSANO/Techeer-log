@@ -3,8 +3,10 @@ package consolelog.member.controller;
 import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
 import consolelog.member.dto.SignupRequest;
+import consolelog.member.dto.UniqueResponse;
 import consolelog.member.service.MemberService;
 import org.springframework.http.HttpHeaders;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,21 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<Void> signUp(@Valid @RequestBody SignupRequest signupRequest) {
         memberService.signUp(signupRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping(value = "/signup/exists", params = "username")
+    public ResponseEntity<UniqueResponse> validateUniqueUsername(@RequestParam String username) {
+        UniqueResponse uniqueResponse = memberService.checkUniqueUsername(username);
+        return ResponseEntity.ok(uniqueResponse);
+    }
+
+    @GetMapping(value = "/signup/exists", params = "nickname")
+    public ResponseEntity<UniqueResponse> validateUniqueNickname(@RequestParam String nickname) {
+        UniqueResponse uniqueResponse = memberService.checkUniqueNickname(nickname);
+        return ResponseEntity.ok(uniqueResponse);
     }
 
     @GetMapping("/nickname")
