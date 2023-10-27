@@ -1,5 +1,6 @@
 package consolelog.support;
 
+import consolelog.support.token.AuthorizationExtractor;
 import consolelog.support.token.TokenManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
