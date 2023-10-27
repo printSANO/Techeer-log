@@ -45,6 +45,8 @@ public class Comment {
 
     @Embedded
     private Message message;
+
+    private boolean softRemoved;
     @CreatedDate
     private LocalDateTime created_at;
 
@@ -116,6 +118,14 @@ public class Comment {
 
     public int getCommentLikesCount() {
         return likeCount;
+    }
+
+    public boolean isSoftRemoved() {
+        return softRemoved;
+    }
+
+    public void changePretendingToBeRemoved() {
+        this.softRemoved = true;
     }
 
     public void deleteChild(Comment reply) {

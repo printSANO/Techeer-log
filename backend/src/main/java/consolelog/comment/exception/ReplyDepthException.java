@@ -1,6 +1,6 @@
 package consolelog.comment.exception;
 
-import consolelog.comment.advice.BadRequestException;
+import consolelog.advice.BadRequestException;
 
 public class ReplyDepthException extends BadRequestException {
 
