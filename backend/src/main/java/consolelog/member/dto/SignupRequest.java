@@ -6,16 +6,16 @@ import lombok.Getter;
 public class SignupRequest {
 
     private String email;
-    private String username;
+    private String loginID;
     private String nickname;
     private String password;
 
     public SignupRequest() {
     }
 
-    public SignupRequest(String email, String username, String password, String nickname) {
+    public SignupRequest(String email, String loginID, String password, String nickname) {
         this.email = email;
-        this.username = username;
+        this.loginID = loginID;
         this.password = password;
         this.nickname = nickname;
     }

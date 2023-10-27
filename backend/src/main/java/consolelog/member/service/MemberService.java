@@ -22,17 +22,17 @@ public class MemberService {
     @Transactional
     public void signUp(SignupRequest signupRequest) {
         Member member = Member.builder()
-                .username(new Username(signupRequest.getUsername()))
+                .loginID(new loginID(signupRequest.getLoginID()))
                 .password(new Password(signupRequest.getPassword()))
-                .email(new Email(signupRequest.getEmail()))
                 .nickname(new Nickname(signupRequest.getNickname()))
                 .build();
         memberRepository.save(member);
     }
+
     // else throw 넣어야 함
     @Transactional
     public void editNickname(EditNicknameRequest editNicknameRequest, AuthInfo authInfo) {
-        Member member = memberRepository.findById(authInfo.getId())
+        Member member = memberRepository.findById(authInfo.getId());
 
         Nickname validNickname = new Nickname(editNicknameRequest.getNickname());
         member.updateNickname(validNickname);

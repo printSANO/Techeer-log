@@ -2,9 +2,6 @@ package consolelog.member.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.management.relation.Role;
 
 @Entity
 public class Member {
@@ -15,10 +12,7 @@ public class Member {
     private long id;
 
     @Embedded
-    private Username username;
-
-    @Embedded
-    private Email email;
+    private loginID loginID;
 
     @Embedded
     private Password password;
@@ -35,11 +29,10 @@ public class Member {
 
 
     @Builder
-    public Member(Username username, Password password, Email email, Nickname nickname) {
+    public Member(loginID loginID, Password password, Nickname nickname) {
         this.id = id;
-        this.username = username;
+        this.loginID = loginID;
         this.password = password;
-        this.email = email;
         this.nickname = nickname;
     }
 
@@ -47,8 +40,8 @@ public class Member {
         this.nickname = nickname;
     }
 
-    public static Member applicant(Username username, Password password, Nickname nickname, Email email) {
-        Member member = new Member(username, password, email, nickname);
+    public static Member applicant(loginID loginID, Password password, Nickname nickname) {
+        Member member = new Member(loginID, password, nickname);
         member.roleType = RoleType.APPLICANT;
         return member;
     }
@@ -65,8 +58,8 @@ public class Member {
         return nickname.getValue();
     }
 
-    public String getUsername() {
-        return username.getValue();
+    public String getLoginID() {
+        return loginID.getValue();
     }
 
     public String getPassword() {
