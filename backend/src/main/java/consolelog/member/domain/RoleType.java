@@ -1,7 +1,7 @@
 package consolelog.member.domain;
 
 public enum RoleType {
-    APPLICANT("APPLICANT"), USER("USER"), ADMIN("ADMIN");
+    USER("USER"), ADMIN("ADMIN");
 
     private String name;
 
