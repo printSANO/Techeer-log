@@ -1,5 +1,6 @@
 package consolelog.member.service;
 
+import consolelog.auth.dto.AuthInfo;
 import consolelog.member.domain.*;
 import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
@@ -28,7 +29,7 @@ public class MemberService {
     public void signUp(SignupRequest signupRequest) {
         validate(signupRequest);
         Member member = Member.builder()
-                .loginID(new LoginID(signupRequest.getLoginID()))
+                .loginId(new LoginId(signupRequest.getLoginId()))
                 .password(new Password(signupRequest.getPassword()))
                 .nickname(new Nickname(signupRequest.getNickname()))
                 .build();
@@ -36,8 +37,8 @@ public class MemberService {
     }
 
     // encrypt 해야함.
-    public UniqueResponse checkUniqueLoginID(String loginID) {
-        boolean unique = !memberRepository.existsMemberByLoginIDValue(loginID);
+    public UniqueResponse checkUniqueLoginId(String loginId) {
+        boolean unique = !memberRepository.existsMemberByLoginIdValue(loginId);
         return new UniqueResponse(unique);
     }
 
@@ -49,13 +50,13 @@ public class MemberService {
     private void validate(SignupRequest signupRequest) {
         confirmPassword(signupRequest.getPassword(), signupRequest.getPasswordConfirmation());
         validateUniqueNickname(signupRequest);
-        validateUniqueloginID(signupRequest);
+        validateUniqueloginId(signupRequest);
     }
 
-    private void validateUniqueloginID(SignupRequest signupRequest) {
-        boolean isDuplicatedLoginID = memberRepository
-                .existsMemberByLoginIDValue(signupRequest.getLoginID());
-        if (isDuplicatedLoginID) {
+    private void validateUniqueloginId(SignupRequest signupRequest) {
+        boolean isDuplicatedLoginId = memberRepository
+                .existsMemberByLoginIdValue(signupRequest.getLoginId());
+        if (isDuplicatedLoginId) {
             throw new InvalidSignupFlowException();
         }
     }
@@ -92,7 +93,8 @@ public class MemberService {
     }
 
     public NicknameResponse findNickname(AuthInfo authInfo) {
-        Member member = memberRepository.findById(authInfo.getId());
+        Member member = memberRepository.findById(authInfo.getId())
+                .orElseThrow(MemberNotFoundException::new);
         return NicknameResponse.of(member);
     }
 }

@@ -2,6 +2,7 @@ package consolelog.member.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
 public class Member {
@@ -9,10 +10,11 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
+    @Getter
     private long id;
 
     @Embedded
-    private LoginID loginID;
+    private LoginId loginId;
 
     @Embedded
     private Password password;
@@ -21,17 +23,31 @@ public class Member {
     private Nickname nickname;
 
 
+    @Getter
     @Enumerated(EnumType.STRING)
     private RoleType roleType = RoleType.USER;
+
+
+    public String getLoginId() {
+        return loginId.getValue();
+    }
+
+    public String getNickname() {
+        return nickname.getValue();
+    }
+
+    public String getPassword() {
+        return password.getValue();
+    }
 
     public Member() {
     }
 
 
     @Builder
-    public Member(Long id, LoginID loginID, Password password, Nickname nickname) {
+    public Member(Long id, LoginId loginId, Password password, Nickname nickname) {
         this.id = id;
-        this.loginID = loginID;
+        this.loginId = loginId;
         this.password = password;
         this.nickname = nickname;
     }
@@ -39,22 +55,6 @@ public class Member {
 
     public void updateNickname(Nickname nickname) {
         this.nickname = nickname;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNickname() {
-        return nickname.getValue();
-    }
-
-    public String getLoginID() {
-        return loginID.getValue();
-    }
-
-    public String getPassword() {
-        return password.getValue();
     }
 
 }

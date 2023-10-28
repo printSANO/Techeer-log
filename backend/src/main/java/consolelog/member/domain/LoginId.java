@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 @Getter
 @Embeddable
-public class LoginID {
+public class LoginId {
 
     private static final Pattern PATTERN = Pattern.compile("^[0-9a-zA-Z]{4,16}$");
 
@@ -17,7 +17,7 @@ public class LoginID {
     private String value;
 
     //encryptor  추가해야함
-    protected LoginID() {
+    protected LoginId() {
     }
 
     private static void validate(String value) {
@@ -26,7 +26,7 @@ public class LoginID {
         }
     }
 
-    public LoginID(String value) {
+    public LoginId(String value) {
         this.value = value;
     }
 
@@ -39,8 +39,8 @@ public class LoginID {
             return false;
         }
 
-        LoginID loginID = (LoginID) o;
-        return getValue().equals(loginID.getValue());
+        LoginId loginId = (LoginId) o;
+        return getValue().equals(loginId.getValue());
     }
 
 

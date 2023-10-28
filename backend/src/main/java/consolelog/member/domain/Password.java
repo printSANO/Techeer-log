@@ -1,5 +1,6 @@
 package consolelog.member.domain;
 
+import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.member.exception.InvalidPasswordFormatException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

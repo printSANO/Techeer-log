@@ -1,10 +1,12 @@
 package consolelog.member.controller;
 
+import consolelog.auth.dto.AuthInfo;
 import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
 import consolelog.member.dto.SignupRequest;
 import consolelog.member.dto.UniqueResponse;
 import consolelog.member.service.MemberService;
+import consolelog.support.token.Login;
 import org.springframework.http.HttpHeaders;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -27,9 +29,9 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping(value = "/signup/exists", params = "loginID")
-    public ResponseEntity<UniqueResponse> validateUniqueLoginID(@RequestParam String loginID) {
-        UniqueResponse uniqueResponse = memberService.checkUniqueLoginID(loginID);
+    @GetMapping(value = "/signup/exists", params = "loginId")
+    public ResponseEntity<UniqueResponse> validateUniqueLoginId(@RequestParam String loginId) {
+        UniqueResponse uniqueResponse = memberService.checkUniqueLoginId(loginId);
         return ResponseEntity.ok(uniqueResponse);
     }
 
