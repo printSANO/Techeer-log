@@ -1,7 +1,9 @@
 package consolelog.member.dto;
 
 import consolelog.member.domain.Member;
+import lombok.Getter;
 
+@Getter
 public class NicknameResponse {
 
     private String nickname;

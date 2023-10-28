@@ -50,10 +50,10 @@ public class MemberService {
     private void validate(SignupRequest signupRequest) {
         confirmPassword(signupRequest.getPassword(), signupRequest.getPasswordConfirmation());
         validateUniqueNickname(signupRequest);
-        validateUniqueloginId(signupRequest);
+        validateUniqueLoginId(signupRequest);
     }
 
-    private void validateUniqueloginId(SignupRequest signupRequest) {
+    private void validateUniqueLoginId(SignupRequest signupRequest) {
         boolean isDuplicatedLoginId = memberRepository
                 .existsMemberByLoginIdValue(signupRequest.getLoginId());
         if (isDuplicatedLoginId) {

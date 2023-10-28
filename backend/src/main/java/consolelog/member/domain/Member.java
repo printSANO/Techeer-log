@@ -7,13 +7,14 @@ import lombok.Getter;
 @Entity
 public class Member {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    @Getter
-    private long id;
+    private Long id;
 
     @Embedded
+    @Column(name = "login_id")
     private LoginId loginId;
 
     @Embedded
@@ -26,7 +27,6 @@ public class Member {
     @Getter
     @Enumerated(EnumType.STRING)
     private RoleType roleType = RoleType.USER;
-
 
     public String getLoginId() {
         return loginId.getValue();

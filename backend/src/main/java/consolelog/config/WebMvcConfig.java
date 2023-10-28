@@ -25,7 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         this.tokenManager = tokenManager;
     }
 
-//    @Override
+    //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
 //        registry.addMapping("/**") // CORS 설정을 모든 URL에 적용
 //                .allowedOrigins("http://console-log.com",       // 혀용할 도메인 목록
@@ -36,13 +36,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //                .exposedHeaders(HttpHeaders.LOCATION, HttpHeaders.AUTHORIZATION, "Refresh-Token");  // 클라이언트에 노출할 헤더 목록
 //    }
 //
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(authInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/login")
-//                .excludePathPatterns("/refresh");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/login")
+                .excludePathPatterns("/refresh")
+                .excludePathPatterns("/members/signup/**");
+    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
