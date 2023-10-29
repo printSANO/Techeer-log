@@ -1,10 +1,12 @@
 package consolelog.post.controller;
 
+import consolelog.auth.dto.AuthInfo;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
 import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
 import consolelog.post.service.PostService;
+import consolelog.support.token.Login;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -27,20 +29,23 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<NewPostRequest> addPost(@Valid @RequestBody NewPostRequest newPostRequest) {
-        Long postId = postService.addPost(newPostRequest);
+    public ResponseEntity<NewPostRequest> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
+                                                  @Login AuthInfo authInfo) {
+        Long postId = postService.addPost(newPostRequest, authInfo);
         return ResponseEntity.created(URI.create("/posts/" + postId)).build();
     }
 
     @PutMapping("/posts/{id}")
-    public ResponseEntity<Void> updatePost(@PathVariable Long id, @RequestBody PostUpdateRequest postUpdateRequest) {
-        postService.updatePost(id, postUpdateRequest);
+    public ResponseEntity<Void> updatePost(@PathVariable Long id,
+                                           @RequestBody PostUpdateRequest postUpdateRequest,
+                                           @Login AuthInfo authInfo) {
+        postService.updatePost(id, postUpdateRequest, authInfo);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+    public ResponseEntity<Void> deletePost(@PathVariable Long id, @Login AuthInfo authInfo) {
+        postService.deletePost(id, authInfo);
         return ResponseEntity.noContent().build();
     }
 

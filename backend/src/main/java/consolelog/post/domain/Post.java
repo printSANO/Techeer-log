@@ -1,5 +1,6 @@
 package consolelog.post.domain;
 
+import consolelog.member.domain.Member;
 import consolelog.post.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,10 +33,10 @@ public class Post extends BaseEntity {
     private Boolean deleted = Boolean.FALSE;
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
-//
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
 //    @OneToMany(mappedBy = "post")
 //    private List<Comment> comments = new ArrayList<>();
 
@@ -58,9 +59,10 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(String title, String content) {
+    public Post(String title, String content, Member member) {
         this.title = title;
         this.content = content;
+        this.member = member;
 
 //        this.view_count = view_count;
 //        this.like_count = like_count;
@@ -81,12 +83,23 @@ public class Post extends BaseEntity {
         return content;
     }
 
+    public Member getMember() {
+        return member;
+    }
+
     public void updateTitle(String title) {
         this.title = title;
     }
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public boolean isOwner(Long accessMemberId) {
+        if (accessMemberId == null) {
+            return false;
+        }
+        return member.getId().equals(accessMemberId);
     }
 
 
