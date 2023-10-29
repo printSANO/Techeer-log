@@ -4,6 +4,7 @@ package consolelog.comment.domain;
 import consolelog.auth.exception.AuthorizationException;
 import consolelog.like.domain.CommentLike;
 import consolelog.member.domain.Member;
+import consolelog.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
@@ -83,9 +84,9 @@ public class Comment {
         }
     }
 
-    public boolean isPostWriter() {
-        return post.getMember().equls(member);
-    }
+//    public boolean isPostWriter() {
+//        return post.getMember().equls(member);
+//    }
 
     // 댓글 수정, 삭제 할 때 해당 댓글 작성한 사용자인지 확인
     public boolean isAuthorized(Long accessMemberId) {
@@ -163,8 +164,8 @@ public class Comment {
         commentLike.delete();
     }
 
-    public Long getBoardId() {
-        return post.getBoardId();
-    }
+//    public Long getBoardId() {
+//        return post.getBoardId();
+//    }
 }
 

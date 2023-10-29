@@ -5,18 +5,19 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.service.AuthService;
 import consolelog.comment.domain.Comment;
 import consolelog.comment.domain.CommentDeletionEvent;
-import consolelog.comment.domain.CommentNicknameGenerator;
 import consolelog.comment.dto.*;
 import consolelog.comment.exception.CommentNotFoundException;
 import consolelog.comment.exception.ReplyDepthException;
-import consolelog.like.repository.CommentLikeRepository;
 import consolelog.comment.repository.CommentRepository;
+import consolelog.like.repository.CommentLikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
-import jakarta.transaction.Transactional;
+import consolelog.post.domain.Post;
+import consolelog.post.repository.PostRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,32 +32,29 @@ public class CommentService {
     private final CommentLikeRepository commentLikeRepository;
     private final AuthService authService;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final CommentNicknameGenerator commentNicknameGenerator;
 
     public CommentService(CommentRepository commentRepository, MemberRepository memberRepository,
                           PostRepository postRepository, CommentLikeRepository commentLikeRepository,
-                          AuthService authService, ApplicationEventPublisher applicationEventPublisher,
-                          CommentNicknameGenerator commentNicknameGenerator) {
+                          AuthService authService, ApplicationEventPublisher applicationEventPublisher,) {
         this.commentRepository = commentRepository;
         this.memberRepository = memberRepository;
         this.postRepository = postRepository;
         this.commentLikeRepository = commentLikeRepository;
         this.authService = authService;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.commentNicknameGenerator = commentNicknameGenerator;
     }
 
     @Transactional
     public Long addComment(Long postId, NewCommentRequest newCommentRequest, AuthInfo authInfo) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
-        authService.checkAuthority(authInfo, post.getBoardId());
+//        Post post = postRepository.findById(postId)
+//                .orElseThrow(PostNotFoundException::new);
+//        authService.checkAuthority(authInfo, post.getBoardId());
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        String nickname = commentNicknameGenerator.getcommentNickname(newCommentRequest.isAnonymous(), authInfo, post);
+//        String nickname = commentNicknameGenerator.getcommentNickname(newCommentRequest.isAnonymous(), authInfo, post);
 
-        Comment comment = Comment.parent(member, post, nickname, newCommentRequest.getContent());
+        Comment comment = Comment.parent(member, newCommentRequest.getContent());
 
         commentRepository.save(comment);
 
@@ -77,9 +75,9 @@ public class CommentService {
         }
         Post post = parent.getPost();
 
-        String nickname = commentNicknameGenerator.getcommentNickname(newReplyRequest.isAnonymous(), authInfo, post);
+//        String nickname = commentNicknameGenerator.getcommentNickname(newReplyRequest.isAnonymous(), authInfo, post);
 
-        Comment reply = Comment.child(member, post, nickname, newReplyRequest.getContent(), parent);
+        Comment reply = Comment.child(member, post, newReplyRequest.getContent(), parent);
 
         commentRepository.save(reply);
         return reply.getId();
@@ -155,6 +153,6 @@ public class CommentService {
             commentRepository.delete(parent);
         }
     }
-//}
+
 
 

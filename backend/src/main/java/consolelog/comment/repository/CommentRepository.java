@@ -2,6 +2,7 @@ package consolelog.comment.repository;
 
 import consolelog.comment.domain.Comment;
 import consolelog.member.domain.Member;
+import consolelog.post.domain.Post;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
