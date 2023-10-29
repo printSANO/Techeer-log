@@ -29,10 +29,10 @@ const Title = styled.p`
   flex-shrink: 0;
   color: #ececec;
   text-align: center;
-  font-family: Inter;
-  font-size: 20px;
+  font-family: Fira Mono;
+  font-size: 1.3125rem;
   font-style: normal;
-  font-weight: 700;
+  font-weight: bold;
   line-height: normal;
 `;
 
