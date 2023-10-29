@@ -1,4 +1,4 @@
-package consolelog.comment.exception;
+package consolelog.like.exception;
 
 
 import consolelog.advice.NotFoundException;

@@ -1,5 +1,7 @@
-package consolelog.comment.domain;
+package consolelog.like.domain;
 
+import consolelog.comment.domain.Comment;
+import consolelog.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

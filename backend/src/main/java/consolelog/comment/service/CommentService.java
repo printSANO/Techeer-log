@@ -1,15 +1,19 @@
 package consolelog.comment.service;
 
 
+import consolelog.auth.dto.AuthInfo;
+import consolelog.auth.service.AuthService;
 import consolelog.comment.domain.Comment;
 import consolelog.comment.domain.CommentDeletionEvent;
 import consolelog.comment.domain.CommentNicknameGenerator;
 import consolelog.comment.dto.*;
 import consolelog.comment.exception.CommentNotFoundException;
-import consolelog.comment.exception.MemberNotFoundException;
 import consolelog.comment.exception.ReplyDepthException;
-import consolelog.comment.repository.CommentLikeRepository;
+import consolelog.like.repository.CommentLikeRepository;
 import consolelog.comment.repository.CommentRepository;
+import consolelog.member.domain.Member;
+import consolelog.member.exception.MemberNotFoundException;
+import consolelog.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -50,7 +54,7 @@ public class CommentService {
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        String nickname = commentNicknameGenerator.getCommentNickname(newCommentRequest.isAnonymous(), authInfo, post);
+        String nickname = commentNicknameGenerator.getcommentNickname(newCommentRequest.isAnonymous(), authInfo, post);
 
         Comment comment = Comment.parent(member, post, nickname, newCommentRequest.getContent());
 
@@ -64,7 +68,7 @@ public class CommentService {
     public Long addReply(Long commentId, NewReplyRequest newReplyRequest, AuthInfo authInfo) {
         Comment parent = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
-        authService.checkAuthority(authInfo, parent.getBoardId());
+//        authService.checkAuthority(authInfo, parent.getBoardId());
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
@@ -73,7 +77,7 @@ public class CommentService {
         }
         Post post = parent.getPost();
 
-        String nickname = commentNicknameGenerator.getCommentNickname(newReplyRequest.isAnonymous(), authInfo, post);
+        String nickname = commentNicknameGenerator.getcommentNickname(newReplyRequest.isAnonymous(), authInfo, post);
 
         Comment reply = Comment.child(member, post, nickname, newReplyRequest.getContent(), parent);
 
@@ -85,25 +89,25 @@ public class CommentService {
     public CommentsResponse findComments(Long postId, AuthInfo authInfo) {
         List<Comment> comments = commentRepository.findCommentsByPostId(postId);
         List<CommentResponse> commentResponses = comments.stream()
-                .map(it -> converToCommentRosponse(authInfo, it))
+                .map(it -> convertToCommentResponse(authInfo, it))
                 .collect(Collectors.toList());
         int numOfComment = commentResponses.size();
         int numOfReply = commentResponses.stream()
                 .map(it -> it.getReplies().size())
                 .reduce(Integer::sum).orElse(0);
-        return new CommentsResponse(commentResponses, numOfComment + numOfComment);
+        return new CommentsResponse(commentResponses, numOfComment + numOfReply);
     }
 
-    private CommentResponse converToCommentRosponse(AuthInfo authInfo, Comment comment) {
+    private CommentResponse convertToCommentResponse(AuthInfo authInfo, Comment comment) {
         Long id = authInfo.getId();
         if (comment.isSoftRemoved()) {
-            return CommentResponse.softRemovedOf(comment, converToReplyResponses(comment, id);
+            return CommentResponse.softRemovedOf(comment, convertToReplyResponses(comment, id));
         }
         boolean liked = commentLikeRepository.existsByMemberIdAndComment(id, comment);
-        return CommentResponse.of(comment, id, converToReplyResponses(comment, id), liked);
+        return CommentResponse.of(comment, id, convertToReplyResponses(comment, id), liked);
     }
 
-    private List<ReplyResponse> converToReplyResponses(Comment parent, Long accessMemberId) {
+    private List<ReplyResponse> convertToReplyResponses(Comment parent, Long accessMemberId) {
         final List<Comment> replies = commentRepository.findRepliesByParent(parent);
         List<ReplyResponse> replyResponses = new ArrayList<>();
         for (Comment reply : replies) {
@@ -121,6 +125,8 @@ public class CommentService {
         comment.validateOwner(authInfo.getId());
         applicationEventPublisher.publishEvent(new CommentDeletionEvent(comment.getId()));
         commentLikeRepository.deleteAllByCommentId(commentId);
+
+        deleteCommentOrReply(comment);
     }
 
     private void deleteCommentOrReply(Comment comment) {
@@ -137,7 +143,7 @@ public class CommentService {
             commentRepository.delete(comment);
             return;
         }
-        comment.chagePretendlingToBeRemoved();
+        comment.changePretendingToBeRemoved();
     }
 
     private void deleteChild(Comment comment) {
@@ -149,6 +155,6 @@ public class CommentService {
             commentRepository.delete(parent);
         }
     }
-}
+//}
 
 

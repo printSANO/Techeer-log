@@ -1,11 +1,15 @@
-package consolelog.comment.service;
+package consolelog.like.service;
 
+import consolelog.auth.dto.AuthInfo;
+import consolelog.auth.service.AuthService;
 import consolelog.comment.domain.Comment;
-import consolelog.comment.domain.CommentLike;
-import consolelog.comment.dto.LikeFlipResponse;
+import consolelog.like.domain.CommentLike;
+import consolelog.like.dto.LikeFlipResponse;
 import consolelog.comment.exception.CommentNotFoundException;
-import consolelog.comment.repository.CommentLikeRepository;
+import consolelog.like.repository.CommentLikeRepository;
 import consolelog.comment.repository.CommentRepository;
+import consolelog.member.domain.Member;
+import consolelog.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

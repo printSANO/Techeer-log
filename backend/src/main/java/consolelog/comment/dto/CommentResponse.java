@@ -36,9 +36,9 @@ public class CommentResponse {
 
     public static CommentResponse of(Comment comment, Long accessMemberId, List<ReplyResponse> replyResponses,
                                      boolean isLike) {
-        return new CommentResponse(comment.getId(), comment.getNickname(), commet.getMessage(),
+        return new CommentResponse(comment.getId(), comment.getNickname(), comment.getMessage(),
                 comment.getCreated_at(), comment.isPostWriter(),
-                comment.isAuthrized(accessMemberId), comment.getCommentLikesCount(), isLike, replyResponses);
+                comment.isAuthorized(accessMemberId), comment.getCommentLikesCount(), isLike, replyResponses);
     }
 
     public static CommentResponse softRemovedOf(Comment comment, List<ReplyResponse> replyResponses) {

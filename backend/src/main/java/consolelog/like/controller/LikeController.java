@@ -1,6 +1,9 @@
-package consolelog.comment.controller;
+package consolelog.like.controller;
 
-import consolelog.comment.dto.LikeFlipResponse;
+import consolelog.auth.dto.AuthInfo;
+import consolelog.like.dto.LikeFlipResponse;
+import consolelog.like.service.LIkeService;
+import consolelog.support.token.Login;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,9 +14,9 @@ public class LikeController {
 
     public class LikeController {
 
-        private final LikeService likeService;
+        private final LIkeService likeService;
 
-        public LikeController(LikeService likeService) {
+        public LikeController(LIkeService likeService) {
             this.likeService = likeService;
         }
 

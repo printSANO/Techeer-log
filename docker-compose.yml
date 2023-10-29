@@ -12,10 +12,10 @@ services:
     ports:
       - "3306:3306"
     platform: linux/amd64
-#    volumes:
+      #    volumes:
       # - ./elk/logs/mysql_data:/var/var/log
-#      - ./backend/db/init/:/docker-entrypoint-initdb.d/
-      # - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    #      - ./backend/db/init/:/docker-entrypoint-initdb.d/
+    # - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     # healthcheck:
     #   test: ["CMD", "mysqladmin", "ping", "-h", "mysqldb"]
     #   timeout: 20s
@@ -25,11 +25,14 @@ services:
   backend:
     build: ./backend
     restart: always
-    depends_on:		
+    depends_on:
       - mysqldb
+    environment:
+      WAIT_HOSTS: mysqldb:3306
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/console-log?createDatabaseIfNotExist=true&characterEncoding=UTF-8&profileSql=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    #      SPRING_PROFILES_ACTIVE: dev
     ports:
-      - 8080:8080
-#       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/console-log
-#       SPRING_DATASOURCE_USERNAME: root
-#       SPRING_DATASOURCE_PASSWORD: 12345678
-#       SPRING_PROFILES_ACTIVE: dev
+      - "8080:8080"
+    command: ["java", "-jar", "/app.jar"]

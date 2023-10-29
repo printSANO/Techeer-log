@@ -1,7 +1,7 @@
-package consolelog.comment.repository;
+package consolelog.like.repository;
 
 import consolelog.comment.domain.Comment;
-import consolelog.comment.domain.CommentLike;
+import consolelog.like.domain.CommentLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

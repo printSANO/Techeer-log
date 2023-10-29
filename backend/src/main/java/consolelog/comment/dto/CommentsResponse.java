@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 public class CommentsResponse {
 
-    private List<CommentReponse> comments;
+    private List<CommentResponse> comments;
     private int totalCount;
 
     public CommentResponse() {

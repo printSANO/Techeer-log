@@ -1,6 +1,10 @@
 package consolelog.comment.domain;
 
+import consolelog.auth.dto.AuthInfo;
 import consolelog.comment.repository.CommentRepository;
+import consolelog.member.domain.Member;
+import consolelog.member.exception.MemberNotFoundException;
+import consolelog.member.repository.MemberRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -40,7 +44,7 @@ public class CommentNicknameGenerator {
     private String findPreviousAnonymousNicknameOrElseNewRandomNickname(Post post, Member member) {
         List<String> commentNicknamesByPostAndMember = commentRepository.findNickNamesByPostAndMember(post, member);
         return commentNicknamesByPostAndMember.stream()
-                .filter(nickmage -> !nickname.equals(member.getNickname()))
+                .filter(nickname -> !nickname.equals(member.getNickname()))
                 .findFirst()
                 .orElse(generateNewRandomNickname(post));
     }
