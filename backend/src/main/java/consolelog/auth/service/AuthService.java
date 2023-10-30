@@ -4,7 +4,8 @@ import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.dto.LoginRequest;
 import consolelog.auth.exception.LoginFailedException;
-import consolelog.auth.repository.AuthRepository;
+import consolelog.member.domain.Member;
+import consolelog.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service

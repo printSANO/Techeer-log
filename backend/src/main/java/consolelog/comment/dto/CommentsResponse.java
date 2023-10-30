@@ -8,13 +8,13 @@ import java.util.List;
 @Getter
 public class CommentsResponse {
 
-    private List<CommentReponse> comments;
+    private List<CommentsResponse> comments;
     private int totalCount;
 
-    public CommentResponse() {
+    public CommentsResponse() {
     }
 
-    public CommentResponse(List<CommentResponse> comments, int totalCount) {
+    public CommentsResponse(List<CommentResponse> comments, int totalCount) {
         this.comments = comments;
         this.totalCount = totalCount;
     }

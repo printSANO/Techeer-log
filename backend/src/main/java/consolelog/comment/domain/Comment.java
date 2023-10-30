@@ -1,6 +1,10 @@
 package consolelog.comment.domain;
 
 
+import consolelog.auth.exception.AuthorizationException;
+import consolelog.like.domain.CommentLike;
+import consolelog.member.domain.Member;
+import consolelog.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
@@ -47,6 +51,9 @@ public class Comment {
     private Message message;
 
     private boolean softRemoved;
+
+    private int likeCount;
+
     @CreatedDate
     private LocalDateTime created_at;
 
@@ -70,23 +77,23 @@ public class Comment {
         return child;
     }
 
-    //    댓글 작성자의 아이디와 일치하는지 확인
+    //  댓글 작성자의 아이디와 일치하는지 확인
     public void validateOwner(Long accessMemberId) {
         if (!accessMemberId.equals(member.getId())) {
             throw new AuthorizationException();
         }
     }
 
-    public boolean isPostWriter() {
-        return post.getMember().equls(member);
-    }
+//    public boolean isPostWriter() {
+//        return post.getMember().equls(member);
+//    }
 
     // 댓글 수정, 삭제 할 때 해당 댓글 작성한 사용자인지 확인
-    public boolean isAuthrized(Long acessMemberId) {
+    public boolean isAuthorized(Long accessMemberId) {
         if (accessMemberId == null) {
             return false;
         }
-        return member.getId().equls(accessMemberId);
+        return member.getId().equals(accessMemberId);
     }
 
     public Long getId() {
@@ -110,6 +117,14 @@ public class Comment {
 
     public Post getPost() {
         return post;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getMessage() {
+        return message.getValue();
     }
 
     public LocalDateTime getCreated_at() {
@@ -149,8 +164,8 @@ public class Comment {
         commentLike.delete();
     }
 
-    public Long getBoardId() {
-        return post.getBoardId();
-    }
+//    public Long getBoardId() {
+//        return post.getBoardId();
+//    }
 }
 

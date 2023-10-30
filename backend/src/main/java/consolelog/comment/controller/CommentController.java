@@ -1,13 +1,14 @@
 package consolelog.comment.controller;
 
-import consolelog.comment.dto.CommentResponse;
+import consolelog.auth.dto.AuthInfo;
+import consolelog.comment.dto.CommentsResponse;
 import consolelog.comment.dto.NewCommentRequest;
 import consolelog.comment.dto.NewReplyRequest;
 import consolelog.comment.service.CommentService;
+import consolelog.support.token.Login;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.net.URI;
 
@@ -30,6 +31,7 @@ public class CommentController {
     }
 
     //대댓글
+<<<<<<< HEAD
     @PostMapping("/comment/{id}/reply")
     public ResponseEntity<Void> addReply(@PathVariable(name = "id") Long CommentId,
                                          @Valid @RequestBody NewReplyRequest newReplyRequest,
@@ -44,6 +46,21 @@ public class CommentController {
                                                         @Login AuthInfo authInfo) {
         commentService.deleteComment(commentId, authInfo);
         return ResponseEntity.noContent().build();
+=======
+    @PostMapping("/comments/{id}/reply")
+    public ResponseEntity<Void> addReply(@PathVariable(name = "id") Long commentId,
+                                         @Valid @RequestBody NewReplyRequest newReplyRequest,
+                                         @Login AuthInfo authInfo) {
+        Long replyId = commentService.addReply(commentId, newReplyRequest, authInfo);
+        return ResponseEntity.created(URI.create("/comments/" + replyId)).build();
+    }
+
+    @GetMapping("/posts/{id}/comments")
+    public ResponseEntity<CommentsResponse> findComments(@PathVariable(name = "id") Long postId,
+                                                         @Login AuthInfo authInfo) {
+        CommentsResponse commentsResponse = commentService.findComments(postId, authInfo);
+        return ResponseEntity.ok(commentsResponse);
+>>>>>>> origin/BE/feat/#8
     }
 
     @DeleteMapping("/comment/{id}")

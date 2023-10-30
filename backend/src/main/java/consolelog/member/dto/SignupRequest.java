@@ -5,8 +5,7 @@ import lombok.Getter;
 @Getter
 public class SignupRequest {
 
-    private String email;
-    private String loginID;
+    private String loginId;
     private String nickname;
     private String password;
     private String passwordConfirmation;
@@ -14,9 +13,8 @@ public class SignupRequest {
     public SignupRequest() {
     }
 
-    public SignupRequest(String email, String loginID, String password, String nickname, String passwordConfirmation) {
-        this.email = email;
-        this.loginID = loginID;
+    public SignupRequest(String loginId, String password, String nickname, String passwordConfirmation) {
+        this.loginId = loginId;
         this.password = password;
         this.nickname = nickname;
         this.passwordConfirmation = passwordConfirmation;
