@@ -25,6 +25,6 @@ public abstract class BaseEntity {
 
 
 //    @Column
-//    private Boolean deletedAt;
+//    private Boolean deleted = Boolean.FALSE;
 
 }

@@ -1,14 +1,13 @@
 package consolelog.post.domain;
 
+import consolelog.member.domain.Member;
 import consolelog.post.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 
 @Entity
@@ -28,6 +27,18 @@ public class Post extends BaseEntity {
     @Lob
     private String content;
 
+    //    @Column(name = "deleted")
+    @SQLDelete(sql = "UPDATE post SET deleted = true WHERE id=?")
+    @Where(clause = "deleted = false")
+    private Boolean deleted = Boolean.FALSE;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+//    @OneToMany(mappedBy = "post")
+//    private List<Comment> comments = new ArrayList<>();
 
     //    @Column(nullable = false)
 //    private Long view_count;
@@ -48,9 +59,11 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(String title, String content) {
+    public Post(String title, String content, Member member) {
         this.title = title;
         this.content = content;
+        this.member = member;
+
 //        this.view_count = view_count;
 //        this.like_count = like_count;
 //        this.created_at = created_at;
@@ -68,6 +81,25 @@ public class Post extends BaseEntity {
 
     public String getContent() {
         return content;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public boolean isOwner(Long accessMemberId) {
+        if (accessMemberId == null) {
+            return false;
+        }
+        return member.getId().equals(accessMemberId);
     }
 
 
