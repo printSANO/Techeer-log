@@ -9,6 +9,7 @@ public class PostResponse {
     private Long id;
     private String title;
     private String content;
+    // private Boolean authorized;
 //    private Long like_count;
 //    private Long view_count;
     // private String created_at;
@@ -18,6 +19,7 @@ public class PostResponse {
         this.id = id;
         this.title = title;
         this.content = content;
+        //this.authorized = authorized;
 //        this.like_count = like_count;
 //        this.view_count = view_count;
         //this.created_at = created_at;

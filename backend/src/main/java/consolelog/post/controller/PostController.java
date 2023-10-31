@@ -1,16 +1,20 @@
 package consolelog.post.controller;
 
+import consolelog.auth.dto.AuthInfo;
 import consolelog.post.dto.request.NewPostRequest;
+import consolelog.post.dto.request.PostUpdateRequest;
+import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
 import consolelog.post.service.PostService;
+import consolelog.support.token.Login;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping
 public class PostController {
     private final PostService postService;
 
@@ -25,9 +29,30 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<NewPostRequest> addPost(@Valid @RequestBody NewPostRequest newPostRequest) {
-        Long postId = postService.addPost(newPostRequest);
+    public ResponseEntity<NewPostRequest> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
+                                                  @Login AuthInfo authInfo) {
+        Long postId = postService.addPost(newPostRequest, authInfo);
         return ResponseEntity.created(URI.create("/posts/" + postId)).build();
+    }
+
+    @PutMapping("/posts/{id}")
+    public ResponseEntity<Void> updatePost(@PathVariable Long id,
+                                           @RequestBody PostUpdateRequest postUpdateRequest,
+                                           @Login AuthInfo authInfo) {
+        postService.updatePost(id, postUpdateRequest, authInfo);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long id, @Login AuthInfo authInfo) {
+        postService.deletePost(id, authInfo);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(path = "/post/{lastPostId}")
+    public ResponseEntity<PagePostResponse> findPostList(@PathVariable Long lastPostId, Pageable pageable) {
+        PagePostResponse postList = postService.findPostsByPage(lastPostId, pageable);
+        return ResponseEntity.ok().body(postList);
     }
 
 
