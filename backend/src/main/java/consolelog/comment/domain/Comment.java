@@ -6,6 +6,7 @@ import consolelog.like.domain.CommentLike;
 import consolelog.member.domain.Member;
 import consolelog.post.domain.Post;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,6 +18,7 @@ import java.util.Objects;
 
 
 @Entity
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
@@ -24,7 +26,6 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
-
 
     //대댓글
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,6 +58,8 @@ public class Comment {
     @CreatedDate
     private LocalDateTime created_at;
 
+    protected Comment() {
+    }
 
     @Builder
     public Comment(Member member, Post post, String nickname, String message, Comment parent) {
@@ -67,15 +70,26 @@ public class Comment {
         this.parent = parent;
     }
 
-    public static Comment parent(Member member, Post post, String nickname, String message) {
-        return new Comment(member, post, nickname, message, null);
+    public static Comment parent(Member member, Post post, String message, Comment parent) {
+        return Comment.builder()
+                .member(member)
+                .post(post)
+                .message(message)
+                .parent(parent)
+                .build();
     }
 
-    public static Comment child(Member member, Post post, String nickname, String message, Comment parent) {
-        Comment child = new Comment(member, post, nickname, message, parent);
-        parent.getChildren().add(child); // 자식 댓글 추가, 자식 댓글 목록 반환, 새로운 자식 댓글 추가
+    public static Comment child(Member member, Post post, String message, Comment parent) {
+        Comment child = Comment.builder()
+                .member(member)
+                .post(post)
+                .message(message)
+                .parent(parent)
+                .build();
+        parent.getChildren().add(child);
         return child;
     }
+
 
     //  댓글 작성자의 아이디와 일치하는지 확인
     public void validateOwner(Long accessMemberId) {
@@ -83,10 +97,6 @@ public class Comment {
             throw new AuthorizationException();
         }
     }
-
-//    public boolean isPostWriter() {
-//        return post.getMember().equls(member);
-//    }
 
     // 댓글 수정, 삭제 할 때 해당 댓글 작성한 사용자인지 확인
     public boolean isAuthorized(Long accessMemberId) {
@@ -164,8 +174,5 @@ public class Comment {
         commentLike.delete();
     }
 
-//    public Long getBoardId() {
-//        return post.getBoardId();
-//    }
 }
 

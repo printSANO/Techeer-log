@@ -41,7 +41,7 @@ public class CommentResponse {
 
     public static CommentResponse softRemovedOf(Comment comment, List<ReplyResponse> replyResponses) {
         return new CommentResponse(comment.getId(), null, null, null, false,
-                false, 0, false, replyResponses);
+                0, false, replyResponses);
     }
 
 }

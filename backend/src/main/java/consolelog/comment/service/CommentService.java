@@ -4,7 +4,7 @@ package consolelog.comment.service;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.service.AuthService;
 import consolelog.comment.domain.Comment;
-import consolelog.comment.domain.CommentDeletionEvent;
+import consolelog.comment.domain.CommentNicknameGenerator;
 import consolelog.comment.dto.*;
 import consolelog.comment.exception.CommentNotFoundException;
 import consolelog.comment.exception.ReplyDepthException;
@@ -14,8 +14,8 @@ import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
 import consolelog.post.domain.Post;
+import consolelog.post.exception.PostNotFoundException;
 import consolelog.post.repository.PostRepository;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,46 +31,40 @@ public class CommentService {
     private final PostRepository postRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final AuthService authService;
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final CommentNicknameGenerator commentNicknameGenerator;
+
 
     public CommentService(CommentRepository commentRepository, MemberRepository memberRepository,
                           PostRepository postRepository, CommentLikeRepository commentLikeRepository,
-                          AuthService authService, ApplicationEventPublisher applicationEventPublisher,) {
+                          AuthService authService, CommentNicknameGenerator commentNicknameGenerator) {
         this.commentRepository = commentRepository;
         this.memberRepository = memberRepository;
         this.postRepository = postRepository;
         this.commentLikeRepository = commentLikeRepository;
         this.authService = authService;
-        this.applicationEventPublisher = applicationEventPublisher;
-<<<<<<< HEAD
         this.commentNicknameGenerator = commentNicknameGenerator;
-=======
->>>>>>> origin/BE/feat/#8
     }
 
     @Transactional
     public Long addComment(Long postId, NewCommentRequest newCommentRequest, AuthInfo authInfo) {
-//        Post post = postRepository.findById(postId)
-//                .orElseThrow(PostNotFoundException::new);
-//        authService.checkAuthority(authInfo, post.getBoardId());
+        Post post = postRepository.findById(postId)
+                .orElseThrow(PostNotFoundException::new);
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-//        String nickname = commentNicknameGenerator.getcommentNickname(newCommentRequest.isAnonymous(), authInfo, post);
-
-        Comment comment = Comment.parent(member, newCommentRequest.getContent());
+        Comment comment = Comment.parent(member, post, newCommentRequest.getContent(), null);
 
         commentRepository.save(comment);
 
         return comment.getId();
     }
 
+
     //대댓글
     @Transactional
     public Long addReply(Long commentId, NewReplyRequest newReplyRequest, AuthInfo authInfo) {
         Comment parent = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
-//        authService.checkAuthority(authInfo, parent.getBoardId());
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
@@ -86,6 +80,7 @@ public class CommentService {
         commentRepository.save(reply);
         return reply.getId();
     }
+
 
     //댓글들 조회하고 응답 생성
     public CommentsResponse findComments(Long postId, AuthInfo authInfo) {
@@ -125,7 +120,6 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
         comment.validateOwner(authInfo.getId());
-        applicationEventPublisher.publishEvent(new CommentDeletionEvent(comment.getId()));
         commentLikeRepository.deleteAllByCommentId(commentId);
 
         deleteCommentOrReply(comment);
@@ -157,6 +151,7 @@ public class CommentService {
             commentRepository.delete(parent);
         }
     }
+}
 
 
 

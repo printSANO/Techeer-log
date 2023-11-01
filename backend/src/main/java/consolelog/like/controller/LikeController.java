@@ -11,26 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LikeController {
+    private final LIkeService likeService;
 
-    public class LikeController {
+    public LikeController(LIkeService likeService) {
+        this.likeService = likeService;
+    }
 
-        private final LIkeService likeService;
-
-        public LikeController(LIkeService likeService) {
-            this.likeService = likeService;
-        }
-
-        @PutMapping("/posts/{id}/like")
-        public ResponseEntity<LikeFlipResponse> flipPostLike(@PathVariable("id") Long postId,
-                                                             @Login AuthInfo authInfo) {
-            LikeFlipResponse likeFlipResponse = likeService.flipPostLike(postId, authInfo);
-            return ResponseEntity.ok(likeFlipResponse);
-        }
-
-        @PutMapping("/comments/{id}/like")
-        public ResponseEntity<LikeFlipResponse> flipCommentLike(@PathVariable("id") Long commentId,
-                                                                @Login AuthInfo authInfo) {
-            LikeFlipResponse likeFlipResponse = likeService.flipCommentLike(commentId, authInfo);
-            return ResponseEntity.ok(likeFlipResponse);
-        }
+    @PutMapping("/comments/{id}/like")
+    public ResponseEntity<LikeFlipResponse> flipCommentLike(@PathVariable("id") Long commentId,
+                                                            @Login AuthInfo authInfo) {
+        LikeFlipResponse likeFlipResponse = likeService.flipCommentLike(commentId, authInfo);
+        return ResponseEntity.ok(likeFlipResponse);
+    }
 }
+

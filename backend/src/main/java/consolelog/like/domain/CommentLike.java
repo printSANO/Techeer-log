@@ -3,10 +3,12 @@ package consolelog.like.domain;
 import consolelog.comment.domain.Comment;
 import consolelog.member.domain.Member;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 @Entity(name = "comment_likes")
 public class CommentLike {
 
@@ -31,10 +33,6 @@ public class CommentLike {
         this.comment = comment;
         this.member = member;
         comment.addCommentLike(this);
-    }
-
-    public boolean isLikeOf(Long memberId) {
-        return member.hasId(memberId);
     }
 
     public void delete() {
