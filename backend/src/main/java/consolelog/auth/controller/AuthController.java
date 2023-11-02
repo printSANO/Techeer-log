@@ -4,6 +4,7 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.dto.LoginRequest;
 import consolelog.auth.service.AuthService;
 import consolelog.auth.service.RefreshTokenService;
+import consolelog.global.result.ResultResponse;
 import consolelog.support.token.AuthorizationExtractor;
 import consolelog.support.token.Login;
 import consolelog.support.token.TokenManager;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
+import static consolelog.global.result.ResultCode.LOGIN_SUCCESS;
+
 @RestController
 public class AuthController {
     private final AuthService authService;
@@ -32,11 +35,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ResultResponse<String>> login(@Valid @RequestBody LoginRequest loginRequest) {
         AuthInfo authInfo = authService.login(loginRequest);
         String accessToken = tokenManager.createAccessToken(authInfo);
         String refreshToken = tokenManager.createRefreshToken();
         refreshTokenService.saveToken(refreshToken, authInfo.getId());
+
+        ResultResponse<String> resultResponse = new ResultResponse<>(LOGIN_SUCCESS);
 
         // 200을 보냄
         // Authorization: Bearer accessToken
@@ -44,7 +49,7 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .header("Refresh-Token", "Bearer " + refreshToken)
-                .build();
+                .body(resultResponse);
     }
 
     @GetMapping

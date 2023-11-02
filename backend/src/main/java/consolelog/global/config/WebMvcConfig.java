@@ -1,4 +1,4 @@
-package consolelog.config;
+package consolelog.global.config;
 
 import consolelog.support.AuthInterceptor;
 import consolelog.support.token.AuthenticationPrincipalArgumentResolver;

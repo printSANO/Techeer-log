@@ -1,6 +1,6 @@
 package consolelog.member.exception;
 
-import consolelog.advice.BadRequestException;
+import consolelog.global.advice.BadRequestException;
 
 public class InvalidNicknameException extends BadRequestException {
 

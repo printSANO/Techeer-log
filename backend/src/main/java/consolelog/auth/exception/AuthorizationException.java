@@ -1,6 +1,6 @@
 package consolelog.auth.exception;
 
-import consolelog.advice.ForbiddenException;
+import consolelog.global.advice.ForbiddenException;
 
 public class AuthorizationException extends ForbiddenException {
 
