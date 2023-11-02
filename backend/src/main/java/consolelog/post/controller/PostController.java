@@ -9,6 +9,8 @@ import consolelog.post.service.PostService;
 import consolelog.support.token.Login;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +57,7 @@ public class PostController {
     @GetMapping(path = "/post/{lastPostId}")
     public ResponseEntity<PagePostResponse> findPostList(@PathVariable Long lastPostId, Pageable pageable) {
         PagePostResponse postList = postService.findPostsByPage(lastPostId, pageable);
-        return ResponseEntity.ok().body(postList);
+        return ResponseEntity.ok(postList);
     }
 
 
