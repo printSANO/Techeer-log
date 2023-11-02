@@ -31,7 +31,8 @@ public class Post extends BaseEntity {
     @Lob
     private String content;
 
-    //  private int viewCount = 0;
+    private int viewCount = 0;
+
     private int likeCount = 0;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
@@ -47,13 +48,6 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-//    @OneToMany(mappedBy = "post")
-//    private List<Comment> comments = new ArrayList<>();
-
-//    @Column(nullable = false)
-//    private Long view_count;
-
-
     protected Post() {
     }
 
@@ -64,11 +58,6 @@ public class Post extends BaseEntity {
         this.member = member;
         this.postLikes = postLikes;
 
-//        this.view_count = view_count;
-//        this.like_count = like_count;
-//        this.created_at = created_at;
-//        this.updated_at = updated_at;
-//        this.deleted_at = deleted_at;
     }
 
     public Long getId() {
@@ -117,6 +106,10 @@ public class Post extends BaseEntity {
             return false;
         }
         return member.getId().equals(accessMemberId);
+    }
+
+    public int getViewCount() {
+        return viewCount;
     }
 
 

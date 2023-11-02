@@ -21,7 +21,7 @@ public class ViewCountManager {
         if (Objects.isNull(todayLog)) {
             return true;
         }
-        return inLogNonExist(todayLog, postId);
+        return isLogNonExist(todayLog, postId);
     }
 
     private Map<Integer, String> extractDateLogs(String logs) {
@@ -33,25 +33,24 @@ public class ViewCountManager {
         return dateLogs;
     }
 
-    private Map<Integer, String> divideDateAndLog(String logPerDate) {
-        if (logPerDate.isEmpty()) {
-            return Collections.emptyMap();
-        }
-        String[] dateAndLog = logPerDate.split((DATE_AND_ID_DELIMITER));
-        int date = Integer.parseInt(dateAndLog[DATE_INDEX]);
-        String log = dateAndLog[LOG_INDEX];
-        return Map.of(date, log);
-    }
-
-    private boolean inLogNonExist(String log, Long postId) {
+    private boolean isLogNonExist(String log, Long postId) {
         List<Long> loggedPostIds = Arrays.stream(log.split(ID_DELIMITER))
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
         return !loggedPostIds.contains(postId);
     }
 
+    private Map<Integer, String> divideDateAndLog(String logPerDate) {
+        if (logPerDate.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        String[] dateAndLog = logPerDate.split(DATE_AND_ID_DELIMITER);
+        int date = Integer.parseInt(dateAndLog[DATE_INDEX]);
+        String log = dateAndLog[LOG_INDEX];
+        return Map.of(date, log);
+    }
 
-    public String getUpdateLog(String logs, Long postId) {
+    public String getUpdatedLog(String logs, Long postId) {
         if (!isFirstAccess(logs, postId)) {
             return logs;
         }

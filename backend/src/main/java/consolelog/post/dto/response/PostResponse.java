@@ -9,28 +9,31 @@ public class PostResponse {
     private Long id;
     private String title;
     private String content;
-    // private Boolean authorized;
-//    private Long like_count;
-//    private Long view_count;
-    // private String created_at;
+    private int likeCount;
+    private int viewCount;
+    private boolean like;
+
 
     @Builder
-    private PostResponse(Long id, String title, String content) { //생성자 주입, 초기화
+    private PostResponse(Long id, String title, String content, int likeCount, int viewCount, boolean like) { //생성자 주입, 초기화
         this.id = id;
         this.title = title;
         this.content = content;
-        //this.authorized = authorized;
-//        this.like_count = like_count;
-//        this.view_count = view_count;
-        //this.created_at = created_at;
+        this.likeCount = likeCount;
+        this.viewCount = viewCount;
+        this.like = like;
+
     }
 
     // of 메소드를 통해 FindPostResponse 객체를 생성
-    public static PostResponse of(Post post) {
+    public static PostResponse of(Post post, boolean liked) {
         return PostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .likeCount(post.getLikeCount())
+                .viewCount(post.getViewCount())
+                .like(liked)
                 .build();
     }
 }
