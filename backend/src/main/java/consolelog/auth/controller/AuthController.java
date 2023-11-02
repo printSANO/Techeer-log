@@ -5,10 +5,12 @@ import consolelog.auth.dto.LoginRequest;
 import consolelog.auth.service.AuthService;
 import consolelog.auth.service.RefreshTokenService;
 import consolelog.global.result.ResultResponse;
-import consolelog.support.token.AuthorizationExtractor;
-import consolelog.support.token.Login;
-import consolelog.support.token.TokenManager;
-import consolelog.support.token.TokenNotFoundException;
+import consolelog.global.support.token.AuthorizationExtractor;
+import consolelog.global.support.token.Login;
+import consolelog.global.support.token.TokenManager;
+import consolelog.global.support.token.TokenNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,7 @@ import java.util.Objects;
 
 import static consolelog.global.result.ResultCode.LOGIN_SUCCESS;
 
+@Tag(name = "Auth", description = "Auth API Document")
 @RestController
 public class AuthController {
     private final AuthService authService;
@@ -34,6 +37,7 @@ public class AuthController {
         this.refreshTokenService = refreshTokenService;
     }
 
+    @Operation(summary = "로그인", description = "로그인 기능")
     @PostMapping("/login")
     public ResponseEntity<ResultResponse<String>> login(@Valid @RequestBody LoginRequest loginRequest) {
         AuthInfo authInfo = authService.login(loginRequest);
@@ -52,7 +56,8 @@ public class AuthController {
                 .body(resultResponse);
     }
 
-    @GetMapping
+    @Operation(summary = "토큰 재발급", description = "accessToken 을 재생성")
+    @GetMapping("/refresh")
     public ResponseEntity<Void> refresh(HttpServletRequest request, @Login AuthInfo authInfo) {
         validateExistHeader(request);
         Long memberId = authInfo.getId();
@@ -69,6 +74,7 @@ public class AuthController {
                 .build();
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃 기능")
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(@Login AuthInfo authInfo) {
         refreshTokenService.deleteToken(authInfo.getId());
@@ -81,6 +87,5 @@ public class AuthController {
         if (Objects.isNull(authorizationHeader) || Objects.isNull(refreshTokenHeader))
             throw new TokenNotFoundException();
     }
-
 
 }
