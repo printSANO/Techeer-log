@@ -1,13 +1,17 @@
 package consolelog.post.domain;
 
+import consolelog.like.domain.PostLike;
 import consolelog.member.domain.Member;
-import consolelog.post.BaseEntity;
+import consolelog.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -40,35 +44,25 @@ public class Post extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
 //    @OneToMany(mappedBy = "post")
 //    private List<Comment> comments = new ArrayList<>();
 
-    //    @Column(nullable = false)
+//    @Column(nullable = false)
 //    private Long view_count;
-//
-//    @Column(nullable = false)
-//    private Long like_count;
-//    @Column(nullable = false)
-//    @CreatedDate
-//    private LocalDateTime created_at;
-    //
-//    @LastModifiedDate
-//    @Column
-//    private LocalDateTime updated_at;
-//    private Boolean deleted_at;
 
 
     protected Post() {
     }
 
     @Builder
-    public Post(String title, String content, Member member) {
+    public Post(String title, String content, Member member, List<PostLike> postLikes) {
         this.title = title;
         this.content = content;
         this.member = member;
+        this.postLikes = postLikes;
 
 //        this.view_count = view_count;
 //        this.like_count = like_count;
@@ -91,6 +85,23 @@ public class Post extends BaseEntity {
 
     public Member getMember() {
         return member;
+    }
+
+    public List<PostLike> getPostLikes() {
+        return postLikes;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void addPostLike(PostLike postLike) {
+        postLikes.add(postLike);
+    }
+
+    public void deleteLike(PostLike postLike) {
+        postLikes.remove(postLike);
+        postLike.delete();
     }
 
     public void updateTitle(String title) {
