@@ -1,20 +1,25 @@
 package consolelog.post.controller;
 
 import consolelog.auth.dto.AuthInfo;
+import consolelog.global.result.ResultResponse;
+import consolelog.global.support.token.Login;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
+import consolelog.post.dto.response.BoardResponse;
 import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
 import consolelog.post.service.PostService;
-import consolelog.global.support.token.Login;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+
+import static consolelog.global.result.ResultCode.*;
 
 @RestController
 public class PostController {
@@ -51,34 +56,43 @@ public class PostController {
         PostResponse findPostResponse = postService.findPost(id, authInfo, postLog);
         String updatedLog = postService.updatePostLog(id, postLog);
         ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString()).body(findPostResponse);
+        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(FINDPOST_SUCCESS, findPostResponse);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(resultResponse);
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<Void> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
-                                        @Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<URI>> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
+                                                       @Login AuthInfo authInfo) {
         Long postId = postService.addPost(newPostRequest, authInfo);
-        return ResponseEntity.created(URI.create("/posts/" + postId)).build();
+        URI location = URI.create("/posts/" + postId);
+        ResultResponse<URI> resultResponse = new ResultResponse<>(ADDPOST_SUCCESS, location);
+
+        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
     @PutMapping("/posts/{id}")
-    public ResponseEntity<Void> updatePost(@PathVariable Long id,
-                                           @RequestBody PostUpdateRequest postUpdateRequest,
-                                           @Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<String>> updatePost(@PathVariable Long id,
+                                                             @RequestBody PostUpdateRequest postUpdateRequest,
+                                                             @Login AuthInfo authInfo) {
         postService.updatePost(id, postUpdateRequest, authInfo);
-        return ResponseEntity.noContent().build();
+        ResultResponse<String> resultResponse = new ResultResponse<>(UPDATEPOST_SUCCESS);
+        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id, @Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<String>> deletePost(@PathVariable Long id, @Login AuthInfo authInfo) {
         postService.deletePost(id, authInfo);
-        return ResponseEntity.noContent().build();
+        ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_SUCCESS);
+        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
     @GetMapping(path = "/post/{lastPostId}")
-    public ResponseEntity<PagePostResponse> findPostList(@PathVariable Long lastPostId, Pageable pageable) {
+    public ResponseEntity<ResultResponse<PagePostResponse>> findPostList(@PathVariable Long lastPostId, Pageable pageable) {
         PagePostResponse postList = postService.findPostsByPage(lastPostId, pageable);
-        return ResponseEntity.ok(postList);
+        ResultResponse<PagePostResponse> resultResponse = new ResultResponse<>(FINDPOSTLIST_SUCCESS, postList);
+        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
 

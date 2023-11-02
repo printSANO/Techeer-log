@@ -47,8 +47,18 @@ public class PostService {
         if (viewCountManager.isFirstAccess(cookieValue, postId)) {
             postRepository.updateViewCount(postId);
         }
-        Post findPost = findPostById(postId);
-        return PostResponse.of(findPost);
+        Post foundPost = findPostById(postId);
+        return BoardResponse.of(foundPost);
+    }
+
+    @Transactional
+    public PostResponse findPost(Long postId, AuthInfo authInfo, String cookieValue) {// post_id 게시글 조회
+        if (viewCountManager.isFirstAccess(cookieValue, postId)) {
+            postRepository.updateViewCount(postId);
+        }
+        Post foundPost = findPostById(postId);
+        Boolean liked = postLikeRepository.existsByPostAndMemberId(foundPost, authInfo.getId());
+        return PostResponse.of(foundPost, liked);
     }
 
     private Post findPostById(Long postId) {
@@ -57,7 +67,7 @@ public class PostService {
     }
 
     public String updatePostLog(Long postId, String cookieValue) {
-        return viewCountManager.getUpdateLog(cookieValue, postId);
+        return viewCountManager.getUpdatedLog(cookieValue, postId);
     }
 
     public PagePostResponse findPostsByPage(Long lastPostId, Pageable pageable) {
@@ -69,16 +79,6 @@ public class PostService {
         }
         return PagePostResponse.of(posts);
 
-    }
-
-    public PostResponse findTitle(String title) {// post_title 게시글 조회
-        Post findPost = findPostByTitle(title);
-        return PostResponse.of(findPost);
-    }
-
-    private Post findPostByTitle(String title) {
-        return postRepository.findByTitle(title)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. title=" + title));
     }
 
     @Transactional
