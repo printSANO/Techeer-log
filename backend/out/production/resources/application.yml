@@ -1,8 +1,9 @@
 spring:
   profiles:
-    active: local
+    active: dev
 
 
 
 
 #        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
