@@ -11,6 +11,7 @@ import consolelog.post.domain.Post;
 import consolelog.post.domain.ViewCountManager;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
+import consolelog.post.dto.response.BoardResponse;
 import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
 import consolelog.post.exception.PostNotFoundException;
@@ -41,9 +42,8 @@ public class PostService {
         this.viewCountManager = viewCountManager;
     }
 
-
     @Transactional
-    public PostResponse findPost(Long postId, String cookieValue) {// post_id 게시글 조회
+    public BoardResponse findBoard(Long postId, String cookieValue) {// post_id 게시글 조회
         if (viewCountManager.isFirstAccess(cookieValue, postId)) {
             postRepository.updateViewCount(postId);
         }

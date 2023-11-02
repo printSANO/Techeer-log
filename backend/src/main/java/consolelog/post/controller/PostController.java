@@ -24,10 +24,31 @@ public class PostController {
         this.postService = postService;
     }
 
+//    @GetMapping("/posts/{id}")
+//    public ResponseEntity<PostResponse> findPost(@PathVariable Long id,
+//                                                 @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
+//        PostResponse findPostResponse = postService.findPost(id, postLog);
+//        String updatedLog = postService.updatePostLog(id, postLog);
+//        ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
+//        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString()).body(findPostResponse);
+
+    @GetMapping("/board/{id}")
+    public ResponseEntity<ResultResponse<BoardResponse>> findBoard(@PathVariable Long id,
+                                                                   @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
+        BoardResponse findBoardResponse = postService.findBoard(id, postLog);
+        String updatedLog = postService.updatePostLog(id, postLog);
+        ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
+        ResultResponse<BoardResponse> resultResponse = new ResultResponse<>(FINDBOARD_SUCCESS, findBoardResponse);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(resultResponse);
+    }
+
     @GetMapping("/posts/{id}")
-    public ResponseEntity<PostResponse> findPost(@PathVariable Long id,
-                                                 @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
-        PostResponse findPostResponse = postService.findPost(id, postLog);
+    public ResponseEntity<ResultResponse<PostResponse>> findPost(@PathVariable Long id,
+                                                                 @Login AuthInfo authInfo,
+                                                                 @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
+        PostResponse findPostResponse = postService.findPost(id, authInfo, postLog);
         String updatedLog = postService.updatePostLog(id, postLog);
         ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString()).body(findPostResponse);
