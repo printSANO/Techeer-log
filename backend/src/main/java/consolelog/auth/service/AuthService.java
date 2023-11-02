@@ -20,10 +20,8 @@ public class AuthService {
     }
 
     public AuthInfo login(LoginRequest loginRequest) {
-//        String loginId = encryptor.encrypt(loginRequest.getLoginId());
-//        String password = encryptor.encrypt(loginRequest.getPassword());
         String loginId = loginRequest.getLoginId();
-        String password = loginRequest.getPassword();
+        String password = encryptor.encrypt(loginRequest.getPassword());
         Member member = memberRepository.findByLoginIdValueAndPasswordValue(loginId, password)
                 .orElseThrow(LoginFailedException::new);
         return new AuthInfo(member.getId(), member.getRoleType().getName(), member.getNickname());
