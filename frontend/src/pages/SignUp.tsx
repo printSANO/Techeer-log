@@ -1,24 +1,25 @@
 
 import {styled} from "styled-components";
-
-const [name, email, id, intro] = '';
+import signupimg from "../assets/MainImg.png"
+const [name, email, id, pw, pw_check] = '';
 
 const Background = styled.div`
-    width: 100vw;
-    height: 100vh;
+    width: 98.5vw;
+    height: 140vh;
     background: #121212;    
 `;
+
 const SignUpBox = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 800px;
-    height: 900px;
+    /* height: 100vh; */
 
     position: relative; /* 추후 박스 하단에 추가 버튼을 위치시키기 위한 설정 */
     margin: 0 auto; /* 페이지 중앙에 나타나도록 설정 */
     margin-bottom: 32px;
-    /* padding: 40px 20px; */
+    padding: 40px 0px;
 
     flex-shrink: 0;
     text-align: left;
@@ -61,6 +62,45 @@ const InfoBox = styled.div`
 
 `;
 
+const ProfileBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+
+`;
+const ImgBox = styled.div`
+    height: 9rem;
+    width: 9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 30px;
+    margin-bottom: 20px;
+`;
+
+const ProfileImg = styled.img`
+    border: none;
+    border-radius: 50%;
+
+    width: 130px;
+    height: 130px;
+    
+`;
+const ImgLabel = styled.label`
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 30px;
+    color: #bcbcbc;
+    cursor: pointer;
+    /* margin-bottom: 20px; */
+`;
+
+const ImgFile = styled.input`
+    display: none;
+    /* margin-bottom: 20px; */
+`;
+
 const InputBox = styled.input`
     font-size: 23px;
     font-style: normal;
@@ -86,13 +126,14 @@ const InputBox = styled.input`
 const ButtonBox = styled.div`
     display: flex;
     flex-direction: row;
-    position: absolute;
-    bottom: 0px;
+    /* position: absolute; */
+    margin-top: 20px;
+    /* bottom: 10px; */
 `;
 
 const ButtonStyle = styled.button<{bgColor:string}>`
     margin-right: 15px;
-    width: 105px;
+    width: 120px;
     height: 47px;
     flex-shrink: 0;
     border-style: none;
@@ -118,6 +159,17 @@ function SignUp(){
                     <p>기본 회원정보를 등록해주세요.</p>
                 </Header>
 
+                <ProfileBox>
+                    <ImgBox>
+                        <ProfileImg src={signupimg}/>
+                    </ImgBox>
+
+                    <ImgLabel htmlFor="profileImg"> 
+                        프로필 이미지 추가 
+                            <ImgFile type="file" accept="image/*" id="profileImg"></ImgFile>
+                    </ImgLabel>
+                </ProfileBox>
+
                 <InfoBox>
                     <p>이름</p>
                     <label>
@@ -137,15 +189,21 @@ function SignUp(){
                     </label>
                 </InfoBox>
                 <InfoBox>
-                    <p>한 줄 소개</p>
+                    <p>비밀번호</p>
                     <label>
-                        <InputBox type='text' value={intro} placeholder='당신을 한 줄로 소개해보세요' width={"50%"}/>
+                        <InputBox type='text' value={pw} placeholder='비밀번호를 입력하세요' width={"40%"}/>
+                    </label>
+                </InfoBox>
+                <InfoBox>
+                    <p>비밀번호 확인</p>
+                    <label>
+                        <InputBox type='text' value={pw_check} placeholder='비밀번호를 한 번 더 입력하세요' width={"40%"}/>
                     </label>
                 </InfoBox>
 
                 <ButtonBox>
                     <ButtonStyle type='submit' bgColor="#D9D9D9" color="#000000">취소</ButtonStyle>
-                    <ButtonStyle type='submit' bgColor="#38E788" color="#FFFFFF">다음</ButtonStyle>
+                    <ButtonStyle type='submit' bgColor="#38E788" color="#FFFFFF">가입하기</ButtonStyle>
                 </ButtonBox>
 
             </SignUpBox>
