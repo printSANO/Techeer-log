@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum ResultCode {
 
     // Auth
+    LOGIN_SUCCESS("A001", "200", "로그인 성공"),
 
 
     // Member
@@ -18,6 +19,8 @@ public enum ResultCode {
 
     // Comment
 
+    
+    ;
 
     private final String code;
     private final String status;
