@@ -1,4 +1,4 @@
-package consolelog.post;
+package consolelog.config;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
