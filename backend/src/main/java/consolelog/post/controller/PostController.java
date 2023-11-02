@@ -23,14 +23,17 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}")
-    public ResponseEntity<PostResponse> findPost(@PathVariable Long id) {
-        PostResponse findPostResponse = postService.findPost(id);
-        return ResponseEntity.ok().body(findPostResponse);
+    public ResponseEntity<PostResponse> findPost(@PathVariable Long id,
+                                                 @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
+        PostResponse findPostResponse = postService.findPost(id, postLog);
+        String updatedLog = postService.updatePostLog(id, postLog);
+        ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString()).body(findPostResponse);
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<NewPostRequest> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
-                                                  @Login AuthInfo authInfo) {
+    public ResponseEntity<Void> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
+                                        @Login AuthInfo authInfo) {
         Long postId = postService.addPost(newPostRequest, authInfo);
         return ResponseEntity.created(URI.create("/posts/" + postId)).build();
     }

@@ -27,6 +27,12 @@ public class Post extends BaseEntity {
     @Lob
     private String content;
 
+    //  private int viewCount = 0;
+    private int likeCount = 0;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<PostLike> postLikes = new ArrayList<>();
+
     //    @Column(name = "deleted")
     @SQLDelete(sql = "UPDATE post SET deleted = true WHERE id=?")
     @Where(clause = "deleted = false")
