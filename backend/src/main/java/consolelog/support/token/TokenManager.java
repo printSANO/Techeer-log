@@ -1,4 +1,4 @@
-package consolelog.global.support.token;
+package consolelog.support.token;
 
 import consolelog.auth.dto.AuthInfo;
 

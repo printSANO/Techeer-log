@@ -13,7 +13,6 @@ spring:
         format_sql: true
     show_sql: true
 
-<<<<<<< HEAD
 #logging:
 #  level:
 #    org:
@@ -22,24 +21,10 @@ spring:
 #    org.springframework: info
 #    console-log: debug
 #
-=======
->>>>>>> #23
 security:
   jwt:
     token:
       secret: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.ih1aovtQShabQ7l0cINw4k1fagApg3qLWiB8Kt59Lno
       expire-length:
         access: 3600000
-<<<<<<< HEAD
         refresh: 1210000000
-=======
-        refresh: 1210000000
-
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        SQL: info
-#    org.springframework: info
-#    console-log: debug
->>>>>>> #23

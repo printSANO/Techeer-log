@@ -1,4 +1,4 @@
-package consolelog.global.support.token;
+package consolelog.support.token;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;

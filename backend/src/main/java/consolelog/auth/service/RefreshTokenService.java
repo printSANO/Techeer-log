@@ -2,8 +2,8 @@ package consolelog.auth.service;
 
 import consolelog.auth.domain.RefreshToken;
 import consolelog.auth.repository.RefreshTokenRepository;
-import consolelog.global.support.token.InvalidRefreshTokenException;
-import consolelog.global.support.token.TokenManager;
+import consolelog.support.token.InvalidRefreshTokenException;
+import consolelog.support.token.TokenManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

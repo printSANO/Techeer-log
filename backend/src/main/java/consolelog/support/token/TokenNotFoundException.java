@@ -1,6 +1,6 @@
-package consolelog.global.support.token;
+package consolelog.support.token;
 
-import consolelog.global.advice.UnauthorizedException;
+import consolelog.advice.UnauthorizedException;
 
 public class TokenNotFoundException extends UnauthorizedException {
     private static final String MESSAGE = "토큰이 존재하지 않습니다";

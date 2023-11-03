@@ -1,7 +1,7 @@
 package consolelog.member.exception;
 
 
-import consolelog.global.advice.BadRequestException;
+import consolelog.advice.BadRequestException;
 
 public class DuplicateNicknameException extends BadRequestException {
     private static final String MESSAGE = "이미 존재하는 닉네임입니다.";

@@ -1,6 +1,6 @@
 package consolelog.member.exception;
 
-import consolelog.global.advice.BadRequestException;
+import consolelog.advice.BadRequestException;
 
 public class InvalidLoginIdException extends BadRequestException {
 

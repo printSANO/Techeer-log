@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,6 +151,18 @@ public class CommentService {
         if (parent.hasNoReply() && parent.isSoftRemoved()) {
             commentRepository.delete(parent);
         }
+    }
+
+    public CommentResponse updateComment(Long commentId, UpdateCommentRequest updateCommentRequest, AuthInfo authInfo) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(CommentNotFoundException::new);
+
+        comment.validateOwner(authInfo.getId());
+
+        comment.updateContent(updateCommentRequest.getContent());
+        Comment updatedComment = commentRepository.save(comment);
+
+        return CommentResponse.of(updatedComment, authInfo.getId(), Collections.emptyList(), false);
     }
 }
 

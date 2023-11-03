@@ -174,5 +174,9 @@ public class Comment {
         commentLike.delete();
     }
 
+    public void updateContent(String content) {
+//        validate(content);
+        this.message = new Message(content);
+    }
 }
 
