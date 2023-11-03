@@ -1,4 +1,4 @@
-package consolelog.advice;
+package consolelog.global.advice;
 
 public class UnauthorizedException extends BusinessException {
 

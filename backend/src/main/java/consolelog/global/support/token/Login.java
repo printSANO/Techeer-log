@@ -1,4 +1,4 @@
-package consolelog.support.token;
+package consolelog.global.support.token;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
