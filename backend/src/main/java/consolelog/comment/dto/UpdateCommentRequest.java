@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateCommentRequest {
-    @NotBlank(message = "댓글은 1자 이상 255자 이하여야 합니다.")
+    @NotBlank(message = "수정한 댓글을 입력해주세요.")
     private String content;
 
     public UpdateCommentRequest() {

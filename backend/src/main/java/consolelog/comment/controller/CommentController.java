@@ -5,6 +5,8 @@ import consolelog.comment.domain.Comment;
 import consolelog.comment.dto.*;
 import consolelog.comment.service.CommentService;
 import consolelog.support.token.Login;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import static consolelog.result.ResultCode.*;
 
-
+@Tag(name = "Comment", description = "Comment API Document")
+@RequestMapping("/api/vi/comments")
 @RestController
+//@RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
@@ -22,6 +26,7 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    @Operation(summary = "댓글 생성", description = "댓글 생성")
     @PostMapping("/posts/{id}/comments")
     public ResponseEntity<ResultResponse<CommentResponse>> addComment(@PathVariable(name = "id") Long postId,
                                                                       @Valid @RequestBody NewCommentRequest newCommentRequest,
@@ -32,6 +37,7 @@ public class CommentController {
     }
 
     //대댓글
+    @Operation(summary = "대댓글 생성", description = "대댓글 생성")
     @PostMapping("/comments/{id}/reply")
     public ResponseEntity<ResultResponse<CommentResponse>> addReply(@PathVariable(name = "id") Long commentId,
                                                                     @Valid @RequestBody NewReplyRequest newReplyRequest,
@@ -41,7 +47,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
-
+    @Operation(summary = "댓글 및 대댓글 조회")
     @GetMapping("/posts/{id}/comments")
     public ResponseEntity<ResultResponse> findComments(@PathVariable(name = "id") Long postId,
                                                        @Login AuthInfo authInfo) {
@@ -50,6 +56,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
+    @Operation(summary = "댓글 수정", description = "댓글 수정")
     @PutMapping("/comments/{id}")
     public ResponseEntity<ResultResponse<CommentResponse>> updateComment(@PathVariable(name = "id") Long commentId,
                                                                          @Valid @RequestBody UpdateCommentRequest updateCommentRequest,
@@ -59,6 +66,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
+    @Operation(summary = "댓글 삭제", description = "댓글 삭제")
 
     @DeleteMapping("/comments/{id}")
     public ResponseEntity<ResultResponse> deleteComment(@PathVariable(name = "id") Long commentId,
