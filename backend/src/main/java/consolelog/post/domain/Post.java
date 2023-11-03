@@ -1,5 +1,6 @@
 package consolelog.post.domain;
 
+import consolelog.comment.domain.Comment;
 import consolelog.like.domain.PostLike;
 import consolelog.member.domain.Member;
 import consolelog.config.BaseEntity;
@@ -35,6 +36,9 @@ public class Post extends BaseEntity {
 
     private int likeCount = 0;
 
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<PostLike> postLikes = new ArrayList<>();
 
@@ -52,10 +56,12 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(String title, String content, Member member, List<PostLike> postLikes) {
+    public Post(String title, String content, Member member,
+                List<Comment> comments, List<PostLike> postLikes) {
         this.title = title;
         this.content = content;
         this.member = member;
+        this.comments = comments;
         this.postLikes = postLikes;
 
     }
@@ -82,6 +88,12 @@ public class Post extends BaseEntity {
 
     public int getLikeCount() {
         return likeCount;
+    }
+
+    public int getCommentCount() {
+        if (comments == null)
+            return 0;
+        return comments.size();
     }
 
     public void addPostLike(PostLike postLike) {
