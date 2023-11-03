@@ -1,7 +1,6 @@
-package consolelog.comment.dto;
+package consolelog.result;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import consolelog.result.ResultCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

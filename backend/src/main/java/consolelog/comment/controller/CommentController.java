@@ -4,6 +4,7 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.comment.domain.Comment;
 import consolelog.comment.dto.*;
 import consolelog.comment.service.CommentService;
+import consolelog.result.ResultResponse;
 import consolelog.support.token.Login;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import static consolelog.result.ResultCode.*;
 
 @Tag(name = "Comment", description = "Comment API Document")
-@RequestMapping("/api/vi/comments")
+@RequestMapping("/")
 @RestController
 //@RequiredArgsConstructor
 public class CommentController {
