@@ -1,6 +1,7 @@
 package consolelog.member.service;
 
 import consolelog.auth.dto.AuthInfo;
+import consolelog.config.BaseEntity;
 import consolelog.member.domain.*;
 import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class MemberService {
+public class MemberService extends BaseEntity {
 
     private final MemberRepository memberRepository;
 

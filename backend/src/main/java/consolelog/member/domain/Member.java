@@ -1,13 +1,13 @@
 package consolelog.member.domain;
 
+import consolelog.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -52,11 +52,17 @@ public class Member {
         this.nickname = nickname;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public void updateNickname(Nickname nickname) {
         this.nickname = nickname;
     }
 
+    public boolean hasId(Long id) {
+        return this.id.equals(id);
+    }
 }
 
 

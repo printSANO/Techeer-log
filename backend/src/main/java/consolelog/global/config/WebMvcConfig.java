@@ -41,6 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/refresh")
                 .excludePathPatterns("/members/signup/**");
+
     }
 
     @Override
