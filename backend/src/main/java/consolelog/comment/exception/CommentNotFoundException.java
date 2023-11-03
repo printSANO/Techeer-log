@@ -1,7 +1,7 @@
 package consolelog.comment.exception;
 
 
-import consolelog.advice.NotFoundException;
+import consolelog.global.advice.NotFoundException;
 
 public class CommentNotFoundException extends NotFoundException {
 

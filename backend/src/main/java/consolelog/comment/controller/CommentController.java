@@ -5,7 +5,7 @@ import consolelog.comment.dto.CommentsResponse;
 import consolelog.comment.dto.NewCommentRequest;
 import consolelog.comment.dto.NewReplyRequest;
 import consolelog.comment.service.CommentService;
-import consolelog.support.token.Login;
+import consolelog.global.support.token.Login;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

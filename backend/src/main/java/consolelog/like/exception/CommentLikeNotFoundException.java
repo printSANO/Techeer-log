@@ -1,7 +1,7 @@
 package consolelog.like.exception;
 
 
-import consolelog.advice.NotFoundException;
+import consolelog.global.advice.NotFoundException;
 
 public class CommentLikeNotFoundException extends NotFoundException {
 

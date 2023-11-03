@@ -1,6 +1,7 @@
 package consolelog.comment.repository;
 
 import consolelog.comment.domain.Comment;
+import consolelog.post.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findCommentsByPostId(Long postId);
 
     List<Comment> findRepliesByParent(Comment parent);
+
+    void deleteAllByPost(Post post);
 
     @Transactional
     @Modifying(clearAutomatically = true)
