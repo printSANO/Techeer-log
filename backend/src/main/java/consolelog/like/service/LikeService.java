@@ -1,8 +1,13 @@
 package consolelog.like.service;
 
 import consolelog.auth.dto.AuthInfo;
+import consolelog.comment.domain.Comment;
+import consolelog.comment.exception.CommentNotFoundException;
+import consolelog.comment.repository.CommentRepository;
+import consolelog.like.domain.CommentLike;
 import consolelog.like.domain.PostLike;
 import consolelog.like.dto.LikeFlipResponse;
+import consolelog.like.repository.CommentLikeRepository;
 import consolelog.like.repository.PostLikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
@@ -21,14 +26,18 @@ public class LikeService {
     private final PostLikeRepository postLikeRepository;
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+    private final CommentLikeRepository commentLikeRepository;
+    private final CommentRepository commentRepository;
 
 
     public LikeService(PostLikeRepository postLikeRepository, PostRepository postRepository,
-                       MemberRepository memberRepository) {
+                       MemberRepository memberRepository, CommentLikeRepository commentLikeRepository, CommentRepository commentRepository) {
 
         this.postLikeRepository = postLikeRepository;
         this.postRepository = postRepository;
         this.memberRepository = memberRepository;
+        this.commentLikeRepository = commentLikeRepository;
+        this.commentRepository = commentRepository;
     }
 
     //checkAuthority(authinfo, postId) 사용여부 확인
@@ -62,5 +71,38 @@ public class LikeService {
                 .member(member)
                 .build();
         postLikeRepository.save(postLike);
+    }
+
+    @Transactional
+    public LikeFlipResponse flipCommentLike(Long commentId, AuthInfo authInfo) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(CommentNotFoundException::new);
+
+        int likeCount = flipCommentLike(authInfo.getId(), comment);
+        boolean liked = commentLikeRepository.existsByMemberIdAndComment(authInfo.getId(), comment);
+
+        return new LikeFlipResponse(likeCount, liked);
+    }
+
+    private int flipCommentLike(Long memberId, Comment comment) {
+        Optional<CommentLike> commentLike = commentLikeRepository.findByMemberIdAndComment(memberId, comment);
+        if (commentLike.isPresent()) {
+            comment.deleteLike(commentLike.get());
+            commentRepository.decreaseLikeCount(comment.getId());
+            return comment.getCommentLikesCount() - 1;
+        }
+        addNewCommentLike(memberId, comment);
+        commentRepository.increaseLikeCount(comment.getId());
+        return comment.getCommentLikesCount() + 1;
+    }
+
+    private void addNewCommentLike(Long memberId, Comment comment) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        CommentLike commentLike = CommentLike.builder()
+                .member(member)
+                .comment(comment)
+                .build();
+        commentLikeRepository.save(commentLike);
     }
 }
