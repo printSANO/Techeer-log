@@ -3,8 +3,10 @@ package consolelog.like.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.result.ResultResponse;
 import consolelog.global.support.token.Login;
+import consolelog.like.domain.PostLike;
 import consolelog.like.dto.LikeFlipResponse;
 import consolelog.like.service.LikeService;
+import consolelog.post.domain.Post;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import static consolelog.global.result.ResultCode.LIKE_CREATED_SUCCESS;
 
 @Tag(name = "Comment Like", description = "Comment Like API Document")
 @RequestMapping("/")
+@Tag(name = "Like", description = "Like API Document")
 @RestController
 public class LikeController {
     private final LikeService likeService;
@@ -26,7 +29,15 @@ public class LikeController {
         this.likeService = likeService;
     }
 
-    @Operation(summary = "댓글 좋아요", description = "로그인 필요")
+    @Operation(summary = "PostLike", description = "PostLike 누르기/취소하기, PostLike 개수")
+    @PutMapping("/posts/{id}/like")
+    public ResponseEntity<ResultResponse<LikeFlipResponse>> flipPostLike(@PathVariable("id") Long postId,
+                                                                         @Login AuthInfo authInfo) {
+        LikeFlipResponse likeFlipResponse = likeService.flipPostLike(postId, authInfo);
+        ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS, likeFlipResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+    }
+
     @PutMapping("/comments/{id}/like")
     public ResponseEntity<ResultResponse<LikeFlipResponse>> flipCommentLike(@PathVariable("id") Long commentId,
                                                                             @Login AuthInfo authInfo) {
