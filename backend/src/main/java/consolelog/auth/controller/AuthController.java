@@ -15,10 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -58,7 +55,7 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급", description = "accessToken 을 재생성")
     @GetMapping("/refresh")
-    public ResponseEntity<Void> refresh(HttpServletRequest request, @Login AuthInfo authInfo) {
+    public ResponseEntity<Void> refresh(@RequestHeader("Refresh-Token") String refresh_token, HttpServletRequest request, @Login AuthInfo authInfo) {
         validateExistHeader(request);
         Long memberId = authInfo.getId();
         // extract : 뽑아내다. request에서 RefreshToken을 뽑아내는 과정
