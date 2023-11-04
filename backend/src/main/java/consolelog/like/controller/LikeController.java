@@ -4,7 +4,7 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.global.result.ResultResponse;
 import consolelog.global.support.token.Login;
 import consolelog.like.dto.LikeFlipResponse;
-import consolelog.like.service.LIkeService;
+import consolelog.like.service.LikeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ import static consolelog.global.result.ResultCode.LIKE_CREATED_SUCCESS;
 @RequestMapping("/")
 @RestController
 public class LikeController {
-    private final LIkeService likeService;
+    private final LikeService likeService;
 
-    public LikeController(LIkeService likeService) {
+    public LikeController(LikeService likeService) {
         this.likeService = likeService;
     }
 

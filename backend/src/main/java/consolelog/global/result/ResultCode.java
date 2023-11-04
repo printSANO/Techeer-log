@@ -14,7 +14,7 @@ public enum ResultCode {
 
     // Member
     SIGNUP_SUCCESS("M001", "201", "회원가입 성공"),
-    FINDNICK_SUCCESS("MOO2", "200", "닉네임 조회 성공")
+    FINDNICK_SUCCESS("MOO2", "200", "닉네임 조회 성공"),
     // Post
     FINDBOARD_SUCCESS("B001", "200", "비회원 상태 게시글 조회 성공"),
     FINDPOST_SUCCESS("P001", "200", "로그인 상태 게시글 조회 성공"),

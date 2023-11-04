@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static consolelog.global.result.ResultCode.*;
 
+
 @Tag(name = "Comment", description = "Comment API Document")
 @RestController
 public class CommentController {
