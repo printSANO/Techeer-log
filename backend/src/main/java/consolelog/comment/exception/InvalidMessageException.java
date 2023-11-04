@@ -1,6 +1,5 @@
 package consolelog.comment.exception;
 
-
 import consolelog.global.advice.BadRequestException;
 
 public class InvalidMessageException extends BadRequestException {
