@@ -11,13 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static consolelog.global.result.ResultCode.LIKE_CREATED_SUCCESS;
 
-@Tag(name = "Comment Like", description = "Comment Like API Document")
-@RequestMapping("/")
+
 @Tag(name = "Like", description = "Like API Document")
 @RestController
 public class LikeController {
@@ -37,6 +35,7 @@ public class LikeController {
     }
 
     @PutMapping("/comments/{id}/like")
+    @Operation(summary = "CommentLike", description = "CommentLike")
     public ResponseEntity<ResultResponse<LikeFlipResponse>> flipCommentLike(@PathVariable("id") Long commentId,
                                                                             @Login AuthInfo authInfo) {
         likeService.flipCommentLike(commentId, authInfo);
