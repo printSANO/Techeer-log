@@ -175,7 +175,6 @@ public class Comment {
     }
 
     public void updateContent(String content) {
-//        validate(content);
         this.message = new Message(content);
     }
 }

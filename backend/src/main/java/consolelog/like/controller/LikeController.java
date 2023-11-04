@@ -1,10 +1,10 @@
 package consolelog.like.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.result.ResultResponse;
+import consolelog.global.result.ResultResponse;
+import consolelog.global.support.token.Login;
 import consolelog.like.dto.LikeFlipResponse;
 import consolelog.like.service.LIkeService;
-import consolelog.support.token.Login;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static consolelog.result.ResultCode.LIKE_CREATED_SUCCESS;
+import static consolelog.global.result.ResultCode.LIKE_CREATED_SUCCESS;
 
 @Tag(name = "Comment Like", description = "Comment Like API Document")
 @RequestMapping("/")

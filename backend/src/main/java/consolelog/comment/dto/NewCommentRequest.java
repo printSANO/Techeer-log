@@ -9,13 +9,13 @@ public class NewCommentRequest {
 
     @NotBlank(message = "댓글을 입력해주세요.")
     private String content;
-    private boolean anonymous;
+
+    private
 
     public NewCommentRequest() {
     }
 
-    public NewCommentRequest(String content, boolean anonymous) {
+    public NewCommentRequest(String content) {
         this.content = content;
-        this.anonymous = anonymous;
     }
 }

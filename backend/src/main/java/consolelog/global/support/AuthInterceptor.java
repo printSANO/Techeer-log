@@ -1,10 +1,9 @@
-package consolelog.support;
+package consolelog.global.support;
 
-import consolelog.support.token.AuthorizationExtractor;
-import consolelog.support.token.TokenManager;
+import consolelog.global.support.token.AuthorizationExtractor;
+import consolelog.global.support.token.TokenManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

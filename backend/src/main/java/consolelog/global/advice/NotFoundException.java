@@ -1,4 +1,4 @@
-package consolelog.advice;
+package consolelog.global.advice;
 
 public class NotFoundException extends BusinessException {
 

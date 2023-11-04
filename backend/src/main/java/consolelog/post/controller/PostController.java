@@ -6,7 +6,7 @@ import consolelog.post.dto.request.PostUpdateRequest;
 import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
 import consolelog.post.service.PostService;
-import consolelog.support.token.Login;
+import consolelog.global.support.token.Login;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

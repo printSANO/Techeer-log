@@ -1,6 +1,6 @@
-package consolelog.support.token;
+package consolelog.global.support.token;
 
-import consolelog.advice.UnauthorizedException;
+import consolelog.global.advice.UnauthorizedException;
 
 public class InvalidRefreshTokenException extends UnauthorizedException {
     private static final String MESSAGE = "유효하지 않은 토큰입니다.";

@@ -1,13 +1,11 @@
 package consolelog.member.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
 import consolelog.member.dto.SignupRequest;
 import consolelog.member.dto.UniqueResponse;
 import consolelog.member.service.MemberService;
-import consolelog.support.token.Login;
-import org.springframework.http.HttpHeaders;
+import consolelog.global.support.token.Login;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

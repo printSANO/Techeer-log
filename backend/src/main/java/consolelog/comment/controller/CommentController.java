@@ -2,10 +2,13 @@ package consolelog.comment.controller;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.comment.domain.Comment;
-import consolelog.comment.dto.*;
+import consolelog.comment.dto.CommentResponse;
+import consolelog.comment.dto.NewCommentRequest;
+import consolelog.comment.dto.NewReplyRequest;
+import consolelog.comment.dto.UpdateCommentRequest;
 import consolelog.comment.service.CommentService;
-import consolelog.result.ResultResponse;
-import consolelog.support.token.Login;
+import consolelog.global.result.ResultResponse;
+import consolelog.global.support.token.Login;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -13,12 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static consolelog.result.ResultCode.*;
+import static consolelog.global.result.ResultCode.*;
 
 @Tag(name = "Comment", description = "Comment API Document")
-@RequestMapping("/")
 @RestController
-//@RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
@@ -74,6 +75,6 @@ public class CommentController {
                                                         @Login AuthInfo authInfo) {
         commentService.deleteComment(commentId, authInfo);
         ResultResponse resultResponse = new ResultResponse<>(DELETE_COMMENT_SUCCESS);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(resultResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 }
