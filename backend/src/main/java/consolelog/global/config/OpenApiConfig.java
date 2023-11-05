@@ -3,15 +3,17 @@ package consolelog.global.config;
 import consolelog.global.support.token.Login;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class OpenApiConfig {
@@ -23,11 +25,11 @@ public class OpenApiConfig {
                 .description("Console-log API 문서");
 
 
-        String accessToken = "accessToken";
-        String refreshToken = "refreshToken";
+        String accessToken = "Access-Token";
+        String refreshToken = "Refresh-Token";
 
         // API 요청헤더에 인증정보 포함
-        SecurityRequirement securityRequirement = new SecurityRequirement().addList(accessToken, refreshToken);
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(accessToken);
 
 
         // SecuritySchemes 등록
@@ -37,15 +39,10 @@ public class OpenApiConfig {
                                 .name(accessToken)
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("Bearer")
-                                .bearerFormat("JWT"))
-                .addSecuritySchemes(refreshToken,
-                        new SecurityScheme()
-                                .name(refreshToken)
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("Bearer")
                                 .bearerFormat("JWT"));
 
 
+        // Ignore 할 annotation 등록
         SpringDocUtils.getConfig().addAnnotationsToIgnore(Login.class);
 
         return new OpenAPI().info(info).addSecurityItem(securityRequirement).components(components);

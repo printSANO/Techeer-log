@@ -14,6 +14,5 @@ public class LikeFlipResponse {
     public LikeFlipResponse(int likeCount, boolean like) {
         this.likeCount = likeCount;
         this.like = like;
-
     }
 }

@@ -15,14 +15,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
-import static consolelog.global.result.ResultCode.LOGIN_SUCCESS;
+import static consolelog.global.result.ResultCode.*;
 
 @Tag(name = "Auth", description = "Auth API Document")
 @RestController
@@ -58,7 +55,7 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급", description = "accessToken 을 재생성")
     @GetMapping("/refresh")
-    public ResponseEntity<Void> refresh(HttpServletRequest request, @Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<String>> refresh(@RequestHeader("Refresh-Token") String refresh_token, HttpServletRequest request, @Login AuthInfo authInfo) {
         validateExistHeader(request);
         Long memberId = authInfo.getId();
         // extract : 뽑아내다. request에서 RefreshToken을 뽑아내는 과정
@@ -69,16 +66,19 @@ public class AuthController {
 
         String accessToken = tokenManager.createAccessToken(authInfo);
 
-        return ResponseEntity.noContent()
+        ResultResponse<String> resultResponse = new ResultResponse<>(REFRESH_SUCCESS);
+
+        return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .build();
+                .body(resultResponse);
     }
 
     @Operation(summary = "로그아웃", description = "로그아웃 기능")
     @GetMapping("/logout")
-    public ResponseEntity<Void> logout(@Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<String>> logout(@Login AuthInfo authInfo) {
         refreshTokenService.deleteToken(authInfo.getId());
-        return ResponseEntity.noContent().build();
+        ResultResponse<String> resultResponse = new ResultResponse<>(LOGOUT_SUCCESS);
+        return ResponseEntity.ok().body(resultResponse);
     }
 
     private void validateExistHeader(HttpServletRequest request) {

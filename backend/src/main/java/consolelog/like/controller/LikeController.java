@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static consolelog.global.result.ResultCode.LIKE_SUCCESS;
+import static consolelog.global.result.ResultCode.LIKE_CREATED_SUCCESS;
+
 
 @Tag(name = "Like", description = "Like API Document")
 @RestController
@@ -29,15 +30,17 @@ public class LikeController {
     public ResponseEntity<ResultResponse<LikeFlipResponse>> flipPostLike(@PathVariable("id") Long postId,
                                                                          @Login AuthInfo authInfo) {
         LikeFlipResponse likeFlipResponse = likeService.flipPostLike(postId, authInfo);
-        ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_SUCCESS, likeFlipResponse);
+        ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS, likeFlipResponse);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
     @PutMapping("/comments/{id}/like")
-    public ResponseEntity<LikeFlipResponse> flipCommentLike(@PathVariable("id") Long commentId,
-                                                            @Login AuthInfo authInfo) {
-        LikeFlipResponse likeFlipResponse = likeService.flipCommentLike(commentId, authInfo);
-        return ResponseEntity.ok(likeFlipResponse);
+    @Operation(summary = "CommentLike", description = "CommentLike")
+    public ResponseEntity<ResultResponse<LikeFlipResponse>> flipCommentLike(@PathVariable("id") Long commentId,
+                                                                            @Login AuthInfo authInfo) {
+        likeService.flipCommentLike(commentId, authInfo);
+        ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS);
+        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 }
 
