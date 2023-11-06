@@ -33,8 +33,7 @@ public class MemberService extends BaseEntity {
         validate(signupRequest);
         Member member = Member.builder()
                 .loginId(new LoginId(signupRequest.getLoginId()))
-                .password(new Password(signupRequest.getPassword()))
-                //.password(Password.of(encryptor, signupRequest.getPassword()))
+                .password(Password.of(encryptor, signupRequest.getPassword()))
                 .nickname(new Nickname(signupRequest.getNickname()))
                 .build();
         memberRepository.save(member);

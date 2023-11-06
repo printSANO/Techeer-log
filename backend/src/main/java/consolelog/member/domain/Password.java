@@ -23,7 +23,7 @@ public class Password {
     }
 
     public static Password of(EncryptorI encryptor, String password) {
-        validate(password);
+        // validate(password);
         return new Password(encryptor.encrypt(password));
     }
 
@@ -55,5 +55,5 @@ public class Password {
     public int hashCode() {
         return Objects.hash(getValue());
     }
-    
+
 }
