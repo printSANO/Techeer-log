@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import MarkdownEditor from "../components/MarkdownEditor";
 
 const Background = styled.div`
   width: 100vw;
@@ -330,6 +331,7 @@ function PostingPage() {
           </Scale>
         </Buttons>
         <Inside>
+          <MarkdownEditor />
           <Textarea placeholder="당신의 이야기를 적어보세요..."></Textarea>
         </Inside>
         <UnderBox>
