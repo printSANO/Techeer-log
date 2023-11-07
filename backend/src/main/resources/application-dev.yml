@@ -7,12 +7,18 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create #  validate, none
+      ddl-auto: none #  validate, none
+    #defer-datasource-initialization: true #data.sql을 작성할 때 필요
     properties:
       hibernate:
         format_sql: true
     show_sql: true
 
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+      # data-locations: classpath:data.sql
+      mode: always
 #logging:
 #  level:
 #    org:
