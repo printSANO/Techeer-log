@@ -112,6 +112,7 @@ const InputBox = styled.input`
     width: ${props=>props.width};
 
     height: 40px;
+    color: white;
     background-color: inherit;
     border-style: none;
     padding-bottom: 10px;
@@ -160,10 +161,10 @@ function SignUp(){
     const [passwordCheck, setPasswordCheck] = useState("");
     const [isLoading, setLoading] = useState(false);
 
-    useEffect(()=>{
+    // useEffect(()=>{
 
-    },[username, userid, password, passwordCheck]
-    )
+    // },[username, userid, password, passwordCheck]
+    // )
 
     const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
         const {
@@ -172,7 +173,7 @@ function SignUp(){
         
         if(name === "username"){
             setUser(value);
-        }else if(name ==="id"){
+        }else if(name ==="userid"){
             setId(value);
         }else if(name === "password"){
             setPassword(value);
@@ -181,9 +182,18 @@ function SignUp(){
         }
     }
 
+    const handleSignUp = async() => {
+        try{
+            console.log(username, userid, password, passwordCheck);
+
+        }catch(error){
+            console.log(error);
+        }
+    }
+
     const onSubmit = () => {
-        setLoading(true);
         try {
+            setLoading(true);
             handleSignUp()
               .then(() => {})
               .catch((error) => {
@@ -191,7 +201,10 @@ function SignUp(){
               });
           } catch (error) {
             console.log(error);
+          } finally {
+            setLoading(false);
           }
+          console.log(username, userid, password)
     }
 
     const handleGoBack = () => {
@@ -229,22 +242,24 @@ function SignUp(){
                         <InputBox type='email' value={email} placeholder='이메일을 입력하세요' width={"35%"}/>
                     </label>
                 </InfoBox> */}
+
                 <InfoBox>
                     <p>아이디</p>
                     <label>
                         <InputBox type='text' name="userid" value={userid} onChange={onChange} placeholder='아이디를 입력하세요' required width={"26%"}/>
                     </label>
                 </InfoBox>
+                
                 <InfoBox>
                     <p>비밀번호</p>
                     <label>
-                        <InputBox type='text' name="password" value={password} onChange={onChange} placeholder='비밀번호를 입력하세요' required width={"40%"}/>
+                        <InputBox type='password' name="password" value={password} onChange={onChange} placeholder='비밀번호를 입력하세요' required width={"40%"}/>
                     </label>
                 </InfoBox>
                 <InfoBox>
                     <p>비밀번호 확인</p>
                     <label>
-                        <InputBox type='text' name="passwordcheck" value={passwordCheck} onChange={onChange}placeholder='비밀번호를 한 번 더 입력하세요'required width={"40%"}/>
+                        <InputBox type='password' name="passwordcheck" value={passwordCheck} onChange={onChange}placeholder='비밀번호를 한 번 더 입력하세요'required width={"40%"}/>
                     </label>
                 </InfoBox>
 
