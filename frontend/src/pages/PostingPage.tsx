@@ -122,23 +122,6 @@ const Inside = styled.div`
   width: auto;
 `;
 
-const Textarea = styled.textarea`
-  background: transparent;
-  display: inline-flex;
-  outline: none;
-  cursor: text;
-  font-size: 1.125rem;
-  line-height: 2rem;
-  margin-bottom: 0.75rem;
-  min-width: 8rem;
-  border: none;
-  color: #ececec;
-  width: 100%;
-  height: 38rem;
-  outline: none;
-  resize: none;
-`;
-
 const UnderBox = styled.div`
   padding-left: 1rem;
   padding-right: 1rem;
@@ -332,7 +315,6 @@ function PostingPage() {
         </Buttons>
         <Inside>
           <MarkdownEditor />
-          <Textarea placeholder="당신의 이야기를 적어보세요..."></Textarea>
         </Inside>
         <UnderBox>
           <BackButton>
