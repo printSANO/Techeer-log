@@ -1,4 +1,12 @@
-drop table if exists member, post, comment, post_like, comment_likes;
+drop table if exists refresh_token, member, post, comment, post_like, comment_likes;
+
+CREATE TABLE refresh_token
+(
+    refresh_token_id BIGINT AUTO_INCREMENT NOT NULL,
+    member_id        BIGINT                NULL,
+    token            VARCHAR(255)          NULL,
+    CONSTRAINT pk_refreshtoken PRIMARY KEY (refresh_token_id)
+);
 
 CREATE TABLE member
 (
