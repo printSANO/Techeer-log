@@ -1,7 +1,9 @@
 
 import {styled} from "styled-components";
 import signupimg from "../assets/MainImg.png"
-const [name, email, id, pw, pw_check] = '';
+import { ChangeEvent, useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
     width: 98.5vw;
@@ -150,6 +152,51 @@ const ButtonStyle = styled.button<{bgColor:string}>`
 
 
 function SignUp(){
+    const navigate = useNavigate();
+
+    const [username, setUser] = useState("");
+    const [userid, setId] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordCheck, setPasswordCheck] = useState("");
+    const [isLoading, setLoading] = useState(false);
+
+    useEffect(()=>{
+
+    },[username, userid, password, passwordCheck]
+    )
+
+    const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
+        const {
+            target:{name, value},
+        } = e
+        
+        if(name === "username"){
+            setUser(value);
+        }else if(name ==="id"){
+            setId(value);
+        }else if(name === "password"){
+            setPassword(value);
+        }else if(name === "passwordcheck"){
+            setPasswordCheck(value);
+        }
+    }
+
+    const onSubmit = () => {
+        setLoading(true);
+        try {
+            handleSignUp()
+              .then(() => {})
+              .catch((error) => {
+                console.log(error);
+              });
+          } catch (error) {
+            console.log(error);
+          }
+    }
+
+    const handleGoBack = () => {
+        navigate(-1);
+    };
 
     return(
         <Background>
@@ -173,37 +220,45 @@ function SignUp(){
                 <InfoBox>
                     <p>이름</p>
                     <label>
-                        <InputBox type='text' value={name} placeholder='이름을 입력하세요' width={"30%"}/>
+                        <InputBox type='text' name="username" value={username} onChange={onChange} placeholder='이름을 입력하세요' required width={"30%"}/>
                     </label>
                 </InfoBox>
-                <InfoBox>
+                {/* <InfoBox>
                     <p>이메일</p>
                     <label>
                         <InputBox type='email' value={email} placeholder='이메일을 입력하세요' width={"35%"}/>
                     </label>
-                </InfoBox>
+                </InfoBox> */}
                 <InfoBox>
                     <p>아이디</p>
                     <label>
-                        <InputBox type='text' value={id} placeholder='아이디를 입력하세요' width={"26%"}/>
+                        <InputBox type='text' name="userid" value={userid} onChange={onChange} placeholder='아이디를 입력하세요' required width={"26%"}/>
                     </label>
                 </InfoBox>
                 <InfoBox>
                     <p>비밀번호</p>
                     <label>
-                        <InputBox type='text' value={pw} placeholder='비밀번호를 입력하세요' width={"40%"}/>
+                        <InputBox type='text' name="password" value={password} onChange={onChange} placeholder='비밀번호를 입력하세요' required width={"40%"}/>
                     </label>
                 </InfoBox>
                 <InfoBox>
                     <p>비밀번호 확인</p>
                     <label>
-                        <InputBox type='text' value={pw_check} placeholder='비밀번호를 한 번 더 입력하세요' width={"40%"}/>
+                        <InputBox type='text' name="passwordcheck" value={passwordCheck} onChange={onChange}placeholder='비밀번호를 한 번 더 입력하세요'required width={"40%"}/>
                     </label>
                 </InfoBox>
 
                 <ButtonBox>
-                    <ButtonStyle type='submit' bgColor="#D9D9D9" color="#000000">취소</ButtonStyle>
-                    <ButtonStyle type='submit' bgColor="#38E788" color="#FFFFFF">가입하기</ButtonStyle>
+                    <ButtonStyle type='submit' onClick={handleGoBack} bgColor="#D9D9D9" color="#000000">취소</ButtonStyle>
+                    <ButtonStyle 
+                        type='submit' 
+                        onClick={onSubmit} 
+                        value={isLoading? "Loading..." : "Create Account"} 
+                        bgColor="#38E788" 
+                        color="#FFFFFF"
+                    >
+                        가입하기
+                    </ButtonStyle>
                 </ButtonBox>
 
             </SignUpBox>
