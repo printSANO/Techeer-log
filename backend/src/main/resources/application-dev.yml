@@ -19,14 +19,7 @@ spring:
       schema-locations: classpath:sql/schema.sql
       # data-locations: classpath:data.sql
       mode: always
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        SQL: info
-#    org.springframework: info
-#    console-log: debug
-#
+
 security:
   jwt:
     token:
@@ -34,3 +27,11 @@ security:
       expire-length:
         access: 3600000
         refresh: 1210000000
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: info
+#    org.springframework: info
+#    console-log: debug
