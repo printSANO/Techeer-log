@@ -1,10 +1,13 @@
 import styled from "styled-components";
-import MarkdownEditor from "../components/MarkdownEditor";
+import { useState, ChangeEvent } from "react";
+import MarkdownPreview from "../components/MakrdownPreview";
 
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background: #0c0c0c;
+  display: flex;
+  flex-direction: row;
 `;
 
 const LeftBox = styled.div`
@@ -187,7 +190,44 @@ const SaveBtn = styled.button`
   margin-left: 0.75rem;
 `;
 
+const Textarea = styled.textarea`
+  background: transparent;
+  display: inline-flex;
+  outline: none;
+  cursor: text;
+  font-family: "Fira Mono", monospace;
+  font-size: 18px;
+  margin-bottom: 0.75rem;
+  min-width: 8rem;
+  border: none;
+  color: #abbabf;
+  padding: 0 0.1px 0 0;
+  width: 100%;
+  max-width: 54rem;
+  height: 38rem;
+  outline: none;
+  resize: none;
+  caret-color: #61afef;
+  line-height: 1.5;
+`;
+
+const RightBox = styled.div`
+  word-break: break-word;
+  padding: 3rem;
+  flex: 1 1 0%;
+  overflow-y: auto;
+  color: #ececec;
+`;
+
 function PostingPage() {
+  const [markdown, setMarkdown] = useState(""); // Markdown 내용을 저장하는 상태
+
+  // Markdown 내용이 변경될 때 호출되는 함수
+  const handleMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setMarkdown(e.target.value);
+  };
+
+
   return (
     <Background>
       <LeftBox>
@@ -314,7 +354,13 @@ function PostingPage() {
           </Scale>
         </Buttons>
         <Inside>
-          <MarkdownEditor />
+          <Textarea
+            value={markdown}
+            onChange={handleMarkdownChange}
+            rows={10}
+            cols={100}
+            placeholder="당신의 이야기를 적어보세요..."
+          />
         </Inside>
         <UnderBox>
           <BackButton>
@@ -347,6 +393,11 @@ function PostingPage() {
           </div>
         </UnderBox>
       </LeftBox>
+      <RightBox>
+        <p>
+          <MarkdownPreview markdown={markdown} />
+        </p>
+      </RightBox>
     </Background>
   );
 }
