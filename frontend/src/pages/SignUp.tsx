@@ -151,6 +151,10 @@ const ButtonStyle = styled.button<{bgColor:string}>`
     font-weight: 600;
 `;
 
+export const Error = styled.span`
+    font-weight: 600;
+    color: tomato;
+`;
 
 function SignUp(){
     const navigate = useNavigate();
@@ -160,6 +164,7 @@ function SignUp(){
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [isLoading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     // useEffect(()=>{
 
@@ -184,7 +189,14 @@ function SignUp(){
 
     const handleSignUp = async() => {
         try{
-            console.log(username, userid, password, passwordCheck);
+            await axios.post("/members/signup",{
+                username,
+                userid,
+                password,
+                passwordCheck,
+            });
+
+            navigate("/login");
 
         }catch(error){
             console.log(error);
@@ -192,15 +204,21 @@ function SignUp(){
     }
 
     const onSubmit = () => {
+        if(isLoading || username==="" || userid ==="" || password==="") return;
+
         try {
             setLoading(true);
+
             handleSignUp()
               .then(() => {})
               .catch((error) => {
                 console.log(error);
               });
-          } catch (error) {
-            console.log(error);
+
+          } catch (e) {
+            console.log(e);
+            setError(String(e));
+
           } finally {
             setLoading(false);
           }
@@ -275,6 +293,7 @@ function SignUp(){
                         가입하기
                     </ButtonStyle>
                 </ButtonBox>
+                {error !== ""? <Error>{error}</Error>: null}
 
             </SignUpBox>
         </Background>
