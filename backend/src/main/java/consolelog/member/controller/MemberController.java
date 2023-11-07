@@ -53,7 +53,7 @@ public class MemberController {
     @GetMapping("/nickname")
     public ResponseEntity<ResultResponse<NicknameResponse>> findNickname(@Login AuthInfo authInfo) {
         NicknameResponse nicknameResponse = memberService.findNickname(authInfo);
-        ResultResponse resultResponse = new ResultResponse(FINDNICK_SUCCESS, nicknameResponse);
+        ResultResponse<NicknameResponse> resultResponse = new ResultResponse<>(FINDNICK_SUCCESS, nicknameResponse);
         return ResponseEntity.ok().body(resultResponse);
     }
 //    @PatchMapping("/nickname")
