@@ -187,7 +187,7 @@ function SignUp(){
         }
     }
 
-    const handleSignUp = async() => {
+    const handleSignUp = async(): Promise<void> => {
         try{
             await axios.post("/members/signup",{
                 username,
@@ -196,7 +196,7 @@ function SignUp(){
                 passwordCheck,
             });
 
-            navigate("/login");
+            navigate("/");
 
         }catch(error){
             console.log(error);
