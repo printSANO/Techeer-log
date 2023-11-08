@@ -226,8 +226,6 @@ function PostingPage() {
   const handleMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
   };
-
-
   return (
     <Background>
       <LeftBox>
@@ -394,9 +392,9 @@ function PostingPage() {
         </UnderBox>
       </LeftBox>
       <RightBox>
-        <p>
+        <div>
           <MarkdownPreview markdown={markdown} />
-        </p>
+        </div>
       </RightBox>
     </Background>
   );
