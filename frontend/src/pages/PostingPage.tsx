@@ -231,16 +231,16 @@ function PostingPage() {
     setMarkdown(e.target.value);
   };
   const handleButtonH1Change = () => {
-    setMarkdown(markdown + "\n" + "# ");
+    setMarkdown(markdown + "# ");
   };
   const handleButtonH2Change = () => {
-    setMarkdown(markdown + "\n" + "## ");
+    setMarkdown(markdown + "## ");
   };
   const handleButtonH3Change = () => {
-    setMarkdown(markdown + "\n" + "### ");
+    setMarkdown(markdown + "### ");
   };
   const handleButtonH4Change = () => {
-    setMarkdown(markdown + "\n" + "#### ");
+    setMarkdown(markdown + "#### ");
   };
   const handleButtonBoldChange = () => {
     setMarkdown(markdown + "**텍스트**");

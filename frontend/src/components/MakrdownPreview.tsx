@@ -16,6 +16,7 @@ const Preview = styled.div`
 `;
 
 const MarkdownPreview = ({ markdown }: { markdown: string }) => {
+  const input = "This is a header\nAnd this is a paragraph";
   return (
     <Preview>
       <div>
@@ -95,7 +96,7 @@ const MarkdownPreview = ({ markdown }: { markdown: string }) => {
           }}
         >
           {markdown
-            .replace(/\n\s\n\s/gi, "\n\n&nbsp;\n\n")
+            .replace(/\n/gi, "\n\n")
             .replace(/\*\*/gi, "@$_%!^")
             .replace(/@\$_%!\^/gi, "**")
             .replace(/<\/?u>/gi, "*")}
