@@ -23,22 +23,47 @@ const MarkdownPreview = ({ markdown }: { markdown: string }) => {
         components={{
           code({ node, inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || "");
-            return !inline && match ? (
-              <SyntaxHighlighter
-                language={match[1]}
-                PreTag="div"
-                children={String(children).replace(/\n$/, "")}
-                style={dracula}
-              />
-            ) : (
-              <code className={className} {...props}>
+            
+            return inline ? (
+              // 강조
+              <code
+                style={{
+                  background: "var(--highlight-color)",
+                  padding: "2px",
+                }}
+                {...props}
+              >
                 {children}
               </code>
+            ) : match ? (
+              // 코드
+              // 언어가 선택됨
+              <SyntaxHighlighter
+                children={String(children).replace(/\n$/, "")}
+                style={dracula}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              />
+            ) : (
+              // 언어가 선택되지 않음
+              <SyntaxHighlighter
+                children={String(children).replace(/\n$/, "")}
+                style={dracula}
+                language="textile"
+                PreTag="div"
+                {...props}
+              />
             );
           },
         }}
       >
-        {markdown}
+        {markdown
+          .replace(/\n\s\n\s/gi, "\n\n&nbsp;\n\n")
+          .replace(/\*\*/gi, "@$_%!^")
+          .replace(/\**\*/gi, "/")
+          .replace(/@\$_%!\^/gi, "**")
+          .replace(/<\/?u>/gi, "*")}
       </ReactMarkdown>
     </Preview>
   );
