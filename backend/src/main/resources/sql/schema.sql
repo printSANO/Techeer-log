@@ -24,15 +24,15 @@ ALTER TABLE member
 
 CREATE TABLE post
 (
-    post_id    BIGINT       NOT NULL,
-    created_at datetime     NOT NULL,
-    updated_at datetime     NULL,
-    title      VARCHAR(255) NOT NULL,
-    content    LONGTEXT     NOT NULL,
-    view_count INT          NOT NULL,
-    like_count INT          NOT NULL,
-    deleted    BIT(1)       NULL,
-    member_id  BIGINT       NOT NULL,
+    post_id    BIGINT   AUTO_INCREMENT  NOT NULL,
+    created_at datetime                 NOT NULL,
+    updated_at datetime                 NULL,
+    title      VARCHAR(255)             NOT NULL,
+    content    LONGTEXT                 NOT NULL,
+    view_count INT                      NOT NULL,
+    like_count INT                      NOT NULL,
+    deleted    BIT(1)                   NULL,
+    member_id  BIGINT                   NOT NULL,
     CONSTRAINT pk_post PRIMARY KEY (post_id)
 );
 
