@@ -164,7 +164,6 @@ const TempSaveBtn = styled.button`
   -webkit-box-pack: center;
   justify-content: center;
   font-weight: bold;
-  cursor: pointer;
   outline: none;
   border: none;
   background: none;
@@ -460,7 +459,7 @@ function PostingPage() {
             </span>
           </BackButton>
           <div>
-            <TempSaveBtn>임시저장</TempSaveBtn>
+            <TempSaveBtn></TempSaveBtn>
             <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
           </div>
         </UnderBox>

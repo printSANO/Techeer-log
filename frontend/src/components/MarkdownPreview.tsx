@@ -54,6 +54,7 @@ const MarkdownPreview = ({ markdown }: { markdown: string }) => {
               ) : (
                 <SyntaxHighlighter
                   style={nord}
+                  background="green"
                   language="textile"
                   PreTag="div"
                   {...props}
