@@ -95,6 +95,9 @@ const ImgLabel = styled.label`
     margin-left: 30px;
     color: #bcbcbc;
     cursor: pointer;
+    &:active{
+        color: #38E788;
+    }
     /* margin-bottom: 20px; */
 `;
 
@@ -134,7 +137,7 @@ const ButtonBox = styled.div`
     /* bottom: 10px; */
 `;
 
-const ButtonStyle = styled.button<{bgColor:string}>`
+const ButtonStyle = styled.button<{bgColor:string, clickColor:string}>`
     margin-right: 15px;
     width: 120px;
     height: 47px;
@@ -149,26 +152,33 @@ const ButtonStyle = styled.button<{bgColor:string}>`
     padding-top: 5px;
     font-size: 24px;
     font-weight: 600;
+    cursor: pointer;
+
+    &:active{
+        background-color: ${props => props.clickColor};
+    }
 `;
 
 export const Error = styled.span`
+    padding-top: 10px;
+    padding-left: 10px;
     font-weight: 600;
     color: tomato;
 `;
 
 function SignUp(){
     const navigate = useNavigate();
-
-    const [username, setUser] = useState("");
-    const [userid, setId] = useState("");
+    // const [file, setFile] = useState(false);
+    const [loginId, setLoginId] = useState("");
+    const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
-    const [passwordCheck, setPasswordCheck] = useState("");
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     // useEffect(()=>{
 
-    // },[username, userid, password, passwordCheck]
+    // },[loginId, nickname, password, passwordConfirmation]
     // )
 
     const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
@@ -176,27 +186,28 @@ function SignUp(){
             target:{name, value},
         } = e
         
-        if(name === "username"){
-            setUser(value);
-        }else if(name ==="userid"){
-            setId(value);
+        if(name === "loginId"){
+            setLoginId(value);
+        }else if(name ==="nickname"){
+            setNickname(value);
         }else if(name === "password"){
             setPassword(value);
-        }else if(name === "passwordcheck"){
-            setPasswordCheck(value);
+        }else if(name === "passwordconfirmation"){
+            setPasswordConfirmation(value);
         }
     }
+
 
     const handleSignUp = async(): Promise<void> => {
         try{
             await axios.post("/members/signup",{
-                username,
-                userid,
+                loginId,
+                nickname,
                 password,
-                passwordCheck,
+                passwordConfirmation,
             });
 
-            navigate("/");
+            // navigate("/login");
 
         }catch(error){
             console.log(error);
@@ -204,7 +215,10 @@ function SignUp(){
     }
 
     const onSubmit = () => {
-        if(isLoading || username==="" || userid ==="" || password==="") return;
+        if(isLoading || loginId==="" || nickname ==="" || password===""){
+            setError("기본정보를 모두 입력하세요")
+            return;
+        }
 
         try {
             setLoading(true);
@@ -222,7 +236,7 @@ function SignUp(){
           } finally {
             setLoading(false);
           }
-          console.log(username, userid, password)
+          console.log(loginId, nickname, password)
     }
 
     const handleGoBack = () => {
@@ -251,7 +265,7 @@ function SignUp(){
                 <InfoBox>
                     <p>이름</p>
                     <label>
-                        <InputBox type='text' name="username" value={username} onChange={onChange} placeholder='이름을 입력하세요' required width={"30%"}/>
+                        <InputBox type='text' name="loginId" value={loginId} onChange={onChange} placeholder='이름을 입력하세요' required width={"30%"}/>
                     </label>
                 </InfoBox>
                 {/* <InfoBox>
@@ -260,11 +274,10 @@ function SignUp(){
                         <InputBox type='email' value={email} placeholder='이메일을 입력하세요' width={"35%"}/>
                     </label>
                 </InfoBox> */}
-
                 <InfoBox>
                     <p>아이디</p>
                     <label>
-                        <InputBox type='text' name="userid" value={userid} onChange={onChange} placeholder='아이디를 입력하세요' required width={"26%"}/>
+                        <InputBox type='text' name="nickname" value={nickname} onChange={onChange} placeholder='아이디를 입력하세요' required width={"26%"}/>
                     </label>
                 </InfoBox>
                 
@@ -277,17 +290,18 @@ function SignUp(){
                 <InfoBox>
                     <p>비밀번호 확인</p>
                     <label>
-                        <InputBox type='password' name="passwordcheck" value={passwordCheck} onChange={onChange}placeholder='비밀번호를 한 번 더 입력하세요'required width={"40%"}/>
+                        <InputBox type='password' name="passwordconfirmation" value={passwordConfirmation} onChange={onChange}placeholder='비밀번호를 한 번 더 입력하세요'required width={"40%"}/>
                     </label>
                 </InfoBox>
 
                 <ButtonBox>
-                    <ButtonStyle type='submit' onClick={handleGoBack} bgColor="#D9D9D9" color="#000000">취소</ButtonStyle>
+                    <ButtonStyle type='submit' onClick={handleGoBack} bgColor="#D9D9D9" clickColor="#a6a6a6" color="#000000">취소</ButtonStyle>
                     <ButtonStyle 
                         type='submit' 
                         onClick={onSubmit} 
                         value={isLoading? "Loading..." : "Create Account"} 
-                        bgColor="#38E788" 
+                        bgColor="#38E788"
+                        clickColor="#2fc673" 
                         color="#FFFFFF"
                     >
                         가입하기
