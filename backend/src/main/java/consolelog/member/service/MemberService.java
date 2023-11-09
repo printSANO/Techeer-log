@@ -1,6 +1,8 @@
 package consolelog.member.service;
 
+import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.auth.dto.AuthInfo;
+import consolelog.config.BaseEntity;
 import consolelog.member.domain.*;
 import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
@@ -16,27 +18,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class MemberService {
+public class MemberService extends BaseEntity {
 
     private final MemberRepository memberRepository;
+    private final EncryptorI encryptor;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, EncryptorI encryptor) {
         this.memberRepository = memberRepository;
+        this.encryptor = encryptor;
     }
 
-    // Encryptor 추가해야함
     @Transactional
     public void signUp(SignupRequest signupRequest) {
         validate(signupRequest);
         Member member = Member.builder()
                 .loginId(new LoginId(signupRequest.getLoginId()))
-                .password(new Password(signupRequest.getPassword()))
+                .password(Password.of(encryptor, signupRequest.getPassword()))
                 .nickname(new Nickname(signupRequest.getNickname()))
                 .build();
         memberRepository.save(member);
     }
 
-    // encrypt 해야함.
     public UniqueResponse checkUniqueLoginId(String loginId) {
         boolean unique = !memberRepository.existsMemberByLoginIdValue(loginId);
         return new UniqueResponse(unique);

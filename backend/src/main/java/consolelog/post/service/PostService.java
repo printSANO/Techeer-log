@@ -3,14 +3,19 @@ package consolelog.post.service;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
 import consolelog.auth.service.AuthService;
+import consolelog.comment.repository.CommentRepository;
+import consolelog.like.repository.PostLikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
 import consolelog.post.domain.Post;
+import consolelog.post.domain.ViewCountManager;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
+import consolelog.post.dto.response.BoardResponse;
 import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
+import consolelog.post.exception.PostNotFoundException;
 import consolelog.post.repository.PostRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -24,39 +29,60 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository; // final로 선언하면 생성자에서만 값을 할당할 수 있음
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
+    private final PostLikeRepository postLikeRepository;
+    private final ViewCountManager viewCountManager;
     private final AuthService authService;
 
-    public PostService(PostRepository postRepository, MemberRepository memberRepository, AuthService authService) { // 생성자 주입
+    public PostService(PostRepository postRepository, MemberRepository memberRepository,
+                       CommentRepository commentRepository, AuthService authService,
+                       PostLikeRepository postLikeRepository,
+                       ViewCountManager viewCountManager) { // 생성자 주입
         this.postRepository = postRepository;  // 생성자를 통해 PostRepository를 주입받음
         this.memberRepository = memberRepository;
         this.authService = authService;
+        this.postLikeRepository = postLikeRepository;
+        this.viewCountManager = viewCountManager;
+        this.commentRepository = commentRepository;
     }
 
+    @Transactional
+    public BoardResponse findBoard(Long postId, String cookieValue) {// post_id 게시글 조회
+        if (viewCountManager.isFirstAccess(cookieValue, postId)) {
+            postRepository.updateViewCount(postId);
+        }
+        Post foundPost = findPostById(postId);
+        return BoardResponse.of(foundPost);
+    }
 
-    public PostResponse findPost(Long postId) {// post_id 게시글 조회
-
-        Post findPost = findPostById(postId);
-        return PostResponse.of(findPost);
+    @Transactional
+    public PostResponse findPost(Long postId, AuthInfo authInfo, String cookieValue) {// post_id 게시글 조회
+        if (viewCountManager.isFirstAccess(cookieValue, postId)) {
+            postRepository.updateViewCount(postId);
+        }
+        Post foundPost = findPostById(postId);
+        Boolean liked = postLikeRepository.existsByPostAndMemberId(foundPost, authInfo.getId());
+        return PostResponse.of(foundPost, liked);
     }
 
     private Post findPostById(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+                .orElseThrow(PostNotFoundException::new);
+    }
+
+    public String updatePostLog(Long postId, String cookieValue) {
+        return viewCountManager.getUpdatedLog(cookieValue, postId);
     }
 
     public PagePostResponse findPostsByPage(Long lastPostId, Pageable pageable) {
-        Slice<Post> posts = postRepository.findByIdIsLessThanOrderByIdDesc(lastPostId, pageable);
+        Slice<Post> posts;
+        if (lastPostId == 0) {
+            posts = postRepository.findNextPage(pageable);
+        } else {
+            posts = postRepository.findPostByIdIsLessThanOrderByIdDesc(lastPostId, pageable);
+        }
         return PagePostResponse.of(posts);
-    }
 
-    public PostResponse findTitle(String title) {// post_title 게시글 조회
-        Post findPost = findPostByTitle(title);
-        return PostResponse.of(findPost);
-    }
-
-    private Post findPostByTitle(String title) {
-        return postRepository.findByTitle(title)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. title=" + title));
     }
 
     @Transactional
@@ -93,7 +119,11 @@ public class PostService {
     public void deletePost(Long id, AuthInfo authInfo) {
         Post post = findPostById(id);
         validateOwner(authInfo, post);
+        commentRepository.deleteAllByPost(post);
+        postLikeRepository.deleteAllByPost(post);
         postRepository.delete(post);
+
+
         //postRepository.deleteById(id);
     }
 

@@ -1,13 +1,18 @@
 package consolelog.post.domain;
 
+import consolelog.comment.domain.Comment;
+import consolelog.like.domain.PostLike;
 import consolelog.member.domain.Member;
-import consolelog.post.BaseEntity;
+import consolelog.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -16,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Post extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
@@ -27,6 +32,16 @@ public class Post extends BaseEntity {
     @Lob
     private String content;
 
+    private int viewCount = 0;
+
+    private int likeCount = 0;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<PostLike> postLikes = new ArrayList<>();
+
     //    @Column(name = "deleted")
     @SQLDelete(sql = "UPDATE post SET deleted = true WHERE id=?")
     @Where(clause = "deleted = false")
@@ -34,41 +49,21 @@ public class Post extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
-
-//    @OneToMany(mappedBy = "post")
-//    private List<Comment> comments = new ArrayList<>();
-
-    //    @Column(nullable = false)
-//    private Long view_count;
-//
-//    @Column(nullable = false)
-//    private Long like_count;
-//    @Column(nullable = false)
-//    @CreatedDate
-//    private LocalDateTime created_at;
-    //
-//    @LastModifiedDate
-//    @Column
-//    private LocalDateTime updated_at;
-//    private Boolean deleted_at;
-
 
     protected Post() {
     }
 
     @Builder
-    public Post(String title, String content, Member member) {
+    public Post(String title, String content, Member member,
+                List<Comment> comments, List<PostLike> postLikes) {
         this.title = title;
         this.content = content;
         this.member = member;
+        this.comments = comments;
+        this.postLikes = postLikes;
 
-//        this.view_count = view_count;
-//        this.like_count = like_count;
-//        this.created_at = created_at;
-//        this.updated_at = updated_at;
-//        this.deleted_at = deleted_at;
     }
 
     public Long getId() {
@@ -87,6 +82,29 @@ public class Post extends BaseEntity {
         return member;
     }
 
+    public List<PostLike> getPostLikes() {
+        return postLikes;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public int getCommentCount() {
+        if (comments == null)
+            return 0;
+        return comments.size();
+    }
+
+    public void addPostLike(PostLike postLike) {
+        postLikes.add(postLike);
+    }
+
+    public void deleteLike(PostLike postLike) {
+        postLikes.remove(postLike);
+        postLike.delete();
+    }
+
     public void updateTitle(String title) {
         this.title = title;
     }
@@ -100,6 +118,10 @@ public class Post extends BaseEntity {
             return false;
         }
         return member.getId().equals(accessMemberId);
+    }
+
+    public int getViewCount() {
+        return viewCount;
     }
 
 
