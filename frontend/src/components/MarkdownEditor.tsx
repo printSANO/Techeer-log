@@ -1,7 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import styled from "styled-components";
-import MarkdownPreview from "./MakrdownPreview";
-
+import MarkdownPreview from "./MarkdownPreview";
 
 const Textarea = styled.textarea`
   background: transparent;

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useState, ChangeEvent } from "react";
-import MarkdownPreview from "../components/MakrdownPreview";
+import MarkdownPreview from "../components/MarkdownPreview";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -220,8 +222,13 @@ const RightBox = styled.div`
 `;
 
 function PostingPage() {
+  const navigate = useNavigate();
   const [markdown, setMarkdown] = useState("");
   const [title, setTitle] = useState("");
+
+  const handleGoBack = () => {
+    navigate(-1); // 뒤로가기
+  };
 
   const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
@@ -262,6 +269,32 @@ function PostingPage() {
   };
   const handleButtonQuoteChange = () => {
     setMarkdown(markdown + "\n" + "> ");
+  };
+  const handleSubmit = async (): Promise<void> => {
+    try {
+      const response = await axios.post(
+        "/posts",
+        {
+          title,
+          content: markdown,
+        },
+        {
+          headers: {
+            authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidHlwZSI6IlVTRVIiLCJuaWNrbmFtZSI6InN0cmluZyIsImlhdCI6MTY5OTAzNDI0NywiZXhwIjoxNjk5MDM3ODQ3fQ.2uSPVN2dnonBSxa2x3rQCgfxGevzlUeu_UIjJgqLd-zABuyHwj4zTEGR1hMxBzmS3T6cWY_8adYNDhhwvD83HA`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const onSubmit = async () => {
+    try {
+      await handleSubmit();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Background>
@@ -402,7 +435,7 @@ function PostingPage() {
           />
         </Inside>
         <UnderBox>
-          <BackButton>
+          <BackButton onClick={handleGoBack}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
@@ -428,7 +461,7 @@ function PostingPage() {
           </BackButton>
           <div>
             <TempSaveBtn>임시저장</TempSaveBtn>
-            <SaveBtn>출간하기</SaveBtn>
+            <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
           </div>
         </UnderBox>
       </LeftBox>

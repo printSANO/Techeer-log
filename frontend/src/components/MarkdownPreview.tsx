@@ -16,7 +16,7 @@ const Preview = styled.div`
 `;
 
 const MarkdownPreview = ({ markdown }: { markdown: string }) => {
-  const input = "This is a header\nAnd this is a paragraph";
+  // const input = "This is a header\nAnd this is a paragraph";
   return (
     <Preview>
       <div>
@@ -30,7 +30,7 @@ const MarkdownPreview = ({ markdown }: { markdown: string }) => {
                 <code
                   style={{
                     background:
-                      "linear-gradient( to right, var(--sub-highlight-color) 15%, var(--highlight-color) 85%, var(--sub-highlight-color) )",
+                      "linear-gradient( to right, #ececec 15%, #e66c6c 85%, #f50404 )",
                     padding: "2px",
                     borderRadius: "3px",
                   }}
