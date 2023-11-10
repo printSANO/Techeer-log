@@ -24,7 +24,7 @@ ALTER TABLE member
 
 CREATE TABLE post
 (
-    post_id    BIGINT       NOT NULL,
+    post_id    BIGINT   AUTO_INCREMENT    NOT NULL,
     created_at datetime     NOT NULL,
     updated_at datetime     NULL,
     title      VARCHAR(255) NOT NULL,

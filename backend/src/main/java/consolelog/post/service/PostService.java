@@ -32,22 +32,20 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
     private final ViewCountManager viewCountManager;
-    private final AuthService authService;
 
     public PostService(PostRepository postRepository, MemberRepository memberRepository,
-                       CommentRepository commentRepository, AuthService authService,
+                       CommentRepository commentRepository,
                        PostLikeRepository postLikeRepository,
                        ViewCountManager viewCountManager) { // 생성자 주입
         this.postRepository = postRepository;  // 생성자를 통해 PostRepository를 주입받음
         this.memberRepository = memberRepository;
-        this.authService = authService;
         this.postLikeRepository = postLikeRepository;
         this.viewCountManager = viewCountManager;
         this.commentRepository = commentRepository;
     }
 
     @Transactional
-    public BoardResponse findBoard(Long postId, String cookieValue) {// post_id 게시글 조회
+    public BoardResponse findPost(Long postId, String cookieValue) {// post_id 게시글 조회
         if (viewCountManager.isFirstAccess(cookieValue, postId)) {
             postRepository.updateViewCount(postId);
         }
@@ -55,15 +53,6 @@ public class PostService {
         return BoardResponse.of(foundPost);
     }
 
-    @Transactional
-    public PostResponse findPost(Long postId, AuthInfo authInfo, String cookieValue) {// post_id 게시글 조회
-        if (viewCountManager.isFirstAccess(cookieValue, postId)) {
-            postRepository.updateViewCount(postId);
-        }
-        Post foundPost = findPostById(postId);
-        Boolean liked = postLikeRepository.existsByPostAndMemberId(foundPost, authInfo.getId());
-        return PostResponse.of(foundPost, liked);
-    }
 
     private Post findPostById(Long postId) {
         return postRepository.findById(postId)
