@@ -101,7 +101,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
-    @Operation(summary = "게시글 리스트 조회", description = "게시글 리스트 조회", responses = {
+    @Operation(summary = "게시글 리스트 조회 \n gjgjgjgj", description = "게시글 리스트 조회", responses = {
             @ApiResponse(responseCode = "200", description = "게시글 조회 성공", content = @Content(schema = @Schema(implementation = PagePostResponse.class)))
     })
     @GetMapping(path = "/post/{lastPostId}")
