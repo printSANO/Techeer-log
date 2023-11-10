@@ -5,7 +5,7 @@ import consolelog.global.result.ResultResponse;
 import consolelog.global.support.token.Login;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
-import consolelog.post.dto.response.BoardResponse;
+import consolelog.post.dto.response.PostResponse;
 import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,13 +34,13 @@ public class PostController {
     }
 
     @Operation(summary = "게시글 조회", description = "게시글 조회")
-    @GetMapping("posts/{id}")
-    public ResponseEntity<ResultResponse<BoardResponse>> findBoard(@Parameter(name = "id", description = "posts 의 id", in = ParameterIn.PATH) @PathVariable Long id,
-                                                                   @Parameter(name = "postLog", description = "post 의 log", in = ParameterIn.COOKIE) @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
-        BoardResponse findBoardResponse = postService.findPost(id, postLog);
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<ResultResponse<PostResponse>> findPost(@Parameter(name = "id", description = "posts 의 id", in = ParameterIn.PATH) @PathVariable Long id,
+                                                                  @Parameter(name = "postLog", description = "post 의 log", in = ParameterIn.COOKIE) @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
+        PostResponse findPostResponse = postService.findPost(id, postLog);
         String updatedLog = postService.updatePostLog(id, postLog);
         ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
-        ResultResponse<BoardResponse> resultResponse = new ResultResponse<>(FINDBOARD_SUCCESS, findBoardResponse);
+        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(FINDPOST_SUCCESS, findPostResponse);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                 .body(resultResponse);
@@ -51,7 +51,7 @@ public class PostController {
     public ResponseEntity<ResultResponse<URI>> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
                                                        @Login AuthInfo authInfo) {
         Long postId = postService.addPost(newPostRequest, authInfo);
-        URI location = URI.create("/posts" + postId);
+        URI location = URI.create("/posts/" + postId);
         ResultResponse<URI> resultResponse = new ResultResponse<>(ADDPOST_SUCCESS, location);
 
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
@@ -75,7 +75,11 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
-    @Operation(summary = "게시글 리스트 조회", description = "lastPostId=0 : 처음 조회 // page: 0 // size: 조회할 데이터 수 // sort: string => desc")
+    @Operation(summary = "게시글 리스트 조회",
+            description = "처음 조회할 때는 lastPostId를 0으로 설정하여 최신 post부터 데이터를 가져옴. " +
+                    "<br> page는 0으로 고정 " +
+                    "<br> size: 조회할 데이터 수 " +
+                    "<br> sort에 string 값을 desc로 변경")
     @GetMapping(path = "/posts/list/{lastPostId}")
     public ResponseEntity<ResultResponse<PagePostResponse>> findPostList(@Parameter(name = "lastPostId") @PathVariable Long lastPostId, Pageable pageable) {
         PagePostResponse postList = postService.findPostsByPage(lastPostId, pageable);

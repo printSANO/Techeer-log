@@ -2,7 +2,6 @@ package consolelog.post.service;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
-import consolelog.auth.service.AuthService;
 import consolelog.comment.repository.CommentRepository;
 import consolelog.like.repository.PostLikeRepository;
 import consolelog.member.domain.Member;
@@ -12,9 +11,8 @@ import consolelog.post.domain.Post;
 import consolelog.post.domain.ViewCountManager;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
-import consolelog.post.dto.response.BoardResponse;
-import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
+import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.exception.PostNotFoundException;
 import consolelog.post.repository.PostRepository;
 import org.springframework.data.domain.Pageable;
@@ -45,12 +43,12 @@ public class PostService {
     }
 
     @Transactional
-    public BoardResponse findPost(Long postId, String cookieValue) {// post_id 게시글 조회
+    public PostResponse findPost(Long postId, String cookieValue) {// post_id 게시글 조회
         if (viewCountManager.isFirstAccess(cookieValue, postId)) {
             postRepository.updateViewCount(postId);
         }
         Post foundPost = findPostById(postId);
-        return BoardResponse.of(foundPost);
+        return PostResponse.from(foundPost);
     }
 
 
@@ -103,7 +101,6 @@ public class PostService {
         post.updateContent(postUpdateRequest.getContent());
     }
 
-
     @Transactional
     public void deletePost(Long id, AuthInfo authInfo) {
         Post post = findPostById(id);
@@ -111,13 +108,7 @@ public class PostService {
         commentRepository.deleteAllByPost(post);
         postLikeRepository.deleteAllByPost(post);
         postRepository.delete(post);
-
-
-        //postRepository.deleteById(id);
     }
-
-
-    //모든 게시물 조회 - 페이징 처리
 
     private void validateOwner(AuthInfo authInfo, Post post) {
         if (!post.isOwner(authInfo.getId())) {

@@ -15,14 +15,15 @@ public class PostResponse {
     private int likeCount;
     private int viewCount;
     private int commentCount;
-    private boolean like;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public PostResponse() {
+    }
 
     @Builder
     private PostResponse(Long id, String title, String content, String nickname,
-                         int likeCount, int viewCount, int commentCount, boolean like,
+                         int likeCount, int viewCount, int commentCount,
                          LocalDateTime createdAt, LocalDateTime updatedAt) { //생성자 주입, 초기화
         this.id = id;
         this.title = title;
@@ -33,22 +34,18 @@ public class PostResponse {
         this.commentCount = commentCount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.like = like;
-
-
     }
 
     // of 메소드를 통해 FindPostResponse 객체를 생성
-    public static PostResponse of(Post post, boolean liked) {
+    public static PostResponse from(Post post) {
         return PostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .nickname(post.getMember().getNickname())
-                .likeCount(post.getLikeCount())
                 .viewCount(post.getViewCount())
+                .likeCount(post.getLikeCount())
                 .commentCount(post.getCommentCount())
-                .like(liked)
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .build();
