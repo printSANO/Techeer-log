@@ -1,7 +1,7 @@
 
 import {styled} from "styled-components";
 import signupimg from "../assets/MainImg.png"
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -168,7 +168,8 @@ export const Error = styled.span`
 
 function SignUp(){
     const navigate = useNavigate();
-    // const [file, setFile] = useState(false);
+    const formData = new FormData();
+    const [file, setFile] = useState<File|null>(null);
     const [loginId, setLoginId] = useState("");
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
@@ -195,7 +196,30 @@ function SignUp(){
         }else if(name === "passwordconfirmation"){
             setPasswordConfirmation(value);
         }
-    }
+    };
+
+    //이미지파일 폼데이터로 반환
+    const onFileChange = (e:ChangeEvent<HTMLInputElement>)=>{
+        const {files} = e.target;
+
+        if(files && files.length === 1) {
+            formData.append('file', files[0]);
+            setFile(files[0]);
+            console.log(files[0].name)
+        }
+    };
+
+//이미지 미리보기
+    // const onPreviewImage = ()=>{
+    //     if(file){
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onloadend = ()=>{
+    //             //
+    //         }
+    //     }
+        
+    // };
 
 
     const handleSignUp = async(): Promise<void> => {
@@ -207,12 +231,20 @@ function SignUp(){
                 passwordConfirmation,
             });
 
+            // formData.append('loginId', loginId);
+            // formData.append('nickname', nickname);
+            // formData.append('password', password);
+            // formData.append('passwordConfirmation', passwordConfirmation);
+
+            // // axios.post에 formData를 직접 전달
+            // await axios.post("/members/signup", formData);
+
             // navigate("/login");
 
         }catch(error){
             console.log(error);
         }
-    }
+    };
 
     const onSubmit = () => {
         if(isLoading || loginId==="" || nickname ==="" || password===""){
@@ -237,7 +269,7 @@ function SignUp(){
             setLoading(false);
           }
           console.log(loginId, nickname, password)
-    }
+    };
 
     const handleGoBack = () => {
         navigate(-1);
@@ -253,13 +285,13 @@ function SignUp(){
 
                 <ProfileBox>
                     <ImgBox>
-                        <ProfileImg src={signupimg}/>
+                        <ProfileImg src={file? URL.createObjectURL(file) : signupimg}/>
                     </ImgBox>
 
                     <ImgLabel htmlFor="profileImg"> 
-                        프로필 이미지 추가 
-                            <ImgFile type="file" accept="image/*" id="profileImg"></ImgFile>
+                        {file? "프로필 이미지 변경":"프로필 이미지 추가"}
                     </ImgLabel>
+                    <ImgFile onChange={onFileChange} type="file" accept="image/*" id="profileImg"></ImgFile>
                 </ProfileBox>
 
                 <InfoBox>
