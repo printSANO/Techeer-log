@@ -10,12 +10,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     protected ResponseEntity<ErrorResponse> handleRuntimeException(BusinessException e) {
         final ErrorCode errorCode = e.getErrorCode();
-        final ErrorResponse response =
-                ErrorResponse.builder()
-                        .code(errorCode.getCode())
-                        .status(errorCode.getStatus())
-                        .message(errorCode.getMessage())
-                        .build();
+        final ErrorResponse response = new ErrorResponse(errorCode);
 
         return ResponseEntity.status(errorCode.getStatus()).body(response);
     }

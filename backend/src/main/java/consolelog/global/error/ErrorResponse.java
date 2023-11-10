@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
 
-@Builder
 @Getter
 public class ErrorResponse {
     private final String code;
