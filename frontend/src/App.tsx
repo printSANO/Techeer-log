@@ -98,7 +98,6 @@ const router = createBrowserRouter([
     element: <BoardPage />,
   },
 ]);
-
 function App() {
   return (
     <>

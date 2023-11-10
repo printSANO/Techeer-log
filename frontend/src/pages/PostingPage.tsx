@@ -279,7 +279,7 @@ function PostingPage() {
         },
         {
           headers: {
-            authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidHlwZSI6IlVTRVIiLCJuaWNrbmFtZSI6InN0cmluZyIsImlhdCI6MTY5OTAzNDI0NywiZXhwIjoxNjk5MDM3ODQ3fQ.2uSPVN2dnonBSxa2x3rQCgfxGevzlUeu_UIjJgqLd-zABuyHwj4zTEGR1hMxBzmS3T6cWY_8adYNDhhwvD83HA`,
+            authorization: import.meta.env.VITE_APP_ACCESS,
           },
         }
       );
