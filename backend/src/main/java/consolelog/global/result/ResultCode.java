@@ -13,8 +13,8 @@ public enum ResultCode {
     LOGOUT_SUCCESS("A003", "200", "로그아웃 성공"),
 
     // Member
-
-
+    SIGNUP_SUCCESS("M001", "201", "회원가입 성공"),
+    FINDNICK_SUCCESS("MOO2", "200", "닉네임 조회 성공"),
     // Post
     FINDBOARD_SUCCESS("B001", "200", "비회원 상태 게시글 조회 성공"),
     FINDPOST_SUCCESS("P001", "200", "로그인 상태 게시글 조회 성공"),
@@ -23,10 +23,13 @@ public enum ResultCode {
     DELETE_SUCCESS("P004", "200", "게시글 삭제 성공"),
     FINDPOSTLIST_SUCCESS("P005", "200", "게시글 리스트 조회 성공"),
     // Comment
-
-
+    COMMENT_CREATED_SUCCESS("C001", "201", "댓글 등록 성공"),
+    COMMENT_REPLY_CREATED_SUCCESS("C002", "201", "대댓글 등록 성공"),
+    UPDATE_COMMENT_SUCCESS("C003", "201", "댓글 수정 성공"),
+    DELETE_COMMENT_SUCCESS("C004", "200", "댓글 삭제 성공"),
+    GET_COMMENT_SUCCESS("C005", "200", "댓글 조회 성공"),
     //Like
-    LIKE_SUCCESS("L001", "200", "좋아요 성공");
+    LIKE_CREATED_SUCCESS("L001", "201", "좋아요 성공");
 
 
     private final String code;

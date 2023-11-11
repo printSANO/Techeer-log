@@ -1,5 +1,8 @@
 package consolelog.comment.domain;
 
+import lombok.Getter;
+
+@Getter
 // 댓글이 삭제됐을 때 발생하는 이벤트 처리
 public class CommentDeletionEvent {
 

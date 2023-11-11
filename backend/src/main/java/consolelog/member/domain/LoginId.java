@@ -1,5 +1,6 @@
 package consolelog.member.domain;
 
+import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.member.exception.InvalidLoginIdException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -11,19 +12,11 @@ import java.util.regex.Pattern;
 @Embeddable
 public class LoginId {
 
-    private static final Pattern PATTERN = Pattern.compile("^[0-9a-zA-Z]{4,16}$");
-
     @Column(name = "login_id")
     private String value;
 
     //encryptor  추가해야함
     protected LoginId() {
-    }
-
-    private static void validate(String value) {
-        if (!PATTERN.matcher(value).matches()) {
-            throw new InvalidLoginIdException();
-        }
     }
 
     public LoginId(String value) {

@@ -27,7 +27,7 @@ public class RefreshTokenService {
 
     @Transactional
     public void matches(String refreshToken, Long memberId) {
-        RefreshToken savedToken = refreshTokenRepository.findMemberById(memberId)
+        RefreshToken savedToken = refreshTokenRepository.findRefreshTokenByMemberId(memberId)
                 .orElseThrow(InvalidRefreshTokenException::new);
 
         // db에 저장된 refreshToken 이 유효기간이 지났지 않은지 체크
