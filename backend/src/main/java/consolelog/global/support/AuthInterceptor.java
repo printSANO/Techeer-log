@@ -27,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (isGetMethodWithPostsUri(request))
+        if (isGetMethodExcludeNickname(request))
             return true;
 
         if (CorsUtils.isPreFlightRequest(request))
@@ -53,8 +53,10 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
 
-    private boolean isGetMethodWithPostsUri(HttpServletRequest request) {
-        return request.getMethod().equalsIgnoreCase("GET");
+    private boolean isGetMethodExcludeNickname(HttpServletRequest request) {
+        return request.getMethod().equalsIgnoreCase("GET") &&
+                !request.getRequestURI().equalsIgnoreCase("/members/nickname")
+                && !request.getRequestURI().equalsIgnoreCase("/posts/list/*");
     }
 
     private boolean notExistHeader(HttpServletRequest request) {
