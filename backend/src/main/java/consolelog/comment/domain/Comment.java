@@ -56,7 +56,7 @@ public class Comment {
     private int likeCount;
 
     @CreatedDate
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     protected Comment() {
     }
@@ -137,8 +137,8 @@ public class Comment {
         return message.getValue();
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public int getCommentLikesCount() {
