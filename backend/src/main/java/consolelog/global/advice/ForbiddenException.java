@@ -1,8 +1,10 @@
 package consolelog.global.advice;
 
+import consolelog.global.error.ErrorCode;
+
 public class ForbiddenException extends BusinessException {
 
-    public ForbiddenException(String message) {
-        super(message);
+    public ForbiddenException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

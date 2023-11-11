@@ -1,8 +1,10 @@
 package consolelog.global.advice;
 
+import consolelog.global.error.ErrorCode;
+
 public class UnauthorizedException extends BusinessException {
 
-    public UnauthorizedException(String message) {
-        super(message);
+    public UnauthorizedException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

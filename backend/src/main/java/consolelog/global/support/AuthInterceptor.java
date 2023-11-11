@@ -1,6 +1,9 @@
 package consolelog.global.support;
 
+import consolelog.global.error.ErrorCode;
 import consolelog.global.support.token.AuthorizationExtractor;
+import consolelog.global.support.token.InvalidAccessTokenException;
+import consolelog.global.support.token.InvalidRefreshTokenException;
 import consolelog.global.support.token.TokenManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (isGetMethodWithPostsUri(request))
+        if (isGetMethodExcludeNickname(request))
             return true;
 
         if (CorsUtils.isPreFlightRequest(request))
@@ -38,21 +41,22 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         if (notExistHeader(request)) {
 //            LOGGER.info("no header" + request.getRequestURI());
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
+            throw new InvalidAccessTokenException();
         }
+
         String token = AuthorizationExtractor.extractAccessToken(request);
         if (isInvalidToken(token)) {
 //            LOGGER.info("no token" + request.getRequestURI());
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
+            throw new InvalidAccessTokenException();
         }
         return true;
     }
 
 
-    private boolean isGetMethodWithPostsUri(HttpServletRequest request) {
-        return request.getMethod().equalsIgnoreCase("GET");
+    private boolean isGetMethodExcludeNickname(HttpServletRequest request) {
+        return request.getMethod().equalsIgnoreCase("GET") &&
+                !(request.getRequestURI().equalsIgnoreCase("/members/nickname")
+                || request.getRequestURI().equalsIgnoreCase("/posts/list/*"));
     }
 
     private boolean notExistHeader(HttpServletRequest request) {
