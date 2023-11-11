@@ -18,11 +18,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Override
     Optional<Post> findById(Long id);
 
-    Optional<Post> findByTitle(String title);
-
-//    @Query("select p from Post p where p.id < :lastPostId order by p.id DESC")
-//    Slice<Post> findByIdIsLessThanEqualOrderByIdDesc(@Param("lastPostId") Long lastPostId, Pageable pageable);
-
     @Query("SELECT p FROM Post p WHERE p.id < :lastPostId ORDER BY p.id DESC")
     Slice<Post> findPostByIdIsLessThanOrderByIdDesc(@Param("lastPostId") Long maxId, Pageable pageable);
 
@@ -36,13 +31,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT MAX(p.id) FROM Post p")
     Long findMaxId();
-
-//    @Query("select p from Post p where p.id <= :size order by p.id DESC")
-//    Slice<Post> findPostByIdIsLessThanEqualOrderByIdDesc(@Param("size") Pageable pageable);
-
-    @Query(value = "select case  when count(p) > 0 then true else false end from Post p where p.id > :lastPostId")
-    Boolean hasNextPage(@Param("lastPostId") Long lastPostId);
-
 
     @Transactional
     @Modifying(clearAutomatically = true)
