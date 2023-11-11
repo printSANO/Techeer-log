@@ -1,6 +1,9 @@
 package consolelog.global.support;
 
+import consolelog.global.error.ErrorCode;
 import consolelog.global.support.token.AuthorizationExtractor;
+import consolelog.global.support.token.InvalidAccessTokenException;
+import consolelog.global.support.token.InvalidRefreshTokenException;
 import consolelog.global.support.token.TokenManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,14 +41,13 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         if (notExistHeader(request)) {
 //            LOGGER.info("no header" + request.getRequestURI());
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
+            throw new InvalidAccessTokenException();
         }
+
         String token = AuthorizationExtractor.extractAccessToken(request);
         if (isInvalidToken(token)) {
 //            LOGGER.info("no token" + request.getRequestURI());
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
+            throw new InvalidAccessTokenException();
         }
         return true;
     }

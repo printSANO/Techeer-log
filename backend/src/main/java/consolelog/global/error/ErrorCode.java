@@ -8,11 +8,12 @@ import lombok.Getter;
 public enum ErrorCode {
     // Global
     INTERNAL_SERVER_ERROR( "G001", 500, "서버오류"),
-    EXTERNAL_LIBARARY_ERROR("GOO2", 400, "외부 라이브러리로 인해 예외가 발생했습니다."),
+    EXTERNAL_LIBRARY_ERROR("GOO2", 400, "외부 라이브러리로 인해 예외가 발생했습니다."),
 
     // Token
-    INVALID_REFRESH_TOKEN_ERROR("TOO1", 400, "유효하지 않은 토큰입니다."),
-    TOKEN_NOT_FOUND_ERROR("TOO2", 400, "토큰이 존재하지 않습니다"),
+    INVALID_ACCESS_TOKEN_ERROR("TOO1", 400, "유효하지 않은 access 토큰입니다."),
+    INVALID_REFRESH_TOKEN_ERROR("TOO2", 400, "유효하지 않은 refresh 토큰입니다."),
+    TOKEN_NOT_FOUND_ERROR("TOO3", 400, "토큰이 존재하지 않습니다"),
 
     // Auth
     AUTHORIZED_ERROR("A001", 400, "접근 권한이 없습니다. 로그인이 유효한지 확인해주세요"),
