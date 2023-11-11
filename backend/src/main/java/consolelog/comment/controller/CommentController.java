@@ -1,7 +1,6 @@
 package consolelog.comment.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.comment.domain.Comment;
 import consolelog.comment.dto.CommentResponse;
 import consolelog.comment.dto.NewCommentRequest;
 import consolelog.comment.dto.NewReplyRequest;
@@ -55,7 +54,7 @@ public class CommentController {
     public ResponseEntity<ResultResponse> findComments(@PathVariable(name = "id") Long postId,
                                                        @Login AuthInfo authInfo) {
         commentService.findComments(postId, authInfo);
-        ResultResponse<Comment> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS);
+        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 

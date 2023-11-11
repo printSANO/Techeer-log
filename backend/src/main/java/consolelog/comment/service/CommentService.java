@@ -85,6 +85,9 @@ public class CommentService {
 
     //댓글들 조회하고 응답 생성
     public CommentsResponse findComments(Long postId, AuthInfo authInfo) {
+        if (!postRepository.existsById(postId)) {
+            throw new PostNotFoundException();
+        }
         List<Comment> comments = commentRepository.findCommentsByPostId(postId);
         List<CommentResponse> commentResponses = comments.stream()
                 .map(it -> convertToCommentResponse(authInfo, it))
