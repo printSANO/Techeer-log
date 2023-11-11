@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
-import clock from "../assets/Schedule.png";
-import heart from "../assets/Heart.png";
+import { AiOutlineClockCircle } from "react-icons/ai";
 import more from "../assets/More.png";
 import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
@@ -25,46 +24,22 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 30px;
 `;
 
 const Headers = styled.div`
   display: flex;
   flex-direction: row;
+  position: relative;
+  width: 14rem;
+  height: 100%;
   margin-left: 85px;
+  margin-bottom: 1rem;
   gap: 20px;
 `;
 
-const Recent = styled.img`
-  width: 23px;
-  height: 23px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const NewWord = styled.a`
-  display: flex;
-  width: 40px;
-  height: 24px;
-  flex-direction: column;
-  justify-content: center;
-  color: #959595;
-  text-align: center;
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-`;
-
-const Heart = styled.img`
-  width: 23px;
-  height: 18px;
-`;
-
 const NewWord2 = styled.a`
-  color: #fff;
+  color: #ececec;
   text-align: center;
   font-family: Inter;
   font-size: 20px;
@@ -73,17 +48,15 @@ const NewWord2 = styled.a`
   line-height: normal;
 `;
 
-const Buttonleft = styled.button`
-  background-color: transparent;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  gap: 10px;
+const ButtonLine = styled.div`
+  position: absolute;
+  width: 50%;
+  height: 2px;
+  background: #e0e0e0;
+  bottom: 0;
 `;
 
-const Buttonright = styled.button`
+const Buttonleft = styled.button`
   background-color: transparent;
   display: flex;
   flex-direction: row;
@@ -219,13 +192,10 @@ function MainPage() {
         <Header>
           <Headers>
             <Buttonleft>
-              <Heart src={heart}></Heart>
-              <NewWord2>좋아요 순</NewWord2>
+              <AiOutlineClockCircle size="24" color="#ececec" />
+              <NewWord2>최신</NewWord2>
+              <ButtonLine />
             </Buttonleft>
-            <Buttonright>
-              <Recent src={clock} />
-              <NewWord>최신</NewWord>
-            </Buttonright>
           </Headers>
           <More src={more} />
         </Header>
