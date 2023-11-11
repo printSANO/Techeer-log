@@ -2,7 +2,6 @@ package consolelog.post.service;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
-import consolelog.auth.service.AuthService;
 import consolelog.comment.repository.CommentRepository;
 import consolelog.like.repository.PostLikeRepository;
 import consolelog.member.domain.Member;
@@ -12,9 +11,8 @@ import consolelog.post.domain.Post;
 import consolelog.post.domain.ViewCountManager;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
-import consolelog.post.dto.response.BoardResponse;
-import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.dto.response.PostResponse;
+import consolelog.post.dto.response.PagePostResponse;
 import consolelog.post.exception.PostNotFoundException;
 import consolelog.post.repository.PostRepository;
 import org.springframework.data.domain.Pageable;
@@ -32,38 +30,27 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
     private final ViewCountManager viewCountManager;
-    private final AuthService authService;
 
     public PostService(PostRepository postRepository, MemberRepository memberRepository,
-                       CommentRepository commentRepository, AuthService authService,
+                       CommentRepository commentRepository,
                        PostLikeRepository postLikeRepository,
                        ViewCountManager viewCountManager) { // 생성자 주입
         this.postRepository = postRepository;  // 생성자를 통해 PostRepository를 주입받음
         this.memberRepository = memberRepository;
-        this.authService = authService;
         this.postLikeRepository = postLikeRepository;
         this.viewCountManager = viewCountManager;
         this.commentRepository = commentRepository;
     }
 
     @Transactional
-    public BoardResponse findBoard(Long postId, String cookieValue) {// post_id 게시글 조회
+    public PostResponse findPost(Long postId, String cookieValue) {// post_id 게시글 조회
         if (viewCountManager.isFirstAccess(cookieValue, postId)) {
             postRepository.updateViewCount(postId);
         }
         Post foundPost = findPostById(postId);
-        return BoardResponse.of(foundPost);
+        return PostResponse.from(foundPost);
     }
 
-    @Transactional
-    public PostResponse findPost(Long postId, AuthInfo authInfo, String cookieValue) {// post_id 게시글 조회
-        if (viewCountManager.isFirstAccess(cookieValue, postId)) {
-            postRepository.updateViewCount(postId);
-        }
-        Post foundPost = findPostById(postId);
-        Boolean liked = postLikeRepository.existsByPostAndMemberId(foundPost, authInfo.getId());
-        return PostResponse.of(foundPost, liked);
-    }
 
     private Post findPostById(Long postId) {
         return postRepository.findById(postId)
@@ -107,13 +94,13 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(Long id, PostUpdateRequest postUpdateRequest, AuthInfo authInfo) {
+    public PostResponse updatePost(Long id, PostUpdateRequest postUpdateRequest, AuthInfo authInfo) {
         Post post = findPostById(id);
         validateOwner(authInfo, post);
         post.updateTitle(postUpdateRequest.getTitle());
         post.updateContent(postUpdateRequest.getContent());
+        return PostResponse.from(post);
     }
-
 
     @Transactional
     public void deletePost(Long id, AuthInfo authInfo) {
@@ -122,13 +109,7 @@ public class PostService {
         commentRepository.deleteAllByPost(post);
         postLikeRepository.deleteAllByPost(post);
         postRepository.delete(post);
-
-
-        //postRepository.deleteById(id);
     }
-
-
-    //모든 게시물 조회 - 페이징 처리
 
     private void validateOwner(AuthInfo authInfo, Post post) {
         if (!post.isOwner(authInfo.getId())) {
