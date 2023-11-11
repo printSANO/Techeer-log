@@ -94,11 +94,12 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(Long id, PostUpdateRequest postUpdateRequest, AuthInfo authInfo) {
+    public PostResponse updatePost(Long id, PostUpdateRequest postUpdateRequest, AuthInfo authInfo) {
         Post post = findPostById(id);
         validateOwner(authInfo, post);
         post.updateTitle(postUpdateRequest.getTitle());
         post.updateContent(postUpdateRequest.getContent());
+        return PostResponse.from(post);
     }
 
     @Transactional

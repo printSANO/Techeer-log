@@ -3,6 +3,7 @@ package consolelog.post.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.result.ResultResponse;
 import consolelog.global.support.token.Login;
+import consolelog.post.domain.Post;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
 import consolelog.post.dto.response.PostResponse;
@@ -59,11 +60,11 @@ public class PostController {
 
     @Operation(summary = "게시글 수정", description = "게시글 수정")
     @PutMapping("/posts/{id}")
-    public ResponseEntity<ResultResponse<String>> updatePost(@Parameter(name = "id") @PathVariable Long id,
+    public ResponseEntity<ResultResponse<PostResponse>> updatePost(@Parameter(name = "id") @PathVariable Long id,
                                                              @RequestBody PostUpdateRequest postUpdateRequest,
                                                              @Login AuthInfo authInfo) {
-        postService.updatePost(id, postUpdateRequest, authInfo);
-        ResultResponse<String> resultResponse = new ResultResponse<>(UPDATEPOST_SUCCESS);
+        PostResponse postResponse = postService.updatePost(id, postUpdateRequest, authInfo);
+        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(UPDATEPOST_SUCCESS, postResponse);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
