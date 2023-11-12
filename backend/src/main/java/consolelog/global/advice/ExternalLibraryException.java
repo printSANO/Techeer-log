@@ -1,9 +1,10 @@
 package consolelog.global.advice;
 
-public class ExternalLibraryException extends InternalException {
-    private static final String MESSAGE = "외부 라이브러리로 인해 예외가 발생했습니다.";
+import consolelog.global.error.ErrorCode;
 
-    public ExternalLibraryException(String message) {
-        super(MESSAGE + ": " + message);
+public class ExternalLibraryException extends InternalException {
+
+    public ExternalLibraryException() {
+        super(ErrorCode.EXTERNAL_LIBRARY_ERROR);
     }
 }

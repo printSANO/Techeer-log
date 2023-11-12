@@ -1,7 +1,9 @@
 package consolelog.global.advice;
 
+import consolelog.global.error.ErrorCode;
+
 public class BadRequestException extends BusinessException {
-    public BadRequestException(String message) {
-        super(message);
+    public BadRequestException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

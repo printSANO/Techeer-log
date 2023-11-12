@@ -1,11 +1,11 @@
 package consolelog.auth.exception;
 
 import consolelog.global.advice.UnauthorizedException;
+import consolelog.global.error.ErrorCode;
 
 public class LoginFailedException extends UnauthorizedException {
-    private static final String MESSAGE = "아이디나 비밀번호가 잘못되었습니다.";
 
     public LoginFailedException() {
-        super(MESSAGE);
+        super(ErrorCode.LOGIN_FAILED_ERROR);
     }
 }

@@ -18,7 +18,7 @@ public class Encryptor implements EncryptorI {
             // digest의 반환값은 byte 형태이므로, Hex 형태의 String 형태로 변환
             return bytesToHex(messageDigest.digest());
         } catch (NoSuchAlgorithmException e) {
-            throw new ExternalLibraryException("SHA-256");
+            throw new ExternalLibraryException();
         }
     }
 
