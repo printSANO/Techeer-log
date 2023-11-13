@@ -6,6 +6,8 @@ import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
 import profileimg from "../assets/ProfileImg.png";
 import LoginModal from "../components/LoginModal";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Background = styled.div`
   width: 100vw;
@@ -89,6 +91,7 @@ const Box = styled.div`
   height: 380px;
   background-color: #1e1e1e;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const MainImg = styled.img`
@@ -185,6 +188,23 @@ const ModalWrapper = styled.div`
 `;
 
 function MainPage() {
+  const [lastPost, setLastPost] = useState("");
+  const getPostList = (): void => {
+    axios
+      .get("/post/0", {
+        params: { page: 0, size: 5, sort: "desc" },
+      })
+      .then((res) => {
+        setLastPost(res.data.data.posts[0].id);
+        console.log(lastPost);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    getPostList();
+  }, []);
   return (
     <>
       <Background>
