@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, ChangeEvent } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -460,7 +460,9 @@ function PostingPage() {
           </BackButton>
           <div>
             <TempSaveBtn></TempSaveBtn>
-            <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
+            <Link to="/">
+              <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
+            </Link>
           </div>
         </UnderBox>
       </LeftBox>

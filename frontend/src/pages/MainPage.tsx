@@ -8,10 +8,11 @@ import profileimg from "../assets/ProfileImg.png";
 import LoginModal from "../components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 200vh;
   background: #121212;
   display: flex;
   flex-direction: column;
@@ -21,12 +22,10 @@ const Background = styled.div`
 const Header = styled.div`
   width: 100%;
   height: 51px;
-  position: relative;
-  top: 66px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 1.5rem;
 `;
 
 const Headers = styled.div`
@@ -79,11 +78,11 @@ const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  margin-top: 100px;
+  margin-top: 32px;
 
   margin-left: auto;
   margin-right: auto;
-  gap: 30px 55px;
+  gap: 40px 55px;
 `;
 
 const Box = styled.div`
@@ -101,7 +100,7 @@ const MainImg = styled.img`
 `;
 
 const Bottom = styled.div`
-  padding-top: 5px;
+  padding-top: 12px;
 `;
 
 const Title = styled.p`
@@ -109,31 +108,13 @@ const Title = styled.p`
   width: 100%;
   height: 32px;
   flex-direction: column;
-  justify-content: center;
   color: #fff;
-  text-align: center;
   font-family: Inter;
-  font-size: 15px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  padding-right: 25px;
-`;
-
-const Detail = styled.p`
-  display: flex;
-  width: 100%;
-  height: 43px;
-  flex-direction: column;
-  justify-content: center;
-  color: #cfcfcf;
-  font-family: Inter;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  padding: 15px;
-  margin-bottom: 25px;
+  padding-left: 16px;
 `;
 
 const Info = styled.p`
@@ -142,13 +123,14 @@ const Info = styled.p`
   height: 43px;
   flex-direction: column;
   justify-content: center;
-  color: #cfcfcf;
+  color: #acacac;
   font-family: Inter;
-  font-size: 11px;
+  font-size: 0.75rem;
+  line-height: 1.5;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
-  padding: 15px;
+  padding: 16px;
+  margin-top: 50px;
 `;
 
 const Line = styled.img`
@@ -161,8 +143,8 @@ const DetailUnder = styled.div`
   display: flex;
   line-height: 1.5;
   justify-content: space-between;
-  padding: 0px 15px 0px 15px;
   align-items: center;
+  padding: 0.425rem 1rem;
 `;
 
 const ProfileImg = styled.img`
@@ -176,7 +158,7 @@ const Like = styled.div`
   justify-content: center;
   color: #cfcfcf;
   font-family: Inter;
-  font-size: 11px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -187,14 +169,24 @@ const ModalWrapper = styled.div`
   z-index: 2;
 `;
 
+interface FormType {
+  title: string;
+  nickname: string;
+  createdAt: string;
+}
+
 function MainPage() {
+  //마지막 게시글 번호 조회
   const [lastPost, setLastPost] = useState("");
+  const [posts, setPosts] = useState([]);
   const getPostList = (): void => {
     axios
       .get("/post/0", {
-        params: { page: 0, size: 5, sort: "desc" },
+        params: { page: 0, size: 10, sort: "desc" },
       })
       .then((res) => {
+        const postsData = res.data.data.posts;
+        setPosts(postsData);
         setLastPost(res.data.data.posts[0].id);
         console.log(lastPost);
       })
@@ -205,6 +197,7 @@ function MainPage() {
   useEffect(() => {
     getPostList();
   }, []);
+
   return (
     <>
       <Background>
@@ -220,44 +213,39 @@ function MainPage() {
           <More src={more} />
         </Header>
         <Row>
-          <Box>
-            <MainImg src={mainimg} />
-            <Bottom>
-              <Title>개발자가 되고싶으시다구요? (매운맛)</Title>
-              <Detail>
-                결과에서 오는 성취감도 없으면 그만두세요. 힘들어요.
-              </Detail>
-              <Info>5일전 ∙ 33개의 댓글</Info>
-              <Line src={line} />
-              <DetailUnder>
-                <a style={{ display: "flex", paddingTop: "4px" }}>
-                  <ProfileImg src={profileimg} />
-                  <span style={{ color: "#fff", paddingLeft: "5px" }}>
-                    by
-                    <b
-                      style={{
-                        color: "#ECECEC",
-                        fontWeight: "bold",
-                        paddingLeft: "5px",
-                      }}
-                    >
-                      junjun
-                    </b>
-                  </span>
-                </a>
-                <Like>❤︎ 54</Like>
-              </DetailUnder>
-            </Bottom>
-          </Box>
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
+          {posts.length > 0 &&
+            posts.map((data: FormType, index) => (
+              <Link to="/board">
+                <Box key={index}>
+                  <MainImg src={mainimg} />
+                  <Bottom>
+                    <Title>{data.title}</Title>
+                    <Info>
+                      작성일 : {data.createdAt.replace("T", " ")} · 5개의 댓글
+                    </Info>
+                    <Line src={line} />
+                    <DetailUnder>
+                      <a style={{ display: "flex", paddingTop: "4px" }}>
+                        <ProfileImg src={profileimg} />
+                        <span style={{ color: "#fff", paddingLeft: "8px" }}>
+                          by
+                          <b
+                            style={{
+                              color: "#ECECEC",
+                              fontWeight: "bold",
+                              paddingLeft: "5px",
+                            }}
+                          >
+                            {data.nickname}
+                          </b>
+                        </span>
+                      </a>
+                      <Like>❤︎ 54</Like>
+                    </DetailUnder>
+                  </Bottom>
+                </Box>
+              </Link>
+            ))}
         </Row>
         {/* 
         <ModalWrapper>
