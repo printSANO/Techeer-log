@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ReplyResponse {
 
-    private final Long id;
+    private final Long replyId;
     private final String nickname;
     private final String content;
     private final LocalDateTime createdAt;
@@ -17,9 +17,9 @@ public class ReplyResponse {
     private final int likeCount;
     private final boolean like;
 
-    public ReplyResponse(Long id, String nickname, String content, LocalDateTime createdAt,
+    public ReplyResponse(Long replyId, String nickname, String content, LocalDateTime createdAt,
                          boolean authorized, int likeCount, boolean like) {
-        this.id = id;
+        this.replyId = replyId;
         this.nickname = nickname;
         this.content = content;
         this.createdAt = createdAt;
