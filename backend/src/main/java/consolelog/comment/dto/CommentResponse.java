@@ -14,7 +14,6 @@ public class CommentResponse {
     private final String nickname;
     private final String content;
     private final LocalDateTime createdAt;
-    private final boolean authorized;
     private final int likeCount;
     private final boolean like;
     private final List<ReplyResponse> replies;
@@ -27,7 +26,6 @@ public class CommentResponse {
         this.nickname = nickname;
         this.content = content;
         this.createdAt = createdAt;
-        this.authorized = authorized;
         this.likeCount = likeCount;
         this.like = like;
         this.replies = replies;
@@ -41,7 +39,7 @@ public class CommentResponse {
     }
 
     public static CommentResponse softRemovedOf(Comment comment, List<ReplyResponse> replyResponses) {
-        return new CommentResponse(comment.getId(), null, null, null, false,
+        return new CommentResponse(comment.getId(), "", null, null, false,
                 0, false, replyResponses);
     }
 

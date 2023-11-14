@@ -38,11 +38,11 @@ public class CommentController {
     //대댓글
     @Operation(summary = "대댓글 생성", description = "대댓글 생성")
     @PostMapping("/comments/{id}/reply")
-    public ResponseEntity<ResultResponse<CommentResponse>> addReply(@PathVariable(name = "id") Long commentId,
-                                                                    @Valid @RequestBody NewReplyRequest newReplyRequest,
-                                                                    @Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<ReplyResponse>> addReply(@PathVariable(name = "id") Long commentId,
+                                                                  @Valid @RequestBody NewReplyRequest newReplyRequest,
+                                                                  @Login AuthInfo authInfo) {
         Long replyId = commentService.addReply(commentId, newReplyRequest, authInfo);
-        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(COMMENT_REPLY_CREATED_SUCCESS);
+        ResultResponse<ReplyResponse> resultResponse = new ResultResponse<>(COMMENT_REPLY_CREATED_SUCCESS);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 

@@ -46,8 +46,6 @@ public class Comment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
-    private String nickname;
-
     @Embedded
     private Message message;
 
@@ -62,10 +60,9 @@ public class Comment {
     }
 
     @Builder
-    public Comment(Member member, Post post, String nickname, String message, Comment parent) {
+    public Comment(Member member, Post post, String message, Comment parent) {
         this.member = member;
         this.post = post;
-        this.nickname = nickname;
         this.message = new Message(message);
         this.parent = parent;
     }
@@ -130,7 +127,7 @@ public class Comment {
     }
 
     public String getNickname() {
-        return nickname;
+        return member.getNickname();
     }
 
     public String getMessage() {
