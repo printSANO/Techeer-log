@@ -77,6 +77,7 @@ public class CommentService {
 //        String nickname = commentNicknameGenerator.getcommentNickname(newReplyRequest.isAnonymous(), authInfo, post);
 
         Comment reply = Comment.child(member, post, newReplyRequest.getContent(), parent);
+        parent.getChildren().add(reply);
 
         commentRepository.save(reply);
         return reply.getId();

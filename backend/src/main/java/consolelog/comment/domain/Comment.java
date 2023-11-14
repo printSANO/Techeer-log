@@ -83,7 +83,6 @@ public class Comment {
                 .message(message)
                 .parent(parent)
                 .build();
-        parent.getChildren().add(child);
         return child;
     }
 
