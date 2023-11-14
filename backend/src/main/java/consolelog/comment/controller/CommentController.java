@@ -1,10 +1,7 @@
 package consolelog.comment.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.comment.dto.CommentResponse;
-import consolelog.comment.dto.NewCommentRequest;
-import consolelog.comment.dto.NewReplyRequest;
-import consolelog.comment.dto.UpdateCommentRequest;
+import consolelog.comment.dto.*;
 import consolelog.comment.service.CommentService;
 import consolelog.global.result.ResultResponse;
 import consolelog.global.support.token.Login;
@@ -33,7 +30,7 @@ public class CommentController {
     public ResponseEntity<ResultResponse<CommentResponse>> addComment(@PathVariable(name = "id") Long postId,
                                                                       @Valid @RequestBody NewCommentRequest newCommentRequest,
                                                                       @Login AuthInfo authInfo) {
-        commentService.addComment(postId, newCommentRequest, authInfo);
+        Long commentId = commentService.addComment(postId, newCommentRequest, authInfo);
         ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(COMMENT_CREATED_SUCCESS);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
@@ -44,7 +41,7 @@ public class CommentController {
     public ResponseEntity<ResultResponse<CommentResponse>> addReply(@PathVariable(name = "id") Long commentId,
                                                                     @Valid @RequestBody NewReplyRequest newReplyRequest,
                                                                     @Login AuthInfo authInfo) {
-        commentService.addReply(commentId, newReplyRequest, authInfo);
+        Long replyId = commentService.addReply(commentId, newReplyRequest, authInfo);
         ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(COMMENT_REPLY_CREATED_SUCCESS);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
@@ -53,8 +50,8 @@ public class CommentController {
     @GetMapping("/posts/{id}/comments")
     public ResponseEntity<ResultResponse> findComments(@PathVariable(name = "id") Long postId,
                                                        @Login AuthInfo authInfo) {
-        commentService.findComments(postId, authInfo);
-        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS);
+        CommentsResponse commentsResponse = commentService.findComments(postId, authInfo);
+        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS, commentsResponse);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
