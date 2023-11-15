@@ -9,11 +9,12 @@ import LoginModal from "../components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 const Background = styled.div`
   width: 100vw;
-  height: 200vh;
   background: #121212;
+  background-repeat: repeat-y;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -25,7 +26,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 1.5rem;
+  margin-top: 4.5rem;
 `;
 
 const Headers = styled.div`
@@ -176,18 +177,18 @@ interface FormType {
 }
 
 function MainPage() {
-  //마지막 게시글 번호 조회
-  const [lastPost, setLastPost] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [lastPost, setLastPost] = useState(0);
+  const [posts, setPosts] = useState<FormType[]>([]);
+  const [ref, inView] = useInView();
+
+  //마지막 게시글 번호 알아내기
   const getPostList = (): void => {
     axios
       .get("/post/0", {
         params: { page: 0, size: 10, sort: "desc" },
       })
       .then((res) => {
-        const postsData = res.data.data.posts;
-        setPosts(postsData);
-        setLastPost(res.data.data.posts[0].id);
+        setLastPost(res.data.data.posts[0].id + 1);
         console.log(lastPost);
       })
       .catch((error) => {
@@ -197,6 +198,28 @@ function MainPage() {
   useEffect(() => {
     getPostList();
   }, []);
+
+  //무한 스크롤 요청
+  const getPostList2 = (): void => {
+    axios
+      .get(`/post/${lastPost}`, {
+        params: { page: 0, size: 10, sort: "desc" },
+      })
+      .then((res) => {
+        const postsData = res.data.data.posts;
+        setPosts((posts) => [...posts, ...postsData]);
+        setLastPost((prev) => prev - 10);
+        console.log(lastPost);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    if (inView) {
+      getPostList2();
+    }
+  }, [inView]);
 
   return (
     <>
@@ -246,6 +269,7 @@ function MainPage() {
                 </Box>
               </Link>
             ))}
+          <div ref={ref}></div>
         </Row>
         {/* 
         <ModalWrapper>
