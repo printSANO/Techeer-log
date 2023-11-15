@@ -1,4 +1,8 @@
+import axios from "axios";
+import { ChangeEvent, useState } from "react";
+import { useRecoilState } from 'recoil';
 import styled from "styled-components";
+import { accessTokenState, refreshTokenState } from "../states/Atom";
 
 const Modal = styled.div`
   display: flex;
@@ -77,30 +81,26 @@ const Login = styled.h2`
   font-weight: 600;
 `;
 
-const HowToLogin = styled.h4`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  color: #acacac;
-
-  font-weight: 600;
-`;
-
-const Form = styled.form`
+const Form = styled.div`
   width: 100%;
   display: flex;
-  height: 3rem;
+  flex-direction: column;
+  /* height: 3rem; */
 `;
 
 const Input = styled.input`
-  flex: 1 1;
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
+  /* flex: 1 1; */
+  /* border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px; */
+  border-radius: 2px;
   padding: 1rem;
+  margin: 0.5rem 0rem;
+  width: 100%;
   font-size: 1rem;
   background: #1e1e1e;
   color: #ececec;
   border: 1px solid #4d4d4d;
-  border-right: none;
+  /* border-right: none; */
   outline: none;
 
   //border: 1px solid #96f2d7;
@@ -117,49 +117,13 @@ const LoginBtn = styled.button`
   font-weight: 700;
   outline: none;
   border: none;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
+  border-radius: 2px;
+  margin-top: 10px;
+  align-self: flex-end;
+  /* margin-left: auto; */
   width: 6rem;
+  height: 2rem;
   word-break: keep-all;
-  cursor: pointer;
-`;
-
-const Github = styled.a`
-  background: rgb(39, 46, 51);
-  width: 48px;
-  height: 48px;
-  border-radius: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.125s ease-in;
-  color: #fff;
-  cursor: pointer;
-`;
-
-const Google = styled.a`
-  background: white;
-  width: 48px;
-  height: 48px;
-  border-radius: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.125s ease-in;
-  color: #fff;
-  cursor: pointer;
-`;
-
-const FaceBook = styled.a`
-  background: rgb(59, 89, 152);
-  width: 48px;
-  height: 48px;
-  border-radius: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.125s ease-in;
-  color: #fff;
   cursor: pointer;
 `;
 
@@ -174,7 +138,97 @@ const SignUpBtn = styled.div`
   cursor: pointer;
 `;
 
+export const Error = styled.span`
+    padding-top: 10px;
+    padding-left: 20%;
+    font-weight: 600;
+    color: tomato;
+`;
+
 function LoginModal() {
+  // const navigate = useNavigate();
+  const [loginId, setLoginId] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const [error, setError] = useState("");
+
+  const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
+    const {
+        target:{name, value},
+    } = e
+    
+    if(name === "loginId"){
+        setLoginId(value);
+    }else if(name === "password"){
+        setPassword(value);
+    }
+  };
+
+  // //토큰 저장
+  // const setAuthToken = (accessToken: string) => {
+  //   localStorage.setItem('token', accessToken);
+  // };
+
+  // const getAuthToken = (): string | null => {
+  //   return localStorage.getItem('token');
+  // };
+
+
+  const handleLogIn = async () => {
+    try {
+      await axios.post('/login', {
+        loginId,
+        password,
+      })
+      .then(response => {
+
+        if(response.headers){
+          const accessToken = response.headers['authorization'];
+          const refreshToken = response.headers['refresh-token'];
+
+          setAccessToken(accessToken);
+          setRefreshToken(refreshToken);
+
+          // localStorage.setItem('accessToken', accessToken);
+          // localStorage.setItem('refreshToken', refreshToken);
+        }
+      });
+
+
+    } catch (error) {
+      console.log(error);
+      setError("아이디와 비밀번호를 확인하세요.")
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSubmit = () => {
+    try {
+
+      setLoading(true);
+
+      handleLogIn()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+      
+    }catch (e) {
+        console.log(e);
+        // console.log(error.res.data);
+        setError(String(e));
+
+      }finally {
+        setLoading(false);
+      }
+  };
+
+  
+
   return (
     <Modal>
       <ModalBackdrop>
@@ -434,13 +488,15 @@ function LoginModal() {
               <div>
                 <Login>로그인</Login>
                 <section>
-                  <HowToLogin>이메일로 로그인</HowToLogin>
+                  {/* <HowToLogin>이메일로 로그인</HowToLogin> */}
                   <Form>
-                    <Input placeholder="이메일을 입력하세요."></Input>
-                    <LoginBtn>로그인</LoginBtn>
+                    <Input type='text' name="loginId" value={loginId} onChange={onChange} placeholder="아이디를 입력하세요."></Input>
+                    <Input type='password' name="password" value={password} onChange={onChange} placeholder="비밀번호를 입력하세요."></Input>
+                    <LoginBtn onClick={onSubmit} value={isLoading? "Loading..." : "Create Account"} >로그인</LoginBtn>
+                    {error !== ""? <Error>{error}</Error>: null}
                   </Form>
                 </section>
-                <section
+                {/* <section
                   style={{
                     marginTop: "2.5rem",
                   }}
@@ -536,7 +592,7 @@ function LoginModal() {
                       </svg>
                     </FaceBook>
                   </div>
-                </section>
+                </section> */}
               </div>
               <Foot>
                 <span style={{ marginRight: "0.25rem" }}>
