@@ -77,6 +77,7 @@ public class CommentService {
 //        String nickname = commentNicknameGenerator.getcommentNickname(newReplyRequest.isAnonymous(), authInfo, post);
 
         Comment reply = Comment.child(member, post, newReplyRequest.getContent(), parent);
+        parent.getChildren().add(reply);
 
         commentRepository.save(reply);
         return reply.getId();
@@ -85,6 +86,9 @@ public class CommentService {
 
     //댓글들 조회하고 응답 생성
     public CommentsResponse findComments(Long postId, AuthInfo authInfo) {
+        if (!postRepository.existsById(postId)) {
+            throw new PostNotFoundException();
+        }
         List<Comment> comments = commentRepository.findCommentsByPostId(postId);
         List<CommentResponse> commentResponses = comments.stream()
                 .map(it -> convertToCommentResponse(authInfo, it))
