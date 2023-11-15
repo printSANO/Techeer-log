@@ -1,6 +1,6 @@
 package consolelog.like.domain;
 
-import consolelog.config.BaseEntity;
+import consolelog.global.config.BaseEntity;
 import consolelog.member.domain.Member;
 import consolelog.post.domain.Post;
 import jakarta.persistence.*;

@@ -3,7 +3,7 @@ package consolelog.post.domain;
 import consolelog.comment.domain.Comment;
 import consolelog.like.domain.PostLike;
 import consolelog.member.domain.Member;
-import consolelog.config.BaseEntity;
+import consolelog.global.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

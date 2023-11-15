@@ -2,7 +2,7 @@ package consolelog.member.service;
 
 import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.auth.dto.AuthInfo;
-import consolelog.config.BaseEntity;
+import consolelog.global.config.BaseEntity;
 import consolelog.member.domain.*;
 import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
