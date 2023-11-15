@@ -1,8 +1,8 @@
-import axios, { AxiosResponse } from "axios";
-import { response } from "express";
+import axios from "axios";
 import { ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRecoilState } from 'recoil';
 import styled from "styled-components";
+import { accessTokenState, refreshTokenState } from "../states/Atom";
 
 const Modal = styled.div`
   display: flex;
@@ -81,7 +81,7 @@ const Login = styled.h2`
   font-weight: 600;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -138,12 +138,21 @@ const SignUpBtn = styled.div`
   cursor: pointer;
 `;
 
+export const Error = styled.span`
+    padding-top: 10px;
+    padding-left: 20%;
+    font-weight: 600;
+    color: tomato;
+`;
+
 function LoginModal() {
-  const navigate = useNavigate();
-  const formData = new FormData();
+  // const navigate = useNavigate();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const [error, setError] = useState("");
 
   const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
@@ -158,50 +167,66 @@ function LoginModal() {
     }
   };
 
-  const handleLogIn = async(): Promise<void> => {
-    try{
-        formData.append('loginId', loginId);
-        formData.append('password', password);
+  // //토큰 저장
+  // const setAuthToken = (accessToken: string) => {
+  //   localStorage.setItem('token', accessToken);
+  // };
 
-        await axios.post("/members/signup", formData)
-                  // .then(onLogInSucces)
-                  // .catch(error);
+  // const getAuthToken = (): string | null => {
+  //   return localStorage.getItem('token');
+  // };
 
-    }catch(error){
-        console.log(error);
+
+  const handleLogIn = async () => {
+    try {
+      await axios.post('/login', {
+        loginId,
+        password,
+      })
+      .then(response => {
+
+        if(response.headers){
+          const accessToken = response.headers['authorization'];
+          const refreshToken = response.headers['refresh-token'];
+
+          setAccessToken(accessToken);
+          setRefreshToken(refreshToken);
+
+          // localStorage.setItem('accessToken', accessToken);
+          // localStorage.setItem('refreshToken', refreshToken);
+        }
+      });
+
+
+    } catch (error) {
+      console.log(error);
+      setError("아이디와 비밀번호를 확인하세요.")
+    } finally {
+      setLoading(false);
     }
   };
 
+  const onSubmit = () => {
+    try {
 
+      setLoading(true);
 
-//   const onSubmit = () => {
-//     try {
-//         setLoading(true);
+      handleLogIn()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
+      
+    }catch (e) {
+        console.log(e);
+        // console.log(error.res.data);
+        setError(String(e));
 
-//         handleLogIn()
-//           .then(onLoginSuccess)
-//           .catch((error) => {
-//             console.log(error);
-//             console.log(error.response.data)
-//           });
+      }finally {
+        setLoading(false);
+      }
+  };
 
-//       } catch (e) {
-//         console.log(e);
-//         setError(String(e));
-
-//       } finally {
-//         setLoading(false);
-//       }
-//       console.log(loginId, password)
-//   };
-
-//   onPostRefresh = () => {
-//     axios.post('/silent-refresh', FormData)
-//         .then(onLoginSuccess)
-//         .catch(error => {
-//             // ... 로그인 실패 처리
-//         });
-// }
   
 
   return (
@@ -465,9 +490,10 @@ function LoginModal() {
                 <section>
                   {/* <HowToLogin>이메일로 로그인</HowToLogin> */}
                   <Form>
-                    <Input placeholder="아이디를 입력하세요."></Input>
-                    <Input placeholder="비밀번호를 입력하세요."></Input>
-                    <LoginBtn>로그인</LoginBtn>
+                    <Input type='text' name="loginId" value={loginId} onChange={onChange} placeholder="아이디를 입력하세요."></Input>
+                    <Input type='password' name="password" value={password} onChange={onChange} placeholder="비밀번호를 입력하세요."></Input>
+                    <LoginBtn onClick={onSubmit} value={isLoading? "Loading..." : "Create Account"} >로그인</LoginBtn>
+                    {error !== ""? <Error>{error}</Error>: null}
                   </Form>
                 </section>
                 {/* <section

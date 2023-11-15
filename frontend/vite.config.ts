@@ -8,11 +8,9 @@ export default defineConfig({
     port: 3000,
     host: true,
     proxy: {
-      "/members": {
-        target: "http://localhost:8080",
-        // 요청 헤더 host 필드 값을 대상 서버의 호스트 이름으로  변경
-        changeOrigin: true,
-      }
+      "/members": "http://localhost:8080",
+      "/posts": "http://localhost:8080",
+      "/login":"http://localhost:8080",
     },
   }
 });
