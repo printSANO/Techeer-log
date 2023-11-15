@@ -5,6 +5,10 @@ import magnifyingglass from "../assets/MagnifyingGlass.png";
 import miniprofile from "../assets/MiniProfile.png";
 import underpolygon from "../assets/UnderTri.png";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import LoginModal from "../components/LoginModal";
+import { isLoggedInSelector } from "../states/Atom";
+import { useState } from "react";
 
 const Background = styled.div`
   width: 100vw;
@@ -104,7 +108,25 @@ const Right = styled.div`
   justify-content: center;
 `;
 
+const ModalWrapper = styled.div`
+  position: absolute;
+  z-index: 2;
+`;
+
 function NavBar() {
+  const isLoggedIn = useRecoilValue(isLoggedInSelector);
+  const [showLoginModal, setShowLoginModal] = useState(false); // 모달 보이기/감추기 상태
+
+  // 로그인 모달을 보여주는 함수
+  const handleLoginClick = () => {
+    setShowLoginModal(true);
+  };
+
+  // 모달을 닫는 함수
+  const handleCloseModal = () => {
+    setShowLoginModal(false);
+  };
+
   return (
     <Background>
       <Link to={"/"}>
@@ -116,14 +138,23 @@ function NavBar() {
       <Right>
         <Theme src={moon} />
         <Search src={magnifyingglass} />
-        <WriteButton>
-          <Link to={"/posting"}>
-            <Button>새 글 작성</Button>
-          </Link>
-        </WriteButton>
-        <MiniProfile src={miniprofile} />
-        <Menu src={underpolygon} />
+        {isLoggedIn ? (
+          <>
+            <WriteButton>
+              <Link to={"/posting"}>
+                <Button>새 글 작성</Button>
+              </Link>
+            </WriteButton>
+            <MiniProfile src={miniprofile} />
+            <Menu src={underpolygon} />
+          </>
+        ) : (
+          <WriteButton onClick={handleLoginClick}>
+              <Button>로그인</Button>
+          </WriteButton>
+        )}
       </Right>
+      {showLoginModal && <ModalWrapper><LoginModal onClose={handleCloseModal} /></ModalWrapper>}
     </Background>
   );
 }

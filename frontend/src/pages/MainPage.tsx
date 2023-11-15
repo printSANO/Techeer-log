@@ -5,7 +5,7 @@ import more from "../assets/More.png";
 import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
 import profileimg from "../assets/ProfileImg.png";
-import LoginModal from "../components/LoginModal";
+// import LoginModal from "../components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -174,10 +174,10 @@ const Like = styled.div`
   line-height: normal;
 `;
 
-const ModalWrapper = styled.div`
-  position: absolute;
-  z-index: 2;
-`;
+// const ModalWrapper = styled.div`
+//   position: absolute;
+//   z-index: 2;
+// `;
 
 interface FormType {
   title: string;
@@ -301,8 +301,8 @@ function MainPage() {
               ))}
             <div ref={ref}></div>
           </Row>
-          {/* 
-      <ModalWrapper>
+          
+      {/* <ModalWrapper>
         <LoginModal />
       </ModalWrapper> */}
         </Background>

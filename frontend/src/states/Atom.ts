@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist({
@@ -11,6 +11,15 @@ export const accessTokenState = atom({
   default: '',
   effects_UNSTABLE:[persistAtom],
 });
+
+export const isLoggedInSelector = selector({
+  key: 'isLoggedInSelector',
+  get: ({ get }) => {
+    const accessToken = get(accessTokenState);
+    return !!accessToken; // accessToken이 참일 때 true를 반환하고, 그렇지 않으면 false를 반환합니다.
+  },
+});
+
 
 export const refreshTokenState = atom({
   key: 'refreshTokenState',
