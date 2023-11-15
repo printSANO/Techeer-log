@@ -2,12 +2,12 @@ package consolelog.like.exception;
 
 
 import consolelog.global.advice.NotFoundException;
+import consolelog.global.error.ErrorCode;
 
 public class CommentLikeNotFoundException extends NotFoundException {
 
-    private static final String MESSAGE = "해당 회원이 누른 좋아요가 존재하지 않습니다.";
 
     public CommentLikeNotFoundException() {
-        super(MESSAGE);
+        super(ErrorCode.COMMENT_NOT_FOUND_ERROR);
     }
 }

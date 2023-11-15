@@ -46,8 +46,6 @@ public class Comment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
-    private String nickname;
-
     @Embedded
     private Message message;
 
@@ -56,16 +54,15 @@ public class Comment {
     private int likeCount;
 
     @CreatedDate
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     protected Comment() {
     }
 
     @Builder
-    public Comment(Member member, Post post, String nickname, String message, Comment parent) {
+    public Comment(Member member, Post post, String message, Comment parent) {
         this.member = member;
         this.post = post;
-        this.nickname = nickname;
         this.message = new Message(message);
         this.parent = parent;
     }
@@ -86,7 +83,6 @@ public class Comment {
                 .message(message)
                 .parent(parent)
                 .build();
-        parent.getChildren().add(child);
         return child;
     }
 
@@ -130,15 +126,15 @@ public class Comment {
     }
 
     public String getNickname() {
-        return nickname;
+        return member.getNickname();
     }
 
     public String getMessage() {
         return message.getValue();
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public int getCommentLikesCount() {

@@ -269,9 +269,10 @@ function MainPage() {
           <Box />
           <Box />
         </Row>
+        {/* 
         <ModalWrapper>
           <LoginModal />
-        </ModalWrapper>
+        </ModalWrapper> */}
       </Background>
     </>
   );
