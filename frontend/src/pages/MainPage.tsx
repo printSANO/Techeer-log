@@ -20,13 +20,22 @@ const Background = styled.div`
   position: relative;
 `;
 
+const BackgroundNone = styled.div`
+  width: 100vw;
+  background: #121212;
+  height: 100vh;
+  background-repeat: repeat-y;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
 const Header = styled.div`
   width: 100%;
   height: 51px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 4.5rem;
+  margin-top: 6.5rem;
 `;
 
 const Headers = styled.div`
@@ -174,108 +183,130 @@ interface FormType {
   title: string;
   nickname: string;
   createdAt: string;
+  commentCount: number;
+  likeCount: number;
 }
 
 function MainPage() {
-  const [lastPost, setLastPost] = useState(0);
+  const [lastPost, setLastPost] = useState(-2);
   const [posts, setPosts] = useState<FormType[]>([]);
   const [ref, inView] = useInView();
+  const [pagenum, setPagenum] = useState(0);
+  const [islastPost, setIsLastPost] = useState(false);
 
-  //마지막 게시글 번호 알아내기
+  //첫 포스트 요청
   const getPostList = (): void => {
+    console.log(pagenum);
     axios
       .get("/post/0", {
-        params: { page: 0, size: 10, sort: "desc" },
+        params: { page: pagenum, size: 10, sort: "desc" },
       })
       .then((res) => {
         setLastPost(res.data.data.posts[0].id + 1);
-        console.log(lastPost);
+        setIsLastPost(res.data.data.lastpage);
+        setPosts(res.data.data.posts);
+        setPagenum((prev) => prev + 1);
       })
       .catch((error) => {
         console.log(error);
+        setLastPost(-2);
       });
   };
   useEffect(() => {
     getPostList();
   }, []);
+  useEffect(() => {
+    if (pagenum == 1) {
+      getPostList2();
+    }
+  }, [pagenum]);
 
   //무한 스크롤 요청
   const getPostList2 = (): void => {
+    console.log(pagenum);
     axios
-      .get(`/post/${lastPost}`, {
-        params: { page: 0, size: 10, sort: "desc" },
+      .get("/post/0", {
+        params: { page: pagenum, size: 10, sort: "desc" },
       })
       .then((res) => {
         const postsData = res.data.data.posts;
         setPosts((posts) => [...posts, ...postsData]);
-        setLastPost((prev) => prev - 10);
-        console.log(lastPost);
+        setIsLastPost(res.data.data.lastpage);
       })
       .catch((error) => {
         console.log(error);
+        setLastPost(-2);
       });
   };
   useEffect(() => {
-    if (inView) {
+    if (inView && islastPost) {
       getPostList2();
+      setPagenum((prev) => prev + 1);
     }
   }, [inView]);
 
   return (
     <>
-      <Background>
-        <NavBar />
-        <Header>
-          <Headers>
-            <Buttonleft>
-              <AiOutlineClockCircle size="24" color="#ececec" />
-              <NewWord2>최신</NewWord2>
-              <ButtonLine />
-            </Buttonleft>
-          </Headers>
-          <More src={more} />
-        </Header>
-        <Row>
-          {posts.length > 0 &&
-            posts.map((data: FormType, index) => (
-              <Link to="/board">
-                <Box key={index}>
-                  <MainImg src={mainimg} />
-                  <Bottom>
-                    <Title>{data.title}</Title>
-                    <Info>
-                      작성일 : {data.createdAt.replace("T", " ")} · 5개의 댓글
-                    </Info>
-                    <Line src={line} />
-                    <DetailUnder>
-                      <a style={{ display: "flex", paddingTop: "4px" }}>
-                        <ProfileImg src={profileimg} />
-                        <span style={{ color: "#fff", paddingLeft: "8px" }}>
-                          by
-                          <b
-                            style={{
-                              color: "#ECECEC",
-                              fontWeight: "bold",
-                              paddingLeft: "5px",
-                            }}
-                          >
-                            {data.nickname}
-                          </b>
-                        </span>
-                      </a>
-                      <Like>❤︎ 54</Like>
-                    </DetailUnder>
-                  </Bottom>
-                </Box>
-              </Link>
-            ))}
-          <div ref={ref}></div>
-        </Row>
-        {/* 
-        <ModalWrapper>
-          <LoginModal />
-        </ModalWrapper> */}
-      </Background>
+      {lastPost < -1 ? (
+        <BackgroundNone>
+          <NavBar />
+        </BackgroundNone>
+      ) : (
+        <Background>
+          <NavBar />
+          <Header>
+            <Headers>
+              <Buttonleft>
+                <AiOutlineClockCircle size="24" color="#ececec" />
+                <NewWord2>최신</NewWord2>
+                <ButtonLine />
+              </Buttonleft>
+            </Headers>
+            <More src={more} />
+          </Header>
+          <Row>
+            {posts.length > 0 &&
+              posts.map((data: FormType, index) => (
+                <Link to="/board">
+                  <Box key={index}>
+                    <MainImg src={mainimg} />
+                    <Bottom>
+                      <Title>{data.title}</Title>
+                      <Info>
+                        작성일 : {data.createdAt.replace("T", " ")} ·{" "}
+                        {data.commentCount}개의 댓글
+                      </Info>
+                      <Line src={line} />
+                      <DetailUnder>
+                        <a style={{ display: "flex", paddingTop: "4px" }}>
+                          <ProfileImg src={profileimg} />
+                          <span style={{ color: "#fff", paddingLeft: "8px" }}>
+                            by
+                            <b
+                              style={{
+                                color: "#ECECEC",
+                                fontWeight: "bold",
+                                paddingLeft: "5px",
+                              }}
+                            >
+                              {data.nickname}
+                            </b>
+                          </span>
+                        </a>
+                        <Like>❤︎ {data.likeCount}</Like>
+                      </DetailUnder>
+                    </Bottom>
+                  </Box>
+                </Link>
+              ))}
+            <div ref={ref}></div>
+          </Row>
+          {/* 
+      <ModalWrapper>
+        <LoginModal />
+      </ModalWrapper> */}
+        </Background>
+      )}
     </>
   );
 }

@@ -154,7 +154,7 @@ const BackButton = styled.button`
   outline: none;
   color: #ececec;
 `;
-
+/*
 const TempSaveBtn = styled.button`
   height: 2.5rem;
   font-size: 1.125rem;
@@ -171,7 +171,7 @@ const TempSaveBtn = styled.button`
   border-radius: 4px;
   padding: 0px 1.25rem;
 `;
-
+*/
 const SaveBtn = styled.button`
   height: 2.5rem;
   font-size: 1.125rem;
@@ -459,7 +459,6 @@ function PostingPage() {
             </span>
           </BackButton>
           <div>
-            <TempSaveBtn></TempSaveBtn>
             <Link to="/">
               <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
             </Link>
