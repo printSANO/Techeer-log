@@ -2,10 +2,8 @@ package consolelog.member.controller;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.result.ResultResponse;
-import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
 import consolelog.member.dto.SignupRequest;
-import consolelog.member.dto.UniqueResponse;
 import consolelog.member.service.MemberService;
 import consolelog.global.support.token.Login;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import static consolelog.global.result.ResultCode.FINDNICK_SUCCESS;
+import static consolelog.global.result.ResultCode.FIND_NICKNAME_SUCCESS;
 import static consolelog.global.result.ResultCode.SIGNUP_SUCCESS;
 
 @RestController
@@ -53,7 +51,7 @@ public class MemberController {
     @GetMapping("/nickname")
     public ResponseEntity<ResultResponse<NicknameResponse>> findNickname(@Login AuthInfo authInfo) {
         NicknameResponse nicknameResponse = memberService.findNickname(authInfo);
-        ResultResponse<NicknameResponse> resultResponse = new ResultResponse<>(FINDNICK_SUCCESS, nicknameResponse);
+        ResultResponse<NicknameResponse> resultResponse = new ResultResponse<>(FIND_NICKNAME_SUCCESS, nicknameResponse);
         return ResponseEntity.ok().body(resultResponse);
     }
 //    @PatchMapping("/nickname")
