@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import LoginModal from "../components/LoginModal";
 import { isLoggedInSelector } from "../states/Atom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Dropdown from "./Dropdown";
 
 const Background = styled.div`
   width: 100vw;
@@ -82,12 +83,15 @@ const MiniProfile = styled.img`
   height: 41px;
   border-radius: 41px;
   background: lightgray 50% / cover no-repeat;
+  /* margin-right: 10%; */
 `;
 
 const Menu = styled.img`
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 8px;
   fill: #acacac;
+  margin-top: 25%;
+  /* margin-bottom: 25%; */
 `;
 
 const Left = styled.div`
@@ -100,6 +104,7 @@ const Left = styled.div`
 
 const Right = styled.div`
   display: flex;
+  /* width: 100%; */
   right: 80px;
   gap: 18px;
   flex-direction: row;
@@ -114,6 +119,7 @@ const ModalWrapper = styled.div`
 `;
 
 function NavBar() {
+  const[showDropdown, setshowDropdown] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
   const [showLoginModal, setShowLoginModal] = useState(false); // 모달 보이기/감추기 상태
 
@@ -122,10 +128,11 @@ function NavBar() {
     setShowLoginModal(true);
   };
 
-  // 모달을 닫는 함수
+  // 로그인 모달을 닫는 함수
   const handleCloseModal = () => {
     setShowLoginModal(false);
   };
+
 
   return (
     <Background>
@@ -145,8 +152,11 @@ function NavBar() {
                 <Button>새 글 작성</Button>
               </Link>
             </WriteButton>
-            <MiniProfile src={miniprofile} />
-            <Menu src={underpolygon} />
+            <div style={{ display : "flex", gap:"1rem"}} onClick={()=>{setshowDropdown((prev)=>!prev)}}>
+              <MiniProfile src={miniprofile} />
+              <Menu src={underpolygon} />
+            </div>
+            {showDropdown && <Dropdown/>}
           </>
         ) : (
           <WriteButton onClick={handleLoginClick}>

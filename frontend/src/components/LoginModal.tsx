@@ -1,9 +1,9 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from "styled-components";
 import { accessTokenState, refreshTokenState } from "../states/Atom";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Modal = styled.div`
   display: flex;
@@ -158,12 +158,11 @@ interface LoginModalProps {
 
 
 const LoginModal: React.FC<LoginModalProps> = ({onClose}) => {
-  const navigate = useNavigate();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  const  setAccessToken = useSetRecoilState(accessTokenState);
+  const setRefreshToken = useSetRecoilState(refreshTokenState);
   // const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const [error, setError] = useState("");
 
@@ -514,7 +513,10 @@ const LoginModal: React.FC<LoginModalProps> = ({onClose}) => {
                 <span style={{ marginRight: "0.25rem" }}>
                   아직 회원이 아니신가요?
                 </span>
-                <SignUpBtn>회원가입</SignUpBtn>
+                <Link to="/signup">
+                  <SignUpBtn>회원가입</SignUpBtn>
+                </Link>
+                
               </Foot>
             </Contents>
           </RightBox>

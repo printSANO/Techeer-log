@@ -267,12 +267,13 @@ function SignUp(){
 
           } finally {
             setLoading(false);
+            navigate("/");
           }
           console.log(loginId, nickname, password)
     };
 
     const handleGoBack = () => {
-        navigate(-1);
+        navigate("/");
     };
 
     return(
@@ -297,7 +298,7 @@ function SignUp(){
                 <InfoBox>
                     <p>이름</p>
                     <label>
-                        <InputBox type='text' name="loginId" value={loginId} onChange={onChange} placeholder='이름을 입력하세요' required width={"30%"}/>
+                        <InputBox type='text' name="nickname" value={nickname} onChange={onChange} placeholder='이름을 입력하세요' required width={"30%"}/>
                     </label>
                 </InfoBox>
                 {/* <InfoBox>
@@ -309,7 +310,7 @@ function SignUp(){
                 <InfoBox>
                     <p>아이디</p>
                     <label>
-                        <InputBox type='text' name="nickname" value={nickname} onChange={onChange} placeholder='아이디를 입력하세요' required width={"26%"}/>
+                        <InputBox type='text' name="loginId" value={loginId} onChange={onChange} placeholder='아이디를 입력하세요' required width={"26%"}/>
                     </label>
                 </InfoBox>
                 
