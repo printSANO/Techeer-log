@@ -5,6 +5,11 @@ import magnifyingglass from "../assets/MagnifyingGlass.png";
 import miniprofile from "../assets/MiniProfile.png";
 import underpolygon from "../assets/UnderTri.png";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import LoginModal from "../components/LoginModal";
+import { isLoggedInSelector } from "../states/Atom";
+import { useEffect, useRef, useState } from "react";
+import Dropdown from "./Dropdown";
 
 const Background = styled.div`
   width: 100vw;
@@ -78,12 +83,15 @@ const MiniProfile = styled.img`
   height: 41px;
   border-radius: 41px;
   background: lightgray 50% / cover no-repeat;
+  /* margin-right: 10%; */
 `;
 
 const Menu = styled.img`
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 8px;
   fill: #acacac;
+  margin-top: 25%;
+  /* margin-bottom: 25%; */
 `;
 
 const Left = styled.div`
@@ -96,6 +104,7 @@ const Left = styled.div`
 
 const Right = styled.div`
   display: flex;
+  /* width: 100%; */
   right: 80px;
   gap: 18px;
   flex-direction: row;
@@ -104,7 +113,27 @@ const Right = styled.div`
   justify-content: center;
 `;
 
+const ModalWrapper = styled.div`
+  position: absolute;
+  z-index: 2;
+`;
+
 function NavBar() {
+  const[showDropdown, setshowDropdown] = useState(false);
+  const isLoggedIn = useRecoilValue(isLoggedInSelector);
+  const [showLoginModal, setShowLoginModal] = useState(false); // 모달 보이기/감추기 상태
+
+  // 로그인 모달을 보여주는 함수
+  const handleLoginClick = () => {
+    setShowLoginModal(true);
+  };
+
+  // 로그인 모달을 닫는 함수
+  const handleCloseModal = () => {
+    setShowLoginModal(false);
+  };
+
+
   return (
     <Background>
       <Link to={"/"}>
@@ -116,14 +145,26 @@ function NavBar() {
       <Right>
         <Theme src={moon} />
         <Search src={magnifyingglass} />
-        <WriteButton>
-          <Link to={"/posting"}>
-            <Button>새 글 작성</Button>
-          </Link>
-        </WriteButton>
-        <MiniProfile src={miniprofile} />
-        <Menu src={underpolygon} />
+        {isLoggedIn ? (
+          <>
+            <WriteButton>
+              <Link to={"/posting"}>
+                <Button>새 글 작성</Button>
+              </Link>
+            </WriteButton>
+            <div style={{ display : "flex", gap:"1rem"}} onClick={()=>{setshowDropdown((prev)=>!prev)}}>
+              <MiniProfile src={miniprofile} />
+              <Menu src={underpolygon} />
+            </div>
+            {showDropdown && <Dropdown/>}
+          </>
+        ) : (
+          <WriteButton onClick={handleLoginClick}>
+              <Button>로그인</Button>
+          </WriteButton>
+        )}
       </Right>
+      {showLoginModal && <ModalWrapper><LoginModal onClose={handleCloseModal} /></ModalWrapper>}
     </Background>
   );
 }
