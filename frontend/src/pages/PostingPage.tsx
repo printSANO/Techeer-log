@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, ChangeEvent } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -154,7 +154,7 @@ const BackButton = styled.button`
   outline: none;
   color: #ececec;
 `;
-
+/*
 const TempSaveBtn = styled.button`
   height: 2.5rem;
   font-size: 1.125rem;
@@ -171,7 +171,7 @@ const TempSaveBtn = styled.button`
   border-radius: 4px;
   padding: 0px 1.25rem;
 `;
-
+*/
 const SaveBtn = styled.button`
   height: 2.5rem;
   font-size: 1.125rem;
@@ -459,8 +459,9 @@ function PostingPage() {
             </span>
           </BackButton>
           <div>
-            <TempSaveBtn></TempSaveBtn>
-            <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
+            <Link to="/">
+              <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
+            </Link>
           </div>
         </UnderBox>
       </LeftBox>

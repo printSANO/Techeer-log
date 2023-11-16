@@ -10,6 +10,10 @@ export default defineConfig({
     proxy: {
       "/members": "http://localhost:8080",
       "/posts": "http://localhost:8080",
+      "/api": "http://localhost:8080",
+      "/post": "http://localhost:8080",
+      "/board": "http://localhost:8080",
+      "/login":"http://localhost:8080",
     },
-  },
+  }
 });

@@ -16,15 +16,13 @@ public class CommentNicknameGenerator {
         this.commentRepository = commentRepository;
     }
 
-    //댓글 닉네임 가져오는 매서드(익명이면 getAnonymousNickname 호출)
-//    public String getcommentNickname(boolean anoymous, AuthInfo authInfo, Post post) {
+//    public String getcommentNickname(AuthInfo authInfo, Post post) {
 //        Member member = memberRepository.findById(authInfo.getId())
 //                .orElseThrow(MemberNotFoundException::new);
-//        if (!anoymous) {
-//            return member.getNickname();
-//        }
-//        return getAnonymousNickname(post, member);
+//
+//        return member.getNickname();
 //    }
+}
 //
 //    //현재 사용자 =게시물 작성자&익명작성자 -> 익명 닉네임 반환
 //    private String getAnonymousNickname(Post post, Member member) {
@@ -48,4 +46,4 @@ public class CommentNicknameGenerator {
 //        alreadyUsedNickname.add(post.getNickname());
 //        return RandomNIcknameGenerator.generate(alreadyUsedNickname);
 //    }
-}
+

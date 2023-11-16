@@ -1,70 +1,56 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
-import clock from "../assets/Schedule.png";
-import heart from "../assets/Heart.png";
+import { AiOutlineClockCircle } from "react-icons/ai";
 import more from "../assets/More.png";
 import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
 import profileimg from "../assets/ProfileImg.png";
-import LoginModal from "../components/LoginModal";
+// import LoginModal from "../components/LoginModal";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 const Background = styled.div`
   width: 100vw;
-  height: 100vh;
   background: #121212;
+  background-repeat: repeat-y;
   display: flex;
   flex-direction: column;
   position: relative;
 `;
 
+const BackgroundNone = styled.div`
+  width: 100vw;
+  background: #121212;
+  height: 100vh;
+  background-repeat: repeat-y;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`;
 const Header = styled.div`
   width: 100%;
   height: 51px;
-  position: relative;
-  top: 66px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 6.5rem;
 `;
 
 const Headers = styled.div`
   display: flex;
   flex-direction: row;
+  position: relative;
+  width: 14rem;
+  height: 100%;
   margin-left: 85px;
+  margin-bottom: 1rem;
   gap: 20px;
 `;
 
-const Recent = styled.img`
-  width: 23px;
-  height: 23px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const NewWord = styled.a`
-  display: flex;
-  width: 40px;
-  height: 24px;
-  flex-direction: column;
-  justify-content: center;
-  color: #959595;
-  text-align: center;
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-`;
-
-const Heart = styled.img`
-  width: 23px;
-  height: 18px;
-`;
-
 const NewWord2 = styled.a`
-  color: #fff;
+  color: #ececec;
   text-align: center;
   font-family: Inter;
   font-size: 20px;
@@ -73,17 +59,15 @@ const NewWord2 = styled.a`
   line-height: normal;
 `;
 
-const Buttonleft = styled.button`
-  background-color: transparent;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  gap: 10px;
+const ButtonLine = styled.div`
+  position: absolute;
+  width: 50%;
+  height: 2px;
+  background: #e0e0e0;
+  bottom: 0;
 `;
 
-const Buttonright = styled.button`
+const Buttonleft = styled.button`
   background-color: transparent;
   display: flex;
   flex-direction: row;
@@ -104,11 +88,11 @@ const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  margin-top: 100px;
+  margin-top: 32px;
 
   margin-left: auto;
   margin-right: auto;
-  gap: 30px 55px;
+  gap: 40px 55px;
 `;
 
 const Box = styled.div`
@@ -116,6 +100,7 @@ const Box = styled.div`
   height: 380px;
   background-color: #1e1e1e;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const MainImg = styled.img`
@@ -125,7 +110,7 @@ const MainImg = styled.img`
 `;
 
 const Bottom = styled.div`
-  padding-top: 5px;
+  padding-top: 12px;
 `;
 
 const Title = styled.p`
@@ -133,31 +118,13 @@ const Title = styled.p`
   width: 100%;
   height: 32px;
   flex-direction: column;
-  justify-content: center;
   color: #fff;
-  text-align: center;
   font-family: Inter;
-  font-size: 15px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  padding-right: 25px;
-`;
-
-const Detail = styled.p`
-  display: flex;
-  width: 100%;
-  height: 43px;
-  flex-direction: column;
-  justify-content: center;
-  color: #cfcfcf;
-  font-family: Inter;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  padding: 15px;
-  margin-bottom: 25px;
+  padding-left: 16px;
 `;
 
 const Info = styled.p`
@@ -166,13 +133,14 @@ const Info = styled.p`
   height: 43px;
   flex-direction: column;
   justify-content: center;
-  color: #cfcfcf;
+  color: #acacac;
   font-family: Inter;
-  font-size: 11px;
+  font-size: 0.75rem;
+  line-height: 1.5;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
-  padding: 15px;
+  padding: 16px;
+  margin-top: 50px;
 `;
 
 const Line = styled.img`
@@ -185,8 +153,8 @@ const DetailUnder = styled.div`
   display: flex;
   line-height: 1.5;
   justify-content: space-between;
-  padding: 0px 15px 0px 15px;
   align-items: center;
+  padding: 0.425rem 1rem;
 `;
 
 const ProfileImg = styled.img`
@@ -200,80 +168,145 @@ const Like = styled.div`
   justify-content: center;
   color: #cfcfcf;
   font-family: Inter;
-  font-size: 11px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 `;
 
-const ModalWrapper = styled.div`
-  position: absolute;
-  z-index: 2;
-`;
+// const ModalWrapper = styled.div`
+//   position: absolute;
+//   z-index: 2;
+// `;
+
+interface FormType {
+  title: string;
+  nickname: string;
+  createdAt: string;
+  commentCount: number;
+  likeCount: number;
+}
 
 function MainPage() {
+  const [lastPost, setLastPost] = useState(-2);
+  const [posts, setPosts] = useState<FormType[]>([]);
+  const [ref, inView] = useInView();
+  const [pagenum, setPagenum] = useState(0);
+  const [islastPost, setIsLastPost] = useState(false);
+
+  //첫 포스트 요청
+  const getPostList = (): void => {
+    console.log(pagenum);
+    axios
+      .get("/post/0", {
+        params: { page: pagenum, size: 10, sort: "desc" },
+      })
+      .then((res) => {
+        setLastPost(res.data.data.posts[0].id + 1);
+        setIsLastPost(res.data.data.lastpage);
+        setPosts(res.data.data.posts);
+        setPagenum((prev) => prev + 1);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLastPost(-2);
+      });
+  };
+  useEffect(() => {
+    getPostList();
+  }, []);
+  useEffect(() => {
+    if (pagenum == 1) {
+      getPostList2();
+    }
+  }, [pagenum]);
+
+  //무한 스크롤 요청
+  const getPostList2 = (): void => {
+    console.log(pagenum);
+    axios
+      .get("/post/0", {
+        params: { page: pagenum, size: 10, sort: "desc" },
+      })
+      .then((res) => {
+        const postsData = res.data.data.posts;
+        setPosts((posts) => [...posts, ...postsData]);
+        setIsLastPost(res.data.data.lastpage);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLastPost(-2);
+      });
+  };
+  useEffect(() => {
+    if (inView && islastPost) {
+      getPostList2();
+      setPagenum((prev) => prev + 1);
+    }
+  }, [inView]);
+
   return (
     <>
-      <Background>
-        <NavBar />
-        <Header>
-          <Headers>
-            <Buttonleft>
-              <Heart src={heart}></Heart>
-              <NewWord2>좋아요 순</NewWord2>
-            </Buttonleft>
-            <Buttonright>
-              <Recent src={clock} />
-              <NewWord>최신</NewWord>
-            </Buttonright>
-          </Headers>
-          <More src={more} />
-        </Header>
-        <Row>
-          <Box>
-            <MainImg src={mainimg} />
-            <Bottom>
-              <Title>개발자가 되고싶으시다구요? (매운맛)</Title>
-              <Detail>
-                결과에서 오는 성취감도 없으면 그만두세요. 힘들어요.
-              </Detail>
-              <Info>5일전 ∙ 33개의 댓글</Info>
-              <Line src={line} />
-              <DetailUnder>
-                <a style={{ display: "flex", paddingTop: "4px" }}>
-                  <ProfileImg src={profileimg} />
-                  <span style={{ color: "#fff", paddingLeft: "5px" }}>
-                    by
-                    <b
-                      style={{
-                        color: "#ECECEC",
-                        fontWeight: "bold",
-                        paddingLeft: "5px",
-                      }}
-                    >
-                      junjun
-                    </b>
-                  </span>
-                </a>
-                <Like>❤︎ 54</Like>
-              </DetailUnder>
-            </Bottom>
-          </Box>
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-          <Box />
-        </Row>
-        {/* 
-        <ModalWrapper>
-          <LoginModal />
-        </ModalWrapper> */}
-      </Background>
+      {lastPost < -1 ? (
+        <BackgroundNone>
+          <NavBar />
+        </BackgroundNone>
+      ) : (
+        <Background>
+          <NavBar />
+          <Header>
+            <Headers>
+              <Buttonleft>
+                <AiOutlineClockCircle size="24" color="#ececec" />
+                <NewWord2>최신</NewWord2>
+                <ButtonLine />
+              </Buttonleft>
+            </Headers>
+            <More src={more} />
+          </Header>
+          <Row>
+            {posts.length > 0 &&
+              posts.map((data: FormType, index) => (
+                <Link to="/board">
+                  <Box key={index}>
+                    <MainImg src={mainimg} />
+                    <Bottom>
+                      <Title>{data.title}</Title>
+                      <Info>
+                        작성일 : {data.createdAt.replace("T", " ")} ·{" "}
+                        {data.commentCount}개의 댓글
+                      </Info>
+                      <Line src={line} />
+                      <DetailUnder>
+                        <a style={{ display: "flex", paddingTop: "4px" }}>
+                          <ProfileImg src={profileimg} />
+                          <span style={{ color: "#fff", paddingLeft: "8px" }}>
+                            by
+                            <b
+                              style={{
+                                color: "#ECECEC",
+                                fontWeight: "bold",
+                                paddingLeft: "5px",
+                              }}
+                            >
+                              {data.nickname}
+                            </b>
+                          </span>
+                        </a>
+                        <Like>❤︎ {data.likeCount}</Like>
+                      </DetailUnder>
+                    </Bottom>
+                  </Box>
+                </Link>
+              ))}
+            <div ref={ref}></div>
+          </Row>
+          
+      {/* <ModalWrapper>
+        <LoginModal />
+      </ModalWrapper> */}
+        </Background>
+      )}
     </>
   );
 }

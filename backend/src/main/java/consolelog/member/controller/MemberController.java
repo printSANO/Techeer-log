@@ -17,7 +17,7 @@ import static consolelog.global.result.ResultCode.FIND_NICKNAME_SUCCESS;
 import static consolelog.global.result.ResultCode.SIGNUP_SUCCESS;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("api/v1/members")
 public class MemberController {
 
     private final MemberService memberService;

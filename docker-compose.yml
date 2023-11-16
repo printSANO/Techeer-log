@@ -21,7 +21,19 @@ services:
     #   timeout: 20s
     #   retries: 10
     # command: ["--general-log", "--general-log-file=/var/log/mysql.log"]
-
+  nginx:
+    image: nginx:1.24.0-alpine-slim
+    ports:
+      - "80:80"
+    volumes:
+      #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
+#      - frontend
+    restart: always
+#    networks:
+#      - app-tier
   backend:
     build: ./backend
     restart: always
