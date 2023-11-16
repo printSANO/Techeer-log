@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ReplyResponse {
-
+    private final Long parentId;
     private final Long replyId;
     private final String nickname;
     private final String content;
@@ -16,8 +16,9 @@ public class ReplyResponse {
     private final int likeCount;
     private final boolean like;
 
-    public ReplyResponse(Long replyId, String nickname, String content, LocalDateTime createdAt,
+    public ReplyResponse(Long parentId, Long replyId, String nickname, String content, LocalDateTime createdAt,
                          int likeCount, boolean like) {
+        this.parentId = parentId;
         this.replyId = replyId;
         this.nickname = nickname;
         this.content = content;
@@ -26,8 +27,9 @@ public class ReplyResponse {
         this.like = like;
     }
 
-    public static ReplyResponse of(Comment reply, Long accessMemberId, boolean like) {
-        return new ReplyResponse(reply.getId(), reply.getNickname(), reply.getMessage(), reply.getCreatedAt(),
+    public static ReplyResponse of(Comment reply, boolean like) {
+        return new ReplyResponse(reply.getParent().getId(), reply.getId(), reply.getNickname(),
+                reply.getMessage(), reply.getCreatedAt(),
                 reply.getCommentLikesCount(), like);
     }
 }
