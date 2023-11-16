@@ -1,6 +1,6 @@
 package consolelog.member.domain;
 
-import consolelog.config.BaseEntity;
+import consolelog.global.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
