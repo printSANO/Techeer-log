@@ -9,17 +9,17 @@ import java.time.LocalDateTime;
 @Getter
 public class ReplyResponse {
     private final Long parentId;
-    private final Long replyId;
+    private final Long id;
     private final String nickname;
     private final String content;
     private final LocalDateTime createdAt;
     private final int likeCount;
     private final boolean like;
 
-    public ReplyResponse(Long parentId, Long replyId, String nickname, String content, LocalDateTime createdAt,
+    public ReplyResponse(Long parentId, Long Id, String nickname, String content, LocalDateTime createdAt,
                          int likeCount, boolean like) {
         this.parentId = parentId;
-        this.replyId = replyId;
+        this.id = Id;
         this.nickname = nickname;
         this.content = content;
         this.createdAt = createdAt;
