@@ -28,7 +28,7 @@ import static consolelog.global.result.ResultCode.*;
 
 @Tag(name = "Post", description = "Post API Document")
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("/v1")
 public class PostController {
     private final PostService postService;
 

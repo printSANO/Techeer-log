@@ -19,7 +19,7 @@ import static consolelog.global.result.ResultCode.LIKE_CREATED_SUCCESS;
 
 @Tag(name = "Like", description = "Like API Document")
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("/v1")
 public class LikeController {
     private final LikeService likeService;
 

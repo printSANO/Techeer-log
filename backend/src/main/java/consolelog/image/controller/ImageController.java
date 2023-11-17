@@ -26,7 +26,7 @@ public class ImageController {
     }
 
     @Operation(summary = "이미지 업로드", description = "이미지를 넘겨서 업로드")
-    @PostMapping("/upload")
+    @PostMapping( value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<ResultResponse<String>> upload(@Login AuthInfo authInfo, @RequestParam MultipartFile multipartFile) {
         String imageUrl = imageService.upload(authInfo.getNickname(), multipartFile);
         ResultResponse<String> response = new ResultResponse<>(ResultCode.UPLOAD_SUCCESS, imageUrl);
