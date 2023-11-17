@@ -33,6 +33,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (CorsUtils.isPreFlightRequest(request))
             return true;
 
+
 //        Logging Method
 //        if (isGetMethod(request)) {
 //            LOGGER.info("prometheus" + request.getRequestURI());
