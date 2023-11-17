@@ -17,6 +17,7 @@ CREATE TABLE member
     login_id   VARCHAR(255)          NULL,
     password   VARCHAR(255)          NULL,
     nickname   VARCHAR(255)          NULL,
+    profile_image_url VARCHAR(255)   NULL,
     CONSTRAINT pk_member PRIMARY KEY (member_id)
 );
 ALTER TABLE member
