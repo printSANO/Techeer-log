@@ -114,7 +114,7 @@ public class CommentService {
         List<ReplyResponse> replyResponses = new ArrayList<>();
         for (Comment reply : replies) {
             boolean liked = commentLikeRepository.existsByMemberIdAndComment(accessMemberId, reply);
-            replyResponses.add(ReplyResponse.of(reply, accessMemberId, liked));
+            replyResponses.add(ReplyResponse.of(reply, liked));
         }
         return replyResponses;
     }
