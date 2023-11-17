@@ -2,6 +2,9 @@ package consolelog.member.controller;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.result.ResultResponse;
+import consolelog.image.service.AmazonS3Service;
+import consolelog.member.domain.Member;
+import consolelog.member.dto.MemberResponse;
 import consolelog.member.dto.NicknameResponse;
 import consolelog.member.dto.SignupRequest;
 import consolelog.member.service.MemberService;
@@ -11,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import static consolelog.global.result.ResultCode.FIND_NICKNAME_SUCCESS;
@@ -27,12 +31,12 @@ public class MemberController {
     }
 
     @Operation(summary = "회원가입", description = "회원가입 기능")
-    @PostMapping("/signup")
-    public ResponseEntity<ResultResponse<SignupRequest>> signUp(@Valid @RequestBody SignupRequest signupRequest) {
-        memberService.signUp(signupRequest);
-        ResultResponse<SignupRequest> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, signupRequest);
+    @PostMapping(value = "/signup", consumes = "multipart/form-data")
+    public ResponseEntity<ResultResponse<SignupRequest>> signUp(@RequestPart("data") SignupRequest signupRequest,
+                                                                @RequestPart("file") MultipartFile multipartFile) {
+        Member member = memberService.signUp(signupRequest, multipartFile);
+        ResultResponse<SignupRequest> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, new MemberResponse(member));
         return ResponseEntity.status(HttpStatus.CREATED).body(resultResponse);
-
     }
 
 //    @GetMapping(value = "/signup/exists", params = "loginId")
