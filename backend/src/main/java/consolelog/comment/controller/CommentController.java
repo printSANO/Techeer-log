@@ -17,6 +17,7 @@ import static consolelog.global.result.ResultCode.*;
 
 @Tag(name = "Comment", description = "Comment API Document")
 @RestController
+@RequestMapping("/v1")
 public class CommentController {
 
     private final CommentService commentService;

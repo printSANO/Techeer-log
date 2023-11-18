@@ -33,6 +33,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (CorsUtils.isPreFlightRequest(request))
             return true;
 
+
 //        Logging Method
 //        if (isGetMethod(request)) {
 //            LOGGER.info("prometheus" + request.getRequestURI());
@@ -55,8 +56,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private boolean isGetMethodExcludeNickname(HttpServletRequest request) {
         return request.getMethod().equalsIgnoreCase("GET") &&
-                !(request.getRequestURI().equalsIgnoreCase("/members/nickname")
-                || request.getRequestURI().equalsIgnoreCase("/posts/list/*"));
+                !(request.getRequestURI().equalsIgnoreCase("/api/v1/members/nickname")
+                || request.getRequestURI().equalsIgnoreCase("/api/v1/posts/list/*"));
     }
 
     private boolean notExistHeader(HttpServletRequest request) {

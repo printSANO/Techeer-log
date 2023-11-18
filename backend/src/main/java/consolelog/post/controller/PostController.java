@@ -3,7 +3,6 @@ package consolelog.post.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.result.ResultResponse;
 import consolelog.global.support.token.Login;
-import consolelog.post.domain.Post;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
 import consolelog.post.dto.response.PostResponse;
@@ -15,6 +14,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+
 import static consolelog.global.result.ResultCode.*;
 
 @Tag(name = "Post", description = "Post API Document")
 @RestController
+@RequestMapping("/v1")
 public class PostController {
     private final PostService postService;
 
@@ -41,7 +43,7 @@ public class PostController {
         PostResponse findPostResponse = postService.findPost(id, postLog);
         String updatedLog = postService.updatePostLog(id, postLog);
         ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
-        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(FINDPOST_SUCCESS, findPostResponse);
+        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(FIND_POST_SUCCESS, findPostResponse);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                 .body(resultResponse);
@@ -53,7 +55,7 @@ public class PostController {
                                                        @Login AuthInfo authInfo) {
         Long postId = postService.addPost(newPostRequest, authInfo);
         URI location = URI.create("/posts/" + postId);
-        ResultResponse<URI> resultResponse = new ResultResponse<>(ADDPOST_SUCCESS, location);
+        ResultResponse<URI> resultResponse = new ResultResponse<>(ADD_POST_SUCCESS, location);
 
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
@@ -64,7 +66,7 @@ public class PostController {
                                                              @RequestBody PostUpdateRequest postUpdateRequest,
                                                              @Login AuthInfo authInfo) {
         PostResponse postResponse = postService.updatePost(id, postUpdateRequest, authInfo);
-        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(UPDATEPOST_SUCCESS, postResponse);
+        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(UPDATE_POST_SUCCESS, postResponse);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
@@ -84,7 +86,7 @@ public class PostController {
     @GetMapping(path = "/posts/list/{lastPostId}")
     public ResponseEntity<ResultResponse<PagePostResponse>> findPostList(@Parameter(name = "lastPostId") @PathVariable Long lastPostId, Pageable pageable) {
         PagePostResponse postList = postService.findPostsByPage(lastPostId, pageable);
-        ResultResponse<PagePostResponse> resultResponse = new ResultResponse<>(FINDPOSTLIST_SUCCESS, postList);
+        ResultResponse<PagePostResponse> resultResponse = new ResultResponse<>(FIND_POST_LIST_SUCCESS, postList);
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 }

@@ -1,6 +1,6 @@
 package consolelog.member.domain;
 
-import consolelog.config.BaseEntity;
+import consolelog.global.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +8,7 @@ import lombok.Getter;
 @Entity
 public class Member extends BaseEntity {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -23,6 +24,9 @@ public class Member extends BaseEntity {
     @Embedded
     private Nickname nickname;
 
+    @Getter
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 
     @Getter
     @Enumerated(EnumType.STRING)
@@ -45,15 +49,12 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(Long id, LoginId loginId, Password password, Nickname nickname) {
+    public Member(Long id, LoginId loginId, Password password, Nickname nickname, String profileImageUrl) {
         this.id = id;
         this.loginId = loginId;
         this.password = password;
         this.nickname = nickname;
-    }
-
-    public Long getId() {
-        return id;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateNickname(Nickname nickname) {

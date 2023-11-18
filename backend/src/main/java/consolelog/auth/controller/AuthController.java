@@ -23,6 +23,7 @@ import static consolelog.global.result.ResultCode.*;
 
 @Tag(name = "Auth", description = "Auth API Document")
 @RestController
+@RequestMapping("/v1/auth")
 public class AuthController {
     private final AuthService authService;
     private final TokenManager tokenManager;

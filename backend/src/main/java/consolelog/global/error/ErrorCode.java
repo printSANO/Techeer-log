@@ -42,6 +42,9 @@ public enum ErrorCode {
     // Like
     COMMENT_LIKE_NOT_FOUND_ERROR("L001", 400, "해당 회원이 누른 좋아요가 존재하지 않습니다."),
 
+    // Image
+    S3_UPLOAD_ERROR("I001", 400, "S3 이미지 업로드가 실패하였습니다"),
+
     ;
 
     private final String code;

@@ -2,7 +2,8 @@ package consolelog.member.service;
 
 import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.auth.dto.AuthInfo;
-import consolelog.config.BaseEntity;
+import consolelog.global.config.BaseEntity;
+import consolelog.image.service.AmazonS3Service;
 import consolelog.member.domain.*;
 import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.NicknameResponse;
@@ -15,6 +16,7 @@ import consolelog.member.exception.PasswordConfirmationException;
 import consolelog.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -22,21 +24,26 @@ public class MemberService extends BaseEntity {
 
     private final MemberRepository memberRepository;
     private final EncryptorI encryptor;
+    private final AmazonS3Service amazonS3Service;
 
-    public MemberService(MemberRepository memberRepository, EncryptorI encryptor) {
+    public MemberService(MemberRepository memberRepository, EncryptorI encryptor, AmazonS3Service amazonS3Service) {
         this.memberRepository = memberRepository;
         this.encryptor = encryptor;
+        this.amazonS3Service = amazonS3Service;
     }
 
     @Transactional
-    public void signUp(SignupRequest signupRequest) {
+    public Member signUp(SignupRequest signupRequest, MultipartFile multipartFile) {
         validate(signupRequest);
+        String profileImageUrl = amazonS3Service.upload(signupRequest.getNickname(), multipartFile);
         Member member = Member.builder()
                 .loginId(new LoginId(signupRequest.getLoginId()))
                 .password(Password.of(encryptor, signupRequest.getPassword()))
+                .profileImageUrl(profileImageUrl)
                 .nickname(new Nickname(signupRequest.getNickname()))
                 .build();
         memberRepository.save(member);
+        return member;
     }
 
     public UniqueResponse checkUniqueLoginId(String loginId) {
