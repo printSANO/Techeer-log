@@ -247,7 +247,7 @@ function SignUp(){
     };
 
     const onSubmit = () => {
-        if(isLoading || loginId==="" || nickname ==="" || password===""){
+        if(isLoading || loginId==="" || nickname ==="" || password==="" || passwordConfirmation===""){
             setError("기본정보를 모두 입력하세요")
             return;
         }

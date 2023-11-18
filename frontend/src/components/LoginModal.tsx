@@ -22,6 +22,7 @@ const ModalBackdrop = styled.div`
   height: 100vh;
   width: 100vw;
 `;
+
 const Box = styled.div`
   display: flex;
   width: 606px;
@@ -178,16 +179,6 @@ const LoginModal: React.FC<LoginModalProps> = ({onClose}) => {
     }
   };
 
-  // //토큰 저장
-  // const setAuthToken = (accessToken: string) => {
-  //   localStorage.setItem('token', accessToken);
-  // };
-
-  // const getAuthToken = (): string | null => {
-  //   return localStorage.getItem('token');
-  // };
-
-
   const handleLogIn = async () => {
     try {
       await axios.post('/login', {
@@ -230,7 +221,6 @@ const LoginModal: React.FC<LoginModalProps> = ({onClose}) => {
       
     }catch (e) {
         console.log(e);
-        // console.log(error.res.data);
         setError(String(e));
 
       }finally {
@@ -238,8 +228,6 @@ const LoginModal: React.FC<LoginModalProps> = ({onClose}) => {
       }
   };
 
-
-  
 
   return (
     <Modal>
@@ -504,7 +492,7 @@ const LoginModal: React.FC<LoginModalProps> = ({onClose}) => {
                   <Form>
                     <Input type='text' name="loginId" value={loginId} onChange={onChange} placeholder="아이디를 입력하세요."></Input>
                     <Input type='password' name="password" value={password} onChange={onChange} placeholder="비밀번호를 입력하세요."></Input>
-                    <LoginBtn onClick={onSubmit} value={isLoading? "Loading..." : "Create Account"} >로그인</LoginBtn>
+                    <LoginBtn onClick={onSubmit} value={isLoading? "Loading..." : "LogIn"} >로그인</LoginBtn>
                     {error !== ""? <Error>{error}</Error>: null}
                   </Form>
                 </section>
