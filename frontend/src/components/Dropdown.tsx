@@ -35,10 +35,10 @@ const DropdownList = styled.ul`
 `;
 
 function Dropdown() {
-    
   const navigate =useNavigate();
   const [isOpen, setIsOpen] = useState(true);
-  console.log(isOpen);
+  const setAccessToken = useSetRecoilState(accessTokenState);
+  const setRefreshToken = useSetRecoilState(refreshTokenState);
 
   const handleDropdownClick = (path:string) => {
     if (path === "/") {
@@ -52,9 +52,6 @@ function Dropdown() {
         (prev)=>!prev
         );
   };
-
-  const setAccessToken = useSetRecoilState(accessTokenState);
-  const setRefreshToken = useSetRecoilState(refreshTokenState);
 
   const handleLogout = () => {
     sessionStorage.removeItem('accessTokenState');
