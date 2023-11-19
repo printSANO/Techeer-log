@@ -10,6 +10,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+import nopost from "../assets/NoPost.png";
 
 const Background = styled.div`
   width: 100vw;
@@ -174,6 +175,36 @@ const Like = styled.div`
   line-height: normal;
 `;
 
+const Posts = styled.div`
+  width: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  margin-top: 20rem;
+  flex-direction: column;
+`;
+
+const NoPostImg = styled.img`
+  width: 20rem;
+`;
+
+const NoPostWord = styled.p`
+  display: flex;
+  width: 392px;
+  height: 89px;
+  flex-direction: column;
+  justify-content: center;
+  color: #acacac;
+  text-align: center;
+  font-family: Inter;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+`;
+
 // const ModalWrapper = styled.div`
 //   position: absolute;
 //   z-index: 2;
@@ -250,6 +281,11 @@ function MainPage() {
       {lastPost < -1 ? (
         <BackgroundNone>
           <NavBar />
+
+          <Posts>
+            <NoPostImg src={nopost} />
+            <NoPostWord>포스트가 없습니다.</NoPostWord>
+          </Posts>
         </BackgroundNone>
       ) : (
         <Background>
