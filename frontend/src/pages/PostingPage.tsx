@@ -3,6 +3,8 @@ import { useState, ChangeEvent } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { accessTokenState } from "../states/Atom";
+import { useRecoilValue } from "recoil";
 
 const Background = styled.div`
   width: 100vw;
@@ -224,6 +226,7 @@ function PostingPage() {
   const navigate = useNavigate();
   const [markdown, setMarkdown] = useState("");
   const [title, setTitle] = useState("");
+  const accesstoken = useRecoilValue(accessTokenState);
 
   const handleGoBack = () => {
     navigate(-1); // 뒤로가기
@@ -272,14 +275,14 @@ function PostingPage() {
   const handleSubmit = async (): Promise<void> => {
     try {
       const response = await axios.post(
-        "/posts",
+        "api/v1/posts",
         {
           title,
           content: markdown,
         },
         {
           headers: {
-            authorization: import.meta.env.VITE_APP_ACCESS,
+            authorization: accesstoken,
           },
         }
       );
