@@ -1,7 +1,7 @@
 
 import {styled} from "styled-components";
 import signupimg from "../assets/MainImg.png"
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -206,7 +206,7 @@ function SignUp(){
         if(files && files.length === 1) {
             // formData.append('file', files[0]);
             setFile(files[0]);
-            console.log(files[0].name)
+            // console.log(files[0].name)
         }
     };
 
@@ -257,7 +257,7 @@ function SignUp(){
     const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if(isLoading || loginId==="" || nickname ==="" || password==="" || passwordConfirmation===""){
+        if(isLoading || file===null || loginId==="" || nickname ==="" || password==="" || passwordConfirmation===""){
             setError("기본정보를 모두 입력하세요")
             return;
         }
@@ -275,7 +275,7 @@ function SignUp(){
             setLoading(false);
             
           }
-          console.log(loginId, nickname, password)
+          console.log( nickname+"님 회원가입 완료" )
     };
 
     const handleGoBack = () => {
