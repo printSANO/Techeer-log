@@ -154,7 +154,6 @@ export const Error = styled.span`
 
 interface LoginModalProps {
   onClose: () => void; // onClose의 타입을 명시적으로 정의
-  // 다른 prop들...
 }
 
 

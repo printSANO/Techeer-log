@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { accessTokenState, refreshTokenState } from "../states/Atom";
 
 const DropdownWrapper = styled.div`
     position: absolute;
@@ -39,10 +41,27 @@ function Dropdown() {
   console.log(isOpen);
 
   const handleDropdownClick = (path:string) => {
-    navigate(path);
+    if (path === "/") {
+      handleLogout();
+      navigate(path); 
+    } else {
+      navigate(path);
+    }
+
     setIsOpen(
         (prev)=>!prev
         );
+  };
+
+  const setAccessToken = useSetRecoilState(accessTokenState);
+  const setRefreshToken = useSetRecoilState(refreshTokenState);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('accessTokenState');
+    sessionStorage.removeItem('refreshTokenState');
+
+    setAccessToken('');
+    setRefreshToken('');
   };
 
   const dropdownItems = [
