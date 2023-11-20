@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useRef, useEffect } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { accessTokenState } from "../states/Atom";
 import { useRecoilValue } from "recoil";
 
@@ -228,6 +228,8 @@ function PostingPage() {
   const [title, setTitle] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
 
+  const formData = new FormData();
+
   const handleGoBack = () => {
     navigate(-1); // 뒤로가기
   };
@@ -266,9 +268,45 @@ function PostingPage() {
   const handleLinkTextChange = () => {
     setMarkdown(markdown + "[링크텍스트](이곳에 주소를 입력하세요.)");
   };
-  const handleImageChange = () => {
-    setMarkdown(markdown + "![](이곳에 이미지 주소를 입력하세요.)");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const fileInputRef = useRef(null);
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+
+    if (files && files.length === 1) {
+      setSelectedImage(files[0]);
+    }
   };
+  const handleImageUpload = async () => {
+    if (fileInputRef.current)
+      (fileInputRef.current as HTMLInputElement).click();
+  };
+
+  useEffect(() => {
+    const uploadImage = async () => {
+      if (selectedImage) {
+        try {
+          formData.append("multipartFile", selectedImage);
+
+          const response = await axios.post("api/image/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              authorization: accesstoken,
+            },
+          });
+
+          setMarkdown(markdown + `![](${response.data.data})`);
+          console.log(response.data.data);
+          setSelectedImage(null);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    uploadImage();
+  }, [selectedImage]);
   const handleButtonQuoteChange = () => {
     setMarkdown(markdown + "\n" + "> ");
   };
@@ -287,6 +325,7 @@ function PostingPage() {
         }
       );
       console.log(response.data);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -400,7 +439,14 @@ function PostingPage() {
               <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path>
             </svg>
           </Scale>
-          <Scale onClick={handleImageChange}>
+          <input
+            style={{ display: "none" }}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            ref={fileInputRef}
+          />
+          <Scale onClick={handleImageUpload}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1em"
@@ -462,9 +508,7 @@ function PostingPage() {
             </span>
           </BackButton>
           <div>
-            <Link to="/">
-              <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
-            </Link>
+            <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
           </div>
         </UnderBox>
       </LeftBox>
