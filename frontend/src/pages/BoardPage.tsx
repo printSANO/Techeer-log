@@ -6,7 +6,7 @@ import share from "../assets/Share.png"
 import userimg from "../assets/UserImg.png"
 import github from "../assets/GitHub.png"
 import mail from "../assets/Mail.png"
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Background = styled.div`
@@ -377,14 +377,38 @@ const CommentLine = styled.p`
 `;
 
 export default function BoardPage(){
-    const [comment, setComment] = useState([]);
     const [input, setInput] = useState("");
+    const [comments, setComments] = useState([]);
 
-    const onSubmit = async()=>{
-        const response = await axios.post("/", input);
-        
+    const onCommentSubmit = async(e:React.ChangeEvent)=>{
+        e.preventDefault();
 
-    }
+        //게시글 상세조회시 post-id axios로 전역 저장해서 가져오기?
+        const id=1;
+        try {
+            const response = await axios.post(`/api/v1/posts/${id}/comments`, input);
+            //setComments((prev) => [...prev, response.data]);
+        } catch (error) {
+            console.log(error);
+        }
+
+        setInput("");
+
+    };
+
+    const getComments = async()=>{
+        const id=1
+        await axios.get(`/api/v1/posts/${id}/comments`)
+                    .then((res)=>{
+                        setComments(res.data.comments);
+                    })
+                    .catch((e)=>console.log(e));
+    };
+
+    useEffect(()=>{
+        getComments();
+    },[]);
+
     return(
         <Background>
             <NavBar/>
@@ -456,12 +480,12 @@ export default function BoardPage(){
                     <InputBox>
                         <CommentCnt>1개의 댓글</CommentCnt>
                         <Input 
-                            onChange={(e) => setInput(e.currentTarget.value)} 
-                            value={input} 
                             placeholder="댓글을 작성하세요"
+                            value={input}
+                            onChange={(e)=>e.currentTarget.value}
                         />
                         <BtnWrapper>
-                            <InputBtn onSubmit={onSubmit}>댓글 작성</InputBtn>
+                            <InputBtn onSubmit={onCommentSubmit}>댓글 작성</InputBtn>
                         </BtnWrapper>
                     </InputBox>
 
@@ -475,20 +499,10 @@ export default function BoardPage(){
                         </CommentUserBox>
                         <Comment>
                             <CommentLine>잘 봤습니다.</CommentLine>
-                            <CommentLine>잘 봤습니다.</CommentLine>
                         </Comment>
-                        
                     </CommentBox>
                 </CommentArea>
-
-
-
-
-                
             </Body>
-
         </Background>
-        
-
     );
 }
