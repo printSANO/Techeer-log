@@ -198,7 +198,7 @@ function MainPage() {
   const getPostList = (): void => {
     console.log(pagenum);
     axios
-      .get("/post/0", {
+      .get("api/v1/posts/list/0", {
         params: { page: pagenum, size: 10, sort: "desc" },
       })
       .then((res) => {
@@ -225,7 +225,7 @@ function MainPage() {
   const getPostList2 = (): void => {
     console.log(pagenum);
     axios
-      .get("/post/0", {
+      .get("api/v1/posts/list/0", {
         params: { page: pagenum, size: 10, sort: "desc" },
       })
       .then((res) => {
@@ -301,8 +301,8 @@ function MainPage() {
               ))}
             <div ref={ref}></div>
           </Row>
-          
-      {/* <ModalWrapper>
+
+          {/* <ModalWrapper>
         <LoginModal />
       </ModalWrapper> */}
         </Background>
