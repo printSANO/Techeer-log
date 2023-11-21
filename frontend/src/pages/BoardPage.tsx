@@ -6,6 +6,8 @@ import share from "../assets/Share.png"
 import userimg from "../assets/UserImg.png"
 import github from "../assets/GitHub.png"
 import mail from "../assets/Mail.png"
+import { useState } from "react";
+import axios from "axios";
 
 const Background = styled.div`
     width: 100vw;
@@ -375,11 +377,17 @@ const CommentLine = styled.p`
 `;
 
 export default function BoardPage(){
+    const [comment, setComment] = useState([]);
+    const [input, setInput] = useState("");
+
+    const onSubmit = async()=>{
+        const response = await axios.post("/", input);
+        
+
+    }
     return(
         <Background>
             <NavBar/>
-            
-            
             <Body>
                 <Header>
                     <Title>Promise 실전에서 사용해보기</Title>
@@ -447,9 +455,13 @@ export default function BoardPage(){
                 <CommentArea>
                     <InputBox>
                         <CommentCnt>1개의 댓글</CommentCnt>
-                        <Input placeholder="댓글을 작성하세요"/>
+                        <Input 
+                            onChange={(e) => setInput(e.currentTarget.value)} 
+                            value={input} 
+                            placeholder="댓글을 작성하세요"
+                        />
                         <BtnWrapper>
-                            <InputBtn>댓글 작성</InputBtn>
+                            <InputBtn onSubmit={onSubmit}>댓글 작성</InputBtn>
                         </BtnWrapper>
                     </InputBox>
 

@@ -161,7 +161,7 @@ const LoginModal: React.FC<LoginModalProps> = ({onClose}) => {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const  setAccessToken = useSetRecoilState(accessTokenState);
+  const setAccessToken = useSetRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
   // const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const [error, setError] = useState("");
