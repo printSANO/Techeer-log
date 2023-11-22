@@ -378,22 +378,37 @@ const CommentLine = styled.p`
 
 export default function BoardPage(){
     const [input, setInput] = useState("");
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState<Comments[]>([]);
 
-    const onCommentSubmit = async(e:React.ChangeEvent)=>{
-        e.preventDefault();
+    type Comments = {
+        "commentId": number,
+        "nickname": string,
+        "content": string,
+        "createdAt": string,
+        "likeCount": number,
+        "like": boolean,
+        "replies": Replies[],
+    }
 
-        //게시글 상세조회시 post-id axios로 전역 저장해서 가져오기?
+    type Replies = {
+        "replyId": number,
+        "nickname": string,
+        "content": string,
+        "createdAt": string,
+        "likeCount": number,
+        "like": boolean,
+    }
+
+    const onCommentSubmit = async()=>{
+        // e.preventDefault();
         const id=1;
         try {
             const response = await axios.post(`/api/v1/posts/${id}/comments`, input);
-            //setComments((prev) => [...prev, response.data]);
+            setComments((prev) => [...prev, response.data]);
         } catch (error) {
             console.log(error);
         }
-
         setInput("");
-
     };
 
     const getComments = async()=>{
@@ -482,25 +497,32 @@ export default function BoardPage(){
                         <Input 
                             placeholder="댓글을 작성하세요"
                             value={input}
-                            onChange={(e)=>e.currentTarget.value}
+                            onChange={(e)=>setInput(e.target.value)}
                         />
                         <BtnWrapper>
-                            <InputBtn onSubmit={onCommentSubmit}>댓글 작성</InputBtn>
+                            <InputBtn onClick={onCommentSubmit}>댓글 작성</InputBtn>
                         </BtnWrapper>
                     </InputBox>
+                    <>
+                        {comments && comments.map((comment)=>{
+                            <CommentBox key={comment.commentId}>
+                                <CommentUserBox>
+                                    <CommentImg src={userimg}/>
+                                    <CommentInfo>
+                                        <CommentUser>{comment.nickname}</CommentUser>
+                                        <CommentTime>{comment.createdAt}</CommentTime>
+                                    </CommentInfo>
+                                </CommentUserBox>
+                                <Comment>
+                                    <CommentLine>{comment.content}</CommentLine>
+                                </Comment>
+                            </CommentBox>
+                        })}
+                    </>
 
-                    <CommentBox>
-                        <CommentUserBox>
-                            <CommentImg src={userimg}/>
-                            <CommentInfo>
-                                <CommentUser>송유림</CommentUser>
-                                <CommentTime>1일 전</CommentTime>
-                            </CommentInfo>
-                        </CommentUserBox>
-                        <Comment>
-                            <CommentLine>잘 봤습니다.</CommentLine>
-                        </Comment>
-                    </CommentBox>
+                    
+
+                    
                 </CommentArea>
             </Body>
         </Background>
