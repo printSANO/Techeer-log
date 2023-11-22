@@ -95,7 +95,7 @@ const router = createBrowserRouter([
     element: <PostingPage />,
   },
   {
-    path: "/board",
+    path: "/board/:postId",
     element: <BoardPage />,
   },
 ]);
