@@ -2,7 +2,6 @@ import styled from "styled-components";
 import NavBar from "../components/NavBar";
 // import boardimg from "../assets/BoardImg.png";
 import heartline from "../assets/Heart.png";
-import share from "../assets/Share.png";
 import userimg from "../assets/UserImg.png";
 import github from "../assets/GitHub.png";
 import mail from "../assets/Mail.png";
@@ -203,10 +202,6 @@ const Like = styled.img`
   height: 24px;
 `;
 
-const Share = styled.img`
-  width: 24px;
-  height: 24px;
-`;
 const Bottom = styled.div`
   box-sizing: inherit;
   margin-top: 30%;
