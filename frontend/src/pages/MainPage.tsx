@@ -216,6 +216,7 @@ interface FormType {
   createdAt: string;
   commentCount: number;
   likeCount: number;
+  id: number;
 }
 
 function MainPage() {
@@ -227,7 +228,6 @@ function MainPage() {
 
   //첫 포스트 요청
   const getPostList = (): void => {
-    console.log(pagenum);
     axios
       .get("api/v1/posts/list/0", {
         params: { page: pagenum, size: 10, sort: "desc" },
@@ -254,7 +254,6 @@ function MainPage() {
 
   //무한 스크롤 요청
   const getPostList2 = (): void => {
-    console.log(pagenum);
     axios
       .get("api/v1/posts/list/0", {
         params: { page: pagenum, size: 10, sort: "desc" },
@@ -303,7 +302,7 @@ function MainPage() {
           <Row>
             {posts.length > 0 &&
               posts.map((data: FormType, index) => (
-                <Link to="/board">
+                <Link to={`/board/${data.id}`}>
                   <Box key={index}>
                     <MainImg src={mainimg} />
                     <Bottom>

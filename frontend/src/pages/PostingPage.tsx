@@ -56,25 +56,6 @@ const Underbar = styled.div`
   border-radius: 1px;
 `;
 
-const Tags = styled.div`
-  color: #ececec;
-  font-size: 1.125rem;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const WriteTag = styled.input`
-  background: transparent;
-  display: inline-flex;
-  outline: none;
-  cursor: text;
-  font-size: 1.125rem;
-  line-height: 2rem;
-  margin-bottom: 0.75rem;
-  min-width: 8rem;
-  border: none;
-  color: #ececec;
-`;
 
 const Buttons = styled.div`
   display: flex;
@@ -297,7 +278,6 @@ function PostingPage() {
           });
 
           setMarkdown(markdown + `![](${response.data.data})`);
-          console.log(response.data.data);
           setSelectedImage(null);
         } catch (error) {
           console.log(error);
@@ -347,9 +327,6 @@ function PostingPage() {
             placeholder="제목을 입력하세요"
           />
           <Underbar />
-          <Tags>
-            <WriteTag placeholder="태그를 입력하세요" />
-          </Tags>
         </Title>
         <Buttons>
           <Scale onClick={handleButtonH1Change}>
