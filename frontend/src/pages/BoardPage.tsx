@@ -5,7 +5,7 @@ import heartline from "../assets/Heart.png";
 import userimg from "../assets/UserImg.png";
 import github from "../assets/GitHub.png";
 import mail from "../assets/Mail.png";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
@@ -365,6 +365,7 @@ const Comment = styled.div`
   flex-direction: column;
   margin: 2.5rem 0;
 `;
+
 const CommentLine = styled.p`
   color: #ececec;
   font-size: 18px;
@@ -372,6 +373,23 @@ const CommentLine = styled.p`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 0.5rem;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -1.25rem;
+`;
+
+const PutDelete = styled.button`
+  margin-left: 0.5rem;
+  padding: 0px;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: inherit;
+  cursor: pointer;
+  color: #acacac;
 `;
 
 export default function BoardPage() {
@@ -382,8 +400,24 @@ export default function BoardPage() {
   const [date, setDate] = useState("");
   const [views, setViews] = useState(0);
   const [like, setLike] = useState(0);
+  const [nickname, setNickname] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
+  const navigate = useNavigate();
 
+  const getNickName = (): void => {
+    axios
+      .get("/api/v1/members/nickname", {
+        headers: {
+          authorization: accesstoken,
+        },
+      })
+      .then((res) => {
+        setNickname(res.data.data.nickname);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const getPost = (): void => {
     axios
       .get(`/api/v1/posts/${postId}`)
@@ -403,6 +437,7 @@ export default function BoardPage() {
 
   useEffect(() => {
     getPost();
+    getNickName();
   }, []);
 
   const LikeCounting = async (): Promise<void> => {
@@ -432,6 +467,37 @@ export default function BoardPage() {
     }
   };
 
+  const PutPost = (): void => {
+    axios
+      .put(`/api/v1/posts/${postId}`, {
+        headers: {
+          authorization: accesstoken,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const DeletePost = (): void => {
+    axios
+      .delete(`/api/v1/posts/${postId}`, {
+        headers: {
+          authorization: accesstoken,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Background>
       <NavBar />
@@ -439,13 +505,40 @@ export default function BoardPage() {
       <Body>
         <Header>
           <Title>{title}</Title>
-          <BoardInfo>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <User>{writer} · </User>
-              <DateTime>{date.replace("T", " ")}</DateTime>
-            </div>
-            <Views>조회 수 : {views}</Views>
-          </BoardInfo>
+          {nickname !== writer ? (
+            <BoardInfo>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <User>{writer} · </User>
+                <DateTime>{date.replace("T", " ")}</DateTime>
+              </div>
+              <Views>조회 수 : {views / 2}</Views>
+            </BoardInfo>
+          ) : (
+            <BoardInfo>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <User>{writer} · </User>
+                  <DateTime>{date.replace("T", " ")}</DateTime>
+                </div>
+                <Buttons>
+                  <PutDelete onClick={PutPost}>수정</PutDelete>
+                  <PutDelete onClick={DeletePost}>삭제</PutDelete>
+                </Buttons>
+              </div>
+              <Views>조회 수 : {views / 2}</Views>
+            </BoardInfo>
+          )}
+
           {/* <KeyWordBox>
             <KeyWord>Javascript</KeyWord>
             <KeyWord>Javascript</KeyWord>
