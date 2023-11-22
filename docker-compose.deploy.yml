@@ -1,0 +1,67 @@
+version: "3.8"
+
+# volumes:
+#   build_folder: null
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    env_file:
+      - "./backend/db/.env"
+    ports:
+      - "3306:3306"
+      #    platform: linux/amd64
+      #    volumes:
+      # - ./elk/logs/mysql_data:/var/var/log
+    #      - ./backend/db/init/:/docker-entrypoint-initdb.d/
+    # - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "mysqldb"]
+    #   timeout: 20s
+    #   retries: 10
+    # command: ["--general-log", "--general-log-file=/var/log/mysql.log"]
+  nginx:
+    image: nginx:1.24.0-alpine-slim
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - backend
+#      - frontend
+    expose:
+      - '80'
+      - '443'
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+#    networks:
+#      - app-tier
+  backend:
+    build: ./backend
+    restart: always
+    depends_on:
+      - mysqldb
+    environment:
+      WAIT_HOSTS: mysqldb:3306
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/console-log?createDatabaseIfNotExist=true&characterEncoding=UTF-8&profileSql=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345678
+    #      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8080:8080"
+    command: [ "java", "-jar", "/app.jar" ]
+
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    depends_on:
+      - nginx
