@@ -333,6 +333,7 @@ const CommentBox = styled.div`
 
 const CommentUserBox = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 `;
 const CommentImg = styled.img`
@@ -357,6 +358,31 @@ const CommentTime = styled.p`
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
+`;
+const EditBtn = styled.p`
+  color: #b8b8b8;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  margin-right: 7px;
+  cursor: pointer;
+
+  &:hover{
+    text-decoration: underline;
+  }
+
+`;
+const DeleteBtn = styled.p`
+  color: #b8b8b8;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  cursor: pointer;
+
+  &:hover{
+    text-decoration: underline;
+  }
+
 `;
 
 const Comment = styled.div`
@@ -389,7 +415,7 @@ export default function BoardPage(){
         axios
           .get(`/api/v1/posts/${postId}`)
           .then((res) => {
-            console.log(res.data.data.content);
+            // console.log(res.data.data.content);
             setMarkdown(res.data.data.content);
             setTitle(res.data.data.title);
             setWriter(res.data.data.nickname);
@@ -451,24 +477,58 @@ export default function BoardPage(){
 
     const onCommentSubmit = async()=>{
         // e.preventDefault();
-        const id=1;
         try {
-            const response = await axios.post(`/api/v1/posts/${id}/comments`, input);
-            setComments((prev) => [...prev, response.data]);
+            await axios.post(
+                `/api/v1/posts/${postId}/comments`, 
+                {"content": input}, 
+                {
+                    headers: {
+                        authorization: accesstoken,
+                    },
+                }
+            );
+
+            getComments();
+
+            setInput("");
+
         } catch (error) {
             console.log(error);
         }
-        setInput("");
     };
 
     const getComments = async()=>{
-        const id=1
-        await axios.get(`/api/v1/posts/${id}/comments`)
-                    .then((res)=>{
-                        setComments(res.data.comments);
-                    })
-                    .catch((e)=>console.log(e));
+      try {
+        const response = await axios.get(`/api/v1/posts/${postId}/comments`);
+        const commentsData = response.data.data.comments;
+    
+        if (commentsData.length > 0) {
+          setComments(commentsData);
+        } else {
+          // 데이터가 비어있는 경우, 초기값인 빈 배열 []을 설정하여 UI에 빈 목록을 표시
+          setComments([]);
+        }
+      } catch (error) {
+        console.error('댓글 가져오기 실패:', error);
+      }
     };
+
+    const onDelete = async(commentId:number)=>{
+      try{
+        await axios.delete(`/api/v1/comments/${commentId}`,{          
+          headers:{
+            "Authorization":accesstoken,
+          },
+        });
+        
+        setComments((prevComments) =>
+          prevComments.filter((comment) => comment.commentId !== commentId)
+        );
+      } catch(error) {
+        console.error("댓글 삭제 실패:",error);
+      }
+    }; 
+
 
     useEffect(()=>{
         getPost();
@@ -552,22 +612,28 @@ export default function BoardPage(){
                     <InputBtn onClick={onCommentSubmit}>댓글 작성</InputBtn>
                 </BtnWrapper>
             </InputBox>
-            <>
-                {comments && comments.map((comment)=>{
+            <div>
+                {comments && comments.map((comment)=>(
                     <CommentBox key={comment.commentId}>
                         <CommentUserBox>
+                          <div style={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
                             <CommentImg src={userimg}/>
                             <CommentInfo>
                                 <CommentUser>{comment.nickname}</CommentUser>
                                 <CommentTime>{comment.createdAt}</CommentTime>
                             </CommentInfo>
+                          </div>
+                          <div style={{ display: "flex", flexDirection: "row" }}>
+                            <EditBtn>수정</EditBtn>
+                            <DeleteBtn onClick={()=>onDelete(comment.commentId)}>삭제</DeleteBtn>
+                          </div>   
                         </CommentUserBox>
                         <Comment>
                             <CommentLine>{comment.content}</CommentLine>
                         </Comment>
                     </CommentBox>
-                })}
-            </>
+                ))}
+            </div>
             
         </CommentArea>
       </Body>
