@@ -176,6 +176,8 @@ function SignUp(){
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    // const [profileUrl, setProfileUrl] = useRecoilState(profileImageUrl);
+
     // const imgInput = useRef(null);
 
     // useEffect(()=>{
@@ -238,12 +240,16 @@ function SignUp(){
 
             // axios.post에 formData를 직접 전달
             await axios.post(
-                "api/v1/members/signup", 
+                "api/v1/members/signup",
                 formData, 
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 },
             );
+
+            // const profileurl = response.data.data.profileImageUrl;
+
+            // setProfileUrl(profileurl);
 
             navigate("/"); // 성공 시 페이지 이동
 

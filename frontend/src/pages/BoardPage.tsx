@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MarkdownPreview from "../components/MarkdownPreview";
 import { useRecoilValue } from "recoil";
-import { accessTokenState } from "../states/Atom";
+import { accessTokenState, profileImageUrl } from "../states/Atom";
 import { useParams } from "react-router-dom";
 
 const Background = styled.div`
@@ -408,8 +408,10 @@ export default function BoardPage(){
     const [views, setViews] = useState(0);
     const [like, setLike] = useState(0);
     const accesstoken = useRecoilValue(accessTokenState);
+    const profileurl = useRecoilValue(profileImageUrl)
     const [input, setInput] = useState("");
     const [comments, setComments] = useState<Comments[]>([]);
+
 
     const getPost = (): void => {
         axios
@@ -586,7 +588,7 @@ export default function BoardPage(){
           <ProfileBox>
             <Profile>
               <UserBox>
-                <UserImg src={userimg}></UserImg>
+                <UserImg src={profileurl}></UserImg>
               </UserBox>
               <UserText>
                 <UserName>{writer}</UserName>
@@ -617,7 +619,7 @@ export default function BoardPage(){
                     <CommentBox key={comment.commentId}>
                         <CommentUserBox>
                           <div style={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
-                            <CommentImg src={userimg}/>
+                            <CommentImg src={profileurl}/>
                             <CommentInfo>
                                 <CommentUser>{comment.nickname}</CommentUser>
                                 <CommentTime>{comment.createdAt}</CommentTime>

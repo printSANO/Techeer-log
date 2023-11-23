@@ -7,7 +7,7 @@ import underpolygon from "../assets/UnderTri.png";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import LoginModal from "../components/LoginModal";
-import { isLoggedInSelector,  } from "../states/Atom";
+import { isLoggedInSelector, profileImageUrl } from "../states/Atom";
 import { useState } from "react";
 import Dropdown from "./Dropdown";
 
@@ -121,6 +121,7 @@ const ModalWrapper = styled.div`
 function NavBar() {
   const[showDropdown, setshowDropdown] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
+  const profileurl = useRecoilValue(profileImageUrl)
   const [showLoginModal, setShowLoginModal] = useState(false); // 모달 보이기/감추기 상태
 
   // 로그인 모달을 보여주는 함수
@@ -154,7 +155,7 @@ function NavBar() {
               </Link>
             </WriteButton>
             <div style={{ display : "flex", gap:"1rem"}} onClick={()=>{setshowDropdown((prev)=>!prev)}}>
-              <MiniProfile src={miniprofile} />
+              <MiniProfile src={profileurl} />
               <Menu src={underpolygon} />
             </div>
             {showDropdown && <Dropdown/>}
