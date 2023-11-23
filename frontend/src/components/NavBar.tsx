@@ -2,7 +2,6 @@ import styled from "styled-components";
 import logo from "../assets/logo.png";
 import moon from "../assets/Moon.png";
 import magnifyingglass from "../assets/MagnifyingGlass.png";
-import miniprofile from "../assets/MiniProfile.png";
 import underpolygon from "../assets/UnderTri.png";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";

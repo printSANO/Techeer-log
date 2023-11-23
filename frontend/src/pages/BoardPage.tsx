@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import heartline from "../assets/Heart.png"
-import userimg from "../assets/UserImg.png"
 import github from "../assets/GitHub.png"
 import mail from "../assets/Mail.png"
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MarkdownPreview from "../components/MarkdownPreview";
-import { useRecoilValue } from "recoil";
-import { accessTokenState, profileImageUrl } from "../states/Atom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { accessTokenState, editDetail, editTitle, profileImageUrl } from "../states/Atom";
 
 const Background = styled.div`
   width: 100vw;
@@ -390,6 +389,7 @@ const Comment = styled.div`
   flex-direction: column;
   margin: 2.5rem 0;
 `;
+
 const CommentLine = styled.p`
   color: #ececec;
   font-size: 18px;
@@ -399,144 +399,198 @@ const CommentLine = styled.p`
   margin-bottom: 0.5rem;
 `;
 
-export default function BoardPage(){
-    const { postId } = useParams();
-    const [markdown, setMarkdown] = useState("");
-    const [title, setTitle] = useState("");
-    const [writer, setWriter] = useState("");
-    const [date, setDate] = useState("");
-    const [views, setViews] = useState(0);
-    const [like, setLike] = useState(0);
-    const accesstoken = useRecoilValue(accessTokenState);
-    const profileurl = useRecoilValue(profileImageUrl)
-    const [input, setInput] = useState("");
-    const [comments, setComments] = useState<Comments[]>([]);
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -1.25rem;
+`;
 
+const PutDelete = styled.button`
+  margin-left: 0.5rem;
+  padding: 0px;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: inherit;
+  cursor: pointer;
+  color: #acacac;
+`;
 
-    const getPost = (): void => {
-        axios
-          .get(`/api/v1/posts/${postId}`)
-          .then((res) => {
-            // console.log(res.data.data.content);
-            setMarkdown(res.data.data.content);
-            setTitle(res.data.data.title);
-            setWriter(res.data.data.nickname);
-            setDate(res.data.data.createdAt);
-            setViews(res.data.data.viewCount);
-            setLike(res.data.data.likeCount);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      };
+export default function BoardPage() {
+  const { postId } = useParams();
+  const [markdown, setMarkdown] = useState("");
+  const [title, setTitle] = useState("");
+  const [writer, setWriter] = useState("");
+  const [date, setDate] = useState("");
+  const [views, setViews] = useState(0);
+  const [like, setLike] = useState(0);
+  const [nickname, setNickname] = useState("");
+  const accesstoken = useRecoilValue(accessTokenState);
+  const seteditTitle = useSetRecoilState(editTitle);
+  const seteditDetail = useSetRecoilState(editDetail);
+  const profileurl = useRecoilValue(profileImageUrl)
+  const [input, setInput] = useState("");
+  const [comments, setComments] = useState<Comments[]>([]);
+  const navigate = useNavigate();
 
-      const LikeCounting = async (): Promise<void> => {
-        try {
-          const response = await axios.put(
-            `/api/v1/posts/${postId}/like`,
-            {
-              id: postId,
-            },
-            {
-              headers: {
-                authorization: accesstoken,
-              },
-            }
-          );
-          console.log(response.data);
-          setLike((prev) => prev + 1);
-        } catch (error) {
-          alert("이미 좋아요를 누른 게시글입니다.");
-        }
-      };
-      const LikeCounter = async (): Promise<void> => {
-        try {
-          await LikeCounting();
-        } catch (error) {
-          console.log(error);
-        }
-      };
+  const getNickName = (): void => {
+    axios
+      .get("/api/v1/members/nickname", {
+        headers: {
+          authorization: accesstoken,
+        },
+      })
+      .then((res) => {
+        setNickname(res.data.data.nickname);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const getPost = (): void => {
+    axios
+      .get(`/api/v1/posts/${postId}`)
+      .then((res) => {
+        console.log(res.data.data.content);
+        setMarkdown(res.data.data.content);
+        setTitle(res.data.data.title);
+        setWriter(res.data.data.nickname);
+        setDate(res.data.data.createdAt);
+        setViews(res.data.data.viewCount);
+        setLike(res.data.data.likeCount);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
+  useEffect(() => {
+    getPost();
+    getNickName();
+    getComments();
+  }, []);
 
-    type Comments = {
-        "commentId": number,
-        "nickname": string,
-        "content": string,
-        "createdAt": string,
-        "likeCount": number,
-        "like": boolean,
-        "replies": Replies[],
-    }
-
-    type Replies = {
-        "replyId": number,
-        "nickname": string,
-        "content": string,
-        "createdAt": string,
-        "likeCount": number,
-        "like": boolean,
-    }
-
-    const onCommentSubmit = async()=>{
-        // e.preventDefault();
-        try {
-            await axios.post(
-                `/api/v1/posts/${postId}/comments`, 
-                {"content": input}, 
-                {
-                    headers: {
-                        authorization: accesstoken,
-                    },
-                }
-            );
-
-            getComments();
-
-            setInput("");
-
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const getComments = async()=>{
-      try {
-        const response = await axios.get(`/api/v1/posts/${postId}/comments`);
-        const commentsData = response.data.data.comments;
-    
-        if (commentsData.length > 0) {
-          setComments(commentsData);
-        } else {
-          // 데이터가 비어있는 경우, 초기값인 빈 배열 []을 설정하여 UI에 빈 목록을 표시
-          setComments([]);
-        }
-      } catch (error) {
-        console.error('댓글 가져오기 실패:', error);
-      }
-    };
-
-    const onDelete = async(commentId:number)=>{
-      try{
-        await axios.delete(`/api/v1/comments/${commentId}`,{          
-          headers:{
-            "Authorization":accesstoken,
+  const LikeCounting = async (): Promise<void> => {
+    try {
+      const response = await axios.put(
+        `/api/v1/posts/${postId}/like`,
+        {
+          id: postId,
+        },
+        {
+          headers: {
+            authorization: accesstoken,
           },
-        });
-        
-        setComments((prevComments) =>
-          prevComments.filter((comment) => comment.commentId !== commentId)
-        );
-      } catch(error) {
-        console.error("댓글 삭제 실패:",error);
+        }
+      );
+      console.log(response.data);
+      setLike((prev) => prev + 1);
+    } catch (error) {
+      alert("이미 좋아요를 누른 게시글입니다.");
+    }
+  };
+  const LikeCounter = async (): Promise<void> => {
+    try {
+      await LikeCounting();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  type Comments = {
+      "commentId": number,
+      "nickname": string,
+      "content": string,
+      "createdAt": string,
+      "likeCount": number,
+      "like": boolean,
+      "replies": Replies[],
+  }
+
+  type Replies = {
+      "replyId": number,
+      "nickname": string,
+      "content": string,
+      "createdAt": string,
+      "likeCount": number,
+      "like": boolean,
+  }
+
+  const onCommentSubmit = async()=>{
+      // e.preventDefault();
+      try {
+          await axios.post(
+              `/api/v1/posts/${postId}/comments`, 
+              {"content": input}, 
+              {
+                  headers: {
+                      authorization: accesstoken,
+                  },
+              }
+          );
+
+          getComments();
+
+          setInput("");
+
+      } catch (error) {
+          console.log(error);
       }
-    }; 
+  };
 
-
-    useEffect(()=>{
-        getPost();
-        getComments();
-    },[]);
+  const getComments = async()=>{
+    try {
+      const response = await axios.get(`/api/v1/posts/${postId}/comments`);
+      const commentsData = response.data.data.comments;
   
+      if (commentsData.length > 0) {
+        setComments(commentsData);
+      } else {
+        // 데이터가 비어있는 경우, 초기값인 빈 배열 []을 설정하여 UI에 빈 목록을 표시
+        setComments([]);
+      }
+    } catch (error) {
+      console.error('댓글 가져오기 실패:', error);
+    }
+  };
+
+  const onDelete = async(commentId:number)=>{
+    try{
+      await axios.delete(`/api/v1/comments/${commentId}`,{          
+        headers:{
+          "Authorization":accesstoken,
+        },
+      });
+      
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.commentId !== commentId)
+      );
+    } catch(error) {
+      console.error("댓글 삭제 실패:",error);
+    }
+  }; 
+  
+  const PutPost = (): void => {
+    seteditTitle(title);
+    seteditDetail(markdown);
+    navigate(`/edit/${postId}`)
+  };
+  const DeletePost = (): void => {
+    axios
+      .delete(`/api/v1/posts/${postId}`, {
+        headers: {
+          authorization: accesstoken,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <Background>
       <NavBar />
@@ -544,13 +598,40 @@ export default function BoardPage(){
       <Body>
         <Header>
           <Title>{title}</Title>
-          <BoardInfo>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <User>{writer} · </User>
-              <DateTime>{date.replace("T", " ")}</DateTime>
-            </div>
-            <Views>조회 수 : {views}</Views>
-          </BoardInfo>
+          {nickname !== writer ? (
+            <BoardInfo>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <User>{writer} · </User>
+                <DateTime>{date.replace("T", " ")}</DateTime>
+              </div>
+              <Views>조회 수 : {views / 2}</Views>
+            </BoardInfo>
+          ) : (
+            <BoardInfo>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <User>{writer} · </User>
+                  <DateTime>{date.replace("T", " ")}</DateTime>
+                </div>
+                <Buttons>
+                  <PutDelete onClick={PutPost}>수정</PutDelete>
+                  <PutDelete onClick={DeletePost}>삭제</PutDelete>
+                </Buttons>
+              </div>
+              <Views>조회 수 : {views / 2}</Views>
+            </BoardInfo>
+          )}
+
           {/* <KeyWordBox>
             <KeyWord>Javascript</KeyWord>
             <KeyWord>Javascript</KeyWord>
