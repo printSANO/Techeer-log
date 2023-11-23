@@ -29,7 +29,8 @@ services:
       - "443:443"
     volumes:
       #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/test.html:/test/test.html
+      - ./nginx/nginx-deploy.conf:/etc/nginx/nginx-deploy.conf
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
     depends_on:
