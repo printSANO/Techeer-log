@@ -12,6 +12,16 @@ export const accessTokenState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const editTitle = atom({
+  key: "editTitle",
+  default: "",
+});
+
+export const editDetail = atom({
+  key: "editDetail",
+  default: "",
+});
+
 export const isLoggedInSelector = selector({
   key: "isLoggedInSelector",
   get: ({ get }) => {

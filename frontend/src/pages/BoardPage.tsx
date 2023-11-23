@@ -9,8 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { accessTokenState } from "../states/Atom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { accessTokenState, editDetail, editTitle } from "../states/Atom";
 
 const Background = styled.div`
   width: 100vw;
@@ -402,6 +402,8 @@ export default function BoardPage() {
   const [like, setLike] = useState(0);
   const [nickname, setNickname] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
+  const seteditTitle = useSetRecoilState(editTitle);
+  const seteditDetail = useSetRecoilState(editDetail);
   const navigate = useNavigate();
 
   const getNickName = (): void => {
@@ -468,19 +470,9 @@ export default function BoardPage() {
   };
 
   const PutPost = (): void => {
-    axios
-      .put(`/api/v1/posts/${postId}`, {
-        headers: {
-          authorization: accesstoken,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    seteditTitle(title);
+    seteditDetail(markdown);
+    navigate(`/edit/${postId}`)
   };
   const DeletePost = (): void => {
     axios
