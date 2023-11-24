@@ -30,7 +30,7 @@ services:
     volumes:
       #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
       - ./nginx/index.html:/test/index.html
-      - ./nginx/nginx-deploy.conf:/etc/nginx/nginx-deploy.conf
+      - ./nginx/nginx-deploy.conf:/etc/nginx/nginx.conf
       - ./certbot/conf:/etc/letsencrypt:rw
       - ./certbot/www:/var/www/certbot:rw
     depends_on:
