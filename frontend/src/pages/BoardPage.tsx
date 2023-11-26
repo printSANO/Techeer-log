@@ -408,7 +408,7 @@ export default function BoardPage() {
 
   const getNickName = (): void => {
     axios
-      .get("/api/v1/members/nickname", {
+      .get("/api/v1/members/profile", {
         headers: {
           authorization: accesstoken,
         },
@@ -472,7 +472,7 @@ export default function BoardPage() {
   const PutPost = (): void => {
     seteditTitle(title);
     seteditDetail(markdown);
-    navigate(`/edit/${postId}`)
+    navigate(`/edit/${postId}`);
   };
   const DeletePost = (): void => {
     axios

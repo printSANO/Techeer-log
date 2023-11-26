@@ -3,6 +3,9 @@ import NavBar from "../components/NavBar";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import more from "../assets/More.png";
 import mainimg from "../assets/MainImg.png";
+import mainimg2 from "../assets/mainimg2.jpg";
+import mainimg3 from "../assets/mainimg3.jpg";
+import mainimg4 from "../assets/mainimg4.jpg";
 import line from "../assets/Line.png";
 import profileimg from "../assets/ProfileImg.png";
 // import LoginModal from "../components/LoginModal";
@@ -304,7 +307,15 @@ function MainPage() {
               posts.map((data: FormType, index) => (
                 <Link to={`/board/${data.id}`}>
                   <Box key={index}>
-                    <MainImg src={mainimg} />
+                    {data.id % 4 === 0 ? (
+                      <MainImg src={mainimg} />
+                    ) : data.id % 4 === 1 ? (
+                      <MainImg src={mainimg2} />
+                    ) : data.id % 4 === 2 ? (
+                      <MainImg src={mainimg3} />
+                    ) : (
+                      <MainImg src={mainimg4} />
+                    )}
                     <Bottom>
                       <Title>{data.title}</Title>
                       <Info>
