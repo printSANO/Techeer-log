@@ -455,8 +455,7 @@ export default function BoardPage() {
           },
         }
       );
-      console.log(response.data);
-      setLike((prev) => prev + 1);
+      setLike(response.data.data.likeCount);
     } catch (error) {
       alert("이미 좋아요를 누른 게시글입니다.");
     }
