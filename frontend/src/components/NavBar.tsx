@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import logo from "../assets/logo.png";
-import moon from "../assets/Moon.png";
-import magnifyingglass from "../assets/MagnifyingGlass.png";
 import miniprofile from "../assets/MiniProfile.png";
 import underpolygon from "../assets/UnderTri.png";
 import { Link } from "react-router-dom";
@@ -42,15 +40,6 @@ const Title = styled.p`
   line-height: normal;
 `;
 
-const Theme = styled.img`
-  width: 28px;
-  height: 28px;
-`;
-
-const Search = styled.img`
-  width: 28px;
-  height: 28px;
-`;
 const WriteButton = styled.button`
   width: 111px;
   height: 41px;
@@ -144,8 +133,6 @@ function NavBar() {
         </Left>
       </Link>
       <Right>
-        <Theme src={moon} />
-        <Search src={magnifyingglass} />
         {isLoggedIn ? (
           <>
             <WriteButton>
