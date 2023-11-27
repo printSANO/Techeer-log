@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import nopost from "../assets/NoPost.png";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -99,7 +100,7 @@ const Row = styled.div`
   gap: 40px 55px;
 `;
 
-const Box = styled.div`
+const Box = styled(motion.div)`
   width: 310px;
   height: 380px;
   background-color: #1e1e1e;
@@ -306,7 +307,11 @@ function MainPage() {
             {posts.length > 0 &&
               posts.map((data: FormType, index) => (
                 <Link to={`/board/${data.id}`}>
-                  <Box key={index}>
+                  <Box
+                    key={index}
+                    whileHover={{ y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {data.id % 4 === 0 ? (
                       <MainImg src={mainimg} />
                     ) : data.id % 4 === 1 ? (

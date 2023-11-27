@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { accessTokenState } from "../states/Atom";
 import { useRecoilValue } from "recoil";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -56,7 +57,6 @@ const Underbar = styled.div`
   border-radius: 1px;
 `;
 
-
 const Buttons = styled.div`
   display: flex;
   align-items: center;
@@ -70,7 +70,7 @@ const Buttons = styled.div`
   width: auto;
 `;
 
-const Scale = styled.button`
+const Scale = styled(motion.button)`
   width: 3rem;
   height: 3rem;
   display: flex;
@@ -155,13 +155,11 @@ const TempSaveBtn = styled.button`
   padding: 0px 1.25rem;
 `;
 */
-const SaveBtn = styled.button`
+const SaveBtn = styled(motion.button)`
   height: 2.5rem;
   font-size: 1.125rem;
   display: inline-flex;
-  -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: center;
   justify-content: center;
   font-weight: bold;
   cursor: pointer;
@@ -485,7 +483,9 @@ function PostingPage() {
             </span>
           </BackButton>
           <div>
-            <SaveBtn onClick={onSubmit}>출간하기</SaveBtn>
+            <SaveBtn whileHover={{ background: "#63E6BE" }} onClick={onSubmit}>
+              출간하기
+            </SaveBtn>
           </div>
         </UnderBox>
       </LeftBox>

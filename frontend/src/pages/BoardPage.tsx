@@ -457,7 +457,7 @@ export default function BoardPage() {
       );
       setLike(response.data.data.likeCount);
     } catch (error) {
-      alert("이미 좋아요를 누른 게시글입니다.");
+      console.log(error);
     }
   };
   const LikeCounter = async (): Promise<void> => {
