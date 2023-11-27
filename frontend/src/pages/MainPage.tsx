@@ -316,7 +316,7 @@ function MainPage() {
                         <a style={{ display: "flex", paddingTop: "4px" }}>
                           <ProfileImg src={profileimg} />
                           <span style={{ color: "#fff", paddingLeft: "8px" }}>
-                            by
+                            
                             <b
                               style={{
                                 color: "#ECECEC",

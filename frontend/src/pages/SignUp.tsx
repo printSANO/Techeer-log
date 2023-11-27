@@ -1,9 +1,11 @@
 
 import {styled} from "styled-components";
 import signupimg from "../assets/MainImg.png"
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { profileImageUrl } from "../states/Atom";
 
 const Background = styled.div`
     width: 98.5vw;
@@ -176,14 +178,14 @@ function SignUp(){
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    // const [profileUrl, setProfileUrl] = useRecoilState(profileImageUrl);
+    const [profileUrl, setProfileUrl] = useRecoilState(profileImageUrl);
 
-    // const imgInput = useRef(null);
+    const imgInput = useRef(null);
 
-    // useEffect(()=>{
+    useEffect(()=>{
 
-    // },[loginId, nickname, password, passwordConfirmation]
-    // )
+    },[loginId, nickname, password, passwordConfirmation]
+    )
 
     const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
         const {
@@ -239,7 +241,7 @@ function SignUp(){
             // }
 
             // axios.post에 formData를 직접 전달
-            await axios.post(
+            const response = await axios.post(
                 "api/v1/members/signup",
                 formData, 
                 {
@@ -247,9 +249,9 @@ function SignUp(){
                 },
             );
 
-            // const profileurl = response.data.data.profileImageUrl;
+            const profileurl = response.data.data.profileImageUrl;
 
-            // setProfileUrl(profileurl);
+            setProfileUrl(profileurl);
 
             navigate("/"); // 성공 시 페이지 이동
 

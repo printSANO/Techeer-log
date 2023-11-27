@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import heartline from "../assets/Heart.png"
 import github from "../assets/GitHub.png"
 import mail from "../assets/Mail.png"
+import userimg from "../assets/UserImg.png"
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MarkdownPreview from "../components/MarkdownPreview";
@@ -700,7 +701,7 @@ export default function BoardPage() {
                     <CommentBox key={comment.commentId}>
                         <CommentUserBox>
                           <div style={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
-                            <CommentImg src={profileurl}/>
+                            <CommentImg src={userimg}/>
                             <CommentInfo>
                                 <CommentUser>{comment.nickname}</CommentUser>
                                 <CommentTime>{comment.createdAt}</CommentTime>
