@@ -2,7 +2,7 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { accessTokenState, refreshTokenState } from "../states/Atom";
+import { accessTokenState, profileImageUrl, refreshTokenState } from "../states/Atom";
 import { Link } from "react-router-dom";
 
 const Modal = styled.div`
@@ -164,6 +164,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const setRefreshToken = useSetRecoilState(refreshTokenState);
   // const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const [error, setError] = useState("");
+  const setImageURL = useSetRecoilState(profileImageUrl);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -191,16 +192,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
             setAccessToken(accessToken);
             setRefreshToken(refreshToken);
-            console.log(accessToken);
 
-            // localStorage.setItem('accessToken', accessToken);
-            // localStorage.setItem('refreshToken', refreshToken);
+            getProfile(accessToken);
+
+
           }
         });
     } catch (error) {
       console.log(error);
       setError("아이디와 비밀번호를 확인하세요.");
-    } finally {
+    } finally {      
       setLoading(false);
     }
   };
@@ -222,6 +223,22 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  //이미지 url 받아오기
+  const getProfile = (accessToken:string): void => {
+    axios
+      .get("/api/v1/members/profile", {
+        headers: {
+          authorization: accessToken,
+        },
+      })
+      .then((res) => {
+        setImageURL(res.data.data.profileImageUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

@@ -120,8 +120,9 @@ const ModalWrapper = styled.div`
 function NavBar() {
   const[showDropdown, setshowDropdown] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
-  const profileurl = useRecoilValue(profileImageUrl)
   const [showLoginModal, setShowLoginModal] = useState(false); // 모달 보이기/감추기 상태
+  const imageURL = useRecoilValue(profileImageUrl);
+
 
   // 로그인 모달을 보여주는 함수
   const handleLoginClick = () => {
@@ -154,7 +155,7 @@ function NavBar() {
               </Link>
             </WriteButton>
             <div style={{ display : "flex", gap:"1rem"}} onClick={()=>{setshowDropdown((prev)=>!prev)}}>
-              <MiniProfile src={profileurl} />
+              <MiniProfile src={imageURL} />
               <Menu src={underpolygon} />
             </div>
             {showDropdown && <Dropdown/>}

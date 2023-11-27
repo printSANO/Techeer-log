@@ -3,12 +3,11 @@ import NavBar from "../components/NavBar";
 import heartline from "../assets/Heart.png"
 import github from "../assets/GitHub.png"
 import mail from "../assets/Mail.png"
-import userimg from "../assets/UserImg.png"
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MarkdownPreview from "../components/MarkdownPreview";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { accessTokenState, editDetail, editTitle, profileImageUrl } from "../states/Atom";
 
 const Background = styled.div`
@@ -429,14 +428,14 @@ export default function BoardPage() {
   const accesstoken = useRecoilValue(accessTokenState);
   const seteditTitle = useSetRecoilState(editTitle);
   const seteditDetail = useSetRecoilState(editDetail);
-  const profileurl = useRecoilValue(profileImageUrl)
   const [input, setInput] = useState("");
   const [comments, setComments] = useState<Comments[]>([]);
+  const imageURL = useRecoilValue(profileImageUrl);
   const navigate = useNavigate();
 
   const getNickName = (): void => {
     axios
-      .get("/api/v1/members/nickname", {
+      .get("/api/v1/members/profile", {
         headers: {
           authorization: accesstoken,
         },
@@ -459,6 +458,7 @@ export default function BoardPage() {
         setDate(res.data.data.createdAt);
         setViews(res.data.data.viewCount);
         setLike(res.data.data.likeCount);
+
       })
       .catch((error) => {
         console.log(error);
@@ -670,7 +670,7 @@ export default function BoardPage() {
           <ProfileBox>
             <Profile>
               <UserBox>
-                <UserImg src={profileurl}></UserImg>
+                <UserImg src={imageURL}></UserImg>
               </UserBox>
               <UserText>
                 <UserName>{writer}</UserName>
@@ -701,7 +701,7 @@ export default function BoardPage() {
                     <CommentBox key={comment.commentId}>
                         <CommentUserBox>
                           <div style={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
-                            <CommentImg src={userimg}/>
+                            <CommentImg src={imageURL}/>
                             <CommentInfo>
                                 <CommentUser>{comment.nickname}</CommentUser>
                                 <CommentTime>{comment.createdAt}</CommentTime>

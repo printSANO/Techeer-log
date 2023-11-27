@@ -4,13 +4,14 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import more from "../assets/More.png";
 import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
-import profileimg from "../assets/ProfileImg.png";
 // import LoginModal from "../components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import nopost from "../assets/NoPost.png";
+import { useRecoilValue } from "recoil";
+import { profileImageUrl } from "../states/Atom";
 
 const Background = styled.div`
   width: 100vw;
@@ -225,6 +226,8 @@ function MainPage() {
   const [ref, inView] = useInView();
   const [pagenum, setPagenum] = useState(0);
   const [islastPost, setIsLastPost] = useState(false);
+  const imageURL = useRecoilValue(profileImageUrl);
+
 
   //첫 포스트 요청
   const getPostList = (): void => {
@@ -314,7 +317,7 @@ function MainPage() {
                       <Line src={line} />
                       <DetailUnder>
                         <a style={{ display: "flex", paddingTop: "4px" }}>
-                          <ProfileImg src={profileimg} />
+                          <ProfileImg src={imageURL} />
                           <span style={{ color: "#fff", paddingLeft: "8px" }}>
                             
                             <b

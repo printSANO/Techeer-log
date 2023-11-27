@@ -39,5 +39,4 @@ export const refreshTokenState = atom({
 export const profileImageUrl = atom({
   key:'profileImageUrl',
   default:'',
-  effects_UNSTABLE:[persistAtom],
 })
