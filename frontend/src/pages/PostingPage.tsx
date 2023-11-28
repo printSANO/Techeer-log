@@ -3,8 +3,8 @@ import { useState, ChangeEvent, useRef, useEffect } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { accessTokenState } from "../states/Atom";
-import { useRecoilValue } from "recoil";
+import { Details, Titles, accessTokenState } from "../states/Atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { motion } from "framer-motion";
 
 const Background = styled.div`
@@ -206,6 +206,8 @@ function PostingPage() {
   const [markdown, setMarkdown] = useState("");
   const [title, setTitle] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
+  const setTitles = useSetRecoilState(Titles);
+  const setDetails = useSetRecoilState(Details);
 
   const formData = new FormData();
 
@@ -288,29 +290,11 @@ function PostingPage() {
   const handleButtonQuoteChange = () => {
     setMarkdown(markdown + "\n" + "> ");
   };
-  const handleSubmit = async (): Promise<void> => {
-    try {
-      const response = await axios.post(
-        "api/v1/posts",
-        {
-          title,
-          content: markdown,
-        },
-        {
-          headers: {
-            authorization: accesstoken,
-          },
-        }
-      );
-      console.log(response.data);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const onSubmit = async () => {
     try {
-      await handleSubmit();
+      setTitles(title);
+      setDetails(markdown);
+      navigate("/writing");
     } catch (error) {
       console.log(error);
     }

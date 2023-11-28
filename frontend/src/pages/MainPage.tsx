@@ -113,6 +113,12 @@ const MainImg = styled.img`
   border-radius: 10px;
 `;
 
+const MainImgNone = styled.div`
+  width: 310px;
+  height: 175.75px;
+  border-radius: 10px;
+`;
+
 const Bottom = styled.div`
   padding-top: 12px;
 `;
@@ -222,6 +228,7 @@ interface FormType {
   likeCount: number;
   id: number;
   profileImageUrl: string;
+  mainImageUrl: string;
 }
 
 function MainPage() {
@@ -313,14 +320,10 @@ function MainPage() {
                     whileHover={{ y: -10 }}
                     transition={{ duration: 0.3 }}
                   >
-                    {data.id % 4 === 0 ? (
-                      <MainImg src={mainimg} />
-                    ) : data.id % 4 === 1 ? (
-                      <MainImg src={mainimg2} />
-                    ) : data.id % 4 === 2 ? (
-                      <MainImg src={mainimg3} />
+                    {data.mainImageUrl ? (
+                      <MainImg src={data.mainImageUrl} />
                     ) : (
-                      <MainImg src={mainimg4} />
+                      <MainImgNone></MainImgNone>
                     )}
                     <Bottom>
                       <Title>{data.title}</Title>

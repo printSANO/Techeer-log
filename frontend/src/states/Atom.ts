@@ -22,6 +22,16 @@ export const editDetail = atom({
   default: "",
 });
 
+export const Titles = atom({
+  key: "Titles",
+  default: "",
+});
+
+export const Details = atom({
+  key: "Details",
+  default: "",
+});
+
 export const isLoggedInSelector = selector({
   key: "isLoggedInSelector",
   get: ({ get }) => {
