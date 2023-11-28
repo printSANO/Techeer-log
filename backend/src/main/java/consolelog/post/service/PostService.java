@@ -89,6 +89,7 @@ public class PostService {
         return Post.builder()
                 .title(newPostRequest.getTitle())
                 .content(newPostRequest.getContent())
+                .mainImageUrl(newPostRequest.getMainImageUrl())
                 .member(member)
                 .build();
     }
