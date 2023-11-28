@@ -100,7 +100,7 @@ public class PostService {
         validateOwner(authInfo, post);
         post.updateTitle(postUpdateRequest.getTitle());
         post.updateContent(postUpdateRequest.getContent());
-        post.setMainImageUrl(postUpdateRequest.getMainImageUrl());j
+        post.setMainImageUrl(postUpdateRequest.getMainImageUrl());
         return PostResponse.from(post);
     }
 
