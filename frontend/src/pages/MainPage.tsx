@@ -7,7 +7,6 @@ import mainimg2 from "../assets/mainimg2.jpg";
 import mainimg3 from "../assets/mainimg3.jpg";
 import mainimg4 from "../assets/mainimg4.jpg";
 import line from "../assets/Line.png";
-import profileimg from "../assets/ProfileImg.png";
 // import LoginModal from "../components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -165,6 +164,7 @@ const DetailUnder = styled.div`
 const ProfileImg = styled.img`
   width: 23px;
   height: 23px;
+  border-radius: 0.8rem;
 `;
 
 const Like = styled.div`
@@ -221,6 +221,7 @@ interface FormType {
   commentCount: number;
   likeCount: number;
   id: number;
+  profileImageUrl: string;
 }
 
 function MainPage() {
@@ -330,7 +331,7 @@ function MainPage() {
                       <Line src={line} />
                       <DetailUnder>
                         <a style={{ display: "flex", paddingTop: "4px" }}>
-                          <ProfileImg src={profileimg} />
+                          <ProfileImg src={data.profileImageUrl} />
                           <span style={{ color: "#fff", paddingLeft: "8px" }}>
                             by
                             <b
