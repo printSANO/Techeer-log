@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ChangeEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { accessTokenState, profileImageUrl, refreshTokenState } from "../states/Atom";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Modal = styled.div`
   display: flex;
@@ -195,12 +196,26 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
             getProfile(accessToken);
 
-
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "로그인 성공!",
+              showConfirmButton: false,
+              timer: 1500
+            });
           }
         });
     } catch (error) {
-      console.log(error);
-      setError("아이디와 비밀번호를 확인하세요.");
+      // console.log(error.data.message);
+
+      Swal.fire({
+        icon: "error",
+        title: "로그인 실패",
+        text: "아이디 또는 비밀번호를 확인하세요.",
+        position: "center",
+      });
+      
+        
     } finally {      
       setLoading(false);
     }
@@ -240,6 +255,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
         console.log(error);
       });
   };
+
+
 
   return (
     <Modal>
