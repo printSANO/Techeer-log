@@ -180,7 +180,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const handleLogIn = async () => {
     try {
       await axios
-        .post("api/v1/auth/login", {
+        .post("/api/v1/auth/login", {
           loginId,
           password,
         })
