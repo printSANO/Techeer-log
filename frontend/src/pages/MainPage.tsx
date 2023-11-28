@@ -160,6 +160,7 @@ const DetailUnder = styled.div`
 `;
 
 const ProfileImg = styled.img`
+  border-radius: 50%;
   width: 23px;
   height: 23px;
 `;

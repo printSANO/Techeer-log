@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MarkdownPreview from "../components/MarkdownPreview";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { accessTokenState, editDetail, editTitle, profileImageUrl } from "../states/Atom";
 
 const Background = styled.div`
@@ -232,6 +232,7 @@ const UserBox = styled.div`
   margin: 10px;
 `;
 const UserImg = styled.img`
+  border-radius: 50%;
   width: 135px;
   height: 135px;
 `;
@@ -302,10 +303,12 @@ const Input = styled.textarea`
   background: #1e1e1e;
   line-height: 1.75;
   min-height: 6rem;
+  resize: none;
 `;
 const BtnWrapper = styled.div`
   display: flex;
   justify-content: end;
+  margin-bottom: 10px;
 `;
 const InputBtn = styled.button`
   align-items: center;
@@ -336,6 +339,7 @@ const CommentUserBox = styled.div`
   align-items: center;
 `;
 const CommentImg = styled.img`
+  border-radius: 50%;
   width: 57px;
   height: 57px;
 `;
@@ -429,7 +433,12 @@ export default function BoardPage() {
   const seteditTitle = useSetRecoilState(editTitle);
   const seteditDetail = useSetRecoilState(editDetail);
   const [input, setInput] = useState("");
+  const [editinput, setEditInput] = useState("");
   const [comments, setComments] = useState<Comments[]>([]);
+  const [totalComments, setTotalComments] = useState(0);
+  const [editcomment, setEditComment] = useState(false);
+  const [editCommentId, setEditCommentId] = useState(0);
+
   const imageURL = useRecoilValue(profileImageUrl);
   const navigate = useNavigate();
 
@@ -539,10 +548,48 @@ export default function BoardPage() {
       }
   };
 
+  const onEditComment = async(id:number)=>{
+    try {
+      await axios.put(
+          `/api/v1/comments/${id}`, 
+          {
+            content: editinput,
+          }, 
+          {
+            headers: {
+              authorization: accesstoken,
+            },
+          }
+        );
+
+        getComments();
+
+        setInput("");
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+// 수정버튼이 눌린 댓글의 아이디 저장 및 수정 모드 토글
+const handleEditClick = (commentId:number) => {
+
+  if( editCommentId==0 || editCommentId == commentId){
+    setEditCommentId(commentId); 
+    setEditComment((prev) => !prev); 
+  }else {
+    setEditInput("");
+    setEditCommentId(commentId);
+    setEditComment(true); 
+  }
+  
+}
+
   const getComments = async()=>{
     try {
       const response = await axios.get(`/api/v1/posts/${postId}/comments`);
       const commentsData = response.data.data.comments;
+      setTotalComments(response.data.data.totalCount);
   
       if (commentsData.length > 0) {
         setComments(commentsData);
@@ -686,7 +733,7 @@ export default function BoardPage() {
 
         <CommentArea>
             <InputBox>
-                <CommentCnt>1개의 댓글</CommentCnt>
+                <CommentCnt>{totalComments}개의 댓글</CommentCnt>
                 <Input 
                     placeholder="댓글을 작성하세요"
                     value={input}
@@ -704,17 +751,32 @@ export default function BoardPage() {
                             <CommentImg src={imageURL}/>
                             <CommentInfo>
                                 <CommentUser>{comment.nickname}</CommentUser>
-                                <CommentTime>{comment.createdAt}</CommentTime>
+                                <CommentTime>{comment.createdAt.replace("T", " ")}</CommentTime>
                             </CommentInfo>
                           </div>
-                          <div style={{ display: "flex", flexDirection: "row" }}>
-                            <EditBtn>수정</EditBtn>
-                            <DeleteBtn onClick={()=>onDelete(comment.commentId)}>삭제</DeleteBtn>
-                          </div>   
+                          <div style={comment.nickname == nickname ? ({ display: "flex", flexDirection: "row" }):({display: "none"})}>
+                              <EditBtn onClick={()=>handleEditClick(comment.commentId)}>수정</EditBtn>
+                              <DeleteBtn onClick={()=>onDelete(comment.commentId)}>삭제</DeleteBtn>
+                          </div>
+  
                         </CommentUserBox>
-                        <Comment>
+                        {(!editcomment || editCommentId !== comment.commentId) ? (
+                          <Comment>
                             <CommentLine>{comment.content}</CommentLine>
-                        </Comment>
+                          </Comment>
+                        ):(
+                          <InputBox>
+                            <Input 
+                                placeholder="댓글을 작성하세요"
+                                value={editinput}
+                                onChange={(e)=>setEditInput(e.target.value)}
+                            />
+                            <BtnWrapper>
+                                <InputBtn onClick={()=>onEditComment(comment.commentId)}>댓글 작성</InputBtn>
+                            </BtnWrapper>
+                          </InputBox>
+                        )}
+                        
                     </CommentBox>
                 ))}
             </div>
