@@ -32,6 +32,11 @@ export const Details = atom({
   default: "",
 });
 
+export const PostId = atom<string | undefined>({
+  key: "PostId",
+  default: "",
+});
+
 export const isLoggedInSelector = selector({
   key: "isLoggedInSelector",
   get: ({ get }) => {

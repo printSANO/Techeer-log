@@ -10,6 +10,7 @@ import PostingPage from "./pages/PostingPage";
 import { RecoilRoot } from "recoil";
 import EditPage from "./pages/EditPage";
 import WritingPage from "./pages/WritingPage";
+import WritingEditPage from "./pages/WritingEditPage";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -76,10 +77,6 @@ a {
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Main />,
-  },
-  {
     path: "/signup",
     element: <SignUp />,
   },
@@ -102,6 +99,14 @@ const router = createBrowserRouter([
   {
     path: "/writing",
     element: <WritingPage />,
+  },
+  {
+    path: "/writingedit",
+    element: <WritingEditPage />,
+  },
+  {
+    path: "/",
+    element: <Main />,
   },
 ]);
 function App() {
