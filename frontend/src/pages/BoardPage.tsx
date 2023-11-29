@@ -606,11 +606,13 @@ export default function BoardPage() {
 const handleEditClick = (commentId:number) => {
 
   if( editCommentId==0 || editCommentId == commentId){
+    //현재 수정 중인 댓글과 클릭된 댓글의 ID가 동일한 경우
     setEditCommentId(commentId); 
     setEditComment((prev) => !prev); 
   }else {
+    //현재 수정 중인 댓글과 클릭된 댓글의 ID가 다른 경우
     setEditInput("");
-    setEditCommentId(commentId);
+    setEditCommentId(commentId); //현재 수정중인 댓글아이디 저장
     setEditComment(true); 
   }
   
@@ -818,8 +820,8 @@ const handleEditClick = (commentId:number) => {
                               <EditBtn onClick={()=>handleEditClick(comment.commentId)}>수정</EditBtn>
                               <DeleteBtn onClick={()=>onDelete(comment.commentId)}>삭제</DeleteBtn>
                           </div>
-  
                         </CommentUserBox>
+
                         {(!editcomment || editCommentId !== comment.commentId) ? (
                           <div style={{ display: "flex", flexDirection: "column"} }>
                             <Comment>

@@ -66,7 +66,7 @@ const MarkdownPreview = ({ markdown }: { markdown: string }) => {
             img({ ...props }) {
               return (
                 <img
-                  style={{ maxWidth: "60vw" }}
+                  style={{ maxWidth: "40vw" }}
                   src={props.src?.replace("../../../../public/", "/")}
                   alt="MarkdownRenderer__Image"
                 />

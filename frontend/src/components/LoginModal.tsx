@@ -196,25 +196,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
             getProfile(accessToken);
 
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "로그인 성공!",
-              showConfirmButton: false,
-              timer: 1500
+            Toast.fire({
+              icon: 'success',
+              title: '로그인 성공!'
             });
           }
         });
     } catch (error) {
       // console.log(error.data.message);
 
-      Swal.fire({
-        icon: "error",
-        title: "로그인 실패",
-        text: "아이디 또는 비밀번호를 확인하세요.",
-        position: "center",
-      });
-      
+      Toast.fire({
+        icon: 'error',
+        title: '아이디 또는 비밀번호를 확인하세요.'
+    })
         
     } finally {      
       setLoading(false);
@@ -256,6 +250,17 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
       });
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'center',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  });
 
 
   return (
