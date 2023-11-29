@@ -126,7 +126,7 @@ function WritingPage() {
           setImageUrl(response.data.data);
           setSelectedImage(null);
         } catch (error) {
-          console.log(error);
+          alert("더 작은 용량의 이미지를 업로드해주세요!");
         }
       }
     };
@@ -151,7 +151,7 @@ function WritingPage() {
       console.log(response.data);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      alert("제목, 내용을 입력해주세요!");
     }
   };
   const onSubmit = async () => {
@@ -167,7 +167,7 @@ function WritingPage() {
   return (
     <Background>
       <section style={{ width: "360px" }}>
-        <Prewatch>썸네일 업로드</Prewatch>
+        <Prewatch>썸네일 업로드(선택 사항)</Prewatch>
         {imageUrl ? (
           <>
             <UploadBox>

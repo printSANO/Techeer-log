@@ -280,7 +280,7 @@ function PostingPage() {
           setMarkdown(markdown + `![](${response.data.data})`);
           setSelectedImage(null);
         } catch (error) {
-          console.log(error);
+          alert("더 작은 용량의 이미지를 업로드해주세요!");
         }
       }
     };
