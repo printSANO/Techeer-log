@@ -2,7 +2,6 @@ import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import more from "../assets/More.png";
-import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
 // import LoginModal from "../components/LoginModal";
 import axios from "axios";
@@ -10,8 +9,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import nopost from "../assets/NoPost.png";
-import { useRecoilValue } from "recoil";
-import { profileImageUrl } from "../states/Atom";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -97,7 +95,7 @@ const Row = styled.div`
   gap: 40px 55px;
 `;
 
-const Box = styled.div`
+const Box = styled(motion.div)`
   width: 310px;
   height: 380px;
   background-color: #1e1e1e;
@@ -106,6 +104,12 @@ const Box = styled.div`
 `;
 
 const MainImg = styled.img`
+  width: 310px;
+  height: 175.75px;
+  border-radius: 10px;
+`;
+
+const MainImgNone = styled.div`
   width: 310px;
   height: 175.75px;
   border-radius: 10px;
@@ -163,6 +167,7 @@ const ProfileImg = styled.img`
   border-radius: 50%;
   width: 23px;
   height: 23px;
+  border-radius: 0.8rem;
 `;
 
 const Like = styled.div`
@@ -219,6 +224,8 @@ interface FormType {
   commentCount: number;
   likeCount: number;
   id: number;
+  profileImageUrl: string;
+  mainImageUrl: string;
 }
 
 function MainPage() {
@@ -227,8 +234,6 @@ function MainPage() {
   const [ref, inView] = useInView();
   const [pagenum, setPagenum] = useState(0);
   const [islastPost, setIsLastPost] = useState(false);
-  const imageURL = useRecoilValue(profileImageUrl);
-
 
   //첫 포스트 요청
   const getPostList = (): void => {
@@ -307,8 +312,16 @@ function MainPage() {
             {posts.length > 0 &&
               posts.map((data: FormType, index) => (
                 <Link to={`/board/${data.id}`}>
-                  <Box key={index}>
-                    <MainImg src={mainimg} />
+                  <Box
+                    key={index}
+                    whileHover={{ y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {data.mainImageUrl ? (
+                      <MainImg src={data.mainImageUrl} />
+                    ) : (
+                      <MainImgNone></MainImgNone>
+                    )}
                     <Bottom>
                       <Title>{data.title}</Title>
                       <Info>
@@ -318,7 +331,7 @@ function MainPage() {
                       <Line src={line} />
                       <DetailUnder>
                         <a style={{ display: "flex", paddingTop: "4px" }}>
-                          <ProfileImg src={imageURL} />
+                          <ProfileImg src={data.profileImageUrl} />
                           <span style={{ color: "#fff", paddingLeft: "8px" }}>
                             
                             <b

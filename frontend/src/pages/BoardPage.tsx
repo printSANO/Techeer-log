@@ -1,14 +1,19 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
-import heartline from "../assets/Heart.png"
-import github from "../assets/GitHub.png"
-import mail from "../assets/Mail.png"
 import React, { useEffect, useState } from "react";
+// import boardimg from "../assets/BoardImg.png";
+import heartline from "../assets/Heart.png";
+// import github from "../assets/GitHub.png";
+// import mail from "../assets/Mail.png";
+import { useNavigate, useParams } from "react-router-dom";
+import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
 import MarkdownPreview from "../components/MarkdownPreview";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { accessTokenState, editDetail, editTitle, profileImageUrl } from "../states/Atom";
+import { motion } from "framer-motion";
+
 
 const Background = styled.div`
   width: 100vw;
@@ -172,7 +177,7 @@ const SideBoxLeft = styled.div`
   align-items: center;
 `;
 
-const CircleBox = styled.div`
+const CircleBox = styled(motion.div)`
   box-sizing: inherit;
   height: 3rem;
   width: 3rem;
@@ -195,7 +200,7 @@ const LikeNum = styled.div`
   font-weight: bold;
 `;
 
-const Like = styled.img`
+const Like = styled(motion.img)`
   width: 24px;
   height: 24px;
 `;
@@ -235,6 +240,7 @@ const UserImg = styled.img`
   border-radius: 50%;
   width: 135px;
   height: 135px;
+  border-radius: 4rem;
 `;
 const UserText = styled.div`
   display: felx;
@@ -249,7 +255,7 @@ const UserName = styled.p`
   font-weight: 700;
 `;
 
-const HorizonLine = styled.div`
+/* const HorizonLine = styled.div`
   width: 100%;
   height: 1px;
   margin-top: 2.5rem;
@@ -274,7 +280,7 @@ const Mail = styled.img`
   margin-left: 0px;
   width: 38px;
   height: 32px;
-`;
+`; */
 
 const CommentArea = styled.div`
   margin: 2rem 0;
@@ -310,7 +316,7 @@ const BtnWrapper = styled.div`
   justify-content: end;
   margin-bottom: 10px;
 `;
-const InputBtn = styled.button`
+const InputBtn = styled(motion.button)`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
@@ -450,6 +456,7 @@ export default function BoardPage() {
   const [views, setViews] = useState(0);
   const [like, setLike] = useState(0);
   const [nickname, setNickname] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
   const seteditTitle = useSetRecoilState(editTitle);
   const seteditDetail = useSetRecoilState(editDetail);
@@ -490,7 +497,6 @@ export default function BoardPage() {
         setDate(res.data.data.createdAt);
         setViews(res.data.data.viewCount);
         setLike(res.data.data.likeCount);
-
       })
       .catch((error) => {
         console.log(error);
@@ -520,10 +526,9 @@ export default function BoardPage() {
           },
         }
       );
-      console.log(response.data);
-      setLike((prev) => prev + 1);
+      setLike(response.data.data.likeCount);
     } catch (error) {
-      alert("이미 좋아요를 누른 게시글입니다.");
+      console.log(error);
     }
   };
   const LikeCounter = async (): Promise<void> => {
@@ -674,7 +679,7 @@ const handleEditClick = (commentId:number) => {
   const PutPost = (): void => {
     seteditTitle(title);
     seteditDetail(markdown);
-    navigate(`/edit/${postId}`)
+    navigate(`/edit/${postId}`);
   };
   const DeletePost = (): void => {
     axios
@@ -741,7 +746,12 @@ const handleEditClick = (commentId:number) => {
           <Box>
             <SideBox>
               <SideBoxLeft>
-                <CircleBox onClick={LikeCounter}>
+                <CircleBox
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                  onClick={LikeCounter}
+                >
                   <Like src={heartline} />
                 </CircleBox>
                 <LikeNum>{like}</LikeNum>
@@ -776,11 +786,11 @@ const handleEditClick = (commentId:number) => {
                 <UserName>{writer}</UserName>
               </UserText>
             </Profile>
-            <HorizonLine />
+            {/* <HorizonLine />
             <UserLink>
               <GitHub src={github} />
               <Mail src={mail} />
-            </UserLink>
+            </UserLink> */}
           </ProfileBox>
         </Bottom>
 
