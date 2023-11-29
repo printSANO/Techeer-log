@@ -46,7 +46,13 @@ export const isLoggedInSelector = selector({
 });
 
 export const refreshTokenState = atom({
-  key: "refreshTokenState",
-  default: "",
-  effects_UNSTABLE: [persistAtom],
+  key: 'refreshTokenState',
+  default: '',
+  effects_UNSTABLE:[persistAtom],
 });
+
+export const profileImageUrl = atom({
+  key:'profileImageUrl',
+  default:'',
+  effects_UNSTABLE:[persistAtom],
+})

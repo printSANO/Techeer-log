@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
+import React, { useEffect, useState } from "react";
 // import boardimg from "../assets/BoardImg.png";
 import heartline from "../assets/Heart.png";
-import userimg from "../assets/UserImg.png";
 // import github from "../assets/GitHub.png";
 // import mail from "../assets/Mail.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { accessTokenState, editDetail, editTitle } from "../states/Atom";
+import { accessTokenState, editDetail, editTitle, profileImageUrl } from "../states/Atom";
 import { motion } from "framer-motion";
+
 
 const Background = styled.div`
   width: 100vw;
@@ -235,6 +235,7 @@ const UserBox = styled.div`
   margin: 10px;
 `;
 const UserImg = styled.img`
+  border-radius: 50%;
   width: 135px;
   height: 135px;
   border-radius: 4rem;
@@ -306,10 +307,12 @@ const Input = styled.textarea`
   background: #1e1e1e;
   line-height: 1.75;
   min-height: 6rem;
+  resize: none;
 `;
 const BtnWrapper = styled.div`
   display: flex;
   justify-content: end;
+  margin-bottom: 10px;
 `;
 const InputBtn = styled(motion.button)`
   align-items: center;
@@ -336,9 +339,11 @@ const CommentBox = styled.div`
 
 const CommentUserBox = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 `;
 const CommentImg = styled.img`
+  border-radius: 50%;
   width: 57px;
   height: 57px;
 `;
@@ -361,11 +366,37 @@ const CommentTime = styled.p`
   font-style: normal;
   font-weight: 400;
 `;
+const EditBtn = styled.p`
+  color: #b8b8b8;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  margin-right: 7px;
+  cursor: pointer;
+
+  &:hover{
+    text-decoration: underline;
+  }
+
+`;
+const DeleteBtn = styled.p`
+  color: #b8b8b8;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  cursor: pointer;
+
+  &:hover{
+    text-decoration: underline;
+  }
+
+`;
 
 const Comment = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 2.5rem 0;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 2.5rem;
 `;
 
 const CommentLine = styled.p`
@@ -375,6 +406,26 @@ const CommentLine = styled.p`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 0.5rem;
+`;
+
+const LikeBtn = styled.p`
+  color: #b8b8b8;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  cursor: pointer;
+  &:active{
+    color: red;
+  }
+
+`;
+
+const LikeCnt = styled.p`
+  color: #b8b8b8;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 1rem 0rem;
 `;
 
 const Buttons = styled.div`
@@ -403,10 +454,20 @@ export default function BoardPage() {
   const [views, setViews] = useState(0);
   const [like, setLike] = useState(0);
   const [nickname, setNickname] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  // const [profileImage, setProfileImage] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
   const seteditTitle = useSetRecoilState(editTitle);
   const seteditDetail = useSetRecoilState(editDetail);
+  const [input, setInput] = useState("");
+  const [editinput, setEditInput] = useState("");
+  const [comments, setComments] = useState<Comments[]>([]);
+  const [totalComments, setTotalComments] = useState(0);
+  const [editcomment, setEditComment] = useState(false);
+  const [editCommentId, setEditCommentId] = useState(0);
+  // const [likecomment, setLikeComment] = useState(0);
+  // const [likeornot, setLikeOrNot] = useState(false);
+
+  const imageURL = useRecoilValue(profileImageUrl);
   const navigate = useNavigate();
 
   const getNickName = (): void => {
@@ -434,7 +495,6 @@ export default function BoardPage() {
         setDate(res.data.data.createdAt);
         setViews(res.data.data.viewCount);
         setLike(res.data.data.likeCount);
-        setProfileImage(res.data.data.profileImageUrl);
       })
       .catch((error) => {
         console.log(error);
@@ -444,7 +504,12 @@ export default function BoardPage() {
   useEffect(() => {
     getPost();
     getNickName();
+    getComments();
   }, []);
+
+  // useEffect(() => {
+  //   // getComments();
+  // }, [comments[].content]);
 
   const LikeCounting = async (): Promise<void> => {
     try {
@@ -472,6 +537,142 @@ export default function BoardPage() {
     }
   };
 
+  type Comments = {
+      "commentId": number,
+      "nickname": string,
+      "content": string,
+      "createdAt": string,
+      "likeCount": number,
+      "like": boolean,
+      "profileImageUrl":string,
+      "replies": Replies[],
+  }
+
+  type Replies = {
+      "replyId": number,
+      "nickname": string,
+      "content": string,
+      "createdAt": string,
+      "likeCount": number,
+      "like": boolean,
+  }
+
+  const onCommentSubmit = async()=>{
+      // e.preventDefault();
+      try {
+          await axios.post(
+              `/api/v1/posts/${postId}/comments`, 
+              {"content": input}, 
+              {
+                  headers: {
+                      authorization: accesstoken,
+                  },
+              }
+          );
+
+          getComments();
+
+          setInput("");
+
+      } catch (error) {
+          console.log(error);
+      }
+  };
+
+  const onEditComment = async(id:number)=>{
+    try {
+      await axios.put(
+          `/api/v1/comments/${id}`, 
+          {
+            content: editinput,
+          }, 
+          {
+            headers: {
+              authorization: accesstoken,
+            },
+          }
+        );
+
+        setEditComment(false);
+        setInput("");
+        getComments();
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+// 수정버튼이 눌린 댓글의 아이디 저장 및 수정 모드 토글
+const handleEditClick = (commentId:number) => {
+
+  if( editCommentId==0 || editCommentId == commentId){
+    setEditCommentId(commentId); 
+    setEditComment((prev) => !prev); 
+  }else {
+    setEditInput("");
+    setEditCommentId(commentId);
+    setEditComment(true); 
+  }
+  
+}
+
+
+  const getComments = async()=>{
+    try {
+      const response = await axios.get(`/api/v1/posts/${postId}/comments`);
+      const commentsData = response.data.data.comments;
+      setTotalComments(response.data.data.totalCount);
+  
+      if (commentsData.length > 0) {
+        setComments(commentsData);
+      } else {
+        // 데이터가 비어있는 경우, 초기값인 빈 배열 []을 설정하여 UI에 빈 목록을 표시
+        setComments([]);
+      }
+    } catch (error) {
+      console.error('댓글 가져오기 실패:', error);
+    }
+  };
+
+  const onDelete = async(commentId:number)=>{
+    try{
+      await axios.delete(`/api/v1/comments/${commentId}`,{          
+        headers:{
+          "Authorization": accesstoken,
+        },
+      });
+      
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.commentId !== commentId)
+      );
+    } catch(error) {
+      console.error("댓글 삭제 실패:",error);
+    }
+  }; 
+
+  const onLikeComment = async (id:number): Promise<void> => {
+    try{
+        await axios.put(
+        `/api/v1/comments/${id}/like`,
+        {id},
+        {
+          headers: {
+            authorization: accesstoken,
+          },
+        }
+      );
+      // setLikeOrNot(true);
+      // console.log(response.data);
+      // setLikeComment((prev) => prev + 1);
+      getComments();
+
+    }catch(error){
+      console.log(error);
+    }
+
+
+  };
+  
   const PutPost = (): void => {
     seteditTitle(title);
     seteditDetail(markdown);
@@ -576,7 +777,7 @@ export default function BoardPage() {
           <ProfileBox>
             <Profile>
               <UserBox>
-                <UserImg src={profileImage}></UserImg>
+                <UserImg src={imageURL}></UserImg>
               </UserBox>
               <UserText>
                 <UserName>{writer}</UserName>
@@ -591,32 +792,62 @@ export default function BoardPage() {
         </Bottom>
 
         <CommentArea>
-          <InputBox>
-            <CommentCnt>1개의 댓글</CommentCnt>
-            <Input placeholder="댓글을 작성하세요" />
-            <BtnWrapper>
-              <InputBtn
-                whileHover={{ background: "#63E6BE" }}
-                onHoverEnd={{ background: "#96f2d7" }}
-              >
-                댓글 작성
-              </InputBtn>
-            </BtnWrapper>
-          </InputBox>
-
-          <CommentBox>
-            <CommentUserBox>
-              <CommentImg src={userimg} />
-              <CommentInfo>
-                <CommentUser>송유림</CommentUser>
-                <CommentTime>1일 전</CommentTime>
-              </CommentInfo>
-            </CommentUserBox>
-            <Comment>
-              <CommentLine>잘 봤습니다.</CommentLine>
-              <CommentLine>잘 봤습니다.</CommentLine>
-            </Comment>
-          </CommentBox>
+            <InputBox>
+                <CommentCnt>{totalComments}개의 댓글</CommentCnt>
+                <Input 
+                    placeholder="댓글을 작성하세요"
+                    value={input}
+                    onChange={(e)=>setInput(e.target.value)}
+                />
+                <BtnWrapper>
+                    <InputBtn onClick={onCommentSubmit}>댓글 작성</InputBtn>
+                </BtnWrapper>
+            </InputBox>
+            <div>
+                {comments && comments.map((comment)=>(
+                    <CommentBox key={comment.commentId}>
+                        <CommentUserBox>
+                          <div style={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
+                            <CommentImg src={comment.profileImageUrl}/>
+                            <CommentInfo>
+                                <CommentUser>{comment.nickname}</CommentUser>
+                                <CommentTime>{comment.createdAt.replace("T", " ")}</CommentTime>
+                            </CommentInfo>
+                          </div>
+                          <div style={comment.nickname == nickname ? ({ display: "flex", flexDirection: "row" }):({display: "none"})}>
+                              <EditBtn onClick={()=>handleEditClick(comment.commentId)}>수정</EditBtn>
+                              <DeleteBtn onClick={()=>onDelete(comment.commentId)}>삭제</DeleteBtn>
+                          </div>
+  
+                        </CommentUserBox>
+                        {(!editcomment || editCommentId !== comment.commentId) ? (
+                          <div style={{ display: "flex", flexDirection: "column"} }>
+                            <Comment>
+                              <CommentLine>{comment.content}</CommentLine>
+                              <LikeBtn onClick={()=>onLikeComment(comment.commentId)}>❤︎</LikeBtn>
+                            </Comment>
+                            <div>
+                              <LikeCnt>공감 {comment.likeCount}</LikeCnt>
+                            </div>
+                          </div>
+                          
+                        ):(
+                          <InputBox>
+                            <Input 
+                                placeholder="댓글을 작성하세요"
+                                value={editinput}
+                                onChange={(e)=>setEditInput(e.target.value)}
+                            />
+                            <BtnWrapper>
+                                <InputBtn onClick={()=>onEditComment(comment.commentId)}>댓글 작성</InputBtn>
+                            </BtnWrapper>
+                          </InputBox>
+                        )}
+                        
+                    </CommentBox>
+                ))}
+            </div>
+            
         </CommentArea>
       </Body>
     </Background>

@@ -1,9 +1,12 @@
 
 import {styled} from "styled-components";
 import signupimg from "../assets/MainImg.png"
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { profileImageUrl } from "../states/Atom";
+import Swal from "sweetalert2";
 
 const Background = styled.div`
     width: 98.5vw;
@@ -176,12 +179,14 @@ function SignUp(){
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [setProfileUrl] = useRecoilState(profileImageUrl);
+
     // const imgInput = useRef(null);
 
-    // useEffect(()=>{
+    useEffect(()=>{
 
-    // },[loginId, nickname, password, passwordConfirmation]
-    // )
+    },[loginId, nickname, password, passwordConfirmation]
+    )
 
     const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
         const {
@@ -237,13 +242,25 @@ function SignUp(){
             // }
 
             // axios.post에 formData를 직접 전달
-            await axios.post(
-                "api/v1/members/signup", 
+            const response = await axios.post(
+                "api/v1/members/signup",
                 formData, 
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 },
             );
+
+            const profileurl = response.data.data.profileImageUrl;
+
+            setProfileUrl(profileurl);
+
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "회원가입 성공!",
+                showConfirmButton: false,
+                timer: 1500
+            });
 
             navigate("/"); // 성공 시 페이지 이동
 
@@ -258,7 +275,15 @@ function SignUp(){
         e.preventDefault();
 
         if(isLoading || file===null || loginId==="" || nickname ==="" || password==="" || passwordConfirmation===""){
-            setError("기본정보를 모두 입력하세요")
+            setError("기본 정보를 모두 입력하세요.");
+            console.log(error);
+
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                title: error,
+            });
+
             return;
         }
 
@@ -345,7 +370,7 @@ function SignUp(){
                         가입하기
                     </ButtonStyle>
                 </ButtonBox>
-                {error !== ""? <Error>{error}</Error>: null}
+                {/* {error !== ""? <Error>{error}</Error>: null} */}
 
             </SignUpBox>
         </Background>

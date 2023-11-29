@@ -164,6 +164,7 @@ const DetailUnder = styled.div`
 `;
 
 const ProfileImg = styled.img`
+  border-radius: 50%;
   width: 23px;
   height: 23px;
   border-radius: 0.8rem;
@@ -332,7 +333,7 @@ function MainPage() {
                         <a style={{ display: "flex", paddingTop: "4px" }}>
                           <ProfileImg src={data.profileImageUrl} />
                           <span style={{ color: "#fff", paddingLeft: "8px" }}>
-                            by
+                            
                             <b
                               style={{
                                 color: "#ECECEC",

@@ -5,10 +5,11 @@ import underpolygon from "../assets/UnderTri.png";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import LoginModal from "../components/LoginModal";
-import { isLoggedInSelector } from "../states/Atom";
-import { useState } from "react";
+import { accessTokenState, isLoggedInSelector} from "../states/Atom";
+import { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const Background = styled.div`
   width: 100vw;
@@ -114,6 +115,9 @@ function NavBar() {
   const [showDropdown, setshowDropdown] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
   const [showLoginModal, setShowLoginModal] = useState(false); // 모달 보이기/감추기 상태
+  const [profileimg,setProfileImg] = useState("");
+  const accesstoken = useRecoilValue(accessTokenState);
+
 
   // 로그인 모달을 보여주는 함수
   const handleLoginClick = () => {
@@ -124,6 +128,27 @@ function NavBar() {
   const handleCloseModal = () => {
     setShowLoginModal(false);
   };
+
+  const getProfile = (): void => {
+    axios
+      .get("/api/v1/members/profile", {
+        headers: {
+          authorization: accesstoken,
+        },
+      })
+      .then((res) => {
+        setProfileImg(res.data.data.profileImageUrl);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getProfile();
+    }
+  }, [isLoggedIn]);
 
   return (
     <Background>
@@ -158,7 +183,7 @@ function NavBar() {
                 setshowDropdown((prev) => !prev);
               }}
             >
-              <MiniProfile src={miniprofile} />
+              <MiniProfile src={profileimg} />
               <Menu src={underpolygon} />
             </div>
             {showDropdown && <Dropdown />}
