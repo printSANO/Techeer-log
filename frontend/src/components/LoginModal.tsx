@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";

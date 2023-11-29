@@ -390,8 +390,9 @@ const DeleteBtn = styled.p`
 
 const Comment = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 2.5rem 0;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 2.5rem;
 `;
 
 const CommentLine = styled.p`
@@ -401,6 +402,26 @@ const CommentLine = styled.p`
   font-weight: 400;
   line-height: normal;
   margin-bottom: 0.5rem;
+`;
+
+const LikeBtn = styled.p`
+  color: #b8b8b8;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  cursor: pointer;
+  &:active{
+    color: red;
+  }
+
+`;
+
+const LikeCnt = styled.p`
+  color: #b8b8b8;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 1rem 0rem;
 `;
 
 const Buttons = styled.div`
@@ -438,6 +459,8 @@ export default function BoardPage() {
   const [totalComments, setTotalComments] = useState(0);
   const [editcomment, setEditComment] = useState(false);
   const [editCommentId, setEditCommentId] = useState(0);
+  const [likecomment, setLikeComment] = useState(0);
+  const [likeornot, setLikeOrNot] = useState(false);
 
   const imageURL = useRecoilValue(profileImageUrl);
   const navigate = useNavigate();
@@ -479,6 +502,10 @@ export default function BoardPage() {
     getNickName();
     getComments();
   }, []);
+
+  // useEffect(() => {
+  //   // getComments();
+  // }, [comments[].content]);
 
   const LikeCounting = async (): Promise<void> => {
     try {
@@ -562,7 +589,10 @@ export default function BoardPage() {
           }
         );
 
-        getComments();
+        // getComments();
+        // console.log(comments);
+
+        setEditComment(false);
 
         setInput("");
 
@@ -585,6 +615,7 @@ const handleEditClick = (commentId:number) => {
   
 }
 
+
   const getComments = async()=>{
     try {
       const response = await axios.get(`/api/v1/posts/${postId}/comments`);
@@ -606,7 +637,7 @@ const handleEditClick = (commentId:number) => {
     try{
       await axios.delete(`/api/v1/comments/${commentId}`,{          
         headers:{
-          "Authorization":accesstoken,
+          "Authorization": accesstoken,
         },
       });
       
@@ -617,6 +648,28 @@ const handleEditClick = (commentId:number) => {
       console.error("댓글 삭제 실패:",error);
     }
   }; 
+
+  const onLikeComment = async (id:number): Promise<void> => {
+    try{
+      const response = await axios.put(
+        `/api/v1/comments/${id}/like`,
+        {id: id},
+        {
+          headers: {
+            authorization: accesstoken,
+          },
+        }
+      );
+      setLikeOrNot(true);
+      console.log(response.data);
+      setLikeComment((prev) => prev + 1);
+
+    }catch(error){
+      console.log(error);
+    }
+
+
+  };
   
   const PutPost = (): void => {
     seteditTitle(title);
@@ -761,9 +814,16 @@ const handleEditClick = (commentId:number) => {
   
                         </CommentUserBox>
                         {(!editcomment || editCommentId !== comment.commentId) ? (
-                          <Comment>
-                            <CommentLine>{comment.content}</CommentLine>
-                          </Comment>
+                          <div style={{ display: "flex", flexDirection: "column"} }>
+                            <Comment>
+                              <CommentLine>{comment.content}</CommentLine>
+                              <LikeBtn onClick={()=>onLikeComment(comment.commentId)}>❤︎</LikeBtn>
+                            </Comment>
+                            <div>
+                              <LikeCnt>공감 {likecomment}</LikeCnt>
+                            </div>
+                          </div>
+                          
                         ):(
                           <InputBox>
                             <Input 

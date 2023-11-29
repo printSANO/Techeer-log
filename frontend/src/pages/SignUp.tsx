@@ -1,7 +1,7 @@
 
 import {styled} from "styled-components";
 import signupimg from "../assets/MainImg.png"
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
