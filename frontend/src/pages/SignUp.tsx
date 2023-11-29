@@ -179,7 +179,7 @@ function SignUp(){
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [profileUrl, setProfileUrl] = useRecoilState(profileImageUrl);
+    const [setProfileUrl] = useRecoilState(profileImageUrl);
 
     // const imgInput = useRef(null);
 

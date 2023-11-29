@@ -8,8 +8,6 @@ import heartline from "../assets/Heart.png";
 import { useNavigate, useParams } from "react-router-dom";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
-import MarkdownPreview from "../components/MarkdownPreview";
-import { useNavigate, useParams } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { accessTokenState, editDetail, editTitle, profileImageUrl } from "../states/Atom";
 import { motion } from "framer-motion";
@@ -456,7 +454,7 @@ export default function BoardPage() {
   const [views, setViews] = useState(0);
   const [like, setLike] = useState(0);
   const [nickname, setNickname] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  // const [profileImage, setProfileImage] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
   const seteditTitle = useSetRecoilState(editTitle);
   const seteditDetail = useSetRecoilState(editDetail);
@@ -467,7 +465,7 @@ export default function BoardPage() {
   const [editcomment, setEditComment] = useState(false);
   const [editCommentId, setEditCommentId] = useState(0);
   const [likecomment, setLikeComment] = useState(0);
-  const [likeornot, setLikeOrNot] = useState(false);
+  // const [likeornot, setLikeOrNot] = useState(false);
 
   const imageURL = useRecoilValue(profileImageUrl);
   const navigate = useNavigate();
@@ -665,7 +663,7 @@ const handleEditClick = (commentId:number) => {
           },
         }
       );
-      setLikeOrNot(true);
+      // setLikeOrNot(true);
       console.log(response.data);
       setLikeComment((prev) => prev + 1);
 
