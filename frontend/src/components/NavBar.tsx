@@ -4,7 +4,7 @@ import underpolygon from "../assets/UnderTri.png";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import LoginModal from "../components/LoginModal";
-import { accessTokenState, isLoggedInSelector} from "../states/Atom";
+import { accessTokenState, isLoggedInSelector } from "../states/Atom";
 import { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import { motion } from "framer-motion";
@@ -114,9 +114,8 @@ function NavBar() {
   const [showDropdown, setshowDropdown] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
   const [showLoginModal, setShowLoginModal] = useState(false); // 모달 보이기/감추기 상태
-  const [profileimg,setProfileImg] = useState("");
+  const [profileimg, setProfileImg] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
-
 
   // 로그인 모달을 보여주는 함수
   const handleLoginClick = () => {

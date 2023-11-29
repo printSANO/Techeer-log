@@ -18,6 +18,7 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-x: hidden;
 `;
 
 const BackgroundNone = styled.div`
@@ -28,6 +29,7 @@ const BackgroundNone = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-x: hidden;
 `;
 const Header = styled.div`
   width: 100%;
@@ -272,8 +274,7 @@ function MainPage() {
         setPosts((posts) => [...posts, ...postsData]);
         setIsLastPost(res.data.data.lastpage);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         setLastPost(-2);
       });
   };
@@ -333,7 +334,6 @@ function MainPage() {
                         <a style={{ display: "flex", paddingTop: "4px" }}>
                           <ProfileImg src={data.profileImageUrl} />
                           <span style={{ color: "#fff", paddingLeft: "8px" }}>
-                            
                             <b
                               style={{
                                 color: "#ECECEC",
