@@ -4,8 +4,6 @@ import signupimg from "../assets/MainImg.png"
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { profileImageUrl } from "../states/Atom";
 import Swal from "sweetalert2";
 
 const Background = styled.div`
@@ -178,8 +176,7 @@ function SignUp(){
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [isLoading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-    const [setProfileUrl] = useRecoilState(profileImageUrl);
+    // const [error, setError] = useState("");
 
     // const imgInput = useRef(null);
 
@@ -219,11 +216,7 @@ function SignUp(){
         try{
             if (file) {
                 formData.append('file', file);
-              }
-            // formData.append('loginId', loginId);
-            // formData.append('nickname', nickname);
-            // formData.append('password', password);
-            // formData.append('passwordConfirmation', passwordConfirmation);
+            }
 
             const data = {
                 loginId,
@@ -242,7 +235,7 @@ function SignUp(){
             // }
 
             // axios.post에 formData를 직접 전달
-            const response = await axios.post(
+            await axios.post(
                 "api/v1/members/signup",
                 formData, 
                 {
@@ -250,24 +243,20 @@ function SignUp(){
                 },
             );
 
-            const profileurl = response.data.data.profileImageUrl;
-
-            setProfileUrl(profileurl);
-
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "회원가입 성공!",
-                showConfirmButton: false,
-                timer: 1500
+            Toast.fire({
+                icon: 'success',
+                title: '회원가입 성공!'
             });
 
             navigate("/"); // 성공 시 페이지 이동
 
 
         }catch(error){
-            console.log(error);
-            setError("회원가입 오류");
+
+            Toast.fire({
+                icon: 'error',
+                title: '중복된 회원정보입니다.'
+            });
         }
     };
 
@@ -275,13 +264,16 @@ function SignUp(){
         e.preventDefault();
 
         if(isLoading || file===null || loginId==="" || nickname ==="" || password==="" || passwordConfirmation===""){
-            setError("기본 정보를 모두 입력하세요.");
-            console.log(error);
 
-            Swal.fire({
-                position: "center",
-                icon: "warning",
-                title: error,
+            // Swal.fire({
+            //     position: "center",
+            //     icon: "warning",
+            //     title: error,
+            // });
+
+            Toast.fire({
+                icon: 'warning',
+                title: '프로필 사진을 등록하세요.'
             });
 
             return;
@@ -294,18 +286,28 @@ function SignUp(){
 
           } catch (e) {
             console.log(e);
-            setError(String(e));
+            // setError(String(e));
 
           } finally {
-            setLoading(false);
-            
+            setLoading(false); 
           }
-          console.log( nickname+"님 회원가입 완료" )
     };
 
     const handleGoBack = () => {
         navigate("/");
     };
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      });
 
     return(
         <Background>
