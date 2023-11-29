@@ -464,7 +464,7 @@ export default function BoardPage() {
   const [totalComments, setTotalComments] = useState(0);
   const [editcomment, setEditComment] = useState(false);
   const [editCommentId, setEditCommentId] = useState(0);
-  const [likecomment, setLikeComment] = useState(0);
+  // const [likecomment, setLikeComment] = useState(0);
   // const [likeornot, setLikeOrNot] = useState(false);
 
   const imageURL = useRecoilValue(profileImageUrl);
@@ -544,6 +544,7 @@ export default function BoardPage() {
       "createdAt": string,
       "likeCount": number,
       "like": boolean,
+      "profileImageUrl":string,
       "replies": Replies[],
   }
 
@@ -592,12 +593,9 @@ export default function BoardPage() {
           }
         );
 
-        // getComments();
-        // console.log(comments);
-
         setEditComment(false);
-
         setInput("");
+        getComments();
 
     } catch (error) {
         console.log(error);
@@ -654,9 +652,9 @@ const handleEditClick = (commentId:number) => {
 
   const onLikeComment = async (id:number): Promise<void> => {
     try{
-      const response = await axios.put(
+        await axios.put(
         `/api/v1/comments/${id}/like`,
-        {id: id},
+        {id},
         {
           headers: {
             authorization: accesstoken,
@@ -664,8 +662,9 @@ const handleEditClick = (commentId:number) => {
         }
       );
       // setLikeOrNot(true);
-      console.log(response.data);
-      setLikeComment((prev) => prev + 1);
+      // console.log(response.data);
+      // setLikeComment((prev) => prev + 1);
+      getComments();
 
     }catch(error){
       console.log(error);
@@ -809,7 +808,7 @@ const handleEditClick = (commentId:number) => {
                     <CommentBox key={comment.commentId}>
                         <CommentUserBox>
                           <div style={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
-                            <CommentImg src={imageURL}/>
+                            <CommentImg src={comment.profileImageUrl}/>
                             <CommentInfo>
                                 <CommentUser>{comment.nickname}</CommentUser>
                                 <CommentTime>{comment.createdAt.replace("T", " ")}</CommentTime>
@@ -828,7 +827,7 @@ const handleEditClick = (commentId:number) => {
                               <LikeBtn onClick={()=>onLikeComment(comment.commentId)}>❤︎</LikeBtn>
                             </Comment>
                             <div>
-                              <LikeCnt>공감 {likecomment}</LikeCnt>
+                              <LikeCnt>공감 {comment.likeCount}</LikeCnt>
                             </div>
                           </div>
                           
