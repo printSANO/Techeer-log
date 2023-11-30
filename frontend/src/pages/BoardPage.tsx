@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import boardimg from "../assets/BoardImg.png";
 import heartline from "../assets/Heart.png";
 // import github from "../assets/GitHub.png";
@@ -241,7 +241,7 @@ const UserImg = styled.img`
   border-radius: 4rem;
 `;
 const UserText = styled.div`
-  display: felx;
+  display: flex;
   flex-direction: column;
   margin-left: 2rem;
 `;
@@ -348,7 +348,7 @@ const CommentImg = styled.img`
   height: 57px;
 `;
 const CommentInfo = styled.div`
-  display: felx;
+  display: flex;
   flex-direction: column;
   align-items: center;
   margin-left: 1rem;
