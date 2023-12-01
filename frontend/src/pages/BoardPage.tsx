@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { accessTokenState, editDetail, editTitle, profileImageUrl } from "../states/Atom";
+import { accessTokenState, editDetail, editTitle } from "../states/Atom";
 import { motion } from "framer-motion";
 
 
@@ -464,10 +464,11 @@ export default function BoardPage() {
   const [totalComments, setTotalComments] = useState(0);
   const [editcomment, setEditComment] = useState(false);
   const [editCommentId, setEditCommentId] = useState(0);
+  const [imageURL, setImageURL] = useState("");
   // const [likecomment, setLikeComment] = useState(0);
   // const [likeornot, setLikeOrNot] = useState(false);
 
-  const imageURL = useRecoilValue(profileImageUrl);
+  // const imageURL = useRecoilValue(profileImageUrl);
   const navigate = useNavigate();
 
   const getNickName = (): void => {
@@ -479,6 +480,7 @@ export default function BoardPage() {
       })
       .then((res) => {
         setNickname(res.data.data.nickname);
+        // setImageURL(res.data.data.profileImageUrl);
       })
       .catch((error) => {
         console.log(error);
@@ -495,6 +497,7 @@ export default function BoardPage() {
         setDate(res.data.data.createdAt);
         setViews(res.data.data.viewCount);
         setLike(res.data.data.likeCount);
+        setImageURL(res.data.data.profileImageUrl);
       })
       .catch((error) => {
         console.log(error);
@@ -709,7 +712,7 @@ const handleEditClick = (commentId:number) => {
                 <User>{writer} · </User>
                 <DateTime>{date.replace("T", " ")}</DateTime>
               </div>
-              <Views>조회 수 : {views / 2}</Views>
+              <Views>조회 수 : {views}</Views>
             </BoardInfo>
           ) : (
             <BoardInfo>
