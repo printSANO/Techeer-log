@@ -33,15 +33,16 @@ services:
       - ./nginx/nginx-deploy.conf:/etc/nginx/nginx.conf
       - ./certbot/conf:/etc/letsencrypt:rw
       - ./certbot/www:/var/www/certbot:rw
+      - ./build_folder:/var/www/frontend
     depends_on:
       - backend
-#      - frontend
+      - frontend
     expose:
       - '80'
       - '443'
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
-#    networks:
-#      - app-tier
+  #    networks:
+  #      - app-tier
   backend:
     build: ./backend
     restart: always
@@ -66,3 +67,18 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     depends_on:
       - nginx
+
+  frontend:
+    build:
+      # context : 현재 폴더의 frontend 폴더에 있는 도커파일을 쓰겠다.
+      context: ./frontend
+    #    command: [ "npm", "run" , "dev" ]
+    # command : 컨테이너가 띄워질 때 실행하는 명령어 / 서버실행
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./build_folder:/frontend/dist # 가상 네트워크 연결
+    #    networks:
+    #      - ai_net
+    tty: true
