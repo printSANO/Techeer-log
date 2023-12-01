@@ -8,9 +8,9 @@ import heartline from "../assets/Heart.png";
 import {useNavigate, useParams} from "react-router-dom";
 import MarkdownPreview from "../components/MarkdownPreview";
 import axios from "axios";
-import { useSetRecoilState, useRecoilValue } from "recoil";
-import { accessTokenState, editDetail, editTitle } from "../states/Atom";
-import { motion } from "framer-motion";
+import {useSetRecoilState, useRecoilValue} from "recoil";
+import {accessTokenState, editDetail, editTitle} from "../states/Atom";
+import {motion} from "framer-motion";
 
 
 const Background = styled.div`
@@ -447,60 +447,62 @@ const PutDelete = styled.button`
 `;
 
 export default function BoardPage() {
-  const { postId } = useParams();
-  const [markdown, setMarkdown] = useState("");
-  const [title, setTitle] = useState("");
-  const [writer, setWriter] = useState("");
-  const [date, setDate] = useState("");
-  const [views, setViews] = useState(0);
-  const [like, setLike] = useState(0);
-  const [nickname, setNickname] = useState("");
-  // const [profileImage, setProfileImage] = useState("");
-  const accesstoken = useRecoilValue(accessTokenState);
-  const seteditTitle = useSetRecoilState(editTitle);
-  const seteditDetail = useSetRecoilState(editDetail);
-  const [input, setInput] = useState("");
-  const [editinput, setEditInput] = useState("");
-  const [comments, setComments] = useState<Comments[]>([]);
-  const [totalComments, setTotalComments] = useState(0);
-  const [editcomment, setEditComment] = useState(false);
-  const [editCommentId, setEditCommentId] = useState(0);
-  // const [likecomment, setLikeComment] = useState(0);
-  // const [likeornot, setLikeOrNot] = useState(false);
+    const {postId} = useParams();
+    const [markdown, setMarkdown] = useState("");
+    const [title, setTitle] = useState("");
+    const [writer, setWriter] = useState("");
+    const [date, setDate] = useState("");
+    const [views, setViews] = useState(0);
+    const [like, setLike] = useState(0);
+    const [nickname, setNickname] = useState("");
+    // const [profileImage, setProfileImage] = useState("");
+    const accesstoken = useRecoilValue(accessTokenState);
+    const seteditTitle = useSetRecoilState(editTitle);
+    const seteditDetail = useSetRecoilState(editDetail);
+    const [input, setInput] = useState("");
+    const [editinput, setEditInput] = useState("");
+    const [comments, setComments] = useState<Comments[]>([]);
+    const [totalComments, setTotalComments] = useState(0);
+    const [editcomment, setEditComment] = useState(false);
+    const [editCommentId, setEditCommentId] = useState(0);
+    const [imageURL, setImageURL] = useState("");
+    // const [likecomment, setLikeComment] = useState(0);
+    // const [likeornot, setLikeOrNot] = useState(false);
 
-  const imageURL = useRecoilValue(profileImageUrl);
-  const navigate = useNavigate();
+    // const imageURL = useRecoilValue(profileImageUrl);
+    const navigate = useNavigate();
 
-  const getNickName = (): void => {
-    axios
-      .get("/api/v1/members/profile", {
-        headers: {
-          authorization: accesstoken,
-        },
-      })
-      .then((res) => {
-        setNickname(res.data.data.nickname);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const getPost = (): void => {
-    axios
-      .get(`/api/v1/posts/${postId}`)
-      .then((res) => {
-        console.log(res.data.data.content);
-        setMarkdown(res.data.data.content);
-        setTitle(res.data.data.title);
-        setWriter(res.data.data.nickname);
-        setDate(res.data.data.createdAt);
-        setViews(res.data.data.viewCount);
-        setLike(res.data.data.likeCount);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    const getNickName = (): void => {
+        axios
+            .get("/api/v1/members/profile", {
+                headers: {
+                    authorization: accesstoken,
+                },
+            })
+            .then((res) => {
+                setNickname(res.data.data.nickname);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+    const getPost = (): void => {
+        axios
+            .get(`/api/v1/posts/${postId}`)
+            .then((res) => {
+                console.log(res.data.data.content);
+                setMarkdown(res.data.data.content);
+                setTitle(res.data.data.title);
+                setWriter(res.data.data.nickname);
+                setDate(res.data.data.createdAt);
+                setViews(res.data.data.viewCount);
+                setLike(res.data.data.likeCount);
+                setImageURL(res.data.data.profileImageUrl);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     useEffect(() => {
         getPost();
