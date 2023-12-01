@@ -1,7 +1,7 @@
 version: "3.8"
 
-# volumes:
-#   build_folder: null
+volumes:
+  build_folder: null
 
 services:
   mysqldb:
@@ -33,7 +33,7 @@ services:
       - ./nginx/nginx-deploy.conf:/etc/nginx/nginx.conf
       - ./certbot/conf:/etc/letsencrypt:rw
       - ./certbot/www:/var/www/certbot:rw
-      - ./build_folder:/var/www/frontend
+      - build_folder:/var/www/frontend
     depends_on:
       - backend
       - frontend
@@ -78,7 +78,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./build_folder:/frontend/dist # 가상 네트워크 연결
+      - build_folder:/frontend/dist
     #    networks:
     #      - ai_net
     tty: true
