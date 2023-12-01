@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 // import boardimg from "../assets/BoardImg.png";
 import heartline from "../assets/Heart.png";
 // import github from "../assets/GitHub.png";
