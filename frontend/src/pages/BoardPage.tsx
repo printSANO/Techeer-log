@@ -349,7 +349,6 @@ const CommentImg = styled.img`
 const CommentInfo = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-left: 1rem;
 `;
 const CommentUser = styled.p`
