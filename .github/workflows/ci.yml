@@ -14,14 +14,12 @@ on:
     branches: [ "develop" ]
 
 env:
-  PROJECT_NAME: Console-log
   BUCKET_NAME: console-log-codedeploy
   CODE_DEPLOY_APP_NAME: Console-log-CodeDeploy
   DEPLOYMENT_GROUP_NAME: Console-log-Deployment-Group
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
