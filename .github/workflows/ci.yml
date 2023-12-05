@@ -26,6 +26,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -33,11 +34,11 @@ jobs:
         distribution: 'temurin'
         
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: chmod +x /backend/gradlew
       shell: bash
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: /backend/gradlew build
       shell: bash
     
     - name: Make Zip File
