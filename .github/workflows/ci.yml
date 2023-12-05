@@ -33,16 +33,26 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: init with Gradle
+      uses: gradle/gradle-build-action@v2
+    - run: gradle init
     
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./backend/gradlew
-      shell: bash
-      
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+      uses: gradle/gradle-build-action@v2
       with:
+        gradle-version: 7.5.1
         arguments: build
-        build-root-directory: ./Console-log
+    
+    # - name: Grant execute permission for gradlew
+    #   run: chmod +x ./backend/gradlew
+    #   shell: bash
+      
+    # - name: Build with Gradle
+    #   uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+    #   with:
+    #     arguments: build
+    #     build-root-directory: ./Console-log
     
     - name: Make Zip File
       run: sudo zip -qq -r ./$GITHUB_SHA.zip .
