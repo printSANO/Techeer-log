@@ -3,6 +3,8 @@ package consolelog.global.advice;
 import consolelog.global.error.ErrorCode;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public class BusinessException extends RuntimeException {
 
@@ -15,6 +17,6 @@ public class BusinessException extends RuntimeException {
 
     @Override
     public String toString() {
-        return errorCode.getCode() + " : " + errorCode.getMessage();
+        return errorCode.getCode() + " : " + errorCode.getMessage() +  '\n' + Arrays.toString(this.getStackTrace());
     }
 }
