@@ -17,6 +17,6 @@ public class BusinessException extends RuntimeException {
 
     @Override
     public String toString() {
-        return errorCode.getCode() + " : " + errorCode.getMessage() +  '\n' + Arrays.toString(this.getStackTrace());
+        return errorCode.toString() +  ", " + Arrays.toString(this.getStackTrace());
     }
 }

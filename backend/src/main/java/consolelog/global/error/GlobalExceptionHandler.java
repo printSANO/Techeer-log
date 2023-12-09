@@ -22,8 +22,6 @@ public class GlobalExceptionHandler {
     //    @Log4j2 어노테이션으로 대체가 가능하다
     //    private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
     //    객체명은 log 로 자동 생성된다
-    private static final Marker BUSINESS_EXCEPTION_MARKER = MarkerManager.getMarker("BusinessExceptionHandler");
-    private static final Marker GLOBAL_EXCEPTION_MARKER = MarkerManager.getMarker("GlobalExceptionHandler");
     @Order(0)
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
@@ -47,12 +45,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     protected ResponseEntity<String> handleException(Exception e) {
 
-        String stackTraceString = Arrays.stream(e.getStackTrace())
-                .map(StackTraceElement::toString)
-                .collect(Collectors.joining("\n"));
+        log.error(ErrorCode.INTERNAL_SERVER_ERROR + ", " + Arrays.toString(e.getStackTrace()));
 
-        log.error(stackTraceString);
-
-        return ResponseEntity.status(500).body("예외적 에러 발생");
+        return ResponseEntity.status(500).body("서버 내부 예외적 에러 발생");
     }
 }
