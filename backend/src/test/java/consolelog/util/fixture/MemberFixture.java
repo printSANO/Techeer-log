@@ -16,6 +16,12 @@ public class MemberFixture {
     public static final String VALID_PASSWORD_TEXT = "1q2w3e4r!";
     public static final Password VALID_PASSWORD = Password.of(ENCRYPTOR, VALID_PASSWORD_TEXT);
 
+    public static final String INVALID_LOGIN_ID_TEXT = "aaa";
+    public static final LoginId INVALID_LOGIN_ID = new LoginId(INVALID_LOGIN_ID_TEXT);
+
+    public static final String INVALID_PASSWORD_TEXT = "12345678";
+    public static final Password INVALID_PASSWORD = Password.of(ENCRYPTOR, INVALID_PASSWORD_TEXT);
+
     public static final String VALID_NICKNAME_TEXT = "n1";
     public static final Nickname VALID_NICKNAME = new Nickname(VALID_NICKNAME_TEXT);
 
