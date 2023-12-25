@@ -21,6 +21,7 @@ class AuthServiceTest {
 
     @Autowired
     private AuthService authService;
+
     @Autowired
     private MemberRepository memberRepository;
 
