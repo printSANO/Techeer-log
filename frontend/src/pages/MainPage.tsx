@@ -2,14 +2,14 @@ import styled from "styled-components";
 import NavBar from "../components/NavBar";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import more from "../assets/More.png";
-import mainimg from "../assets/MainImg.png";
 import line from "../assets/Line.png";
-import profileimg from "../assets/ProfileImg.png";
 // import LoginModal from "../components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+import nopost from "../assets/NoPost.png";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -18,6 +18,7 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-x: hidden;
 `;
 
 const BackgroundNone = styled.div`
@@ -28,6 +29,7 @@ const BackgroundNone = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-x: hidden;
 `;
 const Header = styled.div`
   width: 100%;
@@ -95,7 +97,7 @@ const Row = styled.div`
   gap: 40px 55px;
 `;
 
-const Box = styled.div`
+const Box = styled(motion.div)`
   width: 310px;
   height: 380px;
   background-color: #1e1e1e;
@@ -104,6 +106,12 @@ const Box = styled.div`
 `;
 
 const MainImg = styled.img`
+  width: 310px;
+  height: 175.75px;
+  border-radius: 10px;
+`;
+
+const MainImgNone = styled.div`
   width: 310px;
   height: 175.75px;
   border-radius: 10px;
@@ -158,8 +166,10 @@ const DetailUnder = styled.div`
 `;
 
 const ProfileImg = styled.img`
+  border-radius: 50%;
   width: 23px;
   height: 23px;
+  border-radius: 0.8rem;
 `;
 
 const Like = styled.div`
@@ -174,6 +184,36 @@ const Like = styled.div`
   line-height: normal;
 `;
 
+const Posts = styled.div`
+  width: 100%;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  margin-top: 20rem;
+  flex-direction: column;
+`;
+
+const NoPostImg = styled.img`
+  width: 20rem;
+`;
+
+const NoPostWord = styled.p`
+  display: flex;
+  width: 392px;
+  height: 89px;
+  flex-direction: column;
+  justify-content: center;
+  color: #acacac;
+  text-align: center;
+  font-family: Inter;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+`;
+
 // const ModalWrapper = styled.div`
 //   position: absolute;
 //   z-index: 2;
@@ -185,6 +225,9 @@ interface FormType {
   createdAt: string;
   commentCount: number;
   likeCount: number;
+  id: number;
+  profileImageUrl: string;
+  mainImageUrl: string;
 }
 
 function MainPage() {
@@ -196,9 +239,8 @@ function MainPage() {
 
   //첫 포스트 요청
   const getPostList = (): void => {
-    console.log(pagenum);
     axios
-      .get("/post/0", {
+      .get("api/v1/posts/list/0", {
         params: { page: pagenum, size: 10, sort: "desc" },
       })
       .then((res) => {
@@ -223,9 +265,8 @@ function MainPage() {
 
   //무한 스크롤 요청
   const getPostList2 = (): void => {
-    console.log(pagenum);
     axios
-      .get("/post/0", {
+      .get("api/v1/posts/list/0", {
         params: { page: pagenum, size: 10, sort: "desc" },
       })
       .then((res) => {
@@ -233,8 +274,7 @@ function MainPage() {
         setPosts((posts) => [...posts, ...postsData]);
         setIsLastPost(res.data.data.lastpage);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         setLastPost(-2);
       });
   };
@@ -250,6 +290,11 @@ function MainPage() {
       {lastPost < -1 ? (
         <BackgroundNone>
           <NavBar />
+
+          <Posts>
+            <NoPostImg src={nopost} />
+            <NoPostWord>포스트가 없습니다.</NoPostWord>
+          </Posts>
         </BackgroundNone>
       ) : (
         <Background>
@@ -267,9 +312,17 @@ function MainPage() {
           <Row>
             {posts.length > 0 &&
               posts.map((data: FormType, index) => (
-                <Link to="/board">
-                  <Box key={index}>
-                    <MainImg src={mainimg} />
+                <Link to={`/board/${data.id}`}>
+                  <Box
+                    key={index}
+                    whileHover={{ y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {data.mainImageUrl ? (
+                      <MainImg src={data.mainImageUrl} />
+                    ) : (
+                      <MainImgNone></MainImgNone>
+                    )}
                     <Bottom>
                       <Title>{data.title}</Title>
                       <Info>
@@ -279,9 +332,8 @@ function MainPage() {
                       <Line src={line} />
                       <DetailUnder>
                         <a style={{ display: "flex", paddingTop: "4px" }}>
-                          <ProfileImg src={profileimg} />
+                          <ProfileImg src={data.profileImageUrl} />
                           <span style={{ color: "#fff", paddingLeft: "8px" }}>
-                            by
                             <b
                               style={{
                                 color: "#ECECEC",
@@ -301,8 +353,8 @@ function MainPage() {
               ))}
             <div ref={ref}></div>
           </Row>
-          
-      {/* <ModalWrapper>
+
+          {/* <ModalWrapper>
         <LoginModal />
       </ModalWrapper> */}
         </Background>

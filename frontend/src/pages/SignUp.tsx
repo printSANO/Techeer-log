@@ -1,9 +1,10 @@
 
 import {styled} from "styled-components";
 import signupimg from "../assets/MainImg.png"
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Background = styled.div`
     width: 98.5vw;
@@ -11,7 +12,7 @@ const Background = styled.div`
     background: #121212;    
 `;
 
-const SignUpBox = styled.div`
+const SignUpBox = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -175,12 +176,14 @@ function SignUp(){
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [isLoading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+    // const [error, setError] = useState("");
 
-    // useEffect(()=>{
+    // const imgInput = useRef(null);
 
-    // },[loginId, nickname, password, passwordConfirmation]
-    // )
+    useEffect(()=>{
+
+    },[loginId, nickname, password, passwordConfirmation]
+    )
 
     const onChange = (e:ChangeEvent<HTMLInputElement>)=>{
         const {
@@ -203,82 +206,112 @@ function SignUp(){
         const {files} = e.target;
 
         if(files && files.length === 1) {
-            formData.append('file', files[0]);
+            // formData.append('file', files[0]);
             setFile(files[0]);
-            console.log(files[0].name)
+            // console.log(files[0].name)
         }
     };
 
-//이미지 미리보기
-    // const onPreviewImage = ()=>{
-    //     if(file){
-    //         const reader = new FileReader();
-    //         reader.readAsDataURL(file);
-    //         reader.onloadend = ()=>{
-    //             //
-    //         }
-    //     }
-        
-    // };
-
-
     const handleSignUp = async(): Promise<void> => {
         try{
-            await axios.post("/members/signup",{
+            if (file) {
+                formData.append('file', file);
+            }
+
+            const data = {
                 loginId,
                 nickname,
                 password,
                 passwordConfirmation,
+            };
+              
+            const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+              
+            formData.append("data", blob);
+
+            //formData 출력해보기
+            // for(const pair of formData.entries()) {
+            //     console.log(pair[0]+ ', '+ pair[1]); 
+            // }
+
+            // axios.post에 formData를 직접 전달
+            await axios.post(
+                "api/v1/members/signup",
+                formData, 
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                },
+            );
+
+            Toast.fire({
+                icon: 'success',
+                title: '회원가입 성공!'
             });
 
-            // formData.append('loginId', loginId);
-            // formData.append('nickname', nickname);
-            // formData.append('password', password);
-            // formData.append('passwordConfirmation', passwordConfirmation);
+            navigate("/"); // 성공 시 페이지 이동
 
-            // // axios.post에 formData를 직접 전달
-            // await axios.post("/members/signup", formData);
-
-            // navigate("/login");
 
         }catch(error){
-            console.log(error);
+
+            Toast.fire({
+                icon: 'error',
+                title: '중복된 회원정보입니다.'
+            });
         }
     };
 
-    const onSubmit = () => {
-        if(isLoading || loginId==="" || nickname ==="" || password===""){
-            setError("기본정보를 모두 입력하세요")
+    const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if(isLoading || file===null || loginId==="" || nickname ==="" || password==="" || passwordConfirmation===""){
+
+            // Swal.fire({
+            //     position: "center",
+            //     icon: "warning",
+            //     title: error,
+            // });
+
+            Toast.fire({
+                icon: 'warning',
+                title: '프로필 사진을 등록하세요.'
+            });
+
             return;
         }
 
         try {
             setLoading(true);
 
-            handleSignUp()
-              .then(() => {})
-              .catch((error) => {
-                console.log(error);
-              });
+            await handleSignUp();
 
           } catch (e) {
             console.log(e);
-            setError(String(e));
+            // setError(String(e));
 
           } finally {
-            setLoading(false);
-            navigate("/");
+            setLoading(false); 
           }
-          console.log(loginId, nickname, password)
     };
 
     const handleGoBack = () => {
         navigate("/");
     };
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      });
+
     return(
         <Background>
-            <SignUpBox>
+            <SignUpBox onSubmit={onSubmit} >
                 <Header>
                     <h1>환영합니다!</h1>
                     <p>기본 회원정보를 등록해주세요.</p>
@@ -331,7 +364,6 @@ function SignUp(){
                     <ButtonStyle type='submit' onClick={handleGoBack} bgColor="#D9D9D9" clickColor="#a6a6a6" color="#000000">취소</ButtonStyle>
                     <ButtonStyle 
                         type='submit' 
-                        onClick={onSubmit} 
                         value={isLoading? "Loading..." : "Create Account"} 
                         bgColor="#38E788"
                         clickColor="#2fc673" 
@@ -340,7 +372,7 @@ function SignUp(){
                         가입하기
                     </ButtonStyle>
                 </ButtonBox>
-                {error !== ""? <Error>{error}</Error>: null}
+                {/* {error !== ""? <Error>{error}</Error>: null} */}
 
             </SignUpBox>
         </Background>
