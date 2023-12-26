@@ -1,8 +1,10 @@
 package consolelog.auth.dto;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 public class AuthInfo {
 
     private Long id;

@@ -18,7 +18,10 @@ import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static consolelog.global.result.ResultCode.LOGIN_SUCCESS;
+import static consolelog.global.result.ResultCode.REFRESH_SUCCESS;
 import static consolelog.util.fixture.AuthFixture.*;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,27 +50,43 @@ class AuthControllerTest extends ControllerTestHelper {
     @DisplayName("아이디와 비밀번호를 입력하여 로그인을 한다.")
     void login() throws Exception {
         // given
-        given(authService.login(any()))
+        given(authService.login(VALID_LOGIN_REQUEST))
                 .willReturn(VALID_AUTH_INFO);
 
-        // when // then
-        mockMvc.perform(
-            post("/api/v1/auth/login")
+        MockHttpServletRequestBuilder mockPost = post("/api/v1/auth/login")
                 .content(objectMapper.writeValueAsString(VALID_LOGIN_REQUEST))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
 
-        )
+        // when // then
+        mockMvc.perform(mockPost)
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.AUTHORIZATION, "Bearer null"))
                 .andExpect(header().string("Refresh-Token", "Bearer null"))
-                .andExpect(jsonPath("$.code").value("A001"))
+                .andExpect(jsonPath("$.code").value(LOGIN_SUCCESS.getCode()))
+                .andExpect(jsonPath("$.message").value(LOGIN_SUCCESS.getMessage()))
                 ;
-
     }
 
     @Test
-    void refresh() {
+    @DisplayName("request로 받은 user와 refreshToken이 DB에 저장되어 있는 값과 비교하여 일치하는 지 확인한다.")
+    void refresh() throws Exception {
+        // given
+        given(tokenManager.createAccessToken(VALID_AUTH_INFO))
+                .willReturn(VALID_REFRESHED_ACCESS_TOKEN);
+
+        MockHttpServletRequestBuilder getMock = get("/api/v1/auth/refresh")
+                .header(HttpHeaders.AUTHORIZATION, VALID_ACCESS_TOKEN)
+                .header("Refresh-Token", VALID_REFRESH_TOKEN);
+
+        // when // then
+        mockMvc.perform(getMock)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.AUTHORIZATION, VALID_REFRESHED_ACCESS_TOKEN))
+                .andExpect(jsonPath("$.code").value(REFRESH_SUCCESS.getCode()))
+                .andExpect(jsonPath("$.message").value(REFRESH_SUCCESS.getMessage()))
+        ;
     }
 
     @Test
