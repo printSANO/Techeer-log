@@ -20,8 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import static consolelog.global.result.ResultCode.LOGIN_SUCCESS;
-import static consolelog.global.result.ResultCode.REFRESH_SUCCESS;
+import static consolelog.global.result.ResultCode.*;
 import static consolelog.util.fixture.AuthFixture.*;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
@@ -90,6 +89,18 @@ class AuthControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void logout() {
+    @DisplayName("Auth Info 에서 받은 id 값을 통해 logout이 동작하는 것을 확인한다")
+    void logout() throws Exception {
+        // given
+        MockHttpServletRequestBuilder getMock = get("/api/v1/auth/logout")
+                .header(HttpHeaders.AUTHORIZATION, VALID_ACCESS_TOKEN);
+
+        // when // then
+        mockMvc.perform(getMock)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(LOGOUT_SUCCESS.getCode()))
+                .andExpect(jsonPath("$.message").value(LOGOUT_SUCCESS.getMessage()))
+        ;
     }
 }
