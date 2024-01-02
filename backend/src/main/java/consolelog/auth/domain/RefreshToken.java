@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
+@EqualsAndHashCode
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
