@@ -1,20 +1,14 @@
 package consolelog.auth.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import consolelog.auth.service.AuthService;
 import consolelog.auth.service.RefreshTokenService;
-import consolelog.global.support.token.TokenManager;
 import consolelog.helper.ControllerTestHelper;
-import consolelog.util.fixture.AuthFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,8 +16,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import static consolelog.global.result.ResultCode.*;
 import static consolelog.util.fixture.AuthFixture.*;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -72,17 +64,17 @@ class AuthControllerTest extends ControllerTestHelper {
     void refresh() throws Exception {
         // given
         given(tokenManager.createAccessToken(VALID_AUTH_INFO))
-                .willReturn(VALID_REFRESHED_ACCESS_TOKEN);
+                .willReturn(VALID_REFRESHED_ACCESS_TOKEN_STRING);
 
         MockHttpServletRequestBuilder getMock = get("/api/v1/auth/refresh")
-                .header(HttpHeaders.AUTHORIZATION, VALID_ACCESS_TOKEN)
-                .header("Refresh-Token", VALID_REFRESH_TOKEN);
+                .header(HttpHeaders.AUTHORIZATION, VALID_ACCESS_TOKEN_STRING)
+                .header("Refresh-Token", VALID_REFRESH_TOKEN_STRING);
 
         // when // then
         mockMvc.perform(getMock)
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(header().string(HttpHeaders.AUTHORIZATION, VALID_REFRESHED_ACCESS_TOKEN))
+                .andExpect(header().string(HttpHeaders.AUTHORIZATION, VALID_REFRESHED_ACCESS_TOKEN_STRING))
                 .andExpect(jsonPath("$.code").value(REFRESH_SUCCESS.getCode()))
                 .andExpect(jsonPath("$.message").value(REFRESH_SUCCESS.getMessage()))
         ;
@@ -93,7 +85,7 @@ class AuthControllerTest extends ControllerTestHelper {
     void logout() throws Exception {
         // given
         MockHttpServletRequestBuilder getMock = get("/api/v1/auth/logout")
-                .header(HttpHeaders.AUTHORIZATION, VALID_ACCESS_TOKEN);
+                .header(HttpHeaders.AUTHORIZATION, VALID_ACCESS_TOKEN_STRING);
 
         // when // then
         mockMvc.perform(getMock)
