@@ -2,10 +2,12 @@ package consolelog.auth.domain;
 
 import consolelog.global.support.token.InvalidRefreshTokenException;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Entity
 @Getter
+@EqualsAndHashCode
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

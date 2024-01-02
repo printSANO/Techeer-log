@@ -59,6 +59,7 @@ public class AuthController {
     public ResponseEntity<ResultResponse<String>> refresh(@RequestHeader("Refresh-Token") String refresh_token, HttpServletRequest request, @Login AuthInfo authInfo) {
         validateExistHeader(request);
         Long memberId = authInfo.getId();
+
         // extract : 뽑아내다. request에서 RefreshToken을 뽑아내는 과정
         String refreshToken = AuthorizationExtractor.extractRefreshToken(request);
 
