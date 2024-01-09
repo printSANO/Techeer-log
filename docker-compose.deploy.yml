@@ -9,47 +9,42 @@ services:
     container_name: mysqldb
     env_file:
       - "./backend/db/.env"
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
 
   nginx:
-    image: nginx:1.24.0-alpine-slim
+    build: ./nginx
+    container_name: nginx
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
       #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
-      - ./nginx/index.html:/test/index.html
-      - ./nginx/nginx-deploy.conf:/etc/nginx/nginx.conf
       - ./certbot/conf:/etc/letsencrypt:rw
       - ./certbot/www:/var/www/certbot:rw
       - build_folder:/var/www/frontend
     depends_on:
       - backend
       - frontend
-    expose:
-      - '80'
-      - '443'
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
   backend:
+    container_name: backend
     build: ./backend
     restart: always
+    env_file:
+      - "./backend/backend-secret.env"
+      - "./spring-source.env"
     depends_on:
       - mysqldb
-    environment:
-      WAIT_HOSTS: mysqldb:3306
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/console-log?createDatabaseIfNotExist=true&characterEncoding=UTF-8&profileSql=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 12345678
-    #      SPRING_PROFILES_ACTIVE: dev
     ports:
       - "8080:8080"
     command: [ "java", "-jar", "/app.jar" ]
 
   certbot:
     image: certbot/certbot
+    container_name: certbot
     restart: unless-stopped
     volumes:
       - ./certbot/conf:/etc/letsencrypt:rw
@@ -59,11 +54,9 @@ services:
       - nginx
 
   frontend:
-    build:
-      context: ./frontend
+    container_name: frontend
+    build: ./frontend
     restart: always
-    ports:
-      - "3000:3000"
     volumes:
       - build_folder:/frontend/dist
     tty: true
