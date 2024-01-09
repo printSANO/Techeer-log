@@ -21,4 +21,5 @@ build/
 *.vsix
 
 certbot
+*.env
 
