@@ -55,7 +55,7 @@ jobs:
         host: ${{secrets.AWS_HOST}}
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
-        source: "${DOCKER_COMPOSE_EC2_FILE}, db.env, backend-secret.env, spring-source.env"
+        source: "${DOCKER_COMPOSE_EC2_FILE}"
         target: ${{ secrets.TARGET_DIRECTORY }}
 
 #    - name: Connect to EC2 using SSH
