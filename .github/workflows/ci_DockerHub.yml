@@ -31,31 +31,31 @@ jobs:
     - uses: actions/checkout@v3
 
     # 도커 허브 사용을 위해 도커에 로그인
-#    - name: Login to DockerHub
-#      uses: docker/login-action@v3
-#      with:
-#        username: ${{ secrets.DOCKERHUB_USERNAME }}
-#        password: ${{ secrets.DOCKERHUB_TOKEN }} # 도커 홈페이지에서 발급받은 토큰 사용
-#
-#    - name: Build and Push to DockerHub
-#      run: |
-#        docker compose -f ${DOCKER_COMPOSE_DEPLOY_FILE} build
-#        docker compose -f ${DOCKER_COMPOSE_DEPLOY_FILE} push
-#
-#    - name: Copy Secret Files to Runner
-#      run: |
-#        echo ${{ secrets.DB_ENV }} >> db.env
-#        echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
-#        echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }} # 도커 홈페이지에서 발급받은 토큰 사용
 
-#    - name: Copy Secret and Docker Compose to EC2
-#      uses: appleboy/scp-action@master
-#      with:
-#        host: ${{secrets.AWS_HOST}}
-#        username: ${{secrets.AWS_USERNAME}}
-#        password: ${{ secrets.AWS_KEY_PEM }}
-#        source: "${DOCKER_COMPOSE_EC2_FILE}, db.env, backend-secret.env, spring-source.env"
-#        target: ${{ secrets.TARGET_DIRECTORY }}
+    - name: Build and Push to DockerHub
+      run: |
+        docker compose -f ${DOCKER_COMPOSE_DEPLOY_FILE} build
+        docker compose -f ${DOCKER_COMPOSE_DEPLOY_FILE} push
+
+    - name: Copy Secret Files to Runner
+      run: |
+        echo ${{ secrets.DB_ENV }} >> db.env
+        echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
+        echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
+
+    - name: Copy Secret and Docker Compose to EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{secrets.AWS_HOST}}
+        username: ${{secrets.AWS_USERNAME}}
+        password: ${{ secrets.AWS_KEY_PEM }}
+        source: "${DOCKER_COMPOSE_EC2_FILE}, db.env, backend-secret.env, spring-source.env"
+        target: ${{ secrets.TARGET_DIRECTORY }}
 
     - name: Connect to EC2 using SSH
       uses: appleboy/ssh-action@master
@@ -66,7 +66,7 @@ jobs:
         envs: GITHUB_SHA
         script: |
           sudo cd ${{ secrets.TARGET_DIRECTORY }}
-#          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} down
-#          docker volume rm -f ${BUILD_FOLDER_NAME}
-#          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} pull
-#          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} up -d
+          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} down
+          docker volume rm -f ${BUILD_FOLDER_NAME}
+          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} pull
+          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} up -d
