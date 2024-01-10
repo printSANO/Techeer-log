@@ -65,6 +65,6 @@ jobs:
         envs: GITHUB_SHA
         script: |
           sudo cd ${{ secrets.TARGET_DIRECTORY }}
-          sudo docker compose -f docker-compose.ec2.yml down
-          sudo docker compose -f docker-compose.ec2.yml pull
-          sudo docker compose -f docker-compose.ec2.yml up -d
+          sudo docker-compose -f docker-compose.ec2.yml down
+          sudo docker-compose -f docker-compose.ec2.yml pull
+          sudo docker-compose -f docker-compose.ec2.yml up -d
