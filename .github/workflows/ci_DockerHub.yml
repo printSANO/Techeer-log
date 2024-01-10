@@ -56,7 +56,7 @@ jobs:
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
         port: ${{ secrets.AWS_PORT }}
-        source: "spring-source.env"
+        source: "${DOCKER_COMPOSE_EC2_FILE}"
         target: ${{ secrets.TARGET_DIRECTORY }}
         tar_dereference: true
         rm: true
