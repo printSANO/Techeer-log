@@ -56,7 +56,7 @@ jobs:
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
         port: ${{ secrets.AWS_PORT }}
-        source: ${DOCKER_COMPOSE_EC2_FILE}
+        source: "docker-compose.ec2.yml"
         target: ${{ secrets.TARGET_DIRECTORY }}
         tar_dereference: true
         rm: true
