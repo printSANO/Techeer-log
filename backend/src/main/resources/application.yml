@@ -2,7 +2,6 @@ spring:
   profiles:
     active:
     - dev
-    - secret
 
 # logging 경로 지정
 logging:

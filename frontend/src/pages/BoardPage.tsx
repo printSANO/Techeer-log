@@ -12,7 +12,6 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import { accessTokenState, editDetail, editTitle } from "../states/Atom";
 import { motion } from "framer-motion";
 
-
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -350,7 +349,6 @@ const CommentImg = styled.img`
 const CommentInfo = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-left: 1rem;
 `;
 const CommentUser = styled.p`
@@ -374,10 +372,9 @@ const EditBtn = styled.p`
   margin-right: 7px;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
-
 `;
 const DeleteBtn = styled.p`
   color: #b8b8b8;
@@ -386,10 +383,9 @@ const DeleteBtn = styled.p`
   font-weight: 400;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
-
 `;
 
 const Comment = styled.div`
@@ -414,10 +410,10 @@ const LikeBtn = styled.p`
   font-style: normal;
   font-weight: 400;
   cursor: pointer;
-  &:active{
+
+  &:active {
     color: red;
   }
-
 `;
 
 const LikeCnt = styled.p`
@@ -480,7 +476,6 @@ export default function BoardPage() {
       })
       .then((res) => {
         setNickname(res.data.data.nickname);
-        // setImageURL(res.data.data.profileImageUrl);
       })
       .catch((error) => {
         console.log(error);
@@ -541,93 +536,88 @@ export default function BoardPage() {
   };
 
   type Comments = {
-      "commentId": number,
-      "nickname": string,
-      "content": string,
-      "createdAt": string,
-      "likeCount": number,
-      "like": boolean,
-      "profileImageUrl":string,
-      "replies": Replies[],
-  }
-
-  type Replies = {
-      "replyId": number,
-      "nickname": string,
-      "content": string,
-      "createdAt": string,
-      "likeCount": number,
-      "like": boolean,
-  }
-
-  const onCommentSubmit = async()=>{
-      // e.preventDefault();
-      try {
-          await axios.post(
-              `/api/v1/posts/${postId}/comments`, 
-              {"content": input}, 
-              {
-                  headers: {
-                      authorization: accesstoken,
-                  },
-              }
-          );
-
-          getComments();
-
-          setInput("");
-
-      } catch (error) {
-          console.log(error);
-      }
+    commentId: number;
+    nickname: string;
+    content: string;
+    createdAt: string;
+    likeCount: number;
+    like: boolean;
+    profileImageUrl: string;
+    replies: Replies[];
   };
 
-  const onEditComment = async(id:number)=>{
+  type Replies = {
+    replyId: number;
+    nickname: string;
+    content: string;
+    createdAt: string;
+    likeCount: number;
+    like: boolean;
+  };
+
+  const onCommentSubmit = async () => {
+    // e.preventDefault();
+    try {
+      await axios.post(
+        `/api/v1/posts/${postId}/comments`,
+        { content: input },
+        {
+          headers: {
+            authorization: accesstoken,
+          },
+        }
+      );
+
+      getComments();
+
+      setInput("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onEditComment = async (id: number) => {
     try {
       await axios.put(
-          `/api/v1/comments/${id}`, 
-          {
-            content: editinput,
-          }, 
-          {
-            headers: {
-              authorization: accesstoken,
-            },
-          }
-        );
+        `/api/v1/comments/${id}`,
+        {
+          content: editinput,
+        },
+        {
+          headers: {
+            authorization: accesstoken,
+          },
+        }
+      );
 
-        setEditComment(false);
-        setInput("");
-        getComments();
-
+      setEditComment(false);
+      setInput("");
+      getComments();
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-};
+  };
 
-// 수정버튼이 눌린 댓글의 아이디 저장 및 수정 모드 토글
-const handleEditClick = (commentId:number) => {
+  // 수정버튼이 눌린 댓글의 아이디 저장 및 수정 모드 토글
+  const handleEditClick = (commentId: number) => {
+    if (editCommentId == 0 || editCommentId == commentId) {
+      //현재 수정 중인 댓글과 클릭된 댓글의 ID가 동일한 경우
+      setEditCommentId(commentId);
+      setEditComment((prev) => !prev);
+    } else {
+      //현재 수정 중인 댓글과 클릭된 댓글의 ID가 다른 경우
+      setEditInput("");
+      setEditCommentId(commentId); //현재 수정중인 댓글아이디 저장
+      setEditComment(true);
+    }
+  };
 
-  if( editCommentId==0 || editCommentId == commentId){
-    //현재 수정 중인 댓글과 클릭된 댓글의 ID가 동일한 경우
-    setEditCommentId(commentId); 
-    setEditComment((prev) => !prev); 
-  }else {
-    //현재 수정 중인 댓글과 클릭된 댓글의 ID가 다른 경우
-    setEditInput("");
-    setEditCommentId(commentId); //현재 수정중인 댓글아이디 저장
-    setEditComment(true); 
-  }
-  
-}
-
-
-  const getComments = async()=>{
+  const getComments = async () => {
     try {
       const response = await axios.get(`/api/v1/posts/${postId}/comments`);
       const commentsData = response.data.data.comments;
       setTotalComments(response.data.data.totalCount);
-  
+
       if (commentsData.length > 0) {
         setComments(commentsData);
       } else {
@@ -635,31 +625,31 @@ const handleEditClick = (commentId:number) => {
         setComments([]);
       }
     } catch (error) {
-      console.error('댓글 가져오기 실패:', error);
+      console.error("댓글 가져오기 실패:", error);
     }
   };
 
-  const onDelete = async(commentId:number)=>{
-    try{
-      await axios.delete(`/api/v1/comments/${commentId}`,{          
-        headers:{
-          "Authorization": accesstoken,
+  const onDelete = async (commentId: number) => {
+    try {
+      await axios.delete(`/api/v1/comments/${commentId}`, {
+        headers: {
+          Authorization: accesstoken,
         },
       });
-      
+
       setComments((prevComments) =>
         prevComments.filter((comment) => comment.commentId !== commentId)
       );
-    } catch(error) {
-      console.error("댓글 삭제 실패:",error);
+    } catch (error) {
+      console.error("댓글 삭제 실패:", error);
     }
-  }; 
+  };
 
-  const onLikeComment = async (id:number): Promise<void> => {
-    try{
-        await axios.put(
+  const onLikeComment = async (id: number): Promise<void> => {
+    try {
+      await axios.put(
         `/api/v1/comments/${id}/like`,
-        {id},
+        { id },
         {
           headers: {
             authorization: accesstoken,
@@ -670,14 +660,11 @@ const handleEditClick = (commentId:number) => {
       // console.log(response.data);
       // setLikeComment((prev) => prev + 1);
       getComments();
-
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-
-
   };
-  
+
   const PutPost = (): void => {
     seteditTitle(title);
     seteditDetail(markdown);
@@ -797,62 +784,91 @@ const handleEditClick = (commentId:number) => {
         </Bottom>
 
         <CommentArea>
-            <InputBox>
-                <CommentCnt>{totalComments}개의 댓글</CommentCnt>
-                <Input 
-                    placeholder="댓글을 작성하세요"
-                    value={input}
-                    onChange={(e)=>setInput(e.target.value)}
-                />
-                <BtnWrapper>
-                    <InputBtn onClick={onCommentSubmit}>댓글 작성</InputBtn>
-                </BtnWrapper>
-            </InputBox>
-            <div>
-                {comments && comments.map((comment)=>(
-                    <CommentBox key={comment.commentId}>
-                        <CommentUserBox>
-                          <div style={{ display: "flex", flexDirection: "row", alignItems:"center"}}>
-                            <CommentImg src={comment.profileImageUrl}/>
-                            <CommentInfo>
-                                <CommentUser>{comment.nickname}</CommentUser>
-                                <CommentTime>{comment.createdAt.replace("T", " ")}</CommentTime>
-                            </CommentInfo>
-                          </div>
-                          <div style={comment.nickname == nickname ? ({ display: "flex", flexDirection: "row" }):({display: "none"})}>
-                              <EditBtn onClick={()=>handleEditClick(comment.commentId)}>수정</EditBtn>
-                              <DeleteBtn onClick={()=>onDelete(comment.commentId)}>삭제</DeleteBtn>
-                          </div>
-                        </CommentUserBox>
+          <InputBox>
+            <CommentCnt>{totalComments}개의 댓글</CommentCnt>
+            <Input
+              placeholder="댓글을 작성하세요"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <BtnWrapper>
+              <InputBtn onClick={onCommentSubmit}>댓글 작성</InputBtn>
+            </BtnWrapper>
+          </InputBox>
+          <div>
+            {comments &&
+              comments.map((comment) => (
+                <CommentBox key={comment.commentId}>
+                  <CommentUserBox>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CommentImg src={comment.profileImageUrl} />
+                      <CommentInfo>
+                        <CommentUser>{comment.nickname}</CommentUser>
+                        <CommentTime>
+                          {comment.createdAt.replace("T", " ")}
+                        </CommentTime>
+                      </CommentInfo>
+                    </div>
+                    <div
+                      style={
+                        comment.nickname == nickname
+                          ? {
+                              display: "flex",
+                              flexDirection: "row",
+                            }
+                          : { display: "none" }
+                      }
+                    >
+                      <EditBtn
+                        onClick={() => handleEditClick(comment.commentId)}
+                      >
+                        수정
+                      </EditBtn>
+                      <DeleteBtn onClick={() => onDelete(comment.commentId)}>
+                        삭제
+                      </DeleteBtn>
+                    </div>
+                  </CommentUserBox>
 
-                        {(!editcomment || editCommentId !== comment.commentId) ? (
-                          <div style={{ display: "flex", flexDirection: "column"} }>
-                            <Comment>
-                              <CommentLine>{comment.content}</CommentLine>
-                              <LikeBtn onClick={()=>onLikeComment(comment.commentId)}>❤︎</LikeBtn>
-                            </Comment>
-                            <div>
-                              <LikeCnt>공감 {comment.likeCount}</LikeCnt>
-                            </div>
-                          </div>
-                          
-                        ):(
-                          <InputBox>
-                            <Input 
-                                placeholder="댓글을 작성하세요"
-                                value={editinput}
-                                onChange={(e)=>setEditInput(e.target.value)}
-                            />
-                            <BtnWrapper>
-                                <InputBtn onClick={()=>onEditComment(comment.commentId)}>댓글 작성</InputBtn>
-                            </BtnWrapper>
-                          </InputBox>
-                        )}
-                        
-                    </CommentBox>
-                ))}
-            </div>
-            
+                  {!editcomment || editCommentId !== comment.commentId ? (
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <Comment>
+                        <CommentLine>{comment.content}</CommentLine>
+                        <LikeBtn
+                          onClick={() => onLikeComment(comment.commentId)}
+                        >
+                          ❤︎
+                        </LikeBtn>
+                      </Comment>
+                      <div>
+                        <LikeCnt>공감 {comment.likeCount}</LikeCnt>
+                      </div>
+                    </div>
+                  ) : (
+                    <InputBox>
+                      <Input
+                        placeholder="댓글을 작성하세요"
+                        value={editinput}
+                        onChange={(e) => setEditInput(e.target.value)}
+                      />
+                      <BtnWrapper>
+                        <InputBtn
+                          onClick={() => onEditComment(comment.commentId)}
+                        >
+                          댓글 작성
+                        </InputBtn>
+                      </BtnWrapper>
+                    </InputBox>
+                  )}
+                </CommentBox>
+              ))}
+          </div>
         </CommentArea>
       </Body>
     </Background>

@@ -186,7 +186,7 @@ const Textarea = styled.textarea`
   padding: 0 0.1px 0 0;
   width: 100%;
   max-width: 54rem;
-  height: 38rem;
+  height: 27rem;
   outline: none;
   resize: none;
   caret-color: #61afef;
