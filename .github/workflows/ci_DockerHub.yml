@@ -70,3 +70,4 @@ jobs:
 #          docker volume rm -f ${BUILD_FOLDER_NAME}
 #          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} pull
 #          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} up -d
+
