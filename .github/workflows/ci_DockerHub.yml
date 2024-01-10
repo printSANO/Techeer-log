@@ -47,6 +47,7 @@ jobs:
         echo ${{ secrets.DB_ENV }} >> db.env
         echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
         echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
+        chmod 644 db.env backend-secret.env spring-source.env
 
     - name: Copy Secret and Docker Compose to EC2
       uses: appleboy/scp-action@master
