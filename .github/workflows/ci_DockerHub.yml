@@ -45,6 +45,7 @@ jobs:
         echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
         echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
         cat db.env
+        ls -al
         
 
     - name: Copy Secret and Docker Compose to EC2
@@ -54,7 +55,7 @@ jobs:
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
         port: ${{ secrets.AWS_PORT }}
-        source: "docker-compose.ec2.yml, db.env, backend-secret.env, spring-source.env"
+        source: "docker-compose.ec2.yml, a, db.env, backend-secret.env, spring-source.env"
         target: ${{ secrets.TARGET_DIRECTORY }}
         overwrite: true
 
