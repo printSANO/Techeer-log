@@ -48,12 +48,12 @@ jobs:
         echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
         echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
 
-    - name: Build and Push to DockerHub
+    - name: Copy Secret and Docker Compose to EC2
       uses: appleboy/scp-action@master
       with:
         host: ${{secrets.AWS_HOST}}
         username: ${{secrets.AWS_USERNAME}}
-        key: ${{ secrets.AWS_KEY_PEM }}
+        password: ${{ secrets.AWS_KEY_PEM }}
         source: "${DOCKER_COMPOSE_EC2_FILE}, db.env, backend-secret.env, spring-source.env"
         target: ${{ secrets.TARGET_DIRECTORY }}
 
