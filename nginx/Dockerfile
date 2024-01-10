@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:1.24.0-alpine-slim
 # 가상 공간의 nginx 기본 설정파일 삭제 후 작성한 설정파일로 대체
 RUN rm /etc/nginx/conf.d/default.conf
 

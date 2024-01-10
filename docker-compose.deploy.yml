@@ -4,59 +4,11 @@ volumes:
   build_folder: null
 
 services:
-  mysqldb:
-    image: mysql:8.0
-    container_name: mysqldb
-    env_file:
-      - "./backend/db/.env"
-    expose:
-      - "3306"
-
   nginx:
     build: ./nginx
-    container_name: nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
-      - ./certbot/conf:/etc/letsencrypt:rw
-      - ./certbot/www:/var/www/certbot:rw
-      - build_folder:/var/www/frontend
-    depends_on:
-      - backend
-      - frontend
-    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
   backend:
-    container_name: backend
     build: ./backend
-    restart: always
-    env_file:
-      - "./backend/backend-secret.env"
-      - "./spring-source.env"
-    depends_on:
-      - mysqldb
-    ports:
-      - "8080:8080"
-    command: [ "java", "-jar", "/app.jar" ]
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    restart: unless-stopped
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt:rw
-      - ./certbot/www:/var/www/certbot:rw
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    depends_on:
-      - nginx
 
   frontend:
-    container_name: frontend
     build: ./frontend
-    restart: always
-    volumes:
-      - build_folder:/frontend/dist
-    tty: true
