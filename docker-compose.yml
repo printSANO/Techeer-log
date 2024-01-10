@@ -8,7 +8,7 @@ services:
     image: mysql:8.0
     container_name: mysqldb
     env_file:
-      - "./backend/db/.env"
+      - "./backend/db/db.env"
     ports:
       - "3306:3306"
       #    platform: linux/amd64
