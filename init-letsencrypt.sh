@@ -8,7 +8,7 @@ fi
 
 domains=(consolelog.store)
 rsa_key_size=4096
-docker_file="docker-compose.deploy.yml"
+docker_file="docker-compose.ec2.yml"
 data_path="./certbot"
 email="201924576@pusan.ac.kr" # Adding a valid address is strongly recommended
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
