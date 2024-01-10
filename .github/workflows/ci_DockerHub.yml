@@ -64,7 +64,7 @@ jobs:
         key: ${{ secrets.AWS_KEY_PEM }}
         envs: GITHUB_SHA
         script: |
-          cd /home/ec2-user/Console-log
+          cd ${{ secrets.TARGET_DIRECTORY }}
           sudo ls -al
 
 #          sudo docker-compose -f docker-compose.ec2.yml down
