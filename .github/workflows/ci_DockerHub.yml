@@ -55,19 +55,22 @@ jobs:
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
         port: ${{ secrets.AWS_PORT }}
-        source: "docker-compose.ec2.yml, a, db.env, backend-secret.env, spring-source.env"
+        source: "docker-compose.ec2.yml"
         target: ${{ secrets.TARGET_DIRECTORY }}
         overwrite: true
 
-#    - name: Connect to EC2 using SSH
-#      uses: appleboy/ssh-action@master
-#      with:
-#        host: ${{secrets.AWS_HOST}}
-#        username: ${{secrets.AWS_USERNAME}}
-#        key: ${{ secrets.AWS_KEY_PEM }}
-#        envs: GITHUB_SHA
-#        script: |
-#          cd ${{ secrets.TARGET_DIRECTORY }}
-#          sudo docker-compose -f docker-compose.ec2.yml down
-#          sudo docker-compose -f docker-compose.ec2.yml pull
-#          sudo docker-compose -f docker-compose.ec2.yml up -d
+    - name: Connect to EC2 using SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{secrets.AWS_HOST}}
+        username: ${{secrets.AWS_USERNAME}}
+        key: ${{ secrets.AWS_KEY_PEM }}
+        envs: GITHUB_SHA
+        script: |
+          cd ${{ secrets.TARGET_DIRECTORY }}
+          echo ${{ secrets.DB_ENV }} >> db.env
+          echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
+          echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
+          sudo docker-compose -f docker-compose.ec2.yml down
+          sudo docker-compose -f docker-compose.ec2.yml pull
+          sudo docker-compose -f docker-compose.ec2.yml up -d
