@@ -58,6 +58,7 @@ jobs:
         port: ${{ secrets.AWS_PORT }}
         source: "docker-compose.ec2.yml, db.env, backend-secret.env, spring-source.env"
         target: ${{ secrets.TARGET_DIRECTORY }}
+        rm: true
 
 #    - name: Connect to EC2 using SSH
 #      uses: appleboy/ssh-action@master
