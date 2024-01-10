@@ -5,10 +5,13 @@ volumes:
 
 services:
   nginx:
+    image: jaebin19/console-log:nginx
     build: ./nginx
 
   backend:
+    image: jaebin19/console-log:backend
     build: ./backend
 
   frontend:
+    image: jaebin19/console-log:frontend
     build: ./frontend

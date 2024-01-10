@@ -19,7 +19,7 @@ env:
   CODE_DEPLOY_APP_NAME: Console-log-CodeDeploy
   DEPLOYMENT_GROUP_NAME: Console-log-Deployment-Group
   DOCKER_COMPOSE_EC2_FILE: docker-compose.ec2.yml
-  PUSH_DOCKERHUB_SHELL: push-dockerhub.sh
+  DOCKER_COMPOSE_DEPLOY_FILE: docker-compose.deploy.yml
   BUILD_FOLDER_NAME: console-log_build_folder
 
 
@@ -39,15 +39,14 @@ jobs:
 
     - name: Build and Push to DockerHub
       run: |
-        chmod +x ${PUSH_DOCKERHUB_SHELL}
-        ./${PUSH_DOCKERHUB_SHELL}
+        docker compose -f ${DOCKER_COMPOSE_DEPLOY_FILE} build
+        docker compose -f ${DOCKER_COMPOSE_DEPLOY_FILE} push
 
     - name: Copy Secret Files to Runner
       run: |
         echo ${{ secrets.DB_ENV }} >> db.env
         echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
         echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
-        
 
     - name: Build and Push to DockerHub
       uses: appleboy/scp-action@master
