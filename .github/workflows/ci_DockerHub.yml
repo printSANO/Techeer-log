@@ -39,8 +39,8 @@ jobs:
 
     - name: Build and Push to DockerHub
       run: |
-        docker compose -f ${{ DOCKER_COMPOSE_DEPLOY_FILE }} build
-        docker compose -f ${{ DOCKER_COMPOSE_DEPLOY_FILE }} push
+        docker compose -f $DOCKER_COMPOSE_DEPLOY_FILE build
+        docker compose -f $DOCKER_COMPOSE_DEPLOY_FILE push
 
     - name: Copy Secret Files to Runner
       run: |
@@ -68,7 +68,7 @@ jobs:
         envs: GITHUB_SHA
         script: |
           sudo cd ${{ secrets.TARGET_DIRECTORY }}
-          sudo docker compose -f ${{ DOCKER_COMPOSE_EC2_FILE }} down
-          docker volume rm -f ${{ BUILD_FOLDER_NAME }}
-          sudo docker compose -f ${{ DOCKER_COMPOSE_EC2_FILE }} pull
-          sudo docker compose -f ${{ DOCKER_COMPOSE_EC2_FILE }} up -d
+          sudo docker compose -f $DOCKER_COMPOSE_EC2_FILE down
+          docker volume rm -f $BUILD_FOLDER_NAME
+          sudo docker compose -f $DOCKER_COMPOSE_EC2_FILE pull
+          sudo docker compose -f $DOCKER_COMPOSE_EC2_FILE up -d
