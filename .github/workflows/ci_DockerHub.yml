@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Console-log CI by Docker Hub
+name: Console-log CI/CD by Docker Hub
 
 on:
   push:
@@ -18,7 +18,9 @@ env:
   BUCKET_NAME: console-log-codedeploy
   CODE_DEPLOY_APP_NAME: Console-log-CodeDeploy
   DEPLOYMENT_GROUP_NAME: Console-log-Deployment-Group
-
+  DOCKER_COMPOSE_EC2_FILE: docker-compose.ec2.yml
+  PUSH_DOCKERHUB_SHELL: push-dockerhub.sh
+  BUILD_FOLDER_NAME: console-log_build_folder
 
 
 jobs:
@@ -28,27 +30,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    - name: init with Gradle
-      uses: gradle/gradle-build-action@v2
-    - run: gradle init
-
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@v2
-      with:
-        gradle-version: 7.5.1
-        arguments: build
-
-    # Docker Hub에 push할 이미지 빌드
-    - name: Docker Build
-      run: |
-        docker build -t ${{secrets.DOCKER_IMAGE}} .
-
     # 도커 허브 사용을 위해 도커에 로그인
     - name: Login to DockerHub
       uses: docker/login-action@v3
@@ -56,11 +37,27 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }} # 도커 홈페이지에서 발급받은 토큰 사용
 
-    - name: Push to DockerHub
+    - name: Build and Push to DockerHub
       run: |
-        docker push ${{secrets.DOCKER_IMAGE}}
+        chmod +x ${PUSH_DOCKERHUB_SHELL}
+        ./${PUSH_DOCKERHUB_SHELL}
 
-    # ssh를 통해 EC2에 접속, 접속한 후에 실행할 스크립트 작성
+    - name: Copy Secret Files to Runner
+      run: |
+        echo ${{ secrets.DB_ENV }} >> db.env
+        echo ${{ secrets.BACKEND_SECRET_ENV }} >> backend-secret.env
+        echo ${{ secrets.SPRING_SOURCE }} >> spring-source.env
+        
+
+    - name: Build and Push to DockerHub
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{secrets.AWS_HOST}}
+        username: ${{secrets.AWS_USERNAME}}
+        key: ${{ secrets.AWS_KEY_PEM }}
+        source: "${DOCKER_COMPOSE_EC2_FILE}, db.env, backend-secret.env, spring-source.env"
+        target: ${{ secrets.TARGET_DIRECTORY }}
+
     - name: Connect to EC2 using SSH
       uses: appleboy/ssh-action@master
       with:
@@ -69,6 +66,8 @@ jobs:
         key: ${{ secrets.AWS_KEY_PEM }}
         envs: GITHUB_SHA
         script: |
-          sudo docker down ${{secrets.DOCKER_IMAGE}}
-          sudo docker pull ${{secrets.DOCKER_IMAGE}}
-          sudo docker up ${{secrets.DOCKER_IMAGE}}
+          sudo cd ${{ secrets.TARGET_DIRECTORY }}
+          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} down
+          docker volume rm -f ${BUILD_FOLDER_NAME}
+          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} pull
+          sudo docker compose -f ${DOCKER_COMPOSE_EC2_FILE} up -d
