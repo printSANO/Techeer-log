@@ -55,7 +55,8 @@ jobs:
         host: ${{secrets.AWS_HOST}}
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
-        source: "${DOCKER_COMPOSE_EC2_FILE}"
+        port: ${{ secrets.AWS_PORT }}
+        source: "docker-compose.ec2.yml"
         target: ${{ secrets.TARGET_DIRECTORY }}
 
 #    - name: Connect to EC2 using SSH
