@@ -55,7 +55,6 @@ jobs:
         host: ${{secrets.AWS_HOST}}
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
-        port: ${{ secrets.AWS_PORT }}
         source: "${DOCKER_COMPOSE_EC2_FILE}, db.env, backend-secret.env, spring-source.env"
         target: ${{ secrets.TARGET_DIRECTORY }}
         tar_dereference: true
