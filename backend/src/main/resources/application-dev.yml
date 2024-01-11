@@ -1,3 +1,6 @@
+server:
+  port: ${SERVER_PORT}
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,6 +22,7 @@ spring:
       schema-locations: classpath:sql/schema.sql
       # data-locations: classpath:data.sql
       mode: always
+
 
 security:
   jwt:

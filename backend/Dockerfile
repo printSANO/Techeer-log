@@ -19,7 +19,6 @@ FROM openjdk:17
 # 위 builder에서 만든 .jar파일을 컨테이너 내부로 복사
 COPY --from=builder build/libs/*.jar app.jar
 
-EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"]
 
 COPY wait-for-it.sh wait-for-it.sh
