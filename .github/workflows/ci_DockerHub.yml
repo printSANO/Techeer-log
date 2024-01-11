@@ -39,16 +39,16 @@ jobs:
 #        docker compose -f docker-compose.deploy.yml build
 #        docker compose -f docker-compose.deploy.yml push
 #
-    - name: Copy Docker Compose to EC2
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{secrets.AWS_HOST}}
-        username: ${{secrets.AWS_USERNAME}}
-        key: ${{ secrets.AWS_KEY_PEM }}
-        port: ${{ secrets.AWS_PORT }}
-        source: "docker-compose.ec2.yml, deploy_to_ec2.sh"
-        target: ${{ secrets.TARGET_DIRECTORY }}
-        overwrite: true
+#    - name: Copy Docker Compose to EC2
+#      uses: appleboy/scp-action@master
+#      with:
+#        host: ${{secrets.AWS_HOST}}
+#        username: ${{secrets.AWS_USERNAME}}
+#        key: ${{ secrets.AWS_KEY_PEM }}
+#        port: ${{ secrets.AWS_PORT }}
+#        source: "docker-compose.ec2.yml, deploy_to_ec2.sh"
+#        target: ${{ secrets.TARGET_DIRECTORY }}
+#        overwrite: true
 
     - name: Connect to EC2 using SSH
       uses: appleboy/ssh-action@master
@@ -58,6 +58,7 @@ jobs:
         key: ${{ secrets.AWS_KEY_PEM }}
         envs: GITHUB_SHA
         script: |
+          cd ${{ secrets.TARGET_DIRECTORY }}
           sudo chmod +x ./deploy_to_ec2.sh
           ./deploy_to_ec2.sh
 
