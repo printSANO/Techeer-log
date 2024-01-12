@@ -5,7 +5,7 @@ volumes:
 
 services:
   mysqldb:
-    image: mysql:8.0
+    image: jaebin19/console-log:mysqldb
     container_name: mysqldb
     env_file:
       - "./db.env"
@@ -23,6 +23,7 @@ services:
       #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
       - ./certbot/conf:/etc/letsencrypt:rw
       - ./certbot/www:/var/www/certbot:rw
+      - ./nginx/nginx-deploy.conf:/etc/nginx/nginx.conf
       - build_folder:/var/www/frontend:ro
     depends_on:
       - backend
@@ -36,6 +37,9 @@ services:
     env_file:
       - "./backend-secret.env"
       - "./spring-source.env"
+    environment:
+      - SERVER_PORT=8080
+      - ACTIVE_PROFILE=deploy
     depends_on:
       - mysqldb
     ports:
@@ -49,6 +53,9 @@ services:
     env_file:
       - "./backend-secret.env"
       - "./spring-source.env"
+    environment:
+      - SERVER_PORT=8081
+      - ACTIVE_PROFILE=deploy
     depends_on:
       - mysqldb
     ports:

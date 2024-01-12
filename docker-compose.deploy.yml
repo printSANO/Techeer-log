@@ -4,6 +4,10 @@ volumes:
   build_folder: null
 
 services:
+  mysqldb:
+    image: jaebin19/console-log:mysqldb
+    build: ./db
+
   nginx:
     image: jaebin19/console-log:nginx
     build:
