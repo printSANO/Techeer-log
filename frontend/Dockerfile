@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:16-alpine
+FROM node:16-alpine
 
 # set working directory
 # 작업을 수행할 디렉토리를 지정
