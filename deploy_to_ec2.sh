@@ -53,7 +53,7 @@ if ! docker-compose -f $COMPOSE_FILE  ps nginx | grep "Up"; then
 else
   # frontend 를 다시 build
   docker-compose -f $COMPOSE_FILE pull frontend
-  docker-compose -f $COMPOSE_FILE up --force-recreate --wait -d frontend
+  docker-compose -f $COMPOSE_FILE up --wait -d frontend
 
   # build_folder 세팅
   init_build_folder
