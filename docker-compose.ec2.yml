@@ -23,7 +23,7 @@ services:
       #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
       - ./certbot/conf:/etc/letsencrypt:rw
       - ./certbot/www:/var/www/certbot:rw
-      - ./nginx/nginx-deploy.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx-ec2.conf:/etc/nginx/nginx.conf
       - build_folder:/var/www/frontend:ro
     depends_on:
       - backend
