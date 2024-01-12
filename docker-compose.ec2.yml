@@ -23,15 +23,15 @@ services:
       #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
       - ./certbot/conf:/etc/letsencrypt:rw
       - ./certbot/www:/var/www/certbot:rw
-      - build_folder:/var/www/frontend
+      - build_folder:/var/www/frontend:ro
     depends_on:
       - backend
       - frontend
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
-  backend:
+  backend1:
     image: jaebin19/console-log:backend
-    container_name: backend
+    container_name: backend1
     restart: always
     env_file:
       - "./backend-secret.env"
@@ -40,6 +40,19 @@ services:
       - mysqldb
     ports:
       - "8080:8080"
+    command: [ "java", "-jar", "/app.jar" ]
+
+  backend2:
+    image: jaebin19/console-log:backend
+    container_name: backend2
+    restart: always
+    env_file:
+      - "./backend-secret.env"
+      - "./spring-source.env"
+    depends_on:
+      - mysqldb
+    ports:
+      - "8081:8081"
     command: [ "java", "-jar", "/app.jar" ]
 
   certbot:
@@ -58,5 +71,5 @@ services:
     container_name: frontend
     restart: always
     volumes:
-      - build_folder:/frontend/dist
+      - build_folder:/frontend/dist:rw
     tty: true
