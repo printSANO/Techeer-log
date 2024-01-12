@@ -10,7 +10,7 @@ init_build_folder() {
   docker exec -it frontend sh -c '
     cp -rf /frontend/dist/* /frontend/volume/
   '
-  docker-compose -f $COMPOSE_FILE stop frontend
+  docker-compose -f $COMPOSE_FILE down frontend
 }
 
 reload_nginx() {
@@ -46,8 +46,8 @@ if ! docker-compose -f $COMPOSE_FILE  ps nginx | grep "Up"; then
   reload_nginx $NGINX_CONF_1
 
   # 빌드 이후에는 frontend 와 backend2 서버를 종료한다
-  docker-compose -f $COMPOSE_FILE stop frontend
-  docker-compose -f $COMPOSE_FILE stop backend2
+  docker-compose -f $COMPOSE_FILE down frontend
+  docker-compose -f $COMPOSE_FILE down backend2
 
 # nginx 가 정상 동작하고 있다면 == 아예 초기 세팅 단계가 아니라면
 else
@@ -56,7 +56,7 @@ else
   docker-compose -f $COMPOSE_FILE up --wait -d frontend
 
   # build_folder 세팅
-#  init_build_folder
+  init_build_folder
 
   #
   check_backend_state
@@ -72,7 +72,7 @@ else
       docker-compose -f $COMPOSE_FILE pull backend2
       docker-compose -f $COMPOSE_FILE up --wait -d backend2
       reload_nginx $NGINX_CONF_2
-      docker-compose -f $COMPOSE_FILE stop backend1
+      docker-compose -f $COMPOSE_FILE down backend1
       ;;
     # backend2 가 켜져 있음
     # backend1 를 build 해서 켜고 nginx 를 reload
@@ -81,7 +81,7 @@ else
       docker-compose -f $COMPOSE_FILE pull backend1
       docker-compose -f $COMPOSE_FILE up --wait -d backend1
       reload_nginx $NGINX_CONF_1
-      docker-compose -f $COMPOSE_FILE stop backend2
+      docker-compose -f $COMPOSE_FILE down backend2
       ;;
     # backend1, backend2 모두 꺼져 있음
     # 정상적인 동작과정에서는 일어날 수 없는 상황임
