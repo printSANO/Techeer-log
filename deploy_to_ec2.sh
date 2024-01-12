@@ -1,9 +1,9 @@
 # nginx 가 꺼져 있다면  == 초기 세팅 단계라면, project를 처음부터 다시 build 한다
 
-COMPOSE_FILE="docker-compose.deploy.yml"
-NGINX_CONF_DEFAULT="./nginx/nginx-deploy.conf"
-NGINX_CONF_1="./nginx/nginx-deploy-1.conf"
-NGINX_CONF_2="./nginx/nginx-deploy-2.conf"
+COMPOSE_FILE="docker-compose.ec2.yml"
+NGINX_CONF_DEFAULT="./nginx/nginx-ec2.conf"
+NGINX_CONF_1="./nginx/nginx-ec2-1.conf"
+NGINX_CONF_2="./nginx/nginx-ec2-2.conf"
 
 init_build_folder() {
     docker exec -it frontend sh -c '
