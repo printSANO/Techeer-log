@@ -53,7 +53,7 @@ if ! docker-compose -f $COMPOSE_FILE  ps nginx | grep "Up"; then
 else
   # frontend 를 다시 build
   docker-compose -f $COMPOSE_FILE pull frontend
-  docker-compose -f $COMPOSE_FILE up --wait -d frontend
+  docker-compose -f $COMPOSE_FILE up --force-recreate --wait -d frontend
 
   # build_folder 세팅
   init_build_folder
@@ -70,7 +70,7 @@ else
     # 그 후, backend1 종료
   	0)
       docker-compose -f $COMPOSE_FILE pull backend2
-      docker-compose -f $COMPOSE_FILE up --wait -d backend2
+      docker-compose -f $COMPOSE_FILE up --force-recreate --wait -d backend2
       reload_nginx $NGINX_CONF_2
       docker-compose -f $COMPOSE_FILE down backend1
       ;;
@@ -79,7 +79,7 @@ else
     # 그 후, backend1 종료
     1)
       docker-compose -f $COMPOSE_FILE pull backend1
-      docker-compose -f $COMPOSE_FILE up --wait -d backend1
+      docker-compose -f $COMPOSE_FILE up --force-recreate --wait -d backend1
       reload_nginx $NGINX_CONF_1
       docker-compose -f $COMPOSE_FILE down backend2
       ;;
@@ -88,7 +88,7 @@ else
     # backend1을 build 하고 동작시킨다
     2)
       docker-compose -f $COMPOSE_FILE pull backend1
-      docker-compose -f $COMPOSE_FILE up --wait -d backend1
+      docker-compose -f $COMPOSE_FILE up --force-recreate --wait -d backend1
       reload_nginx $NGINX_CONF_1
       ;;
   esac
