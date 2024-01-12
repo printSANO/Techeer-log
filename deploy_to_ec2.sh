@@ -7,13 +7,17 @@ NGINX_CONF_1="./nginx/nginx-ec2-1.conf"
 NGINX_CONF_2="./nginx/nginx-ec2-2.conf"
 
 init_build_folder() {
-  sudo docker exec -i frontend cp -rf /frontend/dist/* /frontend/volume/
+  docker exec -i frontend sh -c '
+      cp -rf /frontend/dist/* /frontend/volume/
+    '
   docker-compose -f $COMPOSE_FILE down frontend
 }
 
 reload_nginx() {
   cp -rf "$1" $NGINX_CONF_DEFAULT
-  sudo docker exec -i nginx nginx -s reload
+    docker exec -i nginx sh -c '
+      nginx -s reload && exit
+    '
 }
 
 # backend1 이 켜져 있으면 0
@@ -33,7 +37,7 @@ check_backend_state() {
 # nginx 가 켜져있지 않다면 == 프로젝트가 한 번도 실행된 적 없거나, 문제가 생겼다면
 if ! docker-compose -f $COMPOSE_FILE  ps nginx | grep "Up"; then
   sudo docker-compose -f $COMPOSE_FILE down
-  sudo docker-compose -f $COMPOSE_FILE up --build -d
+  sudo docker-compose -f $COMPOSE_FILE up -d
 
   # build_folder 세팅
   init_build_folder
