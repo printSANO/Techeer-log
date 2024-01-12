@@ -7,13 +7,13 @@ NGINX_CONF_1="./nginx/nginx-ec2-1.conf"
 NGINX_CONF_2="./nginx/nginx-ec2-2.conf"
 
 init_build_folder() {
-  docker exec -i frontend cp -rf /frontend/dist/* /frontend/volume/
+  docker-compose -f $COMPOSE_FILE exec -T frontend cp -rf /frontend/dist/* /frontend/volume/
   docker-compose -f $COMPOSE_FILE down frontend
 }
 
 reload_nginx() {
   cp -rf "$1" $NGINX_CONF_DEFAULT
-  docker exec -i nginx nginx -s reload && exit
+  docker-compose -f $COMPOSE_FILE exec -T nginx nginx -s reload
 }
 
 # backend1 이 켜져 있으면 0
