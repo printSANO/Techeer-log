@@ -46,7 +46,7 @@ jobs:
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
         port: ${{ secrets.AWS_PORT }}
-        source: "docker-compose.ec2.yml, deploy_to_ec2.sh, nginx/nginx-deploy-1.conf, nginx/nginx-deploy-2.conf"
+        source: "nginx/nginx-deploy-1.conf, nginx/nginx-deploy-2.conf, docker-compose.ec2.yml, deploy_to_ec2.sh"
         target: ${{ secrets.TARGET_DIRECTORY }}
         overwrite: true
 
