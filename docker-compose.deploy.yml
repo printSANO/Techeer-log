@@ -6,7 +6,9 @@ volumes:
 services:
   nginx:
     image: jaebin19/console-log:nginx
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-deploy
 
   backend:
     image: jaebin19/console-log:backend
