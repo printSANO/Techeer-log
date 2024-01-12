@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import static consolelog.global.result.ResultCode.*;
 
-@Tag(name = "Auth", description = "Auth API Document")
+@Tag(name = "AuthEEEE", description = "Auth API Document")
 @RestController
 @RequestMapping("/v1/auth")
 public class AuthController {
