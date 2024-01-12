@@ -25,6 +25,7 @@ services:
       #docker-compose.yml과 같은 레벨에 둔 nginx.conf를 mount.
       - ./nginx/nginx-develop.conf:/etc/nginx/nginx.conf
       - build_folder:/var/www/frontend:ro
+    tty: true
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
   backend1:

@@ -76,5 +76,5 @@ services:
     restart: always
     container_name: frontend
     volumes:
-      - build_folder:/frontend/dist:rw
+      - build_folder:/frontend/volume:rw
     tty: true

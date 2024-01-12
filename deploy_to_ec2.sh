@@ -7,7 +7,7 @@ NGINX_CONF_1="./nginx/nginx-ec2-1.conf"
 NGINX_CONF_2="./nginx/nginx-ec2-2.conf"
 
 init_build_folder() {
-  docker exec -it frontend sh -c '
+  docker exec -i frontend sh -c '
     cp -rf /frontend/dist/* /frontend/volume/
   '
   docker-compose -f $COMPOSE_FILE down frontend
@@ -15,7 +15,7 @@ init_build_folder() {
 
 reload_nginx() {
   cp -rf "$1" $NGINX_CONF_DEFAULT
-  docker exec -it nginx sh -c '
+  docker exec -i nginx sh -c '
     nginx -s reload && exit
   '
 }
