@@ -25,9 +25,6 @@ services:
       - ./certbot/www:/var/www/certbot:rw
       - ./nginx/nginx-ec2.conf:/etc/nginx/nginx.conf
       - build_folder:/var/www/frontend:ro
-    depends_on:
-      - backend
-      - frontend
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
   backend1:
@@ -75,8 +72,8 @@ services:
 
   frontend:
     image: jaebin19/console-log:frontend
-    container_name: frontend
     restart: always
+    container_name: frontend
     volumes:
       - build_folder:/frontend/dist:rw
     tty: true
