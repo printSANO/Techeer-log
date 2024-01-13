@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost:3306/console_log?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
-    username: "root"
-    password: "12345678"
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     database: mysql
     hibernate:
@@ -17,11 +17,11 @@ spring:
         format_sql: true
         show_sql: true
 
-  sql:
-    init:
-      schema-locations: classpath:sql/schema.sql
-      # data-locations: classpath:data.sql
-      mode: always
+#  sql:
+#    init:
+#      schema-locations: classpath:sql/schema.sql
+#      data-locations: classpath:data.sql
+#      mode: never
 
 
 security:

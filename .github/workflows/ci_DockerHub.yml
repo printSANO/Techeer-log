@@ -38,7 +38,7 @@ jobs:
       run: |
         docker compose -f docker-compose.deploy.yml build
         docker compose -f docker-compose.deploy.yml push
-        
+
     - name: Copy Docker Compose to EC2
       uses: appleboy/scp-action@master
       with:
@@ -46,7 +46,7 @@ jobs:
         username: ${{secrets.AWS_USERNAME}}
         key: ${{ secrets.AWS_KEY_PEM }}
         port: ${{ secrets.AWS_PORT }}
-        source: "docker-compose.ec2.yml"
+        source: "nginx/nginx-ec2-1.conf, nginx/nginx-ec2-2.conf, docker-compose.ec2.yml, deploy_to_ec2.sh"
         target: ${{ secrets.TARGET_DIRECTORY }}
         overwrite: true
 
@@ -62,8 +62,6 @@ jobs:
           sudo echo "${{ secrets.DB_ENV }}" > db.env
           sudo echo "${{ secrets.BACKEND_SECRET_ENV }}" > backend-secret.env
           sudo echo "${{ secrets.SPRING_SOURCE }}" > spring-source.env
-          sudo docker-compose -f docker-compose.ec2.yml down
-          sudo echo "y" | docker volume prune -a
-          sudo docker-compose -f docker-compose.ec2.yml pull
-          sudo docker-compose -f docker-compose.ec2.yml up -d
+          sudo chmod +x ./deploy_to_ec2.sh
+          sudo ./deploy_to_ec2.sh
 

@@ -24,4 +24,5 @@ certbot
 *.env
 
 logs
+nginx/nginx-develop.conf
 
