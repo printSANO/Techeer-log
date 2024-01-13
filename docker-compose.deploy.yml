@@ -21,3 +21,4 @@ services:
   frontend:
     image: jaebin19/console-log:frontend
     build: ./frontend
+
