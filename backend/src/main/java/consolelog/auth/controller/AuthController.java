@@ -47,6 +47,7 @@ public class AuthController {
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGIN_SUCCESS);
 
         // 200을 보냄
+        // 수정 필요
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .header(REFRESH_TOKEN_STRING, BEARER_STRING + refreshToken)
@@ -69,6 +70,7 @@ public class AuthController {
 
         ResultResponse<String> resultResponse = new ResultResponse<>(REFRESH_SUCCESS);
 
+        // 수정 필요
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .body(resultResponse);
@@ -79,6 +81,8 @@ public class AuthController {
     public ResponseEntity<ResultResponse<String>> logout(@Login AuthInfo authInfo) {
         refreshTokenService.deleteToken(authInfo.getId());
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGOUT_SUCCESS);
+
+        // 수정 필요
         return ResponseEntity.ok().body(resultResponse);
     }
 

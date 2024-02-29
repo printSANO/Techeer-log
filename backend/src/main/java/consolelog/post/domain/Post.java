@@ -74,6 +74,8 @@ public class Post extends BaseEntity {
 
     }
 
+    // 수정 필요
+    // Getter 사용 가능한 것은 사용할 것
     public Long getId() {
         return id;
     }

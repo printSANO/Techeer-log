@@ -28,6 +28,8 @@ public class Nickname {
     }
 
     private void validate(String value) {
+        // 수정 필요
+        // Min lenght 를 선언하고 비교할 필요 없이, Empty 인지 체크하면 됨
         if (value.length() < MIN_LENGTH || value.length() > MAX_LENGTH
                 || !PATTERN.matcher(value).matches()) {
             throw new InvalidNicknameException();

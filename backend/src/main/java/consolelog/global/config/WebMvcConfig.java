@@ -17,6 +17,7 @@ import java.util.List;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
     private static final String ALLOW_METHOD_NAMES = "GET,HEAD,POST,DELETE,TRACE,OPTIONS,PATCH,PUT";
 
     private final AuthInterceptor authInterceptor;
@@ -26,6 +27,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         this.authInterceptor = authInterceptor;
         this.tokenManager = tokenManager;
     }
+
+    // 수정 필요
+    // 차후에 주석 해제 해야함
 
     //    @Override
     //    public void addCorsMappings(CorsRegistry registry) {

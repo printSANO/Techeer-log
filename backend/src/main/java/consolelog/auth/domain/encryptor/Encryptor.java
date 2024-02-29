@@ -7,8 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Encryptor implements EncryptorI {
 
-    public Encryptor() {
-    }
+    public Encryptor() {}
 
     @Override
     public String encrypt(String text) {

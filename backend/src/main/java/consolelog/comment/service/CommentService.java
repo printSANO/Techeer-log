@@ -30,6 +30,8 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final CommentLikeRepository commentLikeRepository;
+    // 수정 필요
+    // 안 쓰는 변수 삭제
     private final AuthService authService;
     private final CommentNicknameGenerator commentNicknameGenerator;
 
@@ -157,6 +159,9 @@ public class CommentService {
     }
 
     @Transactional
+    // 수정 필요
+    // 반환값이 사용되고 있지 않다고 한다. 코드를 한 번 더 확인해보아라
+    // 항상 경고표시가 나오면, 왜 발생하는지 확인해라
     public CommentResponse updateComment(Long commentId, UpdateCommentRequest updateCommentRequest, AuthInfo authInfo) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);

@@ -77,6 +77,8 @@ public class Comment {
     }
 
     public static Comment child(Member member, Post post, String message, Comment parent) {
+        // 수정 필요
+        // 즉시 값을 반환하는 방식으로 변경
         Comment child = Comment.builder()
                 .member(member)
                 .post(post)
@@ -102,6 +104,8 @@ public class Comment {
         return member.getId().equals(accessMemberId);
     }
 
+    // 수정 필요
+    // Getter 사용가능한 변수는 @Getter 로 수정
     public Long getId() {
         return id;
     }

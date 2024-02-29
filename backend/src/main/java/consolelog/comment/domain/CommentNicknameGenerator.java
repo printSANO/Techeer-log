@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 // 댓글 닉네임을 생성할때 익명 여부, 사용자 정보, 게시물 정보 고려해 적절한 닉네임 반환하는 역할
 @Component
 public class CommentNicknameGenerator {
+    // 수정 필요
+    // 사용하지 않는 변수 삭제
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
 
