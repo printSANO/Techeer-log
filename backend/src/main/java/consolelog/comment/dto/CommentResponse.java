@@ -19,7 +19,9 @@ public class CommentResponse {
     private final boolean like;
     private final List<ReplyResponse> replies;
 
-
+    // 수정 필요
+    // 불필요한 인자값 삭제
+    // 만약, authorized 가 필요한 값이면, 어디에 사용하는 값인지 주석 필요
     public CommentResponse(Long commentId, String nickname, String content, LocalDateTime createdAt,
                            boolean authorized, String profileImageUrl, int likeCount, boolean like,
                            List<ReplyResponse> replies) {

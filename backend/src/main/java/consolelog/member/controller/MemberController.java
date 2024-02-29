@@ -34,6 +34,7 @@ public class MemberController {
                                                                 @RequestPart("file") MultipartFile multipartFile) {
         Member member = memberService.signUp(signupRequest, multipartFile);
         ResultResponse<SignupRequest> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, new MemberResponse(member));
+        // 수정 필요
         return ResponseEntity.status(HttpStatus.CREATED).body(resultResponse);
     }
 
@@ -54,8 +55,13 @@ public class MemberController {
     public ResponseEntity<ResultResponse<ProfileResponse>> findProfile(@Login AuthInfo authInfo) {
         ProfileResponse profileResponse = memberService.findProfile(authInfo);
         ResultResponse<ProfileResponse> resultResponse = new ResultResponse<>(FIND_PROFILE_SUCCESS, profileResponse);
+        // 수정 필요
         return ResponseEntity.ok().body(resultResponse);
     }
+
+    // 수정 필요
+    // 닉네임 수정 구현해 볼 것
+
 //    @PatchMapping("/nickname")
 //    public ResponseEntity<Void> editNickname(@ResponseBody EditNicknameRequest editNicknameRequest, @Login AuthInfo authInfo) {
 //        memberService.editNickname(editNicknameRequest, authInfo);

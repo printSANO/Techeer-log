@@ -33,6 +33,7 @@ public class LikeController {
                                                                          @Login AuthInfo authInfo) {
         LikeFlipResponse likeFlipResponse = likeService.flipPostLike(postId, authInfo);
         ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS, likeFlipResponse);
+        // 수정 필요
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 
@@ -42,6 +43,7 @@ public class LikeController {
                                                                             @Login AuthInfo authInfo) {
         likeService.flipCommentLike(commentId, authInfo);
         ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS);
+        // 수정 필요
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }
 }

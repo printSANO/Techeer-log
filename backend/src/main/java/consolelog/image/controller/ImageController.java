@@ -31,6 +31,7 @@ public class ImageController {
         String imageUrl = imageService.upload(authInfo.getNickname(), multipartFile);
         ResultResponse<String> response = new ResultResponse<>(ResultCode.UPLOAD_SUCCESS, imageUrl);
 
+        // 수정 필요
         return ResponseEntity.ok().body(response);
     }
 }

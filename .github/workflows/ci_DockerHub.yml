@@ -9,9 +9,11 @@ name: Console-log CI/CD by Docker Hub
 
 on:
   push:
-    branches: [ "main", "develop" ]
-  pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
+#    branches: [ "main", "develop" ]
+
+#  pull_request:
+#    branches: [ "main", "develop" ]
 
 env:
   PROJECT_NAME: console-log

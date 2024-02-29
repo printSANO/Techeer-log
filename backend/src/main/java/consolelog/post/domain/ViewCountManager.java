@@ -34,6 +34,8 @@ public class ViewCountManager {
     }
 
     private boolean isLogNonExist(String log, Long postId) {
+        // 수정 필요
+        // 오류 읽어보고 수정할 것
         List<Long> loggedPostIds = Arrays.stream(log.split(ID_DELIMITER))
                 .map(Long::parseLong)
                 .collect(Collectors.toList());

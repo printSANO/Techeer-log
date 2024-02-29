@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 import static consolelog.global.result.ResultCode.*;
+import static consolelog.global.support.ConstantString.*;
 
 @Tag(name = "Auth", description = "Auth API Document")
 @RestController
@@ -46,17 +47,16 @@ public class AuthController {
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGIN_SUCCESS);
 
         // 200을 보냄
-        // Authorization: Bearer accessToken
-        // Refresh-Token: Bearer refreshToken
+        // 수정 필요
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .header("Refresh-Token", "Bearer " + refreshToken)
+                .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
+                .header(REFRESH_TOKEN_STRING, BEARER_STRING + refreshToken)
                 .body(resultResponse);
     }
 
     @Operation(summary = "토큰 재발급", description = "accessToken 을 재생성")
     @GetMapping("/refresh")
-    public ResponseEntity<ResultResponse<String>> refresh(@RequestHeader("Refresh-Token") String refresh_token, HttpServletRequest request, @Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<String>> refresh(@RequestHeader(REFRESH_TOKEN_STRING) String refresh_token, HttpServletRequest request, @Login AuthInfo authInfo) {
         validateExistHeader(request);
         Long memberId = authInfo.getId();
 
@@ -70,8 +70,9 @@ public class AuthController {
 
         ResultResponse<String> resultResponse = new ResultResponse<>(REFRESH_SUCCESS);
 
+        // 수정 필요
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .body(resultResponse);
     }
 
@@ -80,12 +81,14 @@ public class AuthController {
     public ResponseEntity<ResultResponse<String>> logout(@Login AuthInfo authInfo) {
         refreshTokenService.deleteToken(authInfo.getId());
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGOUT_SUCCESS);
+
+        // 수정 필요
         return ResponseEntity.ok().body(resultResponse);
     }
 
     private void validateExistHeader(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String refreshTokenHeader = request.getHeader("Refresh-Token");
+        String refreshTokenHeader = request.getHeader(REFRESH_TOKEN_STRING);
         if (Objects.isNull(authorizationHeader) || Objects.isNull(refreshTokenHeader))
             throw new TokenNotFoundException();
     }

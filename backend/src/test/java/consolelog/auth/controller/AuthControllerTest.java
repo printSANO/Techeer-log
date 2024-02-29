@@ -3,6 +3,7 @@ package consolelog.auth.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import consolelog.auth.service.AuthService;
 import consolelog.auth.service.RefreshTokenService;
+import consolelog.global.support.ConstantString;
 import consolelog.helper.ControllerTestHelper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import static consolelog.global.support.ConstantString.*;
 
 @WebMvcTest(controllers = AuthController.class)
 class AuthControllerTest extends ControllerTestHelper {
@@ -52,8 +55,8 @@ class AuthControllerTest extends ControllerTestHelper {
         mockMvc.perform(mockPost)
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(header().string(HttpHeaders.AUTHORIZATION, "Bearer null"))
-                .andExpect(header().string("Refresh-Token", "Bearer null"))
+                .andExpect(header().string(HttpHeaders.AUTHORIZATION, BEARER_STRING))
+                .andExpect(header().string(ConstantString.REFRESH_TOKEN_STRING, BEARER_STRING))
                 .andExpect(jsonPath("$.code").value(LOGIN_SUCCESS.getCode()))
                 .andExpect(jsonPath("$.message").value(LOGIN_SUCCESS.getMessage()))
                 ;
@@ -68,7 +71,7 @@ class AuthControllerTest extends ControllerTestHelper {
 
         MockHttpServletRequestBuilder getMock = get("/api/v1/auth/refresh")
                 .header(HttpHeaders.AUTHORIZATION, VALID_ACCESS_TOKEN_STRING)
-                .header("Refresh-Token", VALID_REFRESH_TOKEN_STRING);
+                .header(REFRESH_TOKEN_STRING, VALID_REFRESH_TOKEN_STRING);
 
         // when // then
         mockMvc.perform(getMock)

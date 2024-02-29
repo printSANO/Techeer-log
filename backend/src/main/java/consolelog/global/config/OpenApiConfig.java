@@ -13,6 +13,8 @@ import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static consolelog.global.support.ConstantString.*;
+
 import java.util.Map;
 
 @Configuration
@@ -25,8 +27,7 @@ public class OpenApiConfig {
                 .description("Console-log API 문서");
 
 
-        String accessToken = "Access-Token";
-        String refreshToken = "Refresh-Token";
+        String accessToken = ACCESS_TOKEN_STRING;
 
         // API 요청헤더에 인증정보 포함
         SecurityRequirement securityRequirement = new SecurityRequirement().addList(accessToken);

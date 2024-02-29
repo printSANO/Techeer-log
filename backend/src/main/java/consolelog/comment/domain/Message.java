@@ -24,6 +24,8 @@ public class Message {
     }
 
     private void validate(String value) {
+        // 수정 필요
+        // 조건을 분리하지 말고, 한 개로 합할 것
         if (value == null || value.isBlank()) {
             throw new InvalidMessageException();
         }

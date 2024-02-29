@@ -23,6 +23,8 @@ public class LoginId {
         this.value = value;
     }
 
+    // 수정 필요
+    // @override 가 빠졌고, equals를 상속하면 반드시 hashcode 도 상속해서 구현해주어야함
     public boolean equals(Object o) {
         if (this == o) {
             return true;

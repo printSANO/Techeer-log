@@ -74,6 +74,8 @@ public class LikeService {
     }
 
     @Transactional
+    // 수정 필요
+    // 반환값이 사용되지 않음
     public LikeFlipResponse flipCommentLike(Long commentId, AuthInfo authInfo) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
