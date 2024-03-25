@@ -1,5 +1,8 @@
 # nginx 가 꺼져 있다면  == 초기 세팅 단계라면, project를 처음부터 다시 build 한다
 
+# docker 권한 오류 해결 명령어
+rm  ~/.docker/config.json
+
 COMPOSE_FILE="docker-compose.develop.yml"
 NGINX_CONF_DEFAULT="./nginx/nginx-develop.conf"
 NGINX_CONF_1="./nginx/nginx-develop-1.conf"
