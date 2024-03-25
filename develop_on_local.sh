@@ -8,7 +8,7 @@ NGINX_CONF_DEFAULT="./nginx/nginx-develop.conf"
 NGINX_CONF_1="./nginx/nginx-develop-1.conf"
 NGINX_CONF_2="./nginx/nginx-develop-2.conf"
 
-init_build_folder()
+init_build_folder() {
   docker exec -it frontend sh -c '
     cp -rf /frontend/dist/* /frontend/volume/
   '
