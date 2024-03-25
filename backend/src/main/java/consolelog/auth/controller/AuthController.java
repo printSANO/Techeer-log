@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 import static consolelog.global.result.ResultCode.*;
-import static consolelog.global.support.ConstantString.*;
+import static consolelog.global.support.ConstantString.BEARER_STRING;
+import static consolelog.global.support.ConstantString.REFRESH_TOKEN_STRING;
 
 @Tag(name = "Auth", description = "Auth API Document")
 @RestController
