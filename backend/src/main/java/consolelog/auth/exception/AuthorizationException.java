@@ -1,9 +1,9 @@
 package consolelog.auth.exception;
 
-import consolelog.global.advice.ForbiddenException;
+import consolelog.global.exception.BusinessException;
 import consolelog.global.error.ErrorCode;
 
-public class AuthorizationException extends ForbiddenException {
+public class AuthorizationException extends BusinessException {
 
     public AuthorizationException() {
         super(ErrorCode.AUTHORIZED_ERROR);

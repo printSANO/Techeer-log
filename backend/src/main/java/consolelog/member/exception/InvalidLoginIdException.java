@@ -1,9 +1,9 @@
 package consolelog.member.exception;
 
-import consolelog.global.advice.BadRequestException;
 import consolelog.global.error.ErrorCode;
+import consolelog.global.exception.BusinessException;
 
-public class InvalidLoginIdException extends BadRequestException {
+public class InvalidLoginIdException extends BusinessException {
 
 
     public InvalidLoginIdException() {

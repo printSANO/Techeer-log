@@ -1,10 +1,10 @@
 package consolelog.comment.exception;
 
 
-import consolelog.global.advice.NotFoundException;
+import consolelog.global.exception.BusinessException;
 import consolelog.global.error.ErrorCode;
 
-public class CommentNotFoundException extends NotFoundException {
+public class CommentNotFoundException extends BusinessException {
 
 
     public CommentNotFoundException() {

@@ -1,8 +1,8 @@
-package consolelog.global.advice;
+package consolelog.global.exception;
 
 import consolelog.global.error.ErrorCode;
 
-public class ExternalLibraryException extends InternalException {
+public class ExternalLibraryException extends BusinessException {
 
     public ExternalLibraryException() {
         super(ErrorCode.EXTERNAL_LIBRARY_ERROR);

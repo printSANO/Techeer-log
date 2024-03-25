@@ -1,10 +1,10 @@
 package consolelog.member.exception;
 
 
-import consolelog.global.advice.BadRequestException;
 import consolelog.global.error.ErrorCode;
+import consolelog.global.exception.BusinessException;
 
-public class DuplicateNicknameException extends BadRequestException {
+public class DuplicateNicknameException extends BusinessException {
 
     public DuplicateNicknameException() {
         super(ErrorCode.DUPLICATE_NICKNAME_ERROR);

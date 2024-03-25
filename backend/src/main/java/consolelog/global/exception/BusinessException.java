@@ -1,4 +1,4 @@
-package consolelog.global.advice;
+package consolelog.global.exception;
 
 import consolelog.global.error.ErrorCode;
 import lombok.Getter;

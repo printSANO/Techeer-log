@@ -1,9 +1,9 @@
 package consolelog.member.exception;
 
-import consolelog.global.advice.BadRequestException;
 import consolelog.global.error.ErrorCode;
+import consolelog.global.exception.BusinessException;
 
-public class InvalidSignupFlowException extends BadRequestException {
+public class InvalidSignupFlowException extends BusinessException {
 
 
     public InvalidSignupFlowException() {

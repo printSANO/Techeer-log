@@ -1,6 +1,6 @@
 package consolelog.auth.domain.encryptor;
 
-import consolelog.global.advice.ExternalLibraryException;
+import consolelog.global.exception.ExternalLibraryException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,6 +1,6 @@
 package consolelog.global.support.token;
 
-import consolelog.global.advice.UnauthorizedException;
+import consolelog.global.exception.UnauthorizedException;
 import consolelog.global.error.ErrorCode;
 
 public class InvalidAccessTokenException extends UnauthorizedException {
