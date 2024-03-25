@@ -1,7 +1,7 @@
 package consolelog.post.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.global.result.ResultResponse;
+import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
 import consolelog.post.dto.request.NewPostRequest;
 import consolelog.post.dto.request.PostUpdateRequest;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 
-import static consolelog.global.result.ResultCode.*;
+import static consolelog.global.response.ResultCode.*;
 
 // 수정 필요
 // PostRequset 와 PostResponse 를 여러개로 분리할 이유가 없음

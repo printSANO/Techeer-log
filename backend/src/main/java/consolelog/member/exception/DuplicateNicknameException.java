@@ -1,7 +1,7 @@
 package consolelog.member.exception;
 
 
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
 import consolelog.global.exception.BusinessException;
 
 public class DuplicateNicknameException extends BusinessException {

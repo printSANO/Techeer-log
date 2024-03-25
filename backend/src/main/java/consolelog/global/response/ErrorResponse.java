@@ -1,10 +1,8 @@
-package consolelog.global.error;
+package consolelog.global.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import consolelog.global.result.ResultCode;
-import lombok.Builder;
+import consolelog.global.response.ErrorCode;
 import lombok.Getter;
-import org.springframework.hateoas.RepresentationModel;
 
 @Getter
 public class ErrorResponse {

@@ -1,6 +1,8 @@
-package consolelog.global.error;
+package consolelog.global.support;
 
 import consolelog.global.exception.BusinessException;
+import consolelog.global.response.ErrorCode;
+import consolelog.global.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;

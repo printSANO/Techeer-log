@@ -1,6 +1,6 @@
 package consolelog.global.exception;
 
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
 
 public class ExternalLibraryException extends BusinessException {
 

@@ -1,4 +1,4 @@
-package consolelog.global.result;
+package consolelog.global.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;

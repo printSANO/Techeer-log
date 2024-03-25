@@ -1,14 +1,11 @@
 package consolelog.global.support;
 
-import consolelog.global.error.ErrorCode;
 import consolelog.global.support.token.AuthorizationExtractor;
 import consolelog.global.support.token.InvalidAccessTokenException;
-import consolelog.global.support.token.InvalidRefreshTokenException;
 import consolelog.global.support.token.TokenManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;

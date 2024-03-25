@@ -1,7 +1,7 @@
 package consolelog.global.support.token;
 
 import consolelog.global.exception.UnauthorizedException;
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
 
 public class InvalidRefreshTokenException extends UnauthorizedException {
 

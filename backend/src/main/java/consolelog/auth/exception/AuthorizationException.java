@@ -1,7 +1,7 @@
 package consolelog.auth.exception;
 
 import consolelog.global.exception.BusinessException;
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
 
 public class AuthorizationException extends BusinessException {
 

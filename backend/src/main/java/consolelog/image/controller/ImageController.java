@@ -1,19 +1,14 @@
 package consolelog.image.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.global.result.ResultCode;
-import consolelog.global.result.ResultResponse;
+import consolelog.global.response.ResultCode;
+import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
 import consolelog.image.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 
 @RestController
