@@ -1,7 +1,7 @@
 package consolelog.member.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.global.result.ResultResponse;
+import consolelog.global.response.ResultResponse;
 import consolelog.member.domain.Member;
 import consolelog.member.dto.MemberResponse;
 import consolelog.member.dto.ProfileResponse;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import static consolelog.global.result.ResultCode.FIND_PROFILE_SUCCESS;
-import static consolelog.global.result.ResultCode.SIGNUP_SUCCESS;
+import static consolelog.global.response.ResultCode.FIND_PROFILE_SUCCESS;
+import static consolelog.global.response.ResultCode.SIGNUP_SUCCESS;
 
 @RestController
 @RequestMapping("/v1/members")

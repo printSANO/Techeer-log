@@ -1,6 +1,6 @@
-package consolelog.global.advice;
+package consolelog.global.exception;
 
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
 import lombok.Getter;
 
 import java.util.Arrays;

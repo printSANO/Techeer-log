@@ -1,9 +1,9 @@
 package consolelog.comment.exception;
 
-import consolelog.global.advice.BadRequestException;
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
+import consolelog.global.exception.BusinessException;
 
-public class ReplyDepthException extends BadRequestException {
+public class ReplyDepthException extends BusinessException {
 
 
     public ReplyDepthException() {

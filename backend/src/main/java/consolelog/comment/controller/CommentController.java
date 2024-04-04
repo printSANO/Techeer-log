@@ -3,7 +3,7 @@ package consolelog.comment.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.comment.dto.*;
 import consolelog.comment.service.CommentService;
-import consolelog.global.result.ResultResponse;
+import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static consolelog.global.result.ResultCode.*;
+import static consolelog.global.response.ResultCode.*;
 
 // 수정 필요
 // Reply 와 Comment 는 동일한 객체이다. (ERD 에서 통일된 객체로 다루고 있기 때문이다)

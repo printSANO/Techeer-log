@@ -2,14 +2,13 @@ package consolelog.auth.service;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.LoginFailedException;
-import consolelog.global.advice.BadRequestException;
+import consolelog.global.exception.BadRequestException;
 import consolelog.member.repository.MemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import static consolelog.util.fixture.AuthFixture.*;
 import static consolelog.util.fixture.MemberFixture.*;

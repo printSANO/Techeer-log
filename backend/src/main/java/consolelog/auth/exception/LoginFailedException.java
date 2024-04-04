@@ -1,9 +1,9 @@
 package consolelog.auth.exception;
 
-import consolelog.global.advice.UnauthorizedException;
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
+import consolelog.global.exception.BusinessException;
 
-public class LoginFailedException extends UnauthorizedException {
+public class LoginFailedException extends BusinessException {
 
     public LoginFailedException() {
         super(ErrorCode.LOGIN_FAILED_ERROR);

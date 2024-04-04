@@ -4,7 +4,7 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.dto.LoginRequest;
 import consolelog.auth.service.AuthService;
 import consolelog.auth.service.RefreshTokenService;
-import consolelog.global.result.ResultResponse;
+import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.AuthorizationExtractor;
 import consolelog.global.support.token.Login;
 import consolelog.global.support.token.TokenManager;
@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
-import static consolelog.global.result.ResultCode.*;
-import static consolelog.global.support.ConstantString.*;
+import static consolelog.global.response.ResultCode.*;
+import static consolelog.global.support.ConstantString.BEARER_STRING;
+import static consolelog.global.support.ConstantString.REFRESH_TOKEN_STRING;
 
 @Tag(name = "Auth", description = "Auth API Document")
 @RestController

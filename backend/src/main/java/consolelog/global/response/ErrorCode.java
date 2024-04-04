@@ -1,4 +1,4 @@
-package consolelog.global.error;
+package consolelog.global.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
