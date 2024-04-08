@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import static consolelog.global.response.ResultCode.*;
+
 
 @RestController
 @RequestMapping("/image")
@@ -24,9 +26,10 @@ public class ImageController {
     @PostMapping( value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<ResultResponse<String>> upload(@Login AuthInfo authInfo, @RequestParam MultipartFile multipartFile) {
         String imageUrl = imageService.upload(authInfo.getNickname(), multipartFile);
-        ResultResponse<String> response = new ResultResponse<>(ResultCode.UPLOAD_SUCCESS, imageUrl);
+        ResultResponse<String> response = new ResultResponse<>(UPLOAD_SUCCESS, imageUrl);
 
-        // 수정 필요
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity
+                .status(UPLOAD_SUCCESS.getStatus())
+                .body(response);
     }
 }
