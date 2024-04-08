@@ -1,7 +1,9 @@
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { theme } from "./theme";
-import { RecoilRoot } from "recoil";
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { theme } from './theme';
+import { RecoilRoot } from 'recoil';
+import NavBar from './NavBar.tsx';
+import './index.css';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -68,6 +70,10 @@ a {
 `;
 
 const router = createBrowserRouter([
+  {
+    path: '/navbar',
+    element: <NavBar />,
+  },
 ]);
 function App() {
   return (
