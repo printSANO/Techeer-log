@@ -7,7 +7,7 @@ import lombok.Getter;
 public class ResultResponse<T> {
     private final String code;
     private final String message;
-    private Object data;
+    private T data;
 
 
     @JsonCreator
@@ -17,7 +17,7 @@ public class ResultResponse<T> {
     }
 
     @JsonCreator
-    public ResultResponse(ResultCode resultCode, Object data) {
+    public ResultResponse(ResultCode resultCode, T data) {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
         this.data = data;
