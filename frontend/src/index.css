@@ -2,3 +2,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Pre-R';
+    src: local('Pre-R'),
+    url('./fonts/Pretendard/Pretendard-Regular.woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Pre-R';
+    src: local('Pre-R'),
+    url('./fonts/Pretendard/Pretendard-Regular.woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Bayon';
+    src: local('Bayon'),
+    url('./fonts/Bayon/Bayon-Regular.ttf');
+    font-weight: 400;
+}
