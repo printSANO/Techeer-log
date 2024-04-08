@@ -48,8 +48,7 @@ public class AuthController {
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGIN_SUCCESS);
 
         // 200을 보냄
-        // 수정 필요
-        return ResponseEntity.ok()
+        return ResponseEntity.status(LOGIN_SUCCESS.getStatus())
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .header(REFRESH_TOKEN_STRING, BEARER_STRING + refreshToken)
                 .body(resultResponse);
@@ -71,8 +70,7 @@ public class AuthController {
 
         ResultResponse<String> resultResponse = new ResultResponse<>(REFRESH_SUCCESS);
 
-        // 수정 필요
-        return ResponseEntity.ok()
+        return ResponseEntity.status(REFRESH_SUCCESS.getStatus())
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .body(resultResponse);
     }
@@ -83,8 +81,8 @@ public class AuthController {
         refreshTokenService.deleteToken(authInfo.getId());
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGOUT_SUCCESS);
 
-        // 수정 필요
-        return ResponseEntity.ok().body(resultResponse);
+        return ResponseEntity.status(LOGOUT_SUCCESS.getStatus())
+                .body(resultResponse);
     }
 
     private void validateExistHeader(HttpServletRequest request) {
