@@ -2,10 +2,9 @@ package consolelog.global.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
-import org.springframework.hateoas.RepresentationModel;
 
 @Getter
-public class ResultResponse<T> extends RepresentationModel<ResultResponse<T>> {
+public class ResultResponse<T> {
     private final String code;
     private final String message;
     private Object data;
