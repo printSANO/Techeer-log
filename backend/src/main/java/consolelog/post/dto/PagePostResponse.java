@@ -1,4 +1,4 @@
-package consolelog.post.dto.response;
+package consolelog.post.dto;
 
 import consolelog.post.domain.Post;
 import lombok.Getter;
@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 @Getter
 public class PagePostResponse {
 
-    private List<PostResponse> posts;
-    private Boolean lastpage;
+    private final List<PostResponse> posts;
+    private final Boolean lastPage;
 
-    public PagePostResponse(List<PostResponse> posts, Boolean lastpage) {
+    public PagePostResponse(List<PostResponse> posts, Boolean lastPage) {
         this.posts = posts;
-        this.lastpage = lastpage;
+        this.lastPage = lastPage;
     }
 
     public static PagePostResponse of(Slice<Post> posts) {

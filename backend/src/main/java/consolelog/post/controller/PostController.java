@@ -3,10 +3,9 @@ package consolelog.post.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
-import consolelog.post.dto.request.NewPostRequest;
-import consolelog.post.dto.request.PostUpdateRequest;
-import consolelog.post.dto.response.PostResponse;
-import consolelog.post.dto.response.PagePostResponse;
+import consolelog.post.dto.PostRequest;
+import consolelog.post.dto.PostResponse;
+import consolelog.post.dto.PagePostResponse;
 import consolelog.post.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,10 +25,6 @@ import java.net.URI;
 
 import static consolelog.global.response.ResultCode.*;
 
-// 수정 필요
-// PostRequset 와 PostResponse 를 여러개로 분리할 이유가 없음
-// 하나로 합해야함
-
 @Tag(name = "Post", description = "Post API Document")
 @RestController
 @RequestMapping("/v1")
@@ -42,40 +37,38 @@ public class PostController {
 
     @Operation(summary = "게시글 조회", description = "게시글 조회")
     @GetMapping("/posts/{id}")
-    public ResponseEntity<ResultResponse<PostResponse>> findPost(@Parameter(name = "id", description = "posts 의 id", in = ParameterIn.PATH) @PathVariable Long id,
-                                                                  @Parameter(name = "postLogCookie", description = "post 의 log", in = ParameterIn.COOKIE) @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
+    public ResponseEntity<ResultResponse<PostResponse>> findPost(@Parameter(in = ParameterIn.PATH) @PathVariable Long id,
+                                                                  @Parameter(in = ParameterIn.COOKIE) @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
         PostResponse findPostResponse = postService.findPost(id, postLog);
         String updatedLog = postService.updatePostLog(id, postLog);
         ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
         ResultResponse<PostResponse> resultResponse = new ResultResponse<>(FIND_POST_SUCCESS, findPostResponse);
-        // 수정 필요
-        return ResponseEntity.ok()
+
+        return ResponseEntity.status(FIND_POST_SUCCESS.getStatus())
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                 .body(resultResponse);
     }
 
     @Operation(summary = "게시글 추가", description = "게시글 추가")
     @PostMapping("/posts")
-    public ResponseEntity<ResultResponse<URI>> addPost(@Valid @RequestBody NewPostRequest newPostRequest,
+    public ResponseEntity<ResultResponse<URI>> addPost(@Valid @RequestBody PostRequest postRequest,
                                                        @Login AuthInfo authInfo) {
-        Long postId = postService.addPost(newPostRequest, authInfo);
+        Long postId = postService.addPost(postRequest, authInfo);
         URI location = URI.create("/posts/" + postId);
         ResultResponse<URI> resultResponse = new ResultResponse<>(ADD_POST_SUCCESS, location);
 
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+        return ResponseEntity.status(ADD_POST_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "게시글 수정", description = "게시글 수정")
     @PutMapping("/posts/{id}")
     public ResponseEntity<ResultResponse<PostResponse>> updatePost(@Parameter(name = "id") @PathVariable Long id,
-                                                             @RequestBody PostUpdateRequest postUpdateRequest,
+                                                             @RequestBody PostRequest postRequest,
                                                              @Login AuthInfo authInfo) {
-        PostResponse postResponse = postService.updatePost(id, postUpdateRequest, authInfo);
+        PostResponse postResponse = postService.updatePost(id, postRequest, authInfo);
         ResultResponse<PostResponse> resultResponse = new ResultResponse<>(UPDATE_POST_SUCCESS, postResponse);
 
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+        return ResponseEntity.status(UPDATE_POST_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "게시글 삭제", description = "게시글 삭제")
@@ -84,8 +77,7 @@ public class PostController {
         postService.deletePost(id, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_SUCCESS);
 
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+        return ResponseEntity.status(DELETE_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "게시글 리스트 조회",
@@ -98,7 +90,6 @@ public class PostController {
         PagePostResponse postList = postService.findPostsByPage(lastPostId, pageable);
         ResultResponse<PagePostResponse> resultResponse = new ResultResponse<>(FIND_POST_LIST_SUCCESS, postList);
 
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+        return ResponseEntity.status(FIND_POST_LIST_SUCCESS.getStatus()).body(resultResponse);
     }
 }
