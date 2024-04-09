@@ -16,9 +16,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
+
 
 @Entity
 @AllArgsConstructor
+@Getter
 @EntityListeners(value = {AuditingEntityListener.class})
 public class Post extends BaseEntity {
 
@@ -35,13 +38,16 @@ public class Post extends BaseEntity {
     private String content;
 
     @Column
-    @Getter
     @Setter
     private String mainImageUrl;
 
     private int viewCount = 0;
 
     private int likeCount = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
@@ -52,12 +58,7 @@ public class Post extends BaseEntity {
     //    @Column(name = "deleted")
     @SQLDelete(sql = "UPDATE post SET deleted = true WHERE id=?")
     @Where(clause = "deleted = false")
-    private Boolean deleted = Boolean.FALSE;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    private Boolean deleted = FALSE;
 
     protected Post() {
     }
@@ -72,32 +73,6 @@ public class Post extends BaseEntity {
         this.comments = comments;
         this.postLikes = postLikes;
 
-    }
-
-    // 수정 필요
-    // Getter 사용 가능한 것은 사용할 것
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public List<PostLike> getPostLikes() {
-        return postLikes;
-    }
-
-    public int getLikeCount() {
-        return likeCount;
     }
 
     public int getCommentCount() {
@@ -129,10 +104,4 @@ public class Post extends BaseEntity {
         }
         return member.getId().equals(accessMemberId);
     }
-
-    public int getViewCount() {
-        return viewCount;
-    }
-
-
 }

@@ -1,20 +1,20 @@
-package consolelog.post.dto.request;
+package consolelog.post.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class NewPostRequest {
+public class PostRequest {
     @NotBlank(message = "제목을 입력해주세요.")
     private String title;
     @NotBlank(message = "내용을 입력해주세요.")
     private String content;
     private String mainImageUrl;
 
-    public NewPostRequest() {
+    public PostRequest() {
     }
 
-    public NewPostRequest(String title, String content, String mainImageUrl) {
+    public PostRequest(String title, String content, String mainImageUrl) {
         this.title = title;
         this.content = content;
         this.mainImageUrl = mainImageUrl;

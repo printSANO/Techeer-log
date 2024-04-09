@@ -67,10 +67,10 @@ public class CommentController {
     @GetMapping("/posts/{id}/comments")
     // 수정 필요
     // 반환값 오류
-    public ResponseEntity<ResultResponse> findComments(@PathVariable(name = "id") Long postId,
+    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable(name = "id") Long postId,
                                                        @Login AuthInfo authInfo) {
         CommentsResponse commentsResponse = commentService.findComments(postId, authInfo);
-        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS, commentsResponse);
+        ResultResponse<CommentsResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS, commentsResponse);
         // 수정 필요
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }

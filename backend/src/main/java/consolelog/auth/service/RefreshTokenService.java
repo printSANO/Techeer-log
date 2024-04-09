@@ -20,8 +20,6 @@ public class RefreshTokenService {
 
     @Transactional
     public void saveToken(String token, Long memberId) {
-        // 수정 필요
-        deleteToken(memberId);
         RefreshToken refreshToken = new RefreshToken(memberId, token);
         refreshTokenRepository.save(refreshToken);
     }

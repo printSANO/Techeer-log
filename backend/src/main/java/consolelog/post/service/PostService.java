@@ -9,10 +9,9 @@ import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
 import consolelog.post.domain.Post;
 import consolelog.post.domain.ViewCountManager;
-import consolelog.post.dto.request.NewPostRequest;
-import consolelog.post.dto.request.PostUpdateRequest;
-import consolelog.post.dto.response.PostResponse;
-import consolelog.post.dto.response.PagePostResponse;
+import consolelog.post.dto.PostRequest;
+import consolelog.post.dto.PostResponse;
+import consolelog.post.dto.PagePostResponse;
 import consolelog.post.exception.PostNotFoundException;
 import consolelog.post.repository.PostRepository;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +42,7 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponse findPost(Long postId, String cookieValue) {// post_id 게시글 조회
+    public PostResponse findPost(Long postId, String cookieValue) {
         if (viewCountManager.isFirstAccess(cookieValue, postId)) {
             postRepository.updateViewCount(postId);
         }
@@ -73,9 +72,9 @@ public class PostService {
     }
 
     @Transactional
-    public Long addPost(NewPostRequest newPostRequest, AuthInfo authInfo) {
+    public Long addPost(PostRequest postRequest, AuthInfo authInfo) {
         Member member = findMember(authInfo);
-        Post post = createPost(newPostRequest, member);
+        Post post = createPost(postRequest, member);
         Optional<Post> savedPost = Optional.of(postRepository.save(post));
         return savedPost.orElseThrow(() -> new IllegalArgumentException("x")).getId();
     }
@@ -85,22 +84,22 @@ public class PostService {
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    private Post createPost(NewPostRequest newPostRequest, Member member) {
+    private Post createPost(PostRequest postRequest, Member member) {
         return Post.builder()
-                .title(newPostRequest.getTitle())
-                .content(newPostRequest.getContent())
-                .mainImageUrl(newPostRequest.getMainImageUrl())
+                .title(postRequest.getTitle())
+                .content(postRequest.getContent())
+                .mainImageUrl(postRequest.getMainImageUrl())
                 .member(member)
                 .build();
     }
 
     @Transactional
-    public PostResponse updatePost(Long id, PostUpdateRequest postUpdateRequest, AuthInfo authInfo) {
+    public PostResponse updatePost(Long id, PostRequest postRequest, AuthInfo authInfo) {
         Post post = findPostById(id);
         validateOwner(authInfo, post);
-        post.updateTitle(postUpdateRequest.getTitle());
-        post.updateContent(postUpdateRequest.getContent());
-        post.setMainImageUrl(postUpdateRequest.getMainImageUrl());
+        post.updateTitle(postRequest.getTitle());
+        post.updateContent(postRequest.getContent());
+        post.setMainImageUrl(postRequest.getMainImageUrl());
         return PostResponse.from(post);
     }
 
