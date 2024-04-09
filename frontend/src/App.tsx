@@ -2,20 +2,11 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { theme } from './theme';
 import { RecoilRoot } from 'recoil';
-import PretendRegular from './shared/fonts/Pretendard-Regular.ttf';
-import PretendSemiBold from './shared/fonts/Pretendard-SemiBold.ttf';
 import MyPage from './pages/MyPage';
 import './index.css';
+import SignUp from './pages/SignUp.tsx';
 
 const GlobalStyle = createGlobalStyle`
-@font-face {
-  font-family: 'PretendRegular';
-  src: url(${PretendRegular}) format('truetype');
-}
-@font-face {
-  font-family: 'PretendSemiBold';
-  src: url(${PretendSemiBold}) format('truetype');
-}
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -83,6 +74,10 @@ const router = createBrowserRouter([
   {
     path: '/mypage',
     element: <MyPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
   },
 ]);
 function App() {

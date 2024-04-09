@@ -1,8 +1,9 @@
-//import NavBar from "../components/NavBar";
+import NavBar from './NavBar';
 
 function MyPage() {
   return (
     <div className="bg-[#111111] flex flex-col items-center w-[100vw] box-sizing-border">
+      <NavBar />
       <div className="backdrop-blur-[0.3rem] m-[0_0_10.9rem_0] flex flex-row justify-between p-[0.4rem_0_0.4rem_0] w-[120rem] box-sizing-border"></div>
       <div className="w-[1200px] ml-auto mr-auto">
         <div className="rounded-[16.3rem] m-[0_0_11.1rem_0] flex flex-row w-[100%] box-sizing-border justify-center">

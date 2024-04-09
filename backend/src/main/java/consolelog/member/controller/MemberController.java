@@ -30,12 +30,12 @@ public class MemberController {
 
     @Operation(summary = "회원가입", description = "회원가입 기능")
     @PostMapping(value = "/signup", consumes = "multipart/form-data")
-    public ResponseEntity<ResultResponse<SignupRequest>> signUp(@RequestPart("data") SignupRequest signupRequest,
+    public ResponseEntity<ResultResponse<MemberResponse>> signUp(@RequestPart("data") SignupRequest signupRequest,
                                                                 @RequestPart("file") MultipartFile multipartFile) {
         Member member = memberService.signUp(signupRequest, multipartFile);
-        ResultResponse<SignupRequest> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, new MemberResponse(member));
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.CREATED).body(resultResponse);
+        ResultResponse<MemberResponse> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, new MemberResponse(member));
+
+        return ResponseEntity.status(SIGNUP_SUCCESS.getStatus()).body(resultResponse);
     }
 
 //    @GetMapping(value = "/signup/exists", params = "loginId")
@@ -55,8 +55,8 @@ public class MemberController {
     public ResponseEntity<ResultResponse<ProfileResponse>> findProfile(@Login AuthInfo authInfo) {
         ProfileResponse profileResponse = memberService.findProfile(authInfo);
         ResultResponse<ProfileResponse> resultResponse = new ResultResponse<>(FIND_PROFILE_SUCCESS, profileResponse);
-        // 수정 필요
-        return ResponseEntity.ok().body(resultResponse);
+
+        return ResponseEntity.status(FIND_PROFILE_SUCCESS.getStatus()).body(resultResponse);
     }
 
     // 수정 필요
