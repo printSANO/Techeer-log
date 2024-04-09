@@ -1,233 +1,215 @@
-import styled from "styled-components";
 //import NavBar from "../components/NavBar";
-import ProfileImg from "../shared/assests/BigProfileImg.png";
-//import line from "../assets/Line2.png";
-
-const Background = styled.div`
-  width: 100vw;
-  height: 200vh;
-  background: #121212;
-`;
-
-const MyPageInfo = styled.div`
-  width: 768px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const Profile = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 8rem;
-  justify-content: center;
-`;
-
-const ProfileImage = styled.a`
-  width: 120px;
-  height: 118px;
-  border-radius: 120px;
-  border: 0px solid #ececec;
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 120px;
-`;
-
-const Words = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 5rem;
-`;
-
-const Id = styled.p`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #0047ff;
-  font-family: PretendSemiBold;
-  font-size: 1.8rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-`;
-const Name = styled.p`
-  display: flex;
-  flex-direction: column;
-  color: #b3b3b3;
-  font-family: PretendSemiBold;
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 200;
-  line-height: normal;
-`;
-
-const Email = styled.p`
-  display: flex;
-  flex-direction: column;
-  color: #b3b3b3;
-  font-family: PretendRegular;
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 200;
-  line-height: normal;
-`;
-
-const Intro = styled.p`
-  display: flex;
-  flex-direction: column;
-  color: #ededed;
-  font-family: PretendRegular;
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 200;
-  line-height: normal;
-  margin-top: 2.5rem;
-`;
-/* 
-const Line = styled.img`
-  width: 100%;
-  stroke-width: 1px;
-  stroke: #626262;
-  height: 1px;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
-`; */
-
-const Posts = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  margin-top: 6rem;
-  margin-bottom: 3rem;
-`;
-
-const UploadProjectBtn = styled.button`
-  display: flex;
-  width: 430px;
-  height: 29px;
-  color: #0047ff;
-  text-align: center;
-  font-family: PretendRegular;
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 200;
-  line-height: normal;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-  border: 0;
-  background-color: transparent;
-`;
-
-const ScrapProjectBtn = styled.button`
-  display: flex;
-  width: 430px;
-  height: 29px;
-  color: #cccccc;
-  text-align: center;
-  font-family: PretendRegular;
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 200;
-  line-height: normal;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-  border: 0;
-  background-color: transparent;
-`;
-const MyProjectBtn = styled.button`
-  display: flex;
-  width: 430px;
-  height: 29px;
-  color: #cccccc;
-  text-align: center;
-  font-family: PretendRegular;
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 200;
-  line-height: normal;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-  border: 0;
-  background-color: transparent;
-`;
 
 function MyPage() {
   return (
-    <div className="bg-[#111111] flex flex-col items-center w-[1920px] box-sizing-border">
-      <div className="backdrop-blur-[4px] m-[0_0_174px_0] flex flex-row justify-between p-[6px_0_6px_0] w-[1920px] box-sizing-border">
-        <span className="m-[0_24px_0_0] w-[1061.7px] break-words font-['Saira_Stencil_One'] font-normal text-[32px] leading-[1.5] text-[#FFFFFF]">
-          Techeer.log
-        </span>
-        <div className="m-[9px_0px_9px_0] flex flex-row justify-between w-[184px] h-[fit-content] box-sizing-border">
-          <div className="m-[4px_0_4px_0] flex flex-row justify-between w-[99.6px] h-[fit-content] box-sizing-border">
-            <div className="flex flex-row justify-center box-sizing-border">
-              <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[14px] leading-[1.571] text-[#FFFFFF]">
-                소개
+    <div className="bg-[#111111] flex flex-col items-center w-[100vw] box-sizing-border">
+      <div className="backdrop-blur-[0.3rem] m-[0_0_10.9rem_0] flex flex-row justify-between p-[0.4rem_0_0.4rem_0] w-[120rem] box-sizing-border"></div>
+      <div className="w-[1200px] ml-auto mr-auto">
+        <div className="rounded-[16.3rem] m-[0_0_11.1rem_0] flex flex-row w-[100%] box-sizing-border justify-center">
+          <div className="rounded-[16.3rem] bg-[url('shared/assests/BigProfileImg.png')] bg-[50%_50%] bg-cover bg-no-repeat m-[0_5.6rem_0_0] w-[9.4rem] h-[9.4rem]"></div>
+          <div className="m-[0_0_0.1rem_0] flex flex-col box-sizing-border">
+            <div className="m-[0_0_0.1rem_0] inline-block self-start break-words font-['Pretendard','Roboto_Condensed'] font-semibold text-[2.5rem] text-[#0047FF]">
+              thisisid
+            </div>
+            <div className="m-[0_0_2.7rem_0] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <span className="m-[0_0.7rem_0_0] break-words font-['Pretendard','Roboto_Condensed'] font-semibold text-[1.5rem] text-[#B3B3B3]">
+                이이름
+              </span>
+              <span className="m-[0_0rem_0_0] break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[1.5rem] text-[#B3B3B3]">
+                thistisemail@email.com
               </span>
             </div>
-            <div className="flex flex-row justify-center box-sizing-border">
-              <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[14px] leading-[1.571] text-[#FFFFFF]">
-                프로젝트
-              </span>
+            <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[1.6rem] text-[#EDEDED]">
+              한 줄 소개입니다. 한 줄 소개입니다. 한 줄 소개입니다.
+            </span>
+          </div>
+        </div>
+        <div className="m-[0_0_1.5rem_0] flex flex-row justify-between w-[100%] box-sizing-border">
+          <span className="break-words font-['Pretendard','Roboto_Condensed'] font-medium text-[1.5rem] ml-28 text-[#0047FF]">
+            업로드한 프로젝트
+            <div className="bg-[#0047FF] absolute w-[10.8rem] h-[0.2rem] mt-[1.5rem]"></div>
+          </span>
+          <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[1.5rem] text-[#CCCCCC]">
+            스크랩한 프로젝트
+          </span>
+          <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[1.5rem] mr-28 text-[#CCCCCC]">
+            참여한 프로젝트
+          </span>
+        </div>
+        <div className="bg-[#444444] relative m-[0_0_6.8rem_0] w-[100%] h-[0.1rem]"></div>
+        <div className="grid grid-rows-3 grid-cols-3 gap-12 m-12">
+          <div className="rounded-[0.9rem] border-solid border border-blue-200 flex flex-col p-[0_0_1rem_0] box-sizing-border w-[21.2rem]">
+            <div className="bg-[url('shared/assests/ThumbNailImg.png')] rounded-[0.5rem] m-[0_0_1.3rem_0] w-[21rem] h-[12rem]"></div>
+            <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Inter'] font-semibold text-[1.3rem] bg-[linear-gradient(92.12deg,#89F7FE_0%,#66A6FF_99.3%)] text-[transparent] bg-clip-text">
+              어쩌구저쩌구
+            </div>
+            <div className="m-[0_1rem_0.7rem_1rem] inline-block self-start break-words font-['Inter'] font-normal text-[0.9rem] text-[#FFFFFF]">
+              어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+            </div>
+            <div className="rounded-[0.9rem] m-[0_1rem_2.2rem_1rem] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.3rem_0_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">React</span>
+              </div>
+              <div className="rounded-[0.9rem] bg-[#464646] relative flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.7rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">Spring</span>
+              </div>
+            </div>
+            <div className="m-[0_0.9rem_0_0.9rem] flex flex-row justify-between w-[19.3rem] box-sizing-border">
+              <p className="m-[0_0.5rem_0_0] w-[16.6rem] break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">
+                <span className="container-17-sub-10"></span>
+                <span>• 서비스 운영중</span>
+              </p>
+              <span className="break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">♥︎ 129</span>
             </div>
           </div>
-          <div className="rounded-[4px] flex flex-row w-[51.6px] box-sizing-border">
-            <div className="rounded-[260px] bg-[url('assets/images/Img24941.jpeg')] bg-[50%_50%] bg-cover bg-no-repeat m-[0_10px_0_0] w-[30px] h-[30px]"></div>
-            <img className="rotate-[-60deg] m-[9.1px_0_9.1px_0] w-[11.6px] h-[11.8px]" />
+          <div className="rounded-[0.9rem] border-solid border border-blue-200 flex flex-col p-[0_0_1rem_0] box-sizing-border w-[21.2rem]">
+            <div className="bg-[url('shared/assests/ThumbNailImg.png')] rounded-[0.5rem] m-[0_0_1.3rem_0] w-[21rem] h-[12rem]"></div>
+            <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Inter'] font-semibold text-[1.3rem] bg-[linear-gradient(92.12deg,#89F7FE_0%,#66A6FF_99.3%)] text-[transparent] bg-clip-text">
+              어쩌구저쩌구
+            </div>
+            <div className="m-[0_1rem_0.7rem_1rem] inline-block self-start break-words font-['Inter'] font-normal text-[0.9rem] text-[#FFFFFF]">
+              어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+            </div>
+            <div className="rounded-[0.9rem] m-[0_1rem_2.2rem_1rem] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.3rem_0_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">React</span>
+              </div>
+              <div className="rounded-[0.9rem] bg-[#464646] relative flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.7rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">Spring</span>
+              </div>
+            </div>
+            <div className="m-[0_0.9rem_0_0.9rem] flex flex-row justify-between w-[19.3rem] box-sizing-border">
+              <p className="m-[0_0.5rem_0_0] w-[16.6rem] break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">
+                <span className="container-17-sub-10"></span>
+                <span>• 서비스 운영중</span>
+              </p>
+              <span className="break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">♥︎ 129</span>
+            </div>
+          </div>
+          <div className="rounded-[0.9rem] border-solid border border-blue-200 flex flex-col p-[0_0_1rem_0] box-sizing-border w-[21.2rem]">
+            <div className="bg-[url('shared/assests/ThumbNailImg.png')] rounded-[0.5rem] m-[0_0_1.3rem_0] w-[21rem] h-[12rem]"></div>
+            <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Inter'] font-semibold text-[1.3rem] bg-[linear-gradient(92.12deg,#89F7FE_0%,#66A6FF_99.3%)] text-[transparent] bg-clip-text">
+              어쩌구저쩌구
+            </div>
+            <div className="m-[0_1rem_0.7rem_1rem] inline-block self-start break-words font-['Inter'] font-normal text-[0.9rem] text-[#FFFFFF]">
+              어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+            </div>
+            <div className="rounded-[0.9rem] m-[0_1rem_2.2rem_1rem] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.3rem_0_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">React</span>
+              </div>
+              <div className="rounded-[0.9rem] bg-[#464646] relative flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.7rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">Spring</span>
+              </div>
+            </div>
+            <div className="m-[0_0.9rem_0_0.9rem] flex flex-row justify-between w-[19.3rem] box-sizing-border">
+              <p className="m-[0_0.5rem_0_0] w-[16.6rem] break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">
+                <span className="container-17-sub-10"></span>
+                <span>• 서비스 운영중</span>
+              </p>
+              <span className="break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">♥︎ 129</span>
+            </div>
+          </div>
+          <div className="rounded-[0.9rem] border-solid border border-blue-200 flex flex-col p-[0_0_1rem_0] box-sizing-border w-[21.2rem]">
+            <div className="bg-[url('shared/assests/ThumbNailImg.png')] rounded-[0.5rem] m-[0_0_1.3rem_0] w-[21rem] h-[12rem]"></div>
+            <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Inter'] font-semibold text-[1.3rem] bg-[linear-gradient(92.12deg,#89F7FE_0%,#66A6FF_99.3%)] text-[transparent] bg-clip-text">
+              어쩌구저쩌구
+            </div>
+            <div className="m-[0_1rem_0.7rem_1rem] inline-block self-start break-words font-['Inter'] font-normal text-[0.9rem] text-[#FFFFFF]">
+              어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+            </div>
+            <div className="rounded-[0.9rem] m-[0_1rem_2.2rem_1rem] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.3rem_0_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">React</span>
+              </div>
+              <div className="rounded-[0.9rem] bg-[#464646] relative flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.7rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">Spring</span>
+              </div>
+            </div>
+            <div className="m-[0_0.9rem_0_0.9rem] flex flex-row justify-between w-[19.3rem] box-sizing-border">
+              <p className="m-[0_0.5rem_0_0] w-[16.6rem] break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">
+                <span className="container-17-sub-10"></span>
+                <span>• 서비스 운영중</span>
+              </p>
+              <span className="break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">♥︎ 129</span>
+            </div>
+          </div>
+          <div className="rounded-[0.9rem] border-solid border border-blue-200 flex flex-col p-[0_0_1rem_0] box-sizing-border w-[21.2rem]">
+            <div className="bg-[url('shared/assests/ThumbNailImg.png')] rounded-[0.5rem] m-[0_0_1.3rem_0] w-[21rem] h-[12rem]"></div>
+            <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Inter'] font-semibold text-[1.3rem] bg-[linear-gradient(92.12deg,#89F7FE_0%,#66A6FF_99.3%)] text-[transparent] bg-clip-text">
+              어쩌구저쩌구
+            </div>
+            <div className="m-[0_1rem_0.7rem_1rem] inline-block self-start break-words font-['Inter'] font-normal text-[0.9rem] text-[#FFFFFF]">
+              어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+            </div>
+            <div className="rounded-[0.9rem] m-[0_1rem_2.2rem_1rem] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.3rem_0_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">React</span>
+              </div>
+              <div className="rounded-[0.9rem] bg-[#464646] relative flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.7rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">Spring</span>
+              </div>
+            </div>
+            <div className="m-[0_0.9rem_0_0.9rem] flex flex-row justify-between w-[19.3rem] box-sizing-border">
+              <p className="m-[0_0.5rem_0_0] w-[16.6rem] break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">
+                <span className="container-17-sub-10"></span>
+                <span>• 서비스 운영중</span>
+              </p>
+              <span className="break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">♥︎ 129</span>
+            </div>
+          </div>
+          <div className="rounded-[0.9rem] border-solid border border-blue-200 flex flex-col p-[0_0_1rem_0] box-sizing-border w-[21.2rem]">
+            <div className="bg-[url('shared/assests/ThumbNailImg.png')] rounded-[0.5rem] m-[0_0_1.3rem_0] w-[21rem] h-[12rem]"></div>
+            <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Inter'] font-semibold text-[1.3rem] bg-[linear-gradient(92.12deg,#89F7FE_0%,#66A6FF_99.3%)] text-[transparent] bg-clip-text">
+              어쩌구저쩌구
+            </div>
+            <div className="m-[0_1rem_0.7rem_1rem] inline-block self-start break-words font-['Inter'] font-normal text-[0.9rem] text-[#FFFFFF]">
+              어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+            </div>
+            <div className="rounded-[0.9rem] m-[0_1rem_2.2rem_1rem] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.3rem_0_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">React</span>
+              </div>
+              <div className="rounded-[0.9rem] bg-[#464646] relative flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.7rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">Spring</span>
+              </div>
+            </div>
+            <div className="m-[0_0.9rem_0_0.9rem] flex flex-row justify-between w-[19.3rem] box-sizing-border">
+              <p className="m-[0_0.5rem_0_0] w-[16.6rem] break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">
+                <span className="container-17-sub-10"></span>
+                <span>• 서비스 운영중</span>
+              </p>
+              <span className="break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">♥︎ 129</span>
+            </div>
+          </div>
+          <div className="rounded-[0.9rem] border-solid border border-blue-200 flex flex-col p-[0_0_1rem_0] box-sizing-border w-[21.2rem]">
+            <div className="bg-[url('shared/assests/ThumbNailImg.png')] rounded-[0.5rem] m-[0_0_1.3rem_0] w-[21rem] h-[12rem]"></div>
+            <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Inter'] font-semibold text-[1.3rem] bg-[linear-gradient(92.12deg,#89F7FE_0%,#66A6FF_99.3%)] text-[transparent] bg-clip-text">
+              어쩌구저쩌구
+            </div>
+            <div className="m-[0_1rem_0.7rem_1rem] inline-block self-start break-words font-['Inter'] font-normal text-[0.9rem] text-[#FFFFFF]">
+              어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
+            </div>
+            <div className="rounded-[0.9rem] m-[0_1rem_2.2rem_1rem] flex flex-row self-start w-[fit-content] box-sizing-border">
+              <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.3rem_0_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">React</span>
+              </div>
+              <div className="rounded-[0.9rem] bg-[#464646] relative flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.7rem] box-sizing-border">
+                <span className="break-words font-['Inter'] font-semibold text-[0.8rem] text-[#CCCCCC]">Spring</span>
+              </div>
+            </div>
+            <div className="m-[0_0.9rem_0_0.9rem] flex flex-row justify-between w-[19.3rem] box-sizing-border">
+              <p className="m-[0_0.5rem_0_0] w-[16.6rem] break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">
+                <span className="container-17-sub-10"></span>
+                <span>• 서비스 운영중</span>
+              </p>
+              <span className="break-words font-['Inter'] font-normal text-[0.8rem] text-[#B0B0B0]">♥︎ 129</span>
+            </div>
           </div>
         </div>
       </div>
-      <div className="rounded-[260px] m-[0_0_178px_25.6px] flex flex-row w-[fit-content] box-sizing-border">
-        <div className="rounded-[260px] bg-[url('assets/images/Img24941.jpeg')] bg-[50%_50%] bg-cover bg-no-repeat m-[0_89px_0_0] w-[150px] h-[150px]"></div>
-        <div className="m-[0_0_1px_0] flex flex-col box-sizing-border">
-          <div className="m-[0_0_1px_0] inline-block self-start break-words font-['Pretendard','Roboto_Condensed'] font-semibold text-[40px] text-[#0047FF]">
-            thisisid
-          </div>
-          <div className="m-[0_0_43px_0] flex flex-row self-start w-[fit-content] box-sizing-border">
-            <span className="m-[0_11.8px_0_0] break-words font-['Pretendard','Roboto_Condensed'] font-semibold text-[24px] text-[#B3B3B3]">
-              이이름
-            </span>
-            <span className="m-[0_0px_0_0] break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[24px] text-[#B3B3B3]">
-              thistisemail@email.com
-            </span>
-          </div>
-          <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[26px] text-[#EDEDED]">
-            한 줄 소개입니다. 한 줄 소개입니다. 한 줄 소개입니다.
-          </span>
-        </div>
-      </div>
-      <div className="m-[0_0_24px_30.1px] flex flex-row justify-between w-[1036.1px] box-sizing-border">
-        <span className="m-[0_14px_0_0] w-[399px] break-words font-['Pretendard','Roboto_Condensed'] font-medium text-[24px] text-[#0047FF]">
-          업로드한 프로젝트
-        </span>
-        <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[24px] text-[#CCCCCC]">
-          스크랩한 프로젝트
-        </span>
-        <span className="break-words font-['Pretendard','Roboto_Condensed'] font-normal text-[24px] text-[#CCCCCC]">
-          참여한 프로젝트
-        </span>
-      </div>
-      <div className="bg-[#444444] relative m-[0_0_1421px_0] w-[1280px] h-[1px]"></div>
-      <div className="bg-[url('assets/images/PointBanner.png')] flex flex-row justify-between p-[46px_0_33px_147px] w-[1920px] box-sizing-border">
-        <span className="m-[0_33.5px_0_0] w-[684px] break-words font-['Bayon'] font-normal text-[37px] text-[#EFEFEF]">
-          Techeer.log
-        </span>
-        <div className="m-[18px_0_29px_0] flex flex-row justify-center box-sizing-border">
-          <span className="break-words font-['Noto_Sans_KR'] font-normal text-[14px] text-[#FFFFFF]">
-            © 2024 Techeer.log • All Rights Reserved
-          </span>
-        </div>
-        <div className="m-[11px_0_33px_0] flex flex-row justify-center box-sizing-border">
-          <span className="break-words font-['Noto_Sans_KR'] font-normal text-[16px] text-[#FFFFFF]">
-            contact: techeer@gmail.com
-          </span>
-        </div>
-      </div>
-      <div className="bg-[#0047FF] absolute left-[457px] top-[614px] w-[172px] h-[3px]"></div>
+
+      <div className="bg-[url('assets/images/PointBanner.png')] flex flex-row justify-between p-[2.9rem_0_2.1rem_9.2rem] w-[120rem] box-sizing-border"></div>
     </div>
   );
 }

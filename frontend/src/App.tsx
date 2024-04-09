@@ -1,10 +1,11 @@
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { theme } from "./theme";
-import { RecoilRoot } from "recoil";
-import PretendRegular from "./shared/fonts/Pretendard-Regular.ttf";
-import PretendSemiBold from "./shared/fonts/Pretendard-SemiBold.ttf";
-import MyPage from "./pages/MyPage";
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { theme } from './theme';
+import { RecoilRoot } from 'recoil';
+import PretendRegular from './shared/fonts/Pretendard-Regular.ttf';
+import PretendSemiBold from './shared/fonts/Pretendard-SemiBold.ttf';
+import MyPage from './pages/MyPage';
+import './index.css';
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -80,7 +81,7 @@ a {
 
 const router = createBrowserRouter([
   {
-    path: "/mypage",
+    path: '/mypage',
     element: <MyPage />,
   },
 ]);
