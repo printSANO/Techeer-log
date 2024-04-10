@@ -4,6 +4,7 @@ import { theme } from './theme';
 import { RecoilRoot } from 'recoil';
 import './index.css';
 import SignUp from './pages/SignUp.tsx';
+import LogIn from './pages/LogIn.tsx';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
     path: '/signup',
     element: <SignUp />,
   },
+  {
+    path: '/login',
+    element: <LogIn />,
+  }
 ]);
 function App() {
   return (
