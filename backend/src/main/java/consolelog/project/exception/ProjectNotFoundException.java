@@ -1,11 +1,11 @@
-package consolelog.post.exception;
+package consolelog.project.exception;
 
 import consolelog.global.exception.BusinessException;
 import consolelog.global.response.ErrorCode;
 
-public class PostNotFoundException extends BusinessException {
+public class ProjectNotFoundException extends BusinessException {
 
-    public PostNotFoundException() {
+    public ProjectNotFoundException() {
         super(ErrorCode.POST_NOT_FOUND_ERROR);
     }
 }

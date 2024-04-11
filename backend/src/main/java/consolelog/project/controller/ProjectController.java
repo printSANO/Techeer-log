@@ -1,12 +1,12 @@
-package consolelog.post.controller;
+package consolelog.project.controller;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
-import consolelog.post.dto.PostRequest;
-import consolelog.post.dto.PostResponse;
-import consolelog.post.dto.PagePostResponse;
-import consolelog.post.service.PostService;
+import consolelog.project.dto.ProjectRequest;
+import consolelog.project.dto.ProjectResponse;
+import consolelog.project.dto.PagePostResponse;
+import consolelog.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -15,7 +15,6 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,21 +27,21 @@ import static consolelog.global.response.ResultCode.*;
 @Tag(name = "Post", description = "Post API Document")
 @RestController
 @RequestMapping("/v1")
-public class PostController {
-    private final PostService postService;
+public class ProjectController {
+    private final ProjectService projectService;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
     }
 
     @Operation(summary = "게시글 조회", description = "게시글 조회")
     @GetMapping("/posts/{id}")
-    public ResponseEntity<ResultResponse<PostResponse>> findPost(@Parameter(in = ParameterIn.PATH) @PathVariable Long id,
-                                                                  @Parameter(in = ParameterIn.COOKIE) @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
-        PostResponse findPostResponse = postService.findPost(id, postLog);
-        String updatedLog = postService.updatePostLog(id, postLog);
+    public ResponseEntity<ResultResponse<ProjectResponse>> findPost(@Parameter(in = ParameterIn.PATH) @PathVariable Long id,
+                                                                    @Parameter(in = ParameterIn.COOKIE) @CookieValue(value = "viewedPost", required = false, defaultValue = "") String postLog) {
+        ProjectResponse findProjectResponse = projectService.findProject(id, postLog);
+        String updatedLog = projectService.updateProjectLog(id, postLog);
         ResponseCookie responseCookie = ResponseCookie.from("viewedPost", updatedLog).maxAge(86400L).build();
-        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(FIND_POST_SUCCESS, findPostResponse);
+        ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(FIND_POST_SUCCESS, findProjectResponse);
 
         return ResponseEntity.status(FIND_POST_SUCCESS.getStatus())
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
@@ -51,9 +50,9 @@ public class PostController {
 
     @Operation(summary = "게시글 추가", description = "게시글 추가")
     @PostMapping("/posts")
-    public ResponseEntity<ResultResponse<URI>> addPost(@Valid @RequestBody PostRequest postRequest,
+    public ResponseEntity<ResultResponse<URI>> addPost(@Valid @RequestBody ProjectRequest projectRequest,
                                                        @Login AuthInfo authInfo) {
-        Long postId = postService.addPost(postRequest, authInfo);
+        Long postId = projectService.addProject(projectRequest, authInfo);
         URI location = URI.create("/posts/" + postId);
         ResultResponse<URI> resultResponse = new ResultResponse<>(ADD_POST_SUCCESS, location);
 
@@ -62,11 +61,11 @@ public class PostController {
 
     @Operation(summary = "게시글 수정", description = "게시글 수정")
     @PutMapping("/posts/{id}")
-    public ResponseEntity<ResultResponse<PostResponse>> updatePost(@Parameter(name = "id") @PathVariable Long id,
-                                                             @RequestBody PostRequest postRequest,
-                                                             @Login AuthInfo authInfo) {
-        PostResponse postResponse = postService.updatePost(id, postRequest, authInfo);
-        ResultResponse<PostResponse> resultResponse = new ResultResponse<>(UPDATE_POST_SUCCESS, postResponse);
+    public ResponseEntity<ResultResponse<ProjectResponse>> updatePost(@Parameter(name = "id") @PathVariable Long id,
+                                                                      @RequestBody ProjectRequest projectRequest,
+                                                                      @Login AuthInfo authInfo) {
+        ProjectResponse projectResponse = projectService.updateProject(id, projectRequest, authInfo);
+        ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(UPDATE_POST_SUCCESS, projectResponse);
 
         return ResponseEntity.status(UPDATE_POST_SUCCESS.getStatus()).body(resultResponse);
     }
@@ -74,7 +73,7 @@ public class PostController {
     @Operation(summary = "게시글 삭제", description = "게시글 삭제")
     @DeleteMapping("/posts/{id}")
     public ResponseEntity<ResultResponse<String>> deletePost(@Parameter(name = "id") @PathVariable Long id, @Login AuthInfo authInfo) {
-        postService.deletePost(id, authInfo);
+        projectService.deleteProject(id, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_SUCCESS);
 
         return ResponseEntity.status(DELETE_SUCCESS.getStatus()).body(resultResponse);
@@ -87,7 +86,7 @@ public class PostController {
                     "<br> sort에 string 값을 desc로 변경")
     @GetMapping(path = "/posts/list/{lastPostId}")
     public ResponseEntity<ResultResponse<PagePostResponse>> findPostList(@Parameter(name = "lastPostId") @PathVariable Long lastPostId, Pageable pageable) {
-        PagePostResponse postList = postService.findPostsByPage(lastPostId, pageable);
+        PagePostResponse postList = projectService.findProjectByPage(lastPostId, pageable);
         ResultResponse<PagePostResponse> resultResponse = new ResultResponse<>(FIND_POST_LIST_SUCCESS, postList);
 
         return ResponseEntity.status(FIND_POST_LIST_SUCCESS.getStatus()).body(resultResponse);

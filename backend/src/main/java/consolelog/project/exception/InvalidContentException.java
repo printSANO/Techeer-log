@@ -1,4 +1,4 @@
-package consolelog.post.exception;
+package consolelog.project.exception;
 
 import consolelog.global.response.ErrorCode;
 import consolelog.global.exception.BusinessException;

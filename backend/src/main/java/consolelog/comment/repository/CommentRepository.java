@@ -1,7 +1,7 @@
 package consolelog.comment.repository;
 
 import consolelog.comment.domain.Comment;
-import consolelog.post.domain.Post;
+import consolelog.project.domain.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,12 +20,12 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     // 수정 필요
     // Param 을 2개 넘겨주고, (postId, null) 을 넘겨줘서 데이터를 가져 올 수 있을 것 같다
     // 최대한 Query 의 사용을 자제하라
-    @Query(value = "SELECT c FROM Comment c WHERE c.post.id = :postId and c.parent.id is null")
-    List<Comment> findCommentsByPostId(@Param("postId") Long postId);
+    @Query(value = "SELECT c FROM Comment c WHERE c.project.id = :projectId and c.parent.id is null")
+    List<Comment> findCommentsByProjectId(@Param("projectId") Long projectId);
 
 //    List<Comment> findCommentsByPostId(Long postId);
 
-    void deleteAllByPost(Post post);
+    void deleteAllByProject(Project project);
 
     List<Comment> findRepliesByParent(Comment parent);
 

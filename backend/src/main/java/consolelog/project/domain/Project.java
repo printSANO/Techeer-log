@@ -1,4 +1,4 @@
-package consolelog.post.domain;
+package consolelog.project.domain;
 
 import consolelog.comment.domain.Comment;
 import consolelog.like.domain.PostLike;
@@ -13,6 +13,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,49 +24,66 @@ import static java.lang.Boolean.FALSE;
 @AllArgsConstructor
 @Getter
 @EntityListeners(value = {AuditingEntityListener.class})
-public class Post extends BaseEntity {
+public class Project extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
+    @Column(name = "project_id")
     private Long id;
-
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
-    @Lob
-    private String content;
 
     @Column
     @Setter
     private String mainImageUrl;
 
-    private int viewCount = 0;
+    @Column(nullable = false)
+    private String title;
 
+    @Column(nullable = false)
+    private String subtitle;
+
+    @Lob
+    @Column(nullable = false)
+    private String content;
+
+    @Column
+    private LocalDate startDate;
+
+    @Column
+    private LocalDate endDate;
+
+    @Column
+    private String githubLink;
+
+    @Column
+    private String blogLink;
+
+    @Column
+    private String websiteLink;
+
+    private int viewCount = 0;
     private int likeCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "project")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<PostLike> postLikes = new ArrayList<>();
 
     //    @Column(name = "deleted")
-    @SQLDelete(sql = "UPDATE post SET deleted = true WHERE id=?")
-    @Where(clause = "deleted = false")
+    @SQLDelete(sql = "UPDATE project SET deleted = TRUE WHERE id=?")
+    @Where(clause = "deleted = FALSE")
     private Boolean deleted = FALSE;
 
-    protected Post() {
+    protected Project() {
     }
 
     @Builder
-    public Post(String title, String content, String mainImageUrl, Member member,
-                List<Comment> comments, List<PostLike> postLikes) {
+    public Project(String title, String content, String mainImageUrl, Member member,
+                   List<Comment> comments, List<PostLike> postLikes) {
         this.title = title;
         this.content = content;
         this.mainImageUrl = mainImageUrl;

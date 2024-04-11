@@ -2,7 +2,7 @@ package consolelog.like.domain;
 
 import consolelog.global.config.BaseEntity;
 import consolelog.member.domain.Member;
-import consolelog.post.domain.Post;
+import consolelog.project.domain.Project;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class PostLike extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private Post post;
+    private Project project;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -28,10 +28,10 @@ public class PostLike extends BaseEntity {
     }
 
     @Builder
-    private PostLike(Post post, Member member) {
-        this.post = post;
+    private PostLike(Project project, Member member) {
+        this.project = project;
         this.member = member;
-        post.addPostLike(this);
+        project.addPostLike(this);
     }
 
     public boolean isLikeOf(Long memberId) {
@@ -39,6 +39,6 @@ public class PostLike extends BaseEntity {
     }
 
     public void delete() {
-        this.post = null;
+        this.project = null;
     }
 }

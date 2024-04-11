@@ -1,4 +1,4 @@
-package consolelog.post.domain;
+package consolelog.project.domain;
 
 import org.springframework.stereotype.Component;
 

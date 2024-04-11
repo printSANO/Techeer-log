@@ -33,14 +33,14 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 생성", description = "댓글 생성")
-    @PostMapping("/posts/{id}/comments")
-    public ResponseEntity<ResultResponse<CommentResponse>> addComment(@PathVariable(name = "id") Long postId,
+    @PostMapping("/project/{id}/comments")
+    public ResponseEntity<ResultResponse<CommentResponse>> addComment(@PathVariable(name = "id") Long projectId,
                                                                       @Valid @RequestBody NewCommentRequest newCommentRequest,
                                                                       @Login AuthInfo authInfo) {
 
         // 수정 필요
         // 사용하지 않는 변수 삭제
-        Long commentId = commentService.addComment(postId, newCommentRequest, authInfo);
+        Long commentId = commentService.addComment(projectId, newCommentRequest, authInfo);
         ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(COMMENT_CREATED_SUCCESS);
 
         // 수정 필요
@@ -64,7 +64,7 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 및 대댓글 조회")
-    @GetMapping("/posts/{id}/comments")
+    @GetMapping("/project/{id}/comments")
     // 수정 필요
     // 반환값 오류
     public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable(name = "id") Long postId,

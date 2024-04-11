@@ -1,6 +1,6 @@
-package consolelog.post.dto;
+package consolelog.project.dto;
 
-import consolelog.post.domain.Post;
+import consolelog.project.domain.Project;
 import lombok.Getter;
 import org.springframework.data.domain.Slice;
 
@@ -10,18 +10,18 @@ import java.util.stream.Collectors;
 @Getter
 public class PagePostResponse {
 
-    private final List<PostResponse> posts;
+    private final List<ProjectResponse> posts;
     private final Boolean lastPage;
 
-    public PagePostResponse(List<PostResponse> posts, Boolean lastPage) {
+    public PagePostResponse(List<ProjectResponse> posts, Boolean lastPage) {
         this.posts = posts;
         this.lastPage = lastPage;
     }
 
-    public static PagePostResponse of(Slice<Post> posts) {
-        List<PostResponse> postsResponses = posts.getContent()
+    public static PagePostResponse of(Slice<Project> posts) {
+        List<ProjectResponse> postsResponses = posts.getContent()
                 .stream()
-                .map(PostResponse::from)
+                .map(ProjectResponse::from)
                 .collect(Collectors.toList());
         return new PagePostResponse(postsResponses, posts.hasNext());
     }

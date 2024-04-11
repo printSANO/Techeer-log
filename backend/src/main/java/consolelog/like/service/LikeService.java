@@ -12,9 +12,9 @@ import consolelog.like.repository.PostLikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
-import consolelog.post.domain.Post;
-import consolelog.post.exception.PostNotFoundException;
-import consolelog.post.repository.PostRepository;
+import consolelog.project.domain.Project;
+import consolelog.project.exception.ProjectNotFoundException;
+import consolelog.project.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,17 +24,17 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class LikeService {
     private final PostLikeRepository postLikeRepository;
-    private final PostRepository postRepository;
+    private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final CommentRepository commentRepository;
 
 
-    public LikeService(PostLikeRepository postLikeRepository, PostRepository postRepository,
+    public LikeService(PostLikeRepository postLikeRepository, ProjectRepository projectRepository,
                        MemberRepository memberRepository, CommentLikeRepository commentLikeRepository, CommentRepository commentRepository) {
 
         this.postLikeRepository = postLikeRepository;
-        this.postRepository = postRepository;
+        this.projectRepository = projectRepository;
         this.memberRepository = memberRepository;
         this.commentLikeRepository = commentLikeRepository;
         this.commentRepository = commentRepository;
@@ -43,31 +43,31 @@ public class LikeService {
     //checkAuthority(authinfo, postId) 사용여부 확인
     @Transactional
     public LikeFlipResponse flipPostLike(Long postId, AuthInfo authInfo) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
-        int likeCount = flipPostLike(authInfo.getId(), post);
-        boolean liked = postLikeRepository.existsByPostAndMemberId(post, authInfo.getId());
+        Project project = projectRepository.findById(postId)
+                .orElseThrow(ProjectNotFoundException::new);
+        int likeCount = flipPostLike(authInfo.getId(), project);
+        boolean liked = postLikeRepository.existsByProjectAndMemberId(project, authInfo.getId());
 
         return new LikeFlipResponse(likeCount, liked);
     }
 
-    private int flipPostLike(Long memberId, Post post) {
-        final Optional<PostLike> postLike = postLikeRepository.findByPostAndMemberId(post, memberId);
+    private int flipPostLike(Long memberId, Project project) {
+        final Optional<PostLike> postLike = postLikeRepository.findByPostAndMemberId(project, memberId);
         if (postLike.isPresent()) {
-            post.deleteLike(postLike.get());
-            postRepository.decreaseLikeCount(post.getId());
-            return post.getLikeCount() - 1;
+            project.deleteLike(postLike.get());
+            projectRepository.decreaseLikeCount(project.getId());
+            return project.getLikeCount() - 1;
         }
-        addNewPostLike(memberId, post);
-        postRepository.increaseLikeCount(post.getId());
-        return post.getLikeCount() + 1;
+        addNewPostLike(memberId, project);
+        projectRepository.increaseLikeCount(project.getId());
+        return project.getLikeCount() + 1;
     }
 
-    private void addNewPostLike(Long memberId, Post post) {
+    private void addNewPostLike(Long memberId, Project project) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
         PostLike postLike = PostLike.builder()
-                .post(post)
+                .project(project)
                 .member(member)
                 .build();
         postLikeRepository.save(postLike);

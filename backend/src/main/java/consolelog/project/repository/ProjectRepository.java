@@ -1,6 +1,6 @@
-package consolelog.post.repository;
+package consolelog.project.repository;
 
-import consolelog.post.domain.Post;
+import consolelog.project.domain.Project;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,22 +14,22 @@ import java.util.Optional;
 
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Override
-    Optional<Post> findById(Long id);
+    Optional<Project> findById(Long id);
 
-    @Query("SELECT p FROM Post p WHERE p.id < :lastPostId ORDER BY p.id DESC")
-    Slice<Post> findPostByIdIsLessThanOrderByIdDesc(@Param("lastPostId") Long maxId, Pageable pageable);
+    @Query("SELECT p FROM Project p WHERE p.id < :lastProjectId ORDER BY p.id DESC")
+    Slice<Project> findProjectByIdIsLessThanOrderByIdDesc(@Param("lastProjectId") Long maxId, Pageable pageable);
 
-    default Slice<Post> findNextPage(Pageable pageable) {
-        long lastPostId = findMaxId() + 1;
-        if (lastPostId == 1) {
+    default Slice<Project> findNextPage(Pageable pageable) {
+        long lastPrjectId = findMaxId() + 1;
+        if (lastPrjectId == 1) {
             return null; // No data available
         }
-        return findPostByIdIsLessThanOrderByIdDesc(lastPostId, pageable);
+        return findProjectByIdIsLessThanOrderByIdDesc(lastPrjectId, pageable);
     }
 
-    @Query("SELECT MAX(p.id) FROM Post p")
+    @Query("SELECT MAX(p.id) FROM Project p")
     Long findMaxId();
 
     @Transactional
