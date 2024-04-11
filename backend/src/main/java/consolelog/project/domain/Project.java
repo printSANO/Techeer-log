@@ -52,13 +52,16 @@ public class Project extends BaseEntity {
     private LocalDate endDate;
 
     @Column
+    private String platform;
+
+    @Column
     private String projectType;
 
     @Column
-    private String projectStatus;
+    private String semester;
 
     @Column
-    private String semester;
+    private String projectStatus;
 
     @Column
     private String githubLink;
