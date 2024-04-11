@@ -11,9 +11,9 @@
 }
 
 @font-face {
-    font-family: 'Pre-R';
-    src: local('Pre-R'),
-    url('shared/fonts/Pretendard/Pretendard-Regular.woff');
+    font-family: 'Pre-S';
+    src: local('Pre-S'),
+    url('shared/fonts/Pretendard/Pretendard-SemiBold.woff');
     font-weight: 400;
 }
 
