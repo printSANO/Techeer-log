@@ -1,4 +1,4 @@
-drop table if exists member, post, comment, post_like, comment_likes;
+drop table if exists member, project, comment, post_like, comment_likes;
 
 CREATE TABLE member
 (
@@ -14,7 +14,7 @@ CREATE TABLE member
 ALTER TABLE member
     ADD CONSTRAINT uc_member_nickname UNIQUE (nickname);
 
-CREATE TABLE post
+CREATE TABLE project
 (
     post_id    BIGINT       NOT NULL,
     created_at datetime     NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE post
     CONSTRAINT pk_post PRIMARY KEY (post_id)
 );
 
-ALTER TABLE post
+ALTER TABLE project
     ADD CONSTRAINT FK_POST_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
 
 CREATE TABLE comment
@@ -52,7 +52,7 @@ ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_PARENT FOREIGN KEY (parent_id) REFERENCES comment (comment_id);
 
 ALTER TABLE comment
-    ADD CONSTRAINT FK_COMMENT_ON_POST FOREIGN KEY (post_id) REFERENCES post (post_id);
+    ADD CONSTRAINT FK_COMMENT_ON_POST FOREIGN KEY (post_id) REFERENCES project (post_id);
 
 CREATE TABLE post_like
 (
@@ -68,7 +68,7 @@ ALTER TABLE post_like
     ADD CONSTRAINT FK_POST_LIKE_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
 
 ALTER TABLE post_like
-    ADD CONSTRAINT FK_POST_LIKE_ON_POST FOREIGN KEY (post_id) REFERENCES post (post_id);
+    ADD CONSTRAINT FK_POST_LIKE_ON_POST FOREIGN KEY (post_id) REFERENCES project (post_id);
 CREATE TABLE comment_likes
 (
     comment_likes_id BIGINT AUTO_INCREMENT NOT NULL,
