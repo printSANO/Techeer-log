@@ -1,5 +1,6 @@
 package consolelog.member.domain;
 
+import consolelog.auth.domain.RefreshToken;
 import consolelog.global.config.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -31,6 +32,9 @@ public class Member extends BaseEntity {
     @Getter
     @Enumerated(EnumType.STRING)
     private RoleType roleType = RoleType.USER;
+
+    @OneToOne(mappedBy = "member")
+    private RefreshToken refreshToken;
 
     public String getLoginId() {
         return loginId.getValue();

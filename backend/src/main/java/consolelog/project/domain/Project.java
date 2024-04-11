@@ -1,7 +1,7 @@
 package consolelog.project.domain;
 
 import consolelog.comment.domain.Comment;
-import consolelog.like.domain.PostLike;
+import consolelog.love.domain.Love;
 import consolelog.member.domain.Member;
 import consolelog.global.config.BaseEntity;
 import jakarta.persistence.*;
@@ -52,6 +52,15 @@ public class Project extends BaseEntity {
     private LocalDate endDate;
 
     @Column
+    private String projectType;
+
+    @Column
+    private String projectStatus;
+
+    @Column
+    private String semester;
+
+    @Column
     private String githubLink;
 
     @Column
@@ -71,7 +80,7 @@ public class Project extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<PostLike> postLikes = new ArrayList<>();
+    private List<Love> likes = new ArrayList<>();
 
     //    @Column(name = "deleted")
     @SQLDelete(sql = "UPDATE project SET deleted = TRUE WHERE id=?")
@@ -83,14 +92,13 @@ public class Project extends BaseEntity {
 
     @Builder
     public Project(String title, String content, String mainImageUrl, Member member,
-                   List<Comment> comments, List<PostLike> postLikes) {
+                   List<Comment> comments, List<Love> likes) {
         this.title = title;
         this.content = content;
         this.mainImageUrl = mainImageUrl;
         this.member = member;
         this.comments = comments;
-        this.postLikes = postLikes;
-
+        this.likes = likes;
     }
 
     public int getCommentCount() {
@@ -99,13 +107,13 @@ public class Project extends BaseEntity {
         return comments.size();
     }
 
-    public void addPostLike(PostLike postLike) {
-        postLikes.add(postLike);
+    public void addPostLike(Love love) {
+        this.likes.add(love);
     }
 
-    public void deleteLike(PostLike postLike) {
-        postLikes.remove(postLike);
-        postLike.delete();
+    public void deleteLike(Love love) {
+        this.likes.remove(love);
+        love.delete();
     }
 
     public void updateTitle(String title) {

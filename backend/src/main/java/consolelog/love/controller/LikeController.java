@@ -1,10 +1,10 @@
-package consolelog.like.controller;
+package consolelog.love.controller;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
-import consolelog.like.dto.LikeFlipResponse;
-import consolelog.like.service.LikeService;
+import consolelog.love.dto.LikeFlipResponse;
+import consolelog.love.service.LikeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -33,16 +33,6 @@ public class LikeController {
                                                                          @Login AuthInfo authInfo) {
         LikeFlipResponse likeFlipResponse = likeService.flipPostLike(postId, authInfo);
         ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS, likeFlipResponse);
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
-    }
-
-    @PutMapping("/comments/{id}/like")
-    @Operation(summary = "CommentLike", description = "CommentLike")
-    public ResponseEntity<ResultResponse<LikeFlipResponse>> flipCommentLike(@PathVariable("id") Long commentId,
-                                                                            @Login AuthInfo authInfo) {
-        likeService.flipCommentLike(commentId, authInfo);
-        ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS);
         // 수정 필요
         return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
     }

@@ -2,7 +2,6 @@ package consolelog.comment.domain;
 
 
 import consolelog.auth.exception.AuthorizationException;
-import consolelog.like.domain.CommentLike;
 import consolelog.member.domain.Member;
 import consolelog.project.domain.Project;
 import jakarta.persistence.*;
@@ -42,9 +41,6 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
-
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<CommentLike> commentLikes = new ArrayList<>();
 
     @Embedded
     private Message message;
@@ -163,15 +159,6 @@ public class Comment {
 
     public boolean hasNoReply() {
         return children.isEmpty();
-    }
-
-    public void addCommentLike(CommentLike commentLike) {
-        commentLikes.add(commentLike);
-    }
-
-    public void deleteLike(CommentLike commentLike) {
-        commentLikes.remove(commentLike);
-        commentLike.delete();
     }
 
     public void updateContent(String content) {

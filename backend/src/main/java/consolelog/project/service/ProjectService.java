@@ -3,7 +3,7 @@ package consolelog.project.service;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
 import consolelog.comment.repository.CommentRepository;
-import consolelog.like.repository.PostLikeRepository;
+import consolelog.love.repository.LikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
@@ -27,16 +27,16 @@ public class ProjectService {
     private final ProjectRepository projectRepository; // final로 선언하면 생성자에서만 값을 할당할 수 있음
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
-    private final PostLikeRepository postLikeRepository;
+    private final LikeRepository likeRepository;
     private final ViewCountManager viewCountManager;
 
     public ProjectService(ProjectRepository projectRepository, MemberRepository memberRepository,
                           CommentRepository commentRepository,
-                          PostLikeRepository postLikeRepository,
+                          LikeRepository likeRepository,
                           ViewCountManager viewCountManager) { // 생성자 주입
         this.projectRepository = projectRepository;  // 생성자를 통해 PostRepository를 주입받음
         this.memberRepository = memberRepository;
-        this.postLikeRepository = postLikeRepository;
+        this.likeRepository = likeRepository;
         this.viewCountManager = viewCountManager;
         this.commentRepository = commentRepository;
     }
@@ -108,7 +108,7 @@ public class ProjectService {
         Project project = findProjectById(id);
         validateOwner(authInfo, project);
         commentRepository.deleteAllByProject(project);
-        postLikeRepository.deleteAllByProject(project);
+        likeRepository.deleteAllByProject(project);
         projectRepository.delete(project);
     }
 

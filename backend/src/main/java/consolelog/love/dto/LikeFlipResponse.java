@@ -1,4 +1,4 @@
-package consolelog.like.dto;
+package consolelog.love.dto;
 
 import lombok.Getter;
 

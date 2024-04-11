@@ -1,13 +1,13 @@
-package consolelog.like.exception;
+package consolelog.love.exception;
 
 
 import consolelog.global.exception.BusinessException;
 import consolelog.global.response.ErrorCode;
 
-public class CommentLikeNotFoundException extends BusinessException {
+public class LikeNotFoundException extends BusinessException {
 
 
-    public CommentLikeNotFoundException() {
+    public LikeNotFoundException() {
         super(ErrorCode.COMMENT_NOT_FOUND_ERROR);
     }
 }

@@ -1,4 +1,4 @@
-package consolelog.like.domain;
+package consolelog.love.domain;
 
 import consolelog.global.config.BaseEntity;
 import consolelog.member.domain.Member;
@@ -9,26 +9,26 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class PostLike extends BaseEntity {
+public class Love extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_like_id")
+    @Column(name = "love_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "project_id")
     private Project project;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    protected PostLike() {
+    protected Love() {
 
     }
 
     @Builder
-    private PostLike(Project project, Member member) {
+    private Love(Project project, Member member) {
         this.project = project;
         this.member = member;
         project.addPostLike(this);
