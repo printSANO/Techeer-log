@@ -1,27 +1,18 @@
 package consolelog.auth.service;
 
-import consolelog.auth.domain.RefreshToken;
-import consolelog.auth.dto.AuthInfo;
-import consolelog.auth.exception.LoginFailedException;
 import consolelog.auth.repository.RefreshTokenRepository;
-import consolelog.global.support.token.InvalidRefreshTokenException;
+import consolelog.global.exception.InvalidRefreshTokenException;
 import consolelog.global.support.token.TokenManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Optional;
-
 import static consolelog.util.fixture.AuthFixture.*;
-import static consolelog.util.fixture.MemberFixture.M1;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 @SpringBootTest

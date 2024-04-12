@@ -1,4 +1,4 @@
-package consolelog.global.support.token;
+package consolelog.global.exception;
 
 import consolelog.global.exception.BusinessException;
 import consolelog.global.response.ErrorCode;
