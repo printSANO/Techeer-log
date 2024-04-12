@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.Arrays;
 
+import static consolelog.global.response.ErrorCode.*;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -42,11 +44,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     protected ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 
-        log.error(ErrorCode.INTERNAL_SERVER_ERROR + ", " + Arrays.toString(e.getStackTrace()));
+        log.error(MAX_UPLOAD_SIZE_EXCEEDED_ERROR + ", " + Arrays.toString(e.getStackTrace()));
 
-        final ErrorResponse response = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+        final ErrorResponse response = new ErrorResponse(MAX_UPLOAD_SIZE_EXCEEDED_ERROR);
 
-        return ResponseEntity.status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus()).body(response);
+        return ResponseEntity.status(MAX_UPLOAD_SIZE_EXCEEDED_ERROR.getStatus()).body(response);
     }
 
     @Order(2)
@@ -55,8 +57,8 @@ public class GlobalExceptionHandler {
 
         log.error(e + ", " + Arrays.toString(e.getStackTrace()));
 
-        final ErrorResponse response = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+        final ErrorResponse response = new ErrorResponse(INTERNAL_SERVER_ERROR);
 
-        return ResponseEntity.status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus()).body(response);
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR.getStatus()).body(response);
     }
 }
