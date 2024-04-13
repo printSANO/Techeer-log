@@ -18,11 +18,11 @@ public class PagePostResponse {
         this.lastPage = lastPage;
     }
 
-    public static PagePostResponse of(Slice<Project> posts) {
-        List<ProjectResponse> postsResponses = posts.getContent()
-                .stream()
-                .map(ProjectResponse::from)
-                .collect(Collectors.toList());
-        return new PagePostResponse(postsResponses, posts.hasNext());
-    }
+//    public static PagePostResponse of(Slice<Project> posts) {
+//        List<ProjectResponse> postsResponses = posts.getContent()
+//                .stream()
+//                .map(ProjectResponse::from)/**/
+//                .collect(Collectors.toList());
+//        return new PagePostResponse(postsResponses, posts.hasNext());
+//    }
 }

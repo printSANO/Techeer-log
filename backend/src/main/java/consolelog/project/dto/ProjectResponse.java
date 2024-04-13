@@ -1,59 +1,35 @@
 package consolelog.project.dto;
 
 import consolelog.project.domain.Project;
-import lombok.Builder;
-import lombok.Getter;
+import consolelog.project.enums.PlatformType;
+import consolelog.project.enums.ProjectStatusType;
+import consolelog.project.enums.ProjectTypeType;
+import consolelog.project.enums.SemesterType;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProjectResponse {
     private Long id;
-    private String title;
-    private String content;
     private String mainImageUrl;
-    private String nickname;
-    private String profileImageUrl;
-    private int likeCount;
-    private int viewCount;
-    private int commentCount;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    public ProjectResponse() {
-    }
-
-    @Builder
-    private ProjectResponse(Long id, String title, String content, String mainImageUrl, String nickname,
-                            String profileImageUrl, int likeCount, int viewCount, int commentCount,
-                            LocalDateTime createdAt, LocalDateTime updatedAt) { //생성자 주입, 초기화
-        this.id = id;
-        this.title = title;
-        this.content = content;
-        this.mainImageUrl = mainImageUrl;
-        this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
-        this.likeCount = likeCount;
-        this.viewCount = viewCount;
-        this.commentCount = commentCount;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    // of 메소드를 통해 FindPostResponse 객체를 생성
-    public static ProjectResponse from(Project project) {
-        return ProjectResponse.builder()
-                .id(project.getId())
-                .title(project.getTitle())
-                .content(project.getContent())
-                .mainImageUrl(project.getMainImageUrl())
-                .nickname(project.getMember().getNickname())
-                .profileImageUrl(project.getMember().getProfileImageUrl())
-                .viewCount(project.getViewCount())
-                .likeCount(project.getLikeCount())
-                .commentCount(project.getCommentCount())
-                .createdAt(project.getCreatedAt())
-                .updatedAt(project.getUpdatedAt())
-                .build();
-    }
+    private String title;
+    private String subtitle;
+    private String content;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private PlatformType platform;
+    private ProjectTypeType projectType;
+    private SemesterType semester;
+    private ProjectStatusType projectStatus;
+    private String githubLink;
+    private String blogLink;
+    private String websiteLink;
+    private int viewCount = 0;
+    private int likeCount = 0;
 }

@@ -4,25 +4,24 @@ import consolelog.comment.domain.Comment;
 import consolelog.love.domain.Love;
 import consolelog.member.domain.Member;
 import consolelog.global.config.BaseEntity;
+import consolelog.project.enums.PlatformType;
+import consolelog.project.enums.ProjectStatusType;
+import consolelog.project.enums.ProjectTypeType;
+import consolelog.project.enums.SemesterType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Boolean.FALSE;
-
 
 @Entity
-@AllArgsConstructor
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(value = {AuditingEntityListener.class})
 public class Project extends BaseEntity {
 
@@ -31,47 +30,34 @@ public class Project extends BaseEntity {
     @Column(name = "project_id")
     private Long id;
 
-    @Column
-    @Setter
     private String mainImageUrl;
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private String subtitle;
 
     @Lob
     @Column(nullable = false)
     private String content;
 
-    @Column
     private LocalDate startDate;
-
-    @Column
     private LocalDate endDate;
 
-    @Column
-    private String platform;
+    @Enumerated(EnumType.STRING)
+    private PlatformType platform;
 
-    @Column
-    private String projectType;
+    @Enumerated(EnumType.STRING)
+    private ProjectTypeType projectType;
 
-    @Column
-    private String semester;
+    @Enumerated
+    private SemesterType semester;
 
-    @Column
-    private String projectStatus;
-
-    @Column
+    @Enumerated(EnumType.STRING)
+    private ProjectStatusType projectStatus;
     private String githubLink;
-
-    @Column
     private String blogLink;
-
-    @Column
     private String websiteLink;
-
     private int viewCount = 0;
     private int likeCount = 0;
 
@@ -84,25 +70,6 @@ public class Project extends BaseEntity {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Love> likes = new ArrayList<>();
-
-    //    @Column(name = "deleted")
-    @SQLDelete(sql = "UPDATE project SET deleted = TRUE WHERE id=?")
-    @Where(clause = "deleted = FALSE")
-    private Boolean deleted = FALSE;
-
-    protected Project() {
-    }
-
-    @Builder
-    public Project(String title, String content, String mainImageUrl, Member member,
-                   List<Comment> comments, List<Love> likes) {
-        this.title = title;
-        this.content = content;
-        this.mainImageUrl = mainImageUrl;
-        this.member = member;
-        this.comments = comments;
-        this.likes = likes;
-    }
 
     public int getCommentCount() {
         if (comments == null)

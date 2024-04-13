@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    @Override
     Optional<Project> findById(Long id);
 
     @Query("SELECT p FROM Project p WHERE p.id < :lastProjectId ORDER BY p.id DESC")
@@ -44,6 +43,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE post SET view_count = view_count + 1 WHERE post_id = :postId", nativeQuery = true)
-    void updateViewCount(@Param("postId") Long postId);
+    @Query(value = "UPDATE project SET view_count = view_count + 1 WHERE project_id = :projectId", nativeQuery = true)
+    void updateViewCount(@Param("projectId") Long projectId);
 }

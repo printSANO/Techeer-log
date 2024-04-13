@@ -1,22 +1,32 @@
 package consolelog.project.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import consolelog.project.enums.PlatformType;
+import consolelog.project.enums.ProjectStatusType;
+import consolelog.project.enums.ProjectTypeType;
+import consolelog.project.enums.SemesterType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProjectRequest {
-    @NotBlank(message = "제목을 입력해주세요.")
     private String title;
-    @NotBlank(message = "내용을 입력해주세요.")
+    private String subtitle;
     private String content;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private PlatformType platform;
+    private ProjectTypeType projectType;
+    private SemesterType semester;
+    private ProjectStatusType projectStatus;
+    private String githubLink;
+    private String blogLink;
+    private String websiteLink;
     private String mainImageUrl;
-
-    public ProjectRequest() {
-    }
-
-    public ProjectRequest(String title, String content, String mainImageUrl) {
-        this.title = title;
-        this.content = content;
-        this.mainImageUrl = mainImageUrl;
-    }
 }
