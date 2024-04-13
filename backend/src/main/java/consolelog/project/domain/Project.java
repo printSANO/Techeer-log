@@ -86,14 +86,6 @@ public class Project extends BaseEntity {
         love.delete();
     }
 
-    public void updateTitle(String title) {
-        this.title = title;
-    }
-
-    public void updateContent(String content) {
-        this.content = content;
-    }
-
     public boolean isOwner(Long accessMemberId) {
         if (accessMemberId == null) {
             return false;

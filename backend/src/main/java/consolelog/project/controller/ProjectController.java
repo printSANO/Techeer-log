@@ -35,11 +35,11 @@ public class ProjectController {
     }
 
     @Operation(summary = "게시글 조회", description = "게시글 조회")
-    @GetMapping("/projects/{id}")
-    public ResponseEntity<ResultResponse<ProjectResponse>> findPost(@Parameter(in = ParameterIn.PATH) @PathVariable Long id,
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity<ResultResponse<ProjectResponse>> findPost(@Parameter(in = ParameterIn.PATH) @PathVariable Long projectId,
                                                                     @Parameter(in = ParameterIn.COOKIE) @CookieValue(value = "viewedProject", required = false, defaultValue = "") String projectLog) {
-        ProjectResponse findProjectResponse = projectService.findProject(id, projectLog);
-        String updatedLog = projectService.updateProjectLog(id, projectLog);
+        ProjectResponse findProjectResponse = projectService.findProject(projectId, projectLog);
+        String updatedLog = projectService.updateProjectLog(projectId, projectLog);
         ResponseCookie responseCookie = ResponseCookie.from("viewedProject", updatedLog).maxAge(86400L).build();
         ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(FIND_POST_SUCCESS, findProjectResponse);
 
@@ -60,20 +60,20 @@ public class ProjectController {
     }
 
     @Operation(summary = "게시글 수정", description = "게시글 수정")
-    @PutMapping("/posts/{id}")
-    public ResponseEntity<ResultResponse<ProjectResponse>> updatePost(@Parameter(name = "id") @PathVariable Long id,
+    @PutMapping("/projects/{projectId}")
+    public ResponseEntity<ResultResponse<ProjectResponse>> updatePost(@PathVariable Long projectId,
                                                                       @RequestBody ProjectRequest projectRequest,
                                                                       @Login AuthInfo authInfo) {
-        ProjectResponse projectResponse = projectService.updateProject(id, projectRequest, authInfo);
+        ProjectResponse projectResponse = projectService.updateProject(projectId, projectRequest, authInfo);
         ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(UPDATE_POST_SUCCESS, projectResponse);
 
         return ResponseEntity.status(UPDATE_POST_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "게시글 삭제", description = "게시글 삭제")
-    @DeleteMapping("/posts/{id}")
-    public ResponseEntity<ResultResponse<String>> deletePost(@Parameter(name = "id") @PathVariable Long id, @Login AuthInfo authInfo) {
-        projectService.deleteProject(id, authInfo);
+    @DeleteMapping("/projects/{projectId}")
+    public ResponseEntity<ResultResponse<String>> deletePost(@PathVariable Long projectId, @Login AuthInfo authInfo) {
+        projectService.deleteProject(projectId, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_SUCCESS);
 
         return ResponseEntity.status(DELETE_SUCCESS.getStatus()).body(resultResponse);

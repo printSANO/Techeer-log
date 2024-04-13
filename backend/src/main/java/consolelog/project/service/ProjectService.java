@@ -91,9 +91,10 @@ public class ProjectService {
     public ProjectResponse updateProject(Long id, ProjectRequest projectRequest, AuthInfo authInfo) {
         Project project = findProjectById(id);
         validateOwner(authInfo, project);
-        project.updateTitle(projectRequest.getTitle());
-        project.updateContent(projectRequest.getContent());
-        project.setMainImageUrl(projectRequest.getMainImageUrl());
+
+        projectMapper.updateProjectFromRequest(projectRequest, project);
+        projectRepository.save(project);
+
         return projectMapper.projectToProjectResponse(project);
     }
 
@@ -111,7 +112,6 @@ public class ProjectService {
             throw new AuthorizationException();
         }
     }
-
 }
 
 
