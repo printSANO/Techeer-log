@@ -1,0 +1,14 @@
+package consolelog.global.config;
+
+import consolelog.project.dto.ProjectMapper;
+import consolelog.project.dto.ProjectMapperImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MapperConfig {
+    @Bean
+    public ProjectMapper projectMapper() {
+        return new ProjectMapperImpl();
+    }
+}
