@@ -85,12 +85,13 @@ CREATE TABLE project_framework
 
 CREATE TABLE project_member
 (
-    project_member_id BIGINT AUTO_INCREMENT NOT NULL,
-    created_at        datetime              NOT NULL,
-    updated_at        datetime              NULL,
-    deleted           BIT(1)                NULL,
-    project_id        BIGINT                NOT NULL,
-    member_id         BIGINT                NOT NULL,
+    project_member_id   BIGINT AUTO_INCREMENT NOT NULL,
+    created_at          datetime              NOT NULL,
+    updated_at          datetime              NULL,
+    deleted             BIT(1)                NULL,
+    project_id          BIGINT                NOT NULL,
+    member_id           BIGINT                NOT NULL,
+    project_member_type VARCHAR(255)          NULL,
     CONSTRAINT pk_projectmember PRIMARY KEY (project_member_id)
 );
 
