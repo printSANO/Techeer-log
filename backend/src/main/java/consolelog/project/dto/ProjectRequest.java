@@ -1,5 +1,6 @@
 package consolelog.project.dto;
 
+import consolelog.project.domain.ProjectMember;
 import consolelog.project.enums.PlatformType;
 import consolelog.project.enums.ProjectStatusType;
 import consolelog.project.enums.ProjectTypeType;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,4 +31,5 @@ public class ProjectRequest {
     private String blogLink;
     private String websiteLink;
     private String mainImageUrl;
+    private List<ProjectMemberDTO> projectMemberDTOList;
 }

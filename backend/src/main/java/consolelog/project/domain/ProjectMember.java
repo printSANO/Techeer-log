@@ -2,13 +2,16 @@ package consolelog.project.domain;
 
 import consolelog.global.config.BaseEntity;
 import consolelog.member.domain.Member;
+import consolelog.project.enums.ProjectMemberType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProjectMember extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +26,6 @@ public class ProjectMember extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public ProjectMember() {
-
-    }
+    @Enumerated(EnumType.STRING)
+    private ProjectMemberType projectMemberType;
 }

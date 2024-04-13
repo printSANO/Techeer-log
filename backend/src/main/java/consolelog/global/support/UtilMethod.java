@@ -19,4 +19,9 @@ public class UtilMethod {
         return memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
     }
+
+    public void validateMemberId(Long memberId) {
+        if (!memberRepository.existsById(memberId))
+            throw new MemberNotFoundException();
+    }
 }

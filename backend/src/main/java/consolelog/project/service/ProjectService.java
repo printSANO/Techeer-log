@@ -8,14 +8,9 @@ import consolelog.love.repository.LikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.project.domain.Project;
 import consolelog.project.domain.ViewCountManager;
-import consolelog.project.dto.PagePostResponse;
-import consolelog.project.dto.ProjectRequest;
-import consolelog.project.dto.ProjectResponse;
-import consolelog.project.dto.ProjectMapper;
+import consolelog.project.dto.*;
 import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectRepository;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,12 +74,19 @@ public class ProjectService {
     @Transactional
     public Long addProject(ProjectRequest projectRequest, AuthInfo authInfo) {
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
+        validateMemberList(projectRequest);
 
         Project project = projectMapper.projectRequestToProject(projectRequest);
         project.setMember(member);
         Optional<Project> savedPost = Optional.of(projectRepository.save(project));
 
         return savedPost.orElseThrow(ProjectNotFoundException::new).getId();
+    }
+
+    private void validateMemberList(ProjectRequest projectRequest) {
+        for (ProjectMemberDTO projectMemberDTO : projectRequest.getProjectMemberDTOList()) {
+            utilMethod.validateMemberId(projectMemberDTO.getMemberId());
+        }
     }
 
     @Transactional
