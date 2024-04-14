@@ -3,12 +3,12 @@ package consolelog.project.enums;
 import lombok.Getter;
 
 @Getter
-public enum ProjectTypeType {
-    BOOTCAMP("BOOTCAMP"), TEAM_PROJECT("TEAM_PROJECT");
+public enum SemesterEnum {
+    FIRST("FIRST"), SECOND("SECOND");
 
     private final String name;
 
-    ProjectTypeType(String name) {
+    SemesterEnum(String name) {
         this.name = name;
     }
 }

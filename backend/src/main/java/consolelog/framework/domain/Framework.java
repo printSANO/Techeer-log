@@ -1,10 +1,13 @@
-package consolelog.Framework.domain;
+package consolelog.framework.domain;
 
+import consolelog.framework.enums.FrameworkTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class Framework {
@@ -16,9 +19,7 @@ public class Framework {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private FrameworkTypeEnum frameworkType;
 
-    public Framework() {
-    }
 }

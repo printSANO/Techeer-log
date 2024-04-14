@@ -3,12 +3,12 @@ package consolelog.project.enums;
 import lombok.Getter;
 
 @Getter
-public enum PlatformType {
-    WEB("WEB"), APP("APP"), WEB_APP("WEB_APP");
+public enum ProjectTypeEnum {
+    BOOTCAMP("BOOTCAMP"), TEAM_PROJECT("TEAM_PROJECT");
 
     private final String name;
 
-    PlatformType(String name) {
+    ProjectTypeEnum(String name) {
         this.name = name;
     }
 }

@@ -4,10 +4,10 @@ import consolelog.comment.domain.Comment;
 import consolelog.love.domain.Love;
 import consolelog.member.domain.Member;
 import consolelog.global.config.BaseEntity;
-import consolelog.project.enums.PlatformType;
-import consolelog.project.enums.ProjectStatusType;
-import consolelog.project.enums.ProjectTypeType;
-import consolelog.project.enums.SemesterType;
+import consolelog.project.enums.PlatformEnum;
+import consolelog.project.enums.ProjectStatusEnum;
+import consolelog.project.enums.ProjectTypeEnum;
+import consolelog.project.enums.SemesterEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -45,16 +45,16 @@ public class Project extends BaseEntity {
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
-    private PlatformType platform;
+    private PlatformEnum platform;
 
     @Enumerated(EnumType.STRING)
-    private ProjectTypeType projectType;
-
-    @Enumerated
-    private SemesterType semester;
+    private ProjectTypeEnum projectType;
 
     @Enumerated(EnumType.STRING)
-    private ProjectStatusType projectStatus;
+    private SemesterEnum semester;
+
+    @Enumerated(EnumType.STRING)
+    private ProjectStatusEnum projectStatus;
     private String githubLink;
     private String blogLink;
     private String websiteLink;

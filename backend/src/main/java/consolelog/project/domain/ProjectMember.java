@@ -2,13 +2,15 @@ package consolelog.project.domain;
 
 import consolelog.global.config.BaseEntity;
 import consolelog.member.domain.Member;
-import consolelog.project.enums.ProjectMemberType;
+import consolelog.project.enums.ProjectMemberTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,5 +29,5 @@ public class ProjectMember extends BaseEntity {
     private Member member;
 
     @Enumerated(EnumType.STRING)
-    private ProjectMemberType projectMemberType;
+    private ProjectMemberTypeEnum projectMemberType;
 }

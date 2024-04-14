@@ -1,12 +1,13 @@
-package consolelog.Framework.domain;
+package consolelog.project.domain;
 
-import consolelog.member.domain.Member;
+import consolelog.framework.domain.Framework;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class ProjectFramework {
@@ -17,14 +18,9 @@ public class ProjectFramework {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
-    private Member project;
+    private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "framework_id", nullable = false)
     private Framework framework;
-
-
-    public ProjectFramework() {
-
-    }
 }

@@ -3,7 +3,7 @@ package consolelog.project.enums;
 import lombok.Getter;
 
 @Getter
-public enum ProjectMemberType {
+public enum ProjectMemberTypeEnum {
     FRONTEND("FRONTEND"),
     BACKEND("BACKEND"),
     DEVOPS("DEVOPS"),
@@ -12,7 +12,7 @@ public enum ProjectMemberType {
 
     private final String name;
 
-    ProjectMemberType(String name) {
+    ProjectMemberTypeEnum(String name) {
         this.name = name;
     }
 }

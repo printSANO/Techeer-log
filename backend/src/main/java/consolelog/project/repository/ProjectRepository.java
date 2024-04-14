@@ -10,12 +10,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    Optional<Project> findById(Long id);
 
     @Query("SELECT p FROM Project p WHERE p.id < :lastProjectId ORDER BY p.id DESC")
     Slice<Project> findProjectByIdIsLessThanOrderByIdDesc(@Param("lastProjectId") Long maxId, Pageable pageable);

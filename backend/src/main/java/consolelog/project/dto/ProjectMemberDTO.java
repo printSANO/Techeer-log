@@ -1,8 +1,6 @@
 package consolelog.project.dto;
 
-import consolelog.member.domain.Member;
-import consolelog.project.domain.Project;
-import consolelog.project.enums.ProjectMemberType;
+import consolelog.project.enums.ProjectMemberTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +16,5 @@ public class ProjectMemberDTO {
     private Long memberId;
 
     @Enumerated(EnumType.STRING)
-    private ProjectMemberType projectMemberType;
+    private ProjectMemberTypeEnum projectMemberTypeEnum;
 }
