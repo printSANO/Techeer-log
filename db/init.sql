@@ -19,9 +19,9 @@ CREATE TABLE comment
 
 CREATE TABLE framework
 (
-    framework_id BIGINT AUTO_INCREMENT NOT NULL,
-    name         VARCHAR(255)          NOT NULL,
-    status       VARCHAR(255)          NOT NULL,
+    framework_id   BIGINT AUTO_INCREMENT NOT NULL,
+    name           VARCHAR(255)          NOT NULL,
+    framework_type VARCHAR(255)          NULL,
     CONSTRAINT pk_framework PRIMARY KEY (framework_id)
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE project
     end_date       date                  NULL,
     platform       VARCHAR(255)          NULL,
     project_type   VARCHAR(255)          NULL,
-    semester       SMALLINT              NULL,
+    semester       VARCHAR(255)          NULL,
     project_status VARCHAR(255)          NULL,
     github_link    VARCHAR(255)          NULL,
     blog_link      VARCHAR(255)          NULL,
@@ -139,7 +139,7 @@ ALTER TABLE project_framework
     ADD CONSTRAINT FK_PROJECTFRAMEWORK_ON_FRAMEWORK FOREIGN KEY (framework_id) REFERENCES framework (framework_id);
 
 ALTER TABLE project_framework
-    ADD CONSTRAINT FK_PROJECTFRAMEWORK_ON_PROJECT FOREIGN KEY (project_id) REFERENCES member (member_id);
+    ADD CONSTRAINT FK_PROJECTFRAMEWORK_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
 
 ALTER TABLE project_member
     ADD CONSTRAINT FK_PROJECTMEMBER_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
