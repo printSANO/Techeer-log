@@ -2,6 +2,7 @@ version: "3.8"
 
 volumes:
   build_folder: null
+  data-volume:
 
 services:
   mysqldb:
@@ -27,6 +28,32 @@ services:
       - build_folder:/var/www/frontend:ro
     tty: true
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+
+  pinpoint-agent:
+    container_name: "${PINPOINT_AGENT_NAME}"
+    image: "pinpointdocker/pinpoint-agent:${PINPOINT_VERSION}"
+    restart: unless-stopped
+    networks:
+      - pinpoint-docker_pinpoint
+      - default
+    volumes:
+      - data-volume:/pinpoint-agent
+    env_file:
+      - ./pinpoint.env
+    environment:
+      - SPRING_PROFILES=${SPRING_PROFILES}
+      - COLLECTOR_IP=${COLLECTOR_IP}
+      - PROFILER_TRANSPORT_AGENT_COLLECTOR_PORT=${PROFILER_TRANSPORT_AGENT_COLLECTOR_PORT}
+      - PROFILER_TRANSPORT_METADATA_COLLECTOR_PORT=${PROFILER_TRANSPORT_METADATA_COLLECTOR_PORT}
+      - PROFILER_TRANSPORT_STAT_COLLECTOR_PORT=${PROFILER_TRANSPORT_STAT_COLLECTOR_PORT}
+      - PROFILER_TRANSPORT_SPAN_COLLECTOR_PORT=${PROFILER_TRANSPORT_SPAN_COLLECTOR_PORT}
+      - PROFILER_SAMPLING_TYPE=${PROFILER_SAMPLING_TYPE}
+      - PROFILER_SAMPLING_COUNTING_SAMPLING_RATE=${PROFILER_SAMPLING_COUNTING_SAMPLING_RATE}
+      - PROFILER_SAMPLING_PERCENT_SAMPLING_RATE=${PROFILER_SAMPLING_PERCENT_SAMPLING_RATE}
+      - PROFILER_SAMPLING_NEW_THROUGHPUT=${PROFILER_SAMPLING_NEW_THROUGHPUT}
+      - PROFILER_SAMPLING_CONTINUE_THROUGHPUT=${PROFILER_SAMPLING_CONTINUE_THROUGHPUT}
+      - DEBUG_LEVEL=${AGENT_DEBUG_LEVEL}
+      - PROFILER_TRANSPORT_MODULE=${PROFILER_TRANSPORT_MODULE}
 
   backend1:
     build: ./backend
@@ -68,6 +95,9 @@ services:
       - build_folder:/frontend/volume:rw
     tty: true
 
+networks:
+  pinpoint-docker_pinpoint:
+    external: true
 #  Entrypoint 로 명령어가 동작하지 않음. 직접 접속하여 명령을 수행하는 것은 가능
 #  docker exec -it frontend sh
 #  cp -rf /frontend/dist/* /frontend/volume/
