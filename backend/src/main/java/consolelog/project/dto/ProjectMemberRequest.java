@@ -11,8 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectMemberDTO {
-    private Long projectId;
+public class ProjectMemberRequest {
     private Long memberId;
 
     @Enumerated(EnumType.STRING)

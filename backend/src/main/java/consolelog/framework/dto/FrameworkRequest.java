@@ -1,15 +1,16 @@
 package consolelog.framework.dto;
 
+import consolelog.framework.enums.FrameworkTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FrameworkDTO {
-    private Long id;
+public class FrameworkRequest {
     private String name;
+    private FrameworkTypeEnum frameworkType;
 }

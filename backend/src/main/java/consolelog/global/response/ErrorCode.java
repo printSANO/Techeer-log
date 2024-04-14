@@ -47,6 +47,9 @@ public enum ErrorCode {
     // Image
     S3_UPLOAD_ERROR("I001", 400, "S3 이미지 업로드가 실패하였습니다"),
 
+    // Framework
+    FRAMEWORK_NOT_FOUND_ERROR("F001", 400, "프레임워크가 존재하지 않습니다"),
+
     ;
 
     private final String code;

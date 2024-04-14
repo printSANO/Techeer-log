@@ -1,5 +1,6 @@
 package consolelog.project.dto;
 
+import consolelog.framework.dto.FrameworkRequest;
 import consolelog.project.enums.PlatformEnum;
 import consolelog.project.enums.ProjectStatusEnum;
 import consolelog.project.enums.ProjectTypeEnum;
@@ -30,6 +31,6 @@ public class ProjectRequest {
     private String blogLink;
     private String websiteLink;
     private String mainImageUrl;
-    private List<ProjectMemberDTO> projectMemberDTOList;
-    private List<ProjectRequest> projectRequestList;
+    private List<ProjectMemberRequest> projectMemberRequestList;
+    private List<FrameworkRequest> frameworkRequestList;
 }

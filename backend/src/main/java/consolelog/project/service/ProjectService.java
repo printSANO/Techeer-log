@@ -3,16 +3,22 @@ package consolelog.project.service;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
 import consolelog.comment.repository.CommentRepository;
+import consolelog.framework.domain.Framework;
+import consolelog.framework.dto.FrameworkRequest;
+import consolelog.framework.exception.FrameworkNotFoundException;
+import consolelog.framework.repository.FrameworkRepository;
 import consolelog.global.support.UtilMethod;
 import consolelog.love.repository.LikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
 import consolelog.project.domain.Project;
+import consolelog.project.domain.ProjectFramework;
 import consolelog.project.domain.ProjectMember;
 import consolelog.project.domain.ViewCountManager;
 import consolelog.project.dto.*;
 import consolelog.project.exception.ProjectNotFoundException;
+import consolelog.project.repository.ProjectFrameworkRepository;
 import consolelog.project.repository.ProjectMemberRepository;
 import consolelog.project.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
@@ -34,13 +40,15 @@ public class ProjectService {
     private final ProjectMapper projectMapper;
     private final ProjectMemberRepository projectMemberRepository;
     private final MemberRepository memberRepository;
+    private final FrameworkRepository frameworkRepository;
+    private final ProjectFrameworkRepository projectFrameworkRepository;
 
     public ProjectService(ProjectRepository projectRepository,
                           CommentRepository commentRepository,
                           LikeRepository likeRepository,
                           ViewCountManager viewCountManager,
                           UtilMethod utilMethod, ProjectMapper projectMapper, ProjectMemberRepository projectMemberRepository,
-                          MemberRepository memberRepository) { // 생성자 주입
+                          MemberRepository memberRepository, FrameworkRepository frameworkRepository, ProjectFrameworkRepository projectFrameworkRepository) { // 생성자 주입
         this.projectRepository = projectRepository;  // 생성자를 통해 PostRepository를 주입받음
         this.likeRepository = likeRepository;
         this.viewCountManager = viewCountManager;
@@ -49,6 +57,8 @@ public class ProjectService {
         this.projectMapper = projectMapper;
         this.projectMemberRepository = projectMemberRepository;
         this.memberRepository = memberRepository;
+        this.frameworkRepository = frameworkRepository;
+        this.projectFrameworkRepository = projectFrameworkRepository;
     }
 
     @Transactional
@@ -92,23 +102,53 @@ public class ProjectService {
 
         Optional<Project> savedProject = Optional.of(projectRepository.save(project));
 
-        List<ProjectMember> projectMemberList = getProjectMemberList(savedProject, projectRequest.getProjectMemberDTOList());
-        projectMemberRepository.saveAll(projectMemberList);
-
+        saveProjectMemberList(savedProject, projectRequest.getProjectMemberRequestList());
+        saveProjectFrameworkList(savedProject, projectRequest.getFrameworkRequestList());
 
         return savedProject.orElseThrow(ProjectNotFoundException::new).getId();
     }
 
-    private List<ProjectMember> getProjectMemberList(Optional<Project> savedProject, List<ProjectMemberDTO> projectMemberDTOList) {
+    private void saveProjectFrameworkList(Optional<Project> savedProject, List<FrameworkRequest> frameworkRequestList) {
+        List<ProjectFramework> projectFrameworkList = new ArrayList<>();
+
+        for (FrameworkRequest frameworkRequest : frameworkRequestList) {
+            ProjectFramework projectFramework = new ProjectFramework();
+
+            Optional<Framework> framework = frameworkRepository.findByName(frameworkRequest.getName().toLowerCase());
+
+            // framework 가 DB 에 없는 새로운 값인 경우 새로 객체를 만들고 DB 에 저장
+            // 그리고 저장한 framework 를 가져온다
+            if (framework.isEmpty()) {
+                Framework newFramework = new Framework();
+                newFramework.setName(frameworkRequest.getName().toLowerCase());
+                newFramework.setFrameworkType(frameworkRequest.getFrameworkType());
+
+                framework = Optional.of(frameworkRepository.save(newFramework));
+            }
+
+            projectFramework.setProject(savedProject.orElseThrow(ProjectNotFoundException::new));
+            projectFramework.setFramework(framework.orElseThrow(FrameworkNotFoundException::new));
+
+            projectFrameworkList.add(projectFramework);
+        }
+        projectFrameworkRepository.saveAll(projectFrameworkList);
+    }
+
+    private void saveProjectMemberList(Optional<Project> savedProject, List<ProjectMemberRequest> projectMemberRequestList) {
+        List<ProjectMember> projectMemberList = getProjectMemberList(savedProject, projectMemberRequestList);
+        projectMemberRepository.saveAll(projectMemberList);
+    }
+
+    private List<ProjectMember> getProjectMemberList(Optional<Project> savedProject, List<ProjectMemberRequest> projectMemberRequestList) {
         List<ProjectMember> projectMemberList = new ArrayList<>();
 
-        for (ProjectMemberDTO projectMemberDTO : projectMemberDTOList) {
+        for (ProjectMemberRequest projectMemberRequest : projectMemberRequestList) {
             ProjectMember projectMember = new ProjectMember();
-            Optional<Member> member = memberRepository.findById(projectMemberDTO.getMemberId());
+            Optional<Member> member = memberRepository.findById(projectMemberRequest.getMemberId());
 
             projectMember.setProject(savedProject.orElseThrow(ProjectNotFoundException::new));
             projectMember.setMember(member.orElseThrow(MemberNotFoundException::new));
-            projectMember.setProjectMemberEnum(projectMemberDTO.getProjectMemberTypeEnum());
+            projectMember.setProjectMemberType(projectMemberRequest.getProjectMemberTypeEnum());
 
             projectMemberList.add(projectMember);
         }
@@ -116,8 +156,8 @@ public class ProjectService {
     }
 
     private void validateMemberList(ProjectRequest projectRequest) {
-        for (ProjectMemberDTO projectMemberDTO : projectRequest.getProjectMemberDTOList()) {
-            utilMethod.validateMemberId(projectMemberDTO.getMemberId());
+        for (ProjectMemberRequest projectMemberRequest : projectRequest.getProjectMemberRequestList()) {
+            utilMethod.validateMemberId(projectMemberRequest.getMemberId());
         }
     }
 
