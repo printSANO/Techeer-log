@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 import static consolelog.global.response.ResultCode.FIND_PROFILE_SUCCESS;
 import static consolelog.global.response.ResultCode.SIGNUP_SUCCESS;
 
@@ -67,7 +69,7 @@ public class MemberController {
 
     @PatchMapping(consumes = "multipart/form-data")
     public ResponseEntity<Void> editMember(@RequestPart(value = "data", required = false) EditMemberRequest editMemberRequest,
-                                           @RequestPart(value = "part", required = false) MultipartFile multipartFile,
+                                           @RequestPart(value = "part", required = false) Optional<MultipartFile> multipartFile,
                                            @Login AuthInfo authInfo) {
         memberService.edit(editMemberRequest, authInfo, multipartFile);
         return ResponseEntity.noContent()

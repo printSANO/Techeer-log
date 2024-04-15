@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class MemberService extends BaseEntity {
@@ -80,7 +82,7 @@ public class MemberService extends BaseEntity {
     }
 
     @Transactional
-    public void edit(EditMemberRequest editMemberRequest, AuthInfo authInfo, MultipartFile multipartFile) {
+    public void edit(EditMemberRequest editMemberRequest, AuthInfo authInfo, Optional<MultipartFile> multipartFile) {
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
@@ -91,14 +93,16 @@ public class MemberService extends BaseEntity {
         }
 
         if (!editMemberRequest.getPassword().equals(member.getPassword()) && !editMemberRequest.getPassword().isEmpty()) {
-            Password validPassword = new Password(editMemberRequest.getPassword());
+            Password validPassword = Password.of(encryptor, editMemberRequest.getPassword());
             member.updatePassword(validPassword);
         }
 
-        if(!multipartFile.isEmpty()) {
-            String profileImageUrl = amazonS3Service.upload(editMemberRequest.getNickname(), multipartFile);
-            member.updateProfileImageUrl(profileImageUrl);
-        }
+        multipartFile.ifPresent(file -> {
+            if (!file.isEmpty()) {
+                String profileImageUrl = amazonS3Service.upload(editMemberRequest.getNickname(), file);
+                member.updateProfileImageUrl(profileImageUrl);
+            }
+        });
     }
 
     private void validateUniqueNickname(Nickname validNickname) {
