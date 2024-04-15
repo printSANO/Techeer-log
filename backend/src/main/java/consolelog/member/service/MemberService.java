@@ -9,10 +9,7 @@ import consolelog.member.dto.EditNicknameRequest;
 import consolelog.member.dto.ProfileResponse;
 import consolelog.member.dto.SignupRequest;
 import consolelog.member.dto.UniqueResponse;
-import consolelog.member.exception.DuplicateNicknameException;
-import consolelog.member.exception.InvalidSignupFlowException;
-import consolelog.member.exception.MemberNotFoundException;
-import consolelog.member.exception.PasswordConfirmationException;
+import consolelog.member.exception.*;
 import consolelog.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +63,7 @@ public class MemberService extends BaseEntity {
         boolean isDuplicatedLoginId = memberRepository
                 .existsMemberByLoginIdValue(signupRequest.getLoginId());
         if (isDuplicatedLoginId) {
-            throw new InvalidSignupFlowException();
+            throw new InvalidLoginIdException();
         }
     }
 
@@ -75,7 +72,7 @@ public class MemberService extends BaseEntity {
         boolean isDuplicatedNickname = memberRepository
                 .existsMemberByNicknameValue(signupRequest.getNickname());
         if (isDuplicatedNickname) {
-            throw new InvalidSignupFlowException();
+            throw new DuplicateNicknameException();
         }
     }
 

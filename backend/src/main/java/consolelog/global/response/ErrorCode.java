@@ -21,12 +21,13 @@ public enum ErrorCode {
 
     // Member
     DUPLICATE_NICKNAME_ERROR("M001", 400, "이미 존재하는 닉네임입니다."),
-    INVALID_NICKNAME_ERROR("M002", 400,"잘못된 닉네임 형식입니다."),
-    INVALID_LOGIN_ID_ERROR("M003", 400, "잘못된 아이디 형식입니다."),
-    INVALID_PASSWORD_FORM_ERROR("M004", 400, "올바른 비밀번호 형식이 아닙니다."),
-    INVALID_SIGNUP_FLOW_ERROR("M005", 400, "비정상적인 회원가입 절차입니다."),
-    MEMBER_NOT_FOUND_ERROR("M006", 400, "멤버가 존재하지 않습니다."),
-    PASSWORD_CONFIRMATION_ERROR("M007", 400, "비밀번호와 비밀번호 확인이 일치하지 않습니다."),
+    DUPLICATE_LOGINID_ERROR("M002", 400, "이미 존재하는 아이디입니다."),
+    INVALID_NICKNAME_ERROR("M003", 400,"잘못된 닉네임 형식입니다."),
+    INVALID_LOGIN_ID_ERROR("M004", 400, "잘못된 아이디 형식입니다."),
+    INVALID_PASSWORD_FORM_ERROR("M005", 400, "올바른 비밀번호 형식이 아닙니다."),
+    INVALID_SIGNUP_FLOW_ERROR("M006", 400, "중복된 아이디입니다."),
+    MEMBER_NOT_FOUND_ERROR("M007", 400, "멤버가 존재하지 않습니다."),
+    PASSWORD_CONFIRMATION_ERROR("M008", 400, "비밀번호와 비밀번호 확인이 일치하지 않습니다."),
 
     // Post
     INVALID_CONTENT_ERROR("P001", 400, "내용은 1글자 이상 1000글자 이하 입니다."),
