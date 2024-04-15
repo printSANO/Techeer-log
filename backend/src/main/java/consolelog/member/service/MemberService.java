@@ -94,6 +94,11 @@ public class MemberService extends BaseEntity {
             Password validPassword = new Password(editMemberRequest.getPassword());
             member.updatePassword(validPassword);
         }
+
+        if(!multipartFile.isEmpty()) {
+            String profileImageUrl = amazonS3Service.upload(editMemberRequest.getNickname(), multipartFile);
+            member.updateProfileImageUrl(profileImageUrl);
+        }
     }
 
     private void validateUniqueNickname(Nickname validNickname) {
