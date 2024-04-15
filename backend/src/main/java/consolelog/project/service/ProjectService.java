@@ -81,53 +81,6 @@ public class ProjectService {
 
         return projectResponse;
     }
-
-    private List<FrameworkResponse> getFrameworkResponseList(List<ProjectFramework> projectFrameworkList) {
-        List<FrameworkResponse> frameworkResponseList = new ArrayList<>();
-
-        for (ProjectFramework projectFramework : projectFrameworkList) {
-            FrameworkResponse frameworkResponse = frameworkMapper.frameworkToFrameworkResponse(projectFramework.getFramework());
-
-            frameworkResponseList.add(frameworkResponse);
-        }
-        return frameworkResponseList;
-    }
-
-    private List<ProjectMemberResponse> getProjectMemberResponseList(List<ProjectMember> projectMemberList) {
-        List<ProjectMemberResponse> projectMemberResponseList = new ArrayList<>();
-
-        for (ProjectMember projectMember : projectMemberList) {
-            ProjectMemberResponse projectMemberResponse = new ProjectMemberResponse();
-
-            projectMemberResponse.setProjectMemberTypeEnum(projectMember.getProjectMemberType());
-            projectMemberResponse.setMemberResponse(memberMapper.memberToMemberResponse(projectMember.getMember()));
-
-            projectMemberResponseList.add(projectMemberResponse);
-        }
-        return projectMemberResponseList;
-    }
-
-
-    private Project findProjectById(Long projectId) {
-        return projectRepository.findById(projectId)
-                .orElseThrow(ProjectNotFoundException::new);
-    }
-
-    public String updateProjectLog(Long projectId, String cookieValue) {
-        return viewCountManager.getUpdatedLog(cookieValue, projectId);
-    }
-
-//    public PagePostResponse findProjectByPage(Long lastProjectId, Pageable pageable) {
-//        Slice<Project> posts;
-//        if (lastProjectId == 0) {
-//            posts = projectRepository.findNextPage(pageable);
-//        } else {
-//            posts = projectRepository.findProjectByIdIsLessThanOrderByIdDesc(lastProjectId, pageable);
-//        }
-//        return PagePostResponse.of(posts);
-//
-//    }
-
     @Transactional
     public Long addProject(ProjectRequest projectRequest, AuthInfo authInfo) {
         validateMemberList(projectRequest);
@@ -142,6 +95,35 @@ public class ProjectService {
         saveProjectFrameworkList(savedProject, projectRequest.getFrameworkRequestList());
 
         return savedProject.orElseThrow(ProjectNotFoundException::new).getId();
+    }
+    @Transactional
+    public ProjectResponse updateProject(Long id, ProjectRequest projectRequest, AuthInfo authInfo) {
+        Project project = findProjectById(id);
+        validateOwner(authInfo, project);
+
+        projectMapper.updateProjectFromRequest(projectRequest, project);
+        projectRepository.save(project);
+
+        return projectMapper.projectToProjectResponse(project);
+    }
+    @Transactional
+    public void deleteProject(Long id, AuthInfo authInfo) {
+        Project project = findProjectById(id);
+        validateOwner(authInfo, project);
+        commentRepository.deleteAllByProject(project);
+        likeRepository.deleteAllByProject(project);
+        projectRepository.delete(project);
+    }
+
+    public PagePostResponse findProjectByPage(Long lastProjectId, Pageable pageable) {
+        Slice<Project> posts;
+        if (lastProjectId == 0) {
+            posts = projectRepository.findNextPage(pageable);
+        } else {
+            posts = projectRepository.findProjectByIdIsLessThanOrderByIdDesc(lastProjectId, pageable);
+        }
+        return PagePostResponse.of(posts);
+
     }
 
     private void saveProjectFrameworkList(Optional<Project> savedProject, List<FrameworkRequest> frameworkRequestList) {
@@ -197,24 +179,39 @@ public class ProjectService {
         }
     }
 
-    @Transactional
-    public ProjectResponse updateProject(Long id, ProjectRequest projectRequest, AuthInfo authInfo) {
-        Project project = findProjectById(id);
-        validateOwner(authInfo, project);
+    private List<FrameworkResponse> getFrameworkResponseList(List<ProjectFramework> projectFrameworkList) {
+        List<FrameworkResponse> frameworkResponseList = new ArrayList<>();
 
-        projectMapper.updateProjectFromRequest(projectRequest, project);
-        projectRepository.save(project);
+        for (ProjectFramework projectFramework : projectFrameworkList) {
+            FrameworkResponse frameworkResponse = frameworkMapper.frameworkToFrameworkResponse(projectFramework.getFramework());
 
-        return projectMapper.projectToProjectResponse(project);
+            frameworkResponseList.add(frameworkResponse);
+        }
+        return frameworkResponseList;
     }
 
-    @Transactional
-    public void deleteProject(Long id, AuthInfo authInfo) {
-        Project project = findProjectById(id);
-        validateOwner(authInfo, project);
-        commentRepository.deleteAllByProject(project);
-        likeRepository.deleteAllByProject(project);
-        projectRepository.delete(project);
+    private List<ProjectMemberResponse> getProjectMemberResponseList(List<ProjectMember> projectMemberList) {
+        List<ProjectMemberResponse> projectMemberResponseList = new ArrayList<>();
+
+        for (ProjectMember projectMember : projectMemberList) {
+            ProjectMemberResponse projectMemberResponse = new ProjectMemberResponse();
+
+            projectMemberResponse.setProjectMemberTypeEnum(projectMember.getProjectMemberType());
+            projectMemberResponse.setMemberResponse(memberMapper.memberToMemberResponse(projectMember.getMember()));
+
+            projectMemberResponseList.add(projectMemberResponse);
+        }
+        return projectMemberResponseList;
+    }
+
+
+    private Project findProjectById(Long projectId) {
+        return projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
+    }
+
+    public String updateProjectLog(Long projectId, String cookieValue) {
+        return viewCountManager.getUpdatedLog(cookieValue, projectId);
     }
 
     private void validateOwner(AuthInfo authInfo, Project project) {
