@@ -71,7 +71,6 @@ CREATE TABLE project
     blog_link      VARCHAR(255)          NULL,
     website_link   VARCHAR(255)          NULL,
     view_count     INT                   NOT NULL,
-    like_count     INT                   NOT NULL,
     member_id      BIGINT                NOT NULL,
     CONSTRAINT pk_project PRIMARY KEY (project_id)
 );

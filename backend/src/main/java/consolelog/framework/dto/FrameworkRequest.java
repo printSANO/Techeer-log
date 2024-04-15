@@ -12,5 +12,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FrameworkRequest {
     private String name;
-    private FrameworkTypeEnum frameworkType;
+    private FrameworkTypeEnum frameworkTypeEnum;
 }
