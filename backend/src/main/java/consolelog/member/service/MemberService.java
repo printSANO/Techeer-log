@@ -84,20 +84,15 @@ public class MemberService extends BaseEntity {
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        if (editMemberRequest.getNickname().equals(member.getNickname()) && !editMemberRequest.getNickname().isEmpty()) {
+        if (!editMemberRequest.getNickname().equals(member.getNickname()) && !editMemberRequest.getNickname().isEmpty()) {
             Nickname validNickname = new Nickname(editMemberRequest.getNickname());
             validateUniqueNickname(validNickname);
             member.updateNickname(validNickname);
         }
 
-        if (editMemberRequest.getPassword().equals(member.getPassword()) && !editMemberRequest.getPassword().isEmpty()) {
+        if (!editMemberRequest.getPassword().equals(member.getPassword()) && !editMemberRequest.getPassword().isEmpty()) {
             Password validPassword = new Password(editMemberRequest.getPassword());
             member.updatePassword(validPassword);
-        }
-
-        if (editMemberRequest.getProfileImageUrl().equals(member.getProfileImageUrl()) && !editMemberRequest.getProfileImageUrl().isEmpty()) {
-            String profileImageUrl = amazonS3Service.upload(editMemberRequest.getNickname(), multipartFile);
-            member.updateProfileImageUrl(profileImageUrl);
         }
     }
 
