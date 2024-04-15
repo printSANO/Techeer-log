@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 
 @Getter
@@ -25,6 +26,7 @@ public class ProjectRequest {
     private LocalDate endDate;
     private PlatformEnum platform;
     private ProjectTypeEnum projectType;
+    private int year;
     private SemesterEnum semester;
     private ProjectStatusEnum projectStatus;
     private String githubLink;

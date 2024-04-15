@@ -3,6 +3,7 @@ package consolelog.member.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.response.ResultResponse;
 import consolelog.member.domain.Member;
+import consolelog.member.dto.MemberMapper;
 import consolelog.member.dto.MemberResponse;
 import consolelog.member.dto.ProfileResponse;
 import consolelog.member.dto.SignupRequest;
@@ -23,9 +24,11 @@ import static consolelog.global.response.ResultCode.SIGNUP_SUCCESS;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberMapper memberMapper;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, MemberMapper memberMapper) {
         this.memberService = memberService;
+        this.memberMapper = memberMapper;
     }
 
     @Operation(summary = "회원가입", description = "회원가입 기능")
@@ -33,7 +36,7 @@ public class MemberController {
     public ResponseEntity<ResultResponse<MemberResponse>> signUp(@RequestPart("data") SignupRequest signupRequest,
                                                                 @RequestPart("file") MultipartFile multipartFile) {
         Member member = memberService.signUp(signupRequest, multipartFile);
-        ResultResponse<MemberResponse> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, new MemberResponse(member));
+        ResultResponse<MemberResponse> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, memberMapper.memberToMemberResponse(member));
 
         return ResponseEntity.status(SIGNUP_SUCCESS.getStatus()).body(resultResponse);
     }

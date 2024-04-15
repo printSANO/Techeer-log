@@ -1,6 +1,7 @@
 package consolelog.project.domain;
 
 import consolelog.comment.domain.Comment;
+import consolelog.framework.domain.Framework;
 import consolelog.love.domain.Love;
 import consolelog.member.domain.Member;
 import consolelog.global.config.BaseEntity;
@@ -11,8 +12,10 @@ import consolelog.project.enums.SemesterEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +53,8 @@ public class Project extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProjectTypeEnum projectType;
 
+    private int year;
+
     @Enumerated(EnumType.STRING)
     private SemesterEnum semester;
 
@@ -70,6 +75,12 @@ public class Project extends BaseEntity {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Love> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<ProjectMember> projectMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<ProjectFramework> projectFrameworkList = new ArrayList<>();
 
     public int getCommentCount() {
         if (comments == null)

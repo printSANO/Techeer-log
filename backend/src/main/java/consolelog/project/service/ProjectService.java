@@ -4,12 +4,15 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
 import consolelog.comment.repository.CommentRepository;
 import consolelog.framework.domain.Framework;
+import consolelog.framework.dto.FrameworkMapper;
 import consolelog.framework.dto.FrameworkRequest;
+import consolelog.framework.dto.FrameworkResponse;
 import consolelog.framework.exception.FrameworkNotFoundException;
 import consolelog.framework.repository.FrameworkRepository;
 import consolelog.global.support.UtilMethod;
 import consolelog.love.repository.LikeRepository;
 import consolelog.member.domain.Member;
+import consolelog.member.dto.MemberMapper;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
 import consolelog.project.domain.Project;
@@ -38,6 +41,8 @@ public class ProjectService {
     private final ViewCountManager viewCountManager;
     private final UtilMethod utilMethod;
     private final ProjectMapper projectMapper;
+    private final MemberMapper memberMapper;
+    private final FrameworkMapper frameworkMapper;
     private final ProjectMemberRepository projectMemberRepository;
     private final MemberRepository memberRepository;
     private final FrameworkRepository frameworkRepository;
@@ -47,7 +52,7 @@ public class ProjectService {
                           CommentRepository commentRepository,
                           LikeRepository likeRepository,
                           ViewCountManager viewCountManager,
-                          UtilMethod utilMethod, ProjectMapper projectMapper, ProjectMemberRepository projectMemberRepository,
+                          UtilMethod utilMethod, ProjectMapper projectMapper, MemberMapper memberMapper, FrameworkMapper frameworkMapper, ProjectMemberRepository projectMemberRepository,
                           MemberRepository memberRepository, FrameworkRepository frameworkRepository, ProjectFrameworkRepository projectFrameworkRepository) { // 생성자 주입
         this.projectRepository = projectRepository;  // 생성자를 통해 PostRepository를 주입받음
         this.likeRepository = likeRepository;
@@ -55,6 +60,8 @@ public class ProjectService {
         this.commentRepository = commentRepository;
         this.utilMethod = utilMethod;
         this.projectMapper = projectMapper;
+        this.memberMapper = memberMapper;
+        this.frameworkMapper = frameworkMapper;
         this.projectMemberRepository = projectMemberRepository;
         this.memberRepository = memberRepository;
         this.frameworkRepository = frameworkRepository;
@@ -68,7 +75,36 @@ public class ProjectService {
         }
         Project findProject = findProjectById(projectId);
 
-        return projectMapper.projectToProjectResponse(findProject);
+        ProjectResponse projectResponse = projectMapper.projectToProjectResponse(findProject);
+        projectResponse.setProjectMemberResponseList(getProjectMemberResponseList(findProject.getProjectMemberList()));
+        projectResponse.setFrameworkResponseList(getFrameworkResponseList(findProject.getProjectFrameworkList()));
+
+        return projectResponse;
+    }
+
+    private List<FrameworkResponse> getFrameworkResponseList(List<ProjectFramework> projectFrameworkList) {
+        List<FrameworkResponse> frameworkResponseList = new ArrayList<>();
+
+        for (ProjectFramework projectFramework : projectFrameworkList) {
+            FrameworkResponse frameworkResponse = frameworkMapper.frameworkToFrameworkResponse(projectFramework.getFramework());
+
+            frameworkResponseList.add(frameworkResponse);
+        }
+        return frameworkResponseList;
+    }
+
+    private List<ProjectMemberResponse> getProjectMemberResponseList(List<ProjectMember> projectMemberList) {
+        List<ProjectMemberResponse> projectMemberResponseList = new ArrayList<>();
+
+        for (ProjectMember projectMember : projectMemberList) {
+            ProjectMemberResponse projectMemberResponse = new ProjectMemberResponse();
+
+            projectMemberResponse.setProjectMemberTypeEnum(projectMember.getProjectMemberType());
+            projectMemberResponse.setMemberResponse(memberMapper.memberToMemberResponse(projectMember.getMember()));
+
+            projectMemberResponseList.add(projectMemberResponse);
+        }
+        return projectMemberResponseList;
     }
 
 
@@ -135,11 +171,11 @@ public class ProjectService {
     }
 
     private void saveProjectMemberList(Optional<Project> savedProject, List<ProjectMemberRequest> projectMemberRequestList) {
-        List<ProjectMember> projectMemberList = getProjectMemberList(savedProject, projectMemberRequestList);
+        List<ProjectMember> projectMemberList = getProjectMemberListByRequest(savedProject, projectMemberRequestList);
         projectMemberRepository.saveAll(projectMemberList);
     }
 
-    private List<ProjectMember> getProjectMemberList(Optional<Project> savedProject, List<ProjectMemberRequest> projectMemberRequestList) {
+    private List<ProjectMember> getProjectMemberListByRequest(Optional<Project> savedProject, List<ProjectMemberRequest> projectMemberRequestList) {
         List<ProjectMember> projectMemberList = new ArrayList<>();
 
         for (ProjectMemberRequest projectMemberRequest : projectMemberRequestList) {

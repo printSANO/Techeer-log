@@ -1,7 +1,7 @@
 package consolelog.project.dto;
 
+import consolelog.member.dto.MemberResponse;
 import consolelog.project.enums.ProjectMemberTypeEnum;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectMemberRequest {
-    private Long memberId;
+public class ProjectMemberResponse {
+    private MemberResponse memberResponse;
     private ProjectMemberTypeEnum projectMemberTypeEnum;
 }
