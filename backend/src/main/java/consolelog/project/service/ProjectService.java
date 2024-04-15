@@ -24,6 +24,10 @@ import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectFrameworkRepository;
 import consolelog.project.repository.ProjectMemberRepository;
 import consolelog.project.repository.ProjectRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,7 +73,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectResponse findProject(Long projectId, String cookieValue) {
+    public ProjectResponse findProjectResponse(Long projectId, String cookieValue) {
         if (viewCountManager.isFirstAccess(cookieValue, projectId)) {
             projectRepository.updateViewCount(projectId);
         }
@@ -115,17 +119,17 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-    public PagePostResponse findProjectByPage(Long lastProjectId, Pageable pageable) {
-        Slice<Project> posts;
-        if (lastProjectId == 0) {
-            posts = projectRepository.findNextPage(pageable);
-        } else {
-            posts = projectRepository.findProjectByIdIsLessThanOrderByIdDesc(lastProjectId, pageable);
-        }
-        return PagePostResponse.of(posts);
-
-    }
-
+//    public List<ProjectResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
+//        int pageStart = projectListRequest.getPageStart();
+//        int pageSize = projectListRequest.getPageSize();
+//        Sort.Direction sortDirection = projectListRequest.getSearchCondition().getSortDirection();
+//        String keyword = projectListRequest.getSearchCondition().getKeyword();
+//
+//        Pageable pageable = PageRequest.of(pageSize, pageSize, Sort.by(sortDirection, keyword));
+//
+//        Slice<Project> projectSlice = projectRepository.findSlice(pageable);
+//
+//    }
     private void saveProjectFrameworkList(Optional<Project> savedProject, List<FrameworkRequest> frameworkRequestList) {
         List<ProjectFramework> projectFrameworkList = new ArrayList<>();
 
