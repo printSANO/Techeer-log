@@ -64,6 +64,7 @@ CREATE TABLE project
     end_date       date                  NULL,
     platform       VARCHAR(255)          NULL,
     project_type   VARCHAR(255)          NULL,
+    year           INT                   NOT NULL,
     semester       VARCHAR(255)          NULL,
     project_status VARCHAR(255)          NULL,
     github_link    VARCHAR(255)          NULL,
