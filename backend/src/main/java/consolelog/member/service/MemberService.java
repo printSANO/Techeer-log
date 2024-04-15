@@ -5,10 +5,7 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.global.config.BaseEntity;
 import consolelog.image.service.AmazonS3Service;
 import consolelog.member.domain.*;
-import consolelog.member.dto.EditNicknameRequest;
-import consolelog.member.dto.ProfileResponse;
-import consolelog.member.dto.SignupRequest;
-import consolelog.member.dto.UniqueResponse;
+import consolelog.member.dto.*;
 import consolelog.member.exception.*;
 import consolelog.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -83,13 +80,25 @@ public class MemberService extends BaseEntity {
     }
 
     @Transactional
-    public void editNickname(EditNicknameRequest editNicknameRequest, AuthInfo authInfo) {
+    public void edit(EditMemberRequest editMemberRequest, AuthInfo authInfo, MultipartFile multipartFile) {
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        Nickname validNickname = new Nickname(editNicknameRequest.getNickname());
-        validateUniqueNickname(validNickname);
-        member.updateNickname(validNickname);
+        if (editMemberRequest.getNickname().equals(member.getNickname()) && !editMemberRequest.getNickname().isEmpty()) {
+            Nickname validNickname = new Nickname(editMemberRequest.getNickname());
+            validateUniqueNickname(validNickname);
+            member.updateNickname(validNickname);
+        }
+
+        if (editMemberRequest.getPassword().equals(member.getPassword()) && !editMemberRequest.getPassword().isEmpty()) {
+            Password validPassword = new Password(editMemberRequest.getPassword());
+            member.updatePassword(validPassword);
+        }
+
+        if (editMemberRequest.getProfileImageUrl().equals(member.getProfileImageUrl()) && !editMemberRequest.getProfileImageUrl().isEmpty()) {
+            String profileImageUrl = amazonS3Service.upload(editMemberRequest.getNickname(), multipartFile);
+            member.updateProfileImageUrl(profileImageUrl);
+        }
     }
 
     private void validateUniqueNickname(Nickname validNickname) {
@@ -103,4 +112,5 @@ public class MemberService extends BaseEntity {
                 .orElseThrow(MemberNotFoundException::new);
         return ProfileResponse.of(member);
     }
+
 }

@@ -2,18 +2,19 @@ package consolelog.member.controller;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.response.ResultResponse;
+import consolelog.global.support.token.Login;
+import consolelog.global.support.token.TokenManager;
 import consolelog.member.domain.Member;
+import consolelog.member.dto.EditMemberRequest;
 import consolelog.member.dto.MemberResponse;
 import consolelog.member.dto.ProfileResponse;
 import consolelog.member.dto.SignupRequest;
 import consolelog.member.service.MemberService;
-import consolelog.global.support.token.Login;
 import io.swagger.v3.oas.annotations.Operation;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import static consolelog.global.response.ResultCode.FIND_PROFILE_SUCCESS;
 import static consolelog.global.response.ResultCode.SIGNUP_SUCCESS;
@@ -23,9 +24,11 @@ import static consolelog.global.response.ResultCode.SIGNUP_SUCCESS;
 public class MemberController {
 
     private final MemberService memberService;
+    private final TokenManager tokenManager;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, TokenManager tokenManager) {
         this.memberService = memberService;
+        this.tokenManager = tokenManager;
     }
 
     @Operation(summary = "회원가입", description = "회원가입 기능")
@@ -62,14 +65,16 @@ public class MemberController {
     // 수정 필요
     // 닉네임 수정 구현해 볼 것
 
-//    @PatchMapping("/nickname")
-//    public ResponseEntity<Void> editNickname(@ResponseBody EditNicknameRequest editNicknameRequest, @Login AuthInfo authInfo) {
-//        memberService.editNickname(editNicknameRequest, authInfo);
-//        return ResponseEntity.noContent()
-//                .header(HttpHeaders.AUTHORIZATION,
-//                        "Bearer" + tokenManager.createNewTokenWithNewNickName(
-//                                nicknameUpdateRequest.getNickname(), authInfo)
-//                )
-//                .build();
-//    }
+    @PatchMapping(consumes = "multipart/form-data")
+    public ResponseEntity<Void> editMember(@RequestPart(value = "data", required = false) EditMemberRequest editMemberRequest,
+                                           @RequestPart(value = "part", required = false) MultipartFile multipartFile,
+                                           @Login AuthInfo authInfo) {
+        memberService.edit(editMemberRequest, authInfo, multipartFile);
+        return ResponseEntity.noContent()
+                .header(HttpHeaders.AUTHORIZATION,
+                        "Bearer " + tokenManager.createNewTokenWithNewNickname(
+                                editMemberRequest.getNickname(), authInfo)
+                )
+                .build();
+    }
 }

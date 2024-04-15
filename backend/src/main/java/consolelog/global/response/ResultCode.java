@@ -15,6 +15,7 @@ public enum ResultCode {
     // Member
     SIGNUP_SUCCESS("M001", 201, "회원가입 성공"),
     FIND_PROFILE_SUCCESS("MOO2", 200, "프로필 조회 성공"),
+    CHANGE_NICKNAME_SUCCESS("M003", 201, "닉네임 변경 성공"),
 
     // Post
     FIND_POST_SUCCESS("P001", 200, "로그인 상태 게시글 조회 성공"),
