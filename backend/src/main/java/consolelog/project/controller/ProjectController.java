@@ -80,9 +80,9 @@ public class ProjectController {
         return ResponseEntity.status(DELETE_SUCCESS.getStatus()).body(resultResponse);
     }
 
-    @Operation(summary = "게시글 리스트 조회", description = "프로젝트 리스트 조회")
-    @GetMapping(path = "/posts/list")
-    public ResponseEntity<ResultResponse<List<ProjectResponse>>> findProjectList(ProjectListRequest projectListRequest) {
+    @Operation(summary = "프로젝트 리스트 조회", description = "프로젝트 리스트 조회")
+    @GetMapping(path = "/projects/list")
+    public ResponseEntity<ResultResponse<List<ProjectResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest) {
         List<ProjectResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest);
 
         ResultResponse<List<ProjectResponse>> listResultResponse

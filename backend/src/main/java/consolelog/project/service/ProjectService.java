@@ -20,6 +20,7 @@ import consolelog.project.domain.ProjectFramework;
 import consolelog.project.domain.ProjectMember;
 import consolelog.project.domain.ViewCountManager;
 import consolelog.project.dto.*;
+import consolelog.project.enums.SearchFieldEnum;
 import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectFrameworkRepository;
 import consolelog.project.repository.ProjectMemberRepository;
@@ -34,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static consolelog.project.enums.SearchFieldEnum.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -119,18 +122,33 @@ public class ProjectService {
     }
 
     public List<ProjectResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
-        int pageStart = projectListRequest.getPageStart();
-        int pageSize = projectListRequest.getPageSize();
-        String searchField = projectListRequest.getSearchCondition().getSearchFieldEnum().toString();
-        Sort.Direction sortDirection = projectListRequest.getSearchCondition().getSortDirection();
-        String keyword = projectListRequest.getSearchCondition().getKeyword();
 
-        Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, keyword));
+        Slice<Project> projectSlice = getProjectSlice(projectListRequest);
 
-        Slice<Project> projectSlice = projectRepository.findAllByTitle(searchField, pageable);
 
         return projectMapper.projectListToProjectResponseList(projectSlice.toList());
     }
+
+    private Slice<Project> getProjectSlice(ProjectListRequest projectListRequest) {
+        Slice<Project> projectSlice = null;
+
+        int pageStart = projectListRequest.getPageStart();
+        int pageSize = projectListRequest.getPageSize();
+        SearchFieldEnum searchFieldEnum = projectListRequest.getSearchFieldEnum();
+        Sort.Direction sortDirection = projectListRequest.getSortDirection();
+        String keyword = projectListRequest.getKeyword();
+
+        Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, "createdAt"));
+
+        switch (searchFieldEnum) {
+            case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(keyword, pageable);
+            case CONTENT -> projectSlice = projectRepository.findAllByContentContaining(keyword, pageable);
+            case ALL -> projectSlice = projectRepository.findAllByTitleOrContentContaining(keyword, pageable);
+        }
+
+        return projectSlice;
+    }
+
     private void saveProjectFrameworkList(Optional<Project> savedProject, List<FrameworkRequest> frameworkRequestList) {
         List<ProjectFramework> projectFrameworkList = new ArrayList<>();
 
