@@ -2,8 +2,6 @@ CREATE DATABASE IF NOT EXISTS console_log;
 
 use console_log;
 
-drop table if exists comment, framework, love, member, project, project_framework, project_member, refresh_token, scrap;
-
 CREATE TABLE comment
 (
     comment_id   BIGINT AUTO_INCREMENT NOT NULL,
@@ -27,12 +25,12 @@ CREATE TABLE framework
 
 CREATE TABLE love
 (
-    love_id    BIGINT AUTO_INCREMENT NOT NULL,
+    like_id    BIGINT AUTO_INCREMENT NOT NULL,
     created_at datetime              NOT NULL,
     updated_at datetime              NULL,
     project_id BIGINT                NULL,
     member_id  BIGINT                NULL,
-    CONSTRAINT pk_love PRIMARY KEY (love_id)
+    CONSTRAINT pk_like PRIMARY KEY (like_id)
 );
 
 CREATE TABLE member
@@ -59,9 +57,6 @@ CREATE TABLE project
     content        LONGTEXT              NOT NULL,
     start_date     date                  NULL,
     end_date       date                  NULL,
-    project_type   VARCHAR(255)          NULL,
-    project_status VARCHAR(255)          NULL,
-    semester       VARCHAR(255)          NULL,
     github_link    VARCHAR(255)          NULL,
     blog_link      VARCHAR(255)          NULL,
     website_link   VARCHAR(255)          NULL,
@@ -93,8 +88,8 @@ CREATE TABLE project_member
 CREATE TABLE refresh_token
 (
     refresh_token_id BIGINT AUTO_INCREMENT NOT NULL,
-    token            VARCHAR(255)          NULL,
     member_id        BIGINT                NULL,
+    token            VARCHAR(255)          NULL,
     CONSTRAINT pk_refreshtoken PRIMARY KEY (refresh_token_id)
 );
 
@@ -111,9 +106,6 @@ CREATE TABLE scrap
 ALTER TABLE member
     ADD CONSTRAINT uc_member_nickname UNIQUE (nickname);
 
-ALTER TABLE refresh_token
-    ADD CONSTRAINT uc_refreshtoken_member UNIQUE (member_id);
-
 ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
 
@@ -123,11 +115,11 @@ ALTER TABLE comment
 ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
 
-ALTER TABLE love
-    ADD CONSTRAINT FK_LOVE_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
+ALTER TABLE `love`
+    ADD CONSTRAINT FK_LIKE_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
 
-ALTER TABLE love
-    ADD CONSTRAINT FK_LOVE_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
+ALTER TABLE `love`
+    ADD CONSTRAINT FK_LIKE_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
 
 ALTER TABLE project_framework
     ADD CONSTRAINT FK_PROJECTFRAMEWORK_ON_FRAMEWORK FOREIGN KEY (framework_id) REFERENCES framework (framework_id);
@@ -143,9 +135,6 @@ ALTER TABLE project_member
 
 ALTER TABLE project
     ADD CONSTRAINT FK_PROJECT_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
-
-ALTER TABLE refresh_token
-    ADD CONSTRAINT FK_REFRESHTOKEN_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
 
 ALTER TABLE scrap
     ADD CONSTRAINT FK_SCRAP_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);

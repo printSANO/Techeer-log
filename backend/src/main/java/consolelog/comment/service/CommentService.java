@@ -9,13 +9,12 @@ import consolelog.comment.dto.*;
 import consolelog.comment.exception.CommentNotFoundException;
 import consolelog.comment.exception.ReplyDepthException;
 import consolelog.comment.repository.CommentRepository;
-import consolelog.like.repository.CommentLikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
-import consolelog.post.domain.Post;
-import consolelog.post.exception.PostNotFoundException;
-import consolelog.post.repository.PostRepository;
+import consolelog.project.domain.Project;
+import consolelog.project.exception.ProjectNotFoundException;
+import consolelog.project.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +27,7 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
-    private final PostRepository postRepository;
-    private final CommentLikeRepository commentLikeRepository;
+    private final ProjectRepository projectRepository;
     // 수정 필요
     // 안 쓰는 변수 삭제
     private final AuthService authService;
@@ -37,24 +35,23 @@ public class CommentService {
 
 
     public CommentService(CommentRepository commentRepository, MemberRepository memberRepository,
-                          PostRepository postRepository, CommentLikeRepository commentLikeRepository,
+                          ProjectRepository projectRepository,
                           AuthService authService, CommentNicknameGenerator commentNicknameGenerator) {
         this.commentRepository = commentRepository;
         this.memberRepository = memberRepository;
-        this.postRepository = postRepository;
-        this.commentLikeRepository = commentLikeRepository;
+        this.projectRepository = projectRepository;
         this.authService = authService;
         this.commentNicknameGenerator = commentNicknameGenerator;
     }
 
     @Transactional
     public Long addComment(Long postId, NewCommentRequest newCommentRequest, AuthInfo authInfo) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
+        Project project = projectRepository.findById(postId)
+                .orElseThrow(ProjectNotFoundException::new);
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        Comment comment = Comment.parent(member, post, newCommentRequest.getContent(), null);
+        Comment comment = Comment.parent(member, project, newCommentRequest.getContent(), null);
 
         commentRepository.save(comment);
 
@@ -73,11 +70,11 @@ public class CommentService {
         if (!parent.isParent()) {
             throw new ReplyDepthException();
         }
-        Post post = parent.getPost();
+        Project project = parent.getProject();
 
 //        String nickname = commentNicknameGenerator.getcommentNickname(newReplyRequest.isAnonymous(), authInfo, post);
 
-        Comment reply = Comment.child(member, post, newReplyRequest.getContent(), parent);
+        Comment reply = Comment.child(member, project, newReplyRequest.getContent(), parent);
         parent.getChildren().add(reply);
 
         commentRepository.save(reply);
@@ -87,10 +84,10 @@ public class CommentService {
 
     //댓글들 조회하고 응답 생성
     public CommentsResponse findComments(Long postId, AuthInfo authInfo) {
-        if (!postRepository.existsById(postId)) {
-            throw new PostNotFoundException();
+        if (!projectRepository.existsById(postId)) {
+            throw new ProjectNotFoundException();
         }
-        List<Comment> comments = commentRepository.findCommentsByPostId(postId);
+        List<Comment> comments = commentRepository.findCommentsByProjectId(postId);
         List<CommentResponse> commentResponses = comments.stream()
                 .map(it -> convertToCommentResponse(authInfo, it))
                 .collect(Collectors.toList());
@@ -106,16 +103,14 @@ public class CommentService {
         if (comment.isSoftRemoved()) {
             return CommentResponse.softRemovedOf(comment, convertToReplyResponses(comment, id));
         }
-        boolean liked = commentLikeRepository.existsByMemberIdAndComment(id, comment);
-        return CommentResponse.of(comment, id, convertToReplyResponses(comment, id), liked);
+        return CommentResponse.of(comment, id, convertToReplyResponses(comment, id), true);
     }
 
     private List<ReplyResponse> convertToReplyResponses(Comment parent, Long accessMemberId) {
         final List<Comment> replies = commentRepository.findRepliesByParent(parent);
         List<ReplyResponse> replyResponses = new ArrayList<>();
         for (Comment reply : replies) {
-            boolean liked = commentLikeRepository.existsByMemberIdAndComment(accessMemberId, reply);
-            replyResponses.add(ReplyResponse.of(reply, liked));
+            replyResponses.add(ReplyResponse.of(reply, true));
         }
         return replyResponses;
     }
@@ -126,7 +121,6 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
         comment.validateOwner(authInfo.getId());
-        commentLikeRepository.deleteAllByCommentId(commentId);
 
         deleteCommentOrReply(comment);
     }

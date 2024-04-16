@@ -2,9 +2,8 @@ package consolelog.comment.domain;
 
 
 import consolelog.auth.exception.AuthorizationException;
-import consolelog.like.domain.CommentLike;
 import consolelog.member.domain.Member;
-import consolelog.post.domain.Post;
+import consolelog.project.domain.Project;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,11 +39,8 @@ public class Comment {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<CommentLike> commentLikes = new ArrayList<>();
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @Embedded
     private Message message;
@@ -60,28 +56,28 @@ public class Comment {
     }
 
     @Builder
-    public Comment(Member member, Post post, String message, Comment parent) {
+    public Comment(Member member, Project project, String message, Comment parent) {
         this.member = member;
-        this.post = post;
+        this.project = project;
         this.message = new Message(message);
         this.parent = parent;
     }
 
-    public static Comment parent(Member member, Post post, String message, Comment parent) {
+    public static Comment parent(Member member, Project project, String message, Comment parent) {
         return Comment.builder()
                 .member(member)
-                .post(post)
+                .project(project)
                 .message(message)
                 .parent(parent)
                 .build();
     }
 
-    public static Comment child(Member member, Post post, String message, Comment parent) {
+    public static Comment child(Member member, Project project, String message, Comment parent) {
         // 수정 필요
         // 즉시 값을 반환하는 방식으로 변경
         Comment child = Comment.builder()
                 .member(member)
-                .post(post)
+                .project(project)
                 .message(message)
                 .parent(parent)
                 .build();
@@ -125,8 +121,8 @@ public class Comment {
     }
 
 
-    public Post getPost() {
-        return post;
+    public Project getProject() {
+        return project;
     }
 
     public String getNickname() {
@@ -163,15 +159,6 @@ public class Comment {
 
     public boolean hasNoReply() {
         return children.isEmpty();
-    }
-
-    public void addCommentLike(CommentLike commentLike) {
-        commentLikes.add(commentLike);
-    }
-
-    public void deleteLike(CommentLike commentLike) {
-        commentLikes.remove(commentLike);
-        commentLike.delete();
     }
 
     public void updateContent(String content) {
