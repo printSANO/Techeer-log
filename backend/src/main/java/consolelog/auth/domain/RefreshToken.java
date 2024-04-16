@@ -1,6 +1,6 @@
 package consolelog.auth.domain;
 
-import consolelog.global.support.token.InvalidRefreshTokenException;
+import consolelog.global.exception.InvalidRefreshTokenException;
 import consolelog.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
