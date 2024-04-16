@@ -6,6 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper
 public interface ProjectMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -15,4 +18,6 @@ public interface ProjectMapper {
 
     Project projectResponseToProject(ProjectResponse projectResponse);
     ProjectResponse projectToProjectResponse(Project project);
+
+    List<ProjectResponse> projectListToProjectResponseList(List<Project> projects);
 }

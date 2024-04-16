@@ -19,5 +19,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query(value = "UPDATE project SET view_count = view_count + 1 WHERE project_id = :projectId", nativeQuery = true)
     void updateViewCount(@Param("projectId") Long projectId);
 
-    // Slice<Project> findSlice(Pageable pageable);
+     Slice<Project> findAllByTitle(String title, Pageable pageable);
 }

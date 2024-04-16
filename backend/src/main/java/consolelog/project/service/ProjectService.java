@@ -24,6 +24,10 @@ import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectFrameworkRepository;
 import consolelog.project.repository.ProjectMemberRepository;
 import consolelog.project.repository.ProjectRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,17 +118,19 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-//    public List<ProjectResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
-//        int pageStart = projectListRequest.getPageStart();
-//        int pageSize = projectListRequest.getPageSize();
-//        Sort.Direction sortDirection = projectListRequest.getSearchCondition().getSortDirection();
-//        String keyword = projectListRequest.getSearchCondition().getKeyword();
-//
-//        Pageable pageable = PageRequest.of(pageSize, pageSize, Sort.by(sortDirection, keyword));
-//
-//        Slice<Project> projectSlice = projectRepository.findSlice(pageable);
-//
-//    }
+    public List<ProjectResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
+        int pageStart = projectListRequest.getPageStart();
+        int pageSize = projectListRequest.getPageSize();
+        String searchField = projectListRequest.getSearchCondition().getSearchFieldEnum().toString();
+        Sort.Direction sortDirection = projectListRequest.getSearchCondition().getSortDirection();
+        String keyword = projectListRequest.getSearchCondition().getKeyword();
+
+        Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, keyword));
+
+        Slice<Project> projectSlice = projectRepository.findAllByTitle(searchField, pageable);
+
+        return projectMapper.projectListToProjectResponseList(projectSlice.toList());
+    }
     private void saveProjectFrameworkList(Optional<Project> savedProject, List<FrameworkRequest> frameworkRequestList) {
         List<ProjectFramework> projectFrameworkList = new ArrayList<>();
 
@@ -138,7 +144,7 @@ public class ProjectService {
             if (framework.isEmpty()) {
                 Framework newFramework = new Framework();
                 newFramework.setName(frameworkRequest.getName().toLowerCase());
-                newFramework.setFrameworkType(frameworkRequest.getFrameworkType());
+                newFramework.setFrameworkType(frameworkRequest.getFrameworkTypeEnum());
 
                 framework = Optional.of(frameworkRepository.save(newFramework));
             }

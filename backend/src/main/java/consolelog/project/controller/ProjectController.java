@@ -80,12 +80,14 @@ public class ProjectController {
         return ResponseEntity.status(DELETE_SUCCESS.getStatus()).body(resultResponse);
     }
 
-//    @Operation(summary = "게시글 리스트 조회", description = "프로젝트 리스트 조회")
-//    @GetMapping(path = "/posts/list")
-//    public ResponseEntity<ResultResponse<PagePostResponse>> findProjectList(ProjectListRequest projectListRequest) {
-//        List<ProjectResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest);
-//
-//
-//        return ResponseEntity.status(FIND_PROJECT_LIST_SUCCESS.getStatus());
-//    }
+    @Operation(summary = "게시글 리스트 조회", description = "프로젝트 리스트 조회")
+    @GetMapping(path = "/posts/list")
+    public ResponseEntity<ResultResponse<List<ProjectResponse>>> findProjectList(ProjectListRequest projectListRequest) {
+        List<ProjectResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest);
+
+        ResultResponse<List<ProjectResponse>> listResultResponse
+                = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectResponseList);
+
+        return ResponseEntity.status(FIND_PROJECT_LIST_SUCCESS.getStatus()).body(listResultResponse);
+    }
 }
