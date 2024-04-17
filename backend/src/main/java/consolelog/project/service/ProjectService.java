@@ -138,7 +138,7 @@ public class ProjectService {
             if (framework.isEmpty()) {
                 Framework newFramework = new Framework();
                 newFramework.setName(frameworkRequest.getName().toLowerCase());
-                newFramework.setFrameworkType(frameworkRequest.getFrameworkType());
+                newFramework.setFrameworkType(frameworkRequest.getFrameworkTypeEnum());
 
                 framework = Optional.of(frameworkRepository.save(newFramework));
             }

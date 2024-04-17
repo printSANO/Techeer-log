@@ -36,6 +36,9 @@ public enum ResultCode {
     // Image
     UPLOAD_SUCCESS("I001", 200, "이미지 업로드 성공"),
 
+    // Scrap
+    SCRAP_CREATED_SUCCESS("S001", 201, "스크랩 성공"),
+    SCRAP_GET_SUCCESS("S002", 200, "스크랩 조회 성공"),
     ;
 
 
