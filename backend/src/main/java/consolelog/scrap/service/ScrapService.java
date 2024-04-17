@@ -9,12 +9,12 @@ import consolelog.project.domain.Project;
 import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectRepository;
 import consolelog.scrap.domain.Scrap;
-import consolelog.scrap.dto.ScrapResponse;
+import consolelog.scrap.exception.ScrapAlreadyExistsException;
+import consolelog.scrap.exception.ScrapNotFoundException;
 import consolelog.scrap.repository.ScrapRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class ScrapService {
@@ -36,26 +36,28 @@ public class ScrapService {
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
+
+        boolean exists = scrapRepository.existsByMemberIdAndProjectId(member.getId(), project.getId());
+        if (exists) {
+            throw new ScrapAlreadyExistsException();
+        }
+
         Scrap scrap = new Scrap(member, project);
 
-        scrapRepository.save(scrap);
-
-        return scrap;
+        return scrapRepository.save(scrap);
     }
-
 
     @Transactional
-    public List<ScrapResponse> getScrapsByMemberId(Long memberId) {
-        List<Scrap> scraps = scrapRepository.findAllByMemberId(memberId);
-        return scraps.stream()
-                .map(scrap -> new ScrapResponse(
-                        scrap.getId(),
-                        scrap.getProject().getId(),
-                        scrap.getProject().getMainImageUrl(),
-                        scrap.getProject().getTitle(),
-                        scrap.getProject().getSubtitle()))
-                .toList(); // Stream.toList() 메소드를 사용하여 리스트로 변환
-    }
+    public void deleteScrap(Long projectId, AuthInfo authInfo) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(ProjectNotFoundException::new);
+        Member member = memberRepository.findById(authInfo.getId())
+                .orElseThrow(MemberNotFoundException::new);
 
+        if (!scrapRepository.existsByMemberIdAndProjectId(member.getId(), project.getId())) {
+            throw new ScrapNotFoundException();
+        }
+        scrapRepository.deleteByMemberIdAndProjectId(member.getId(), project.getId());
+    }
 
 }
