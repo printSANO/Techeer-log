@@ -4,15 +4,16 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
 import consolelog.comment.repository.CommentRepository;
 import consolelog.framework.domain.Framework;
-import consolelog.framework.dto.FrameworkMapper;
+import consolelog.global.mapper.FrameworkMapper;
 import consolelog.framework.dto.FrameworkRequest;
 import consolelog.framework.dto.FrameworkResponse;
 import consolelog.framework.exception.FrameworkNotFoundException;
 import consolelog.framework.repository.FrameworkRepository;
+import consolelog.global.mapper.ProjectMapper;
 import consolelog.global.support.UtilMethod;
 import consolelog.love.repository.LikeRepository;
 import consolelog.member.domain.Member;
-import consolelog.member.dto.MemberMapper;
+import consolelog.global.mapper.MemberMapper;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
 import consolelog.project.domain.Project;
@@ -35,8 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static consolelog.project.enums.SearchFieldEnum.*;
 
 @Service
 @Transactional(readOnly = true)
