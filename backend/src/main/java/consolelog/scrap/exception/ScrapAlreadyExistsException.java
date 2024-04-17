@@ -1,10 +1,10 @@
 package consolelog.scrap.exception;
 
-public class ScrapAlreadyExistsException extends RuntimeException{
+import consolelog.global.exception.BusinessException;
+import consolelog.global.response.ErrorCode;
+
+public class ScrapAlreadyExistsException extends BusinessException {
     public ScrapAlreadyExistsException() {
-        super("이미 스크랩한 프로젝트입니다.");
-    }
-    public ScrapAlreadyExistsException(String message) {
-        super(message);
+        super(ErrorCode.SCRAP_DUPLICATE_ERROR);
     }
 }

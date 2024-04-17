@@ -31,20 +31,21 @@ public class ScrapService {
     }
 
     @Transactional
-    public Scrap createScrap(Long projectId, AuthInfo authInfo) {
+    public void createScrap(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        boolean exists = scrapRepository.existsByMemberIdAndProjectId(member.getId(), project.getId());
-        if (exists) {
-            throw new ScrapAlreadyExistsException();
-        }
+        // 스크랩 중복 확인
+        scrapRepository.findByMemberIdAndProjectId(member.getId(), project.getId())
+                .ifPresent(scrap -> {
+                    throw new ScrapAlreadyExistsException();
+                });
 
         Scrap scrap = new Scrap(member, project);
 
-        return scrapRepository.save(scrap);
+        scrapRepository.save(scrap);
     }
 
     @Transactional
