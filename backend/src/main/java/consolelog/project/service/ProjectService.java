@@ -120,8 +120,6 @@ public class ProjectService {
         projectMapper.updateProjectFromRequest(projectRequest, project);
         projectRepository.save(project);
 
-        ProjectResponse projectResponse = projectMapper.projectToProjectResponse(project);
-
         deleteAllProjectMember(project);
         deleteAllProjectFramework(project);
         saveProjectMemberList(project, projectRequest.getProjectMemberRequestList());
