@@ -13,9 +13,4 @@ public class ScrapRequest {
     private Long projectId;
     private Long memberId;
 
-    public ScrapRequest(Long projectId, Long memberId) {
-        this.projectId = projectId;
-        this.memberId = memberId;
-    }
-
 }
