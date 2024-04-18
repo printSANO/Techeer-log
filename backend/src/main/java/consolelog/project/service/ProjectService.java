@@ -129,8 +129,6 @@ public class ProjectService {
     public void deleteProject(Long id, AuthInfo authInfo) {
         Project project = findProjectById(id);
         validateOwner(authInfo, project);
-        commentRepository.deleteAllByProject(project);
-        likeRepository.deleteAllByProject(project);
         projectRepository.delete(project);
     }
 
