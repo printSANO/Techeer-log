@@ -22,6 +22,7 @@ import consolelog.project.domain.ProjectMember;
 import consolelog.project.domain.ViewCountManager;
 import consolelog.project.dto.*;
 import consolelog.project.enums.SearchFieldEnum;
+import consolelog.project.exception.PageableAccessException;
 import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectFrameworkRepository;
 import consolelog.project.repository.ProjectMemberRepository;
@@ -41,8 +42,6 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class ProjectService {
     private final ProjectRepository projectRepository; // final로 선언하면 생성자에서만 값을 할당할 수 있음
-    private final CommentRepository commentRepository;
-    private final LikeRepository likeRepository;
     private final ViewCountManager viewCountManager;
     private final UtilMethod utilMethod;
     private final ProjectMapper projectMapper;
@@ -60,9 +59,7 @@ public class ProjectService {
                           UtilMethod utilMethod, ProjectMapper projectMapper, MemberMapper memberMapper, FrameworkMapper frameworkMapper, ProjectMemberRepository projectMemberRepository,
                           MemberRepository memberRepository, FrameworkRepository frameworkRepository, ProjectFrameworkRepository projectFrameworkRepository) { // 생성자 주입
         this.projectRepository = projectRepository;  // 생성자를 통해 PostRepository를 주입받음
-        this.likeRepository = likeRepository;
         this.viewCountManager = viewCountManager;
-        this.commentRepository = commentRepository;
         this.utilMethod = utilMethod;
         this.projectMapper = projectMapper;
         this.memberMapper = memberMapper;
@@ -133,9 +130,7 @@ public class ProjectService {
     }
 
     public List<ProjectResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
-
         Slice<Project> projectSlice = getProjectSlice(projectListRequest);
-
 
         return projectMapper.projectListToProjectResponseList(projectSlice.toList());
     }
@@ -155,6 +150,10 @@ public class ProjectService {
             case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(keyword, pageable);
             case CONTENT -> projectSlice = projectRepository.findAllByContentContaining(keyword, pageable);
             case ALL -> projectSlice = projectRepository.findAllByTitleOrContentContaining(keyword, pageable);
+        }
+
+        if (projectSlice == null) {
+            throw new PageableAccessException();
         }
 
         return projectSlice;
