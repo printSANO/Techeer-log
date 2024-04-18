@@ -2,7 +2,6 @@ version: "3.8"
 
 volumes:
   build_folder: null
-  data-volume:
 
 services:
   mysqldb:
@@ -29,39 +28,17 @@ services:
     tty: true
     command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
-  pinpoint-agent:
-    container_name: "${PINPOINT_AGENT_NAME}"
-    image: "pinpointdocker/pinpoint-agent:${PINPOINT_VERSION}"
-    restart: unless-stopped
-    networks:
-      - pinpoint-docker_pinpoint
-      - default
-    volumes:
-      - data-volume:/pinpoint-agent
-    env_file:
-      - ./pinpoint.env
-    environment:
-      - SPRING_PROFILES=${SPRING_PROFILES}
-      - COLLECTOR_IP=${COLLECTOR_IP}
-      - PROFILER_TRANSPORT_AGENT_COLLECTOR_PORT=${PROFILER_TRANSPORT_AGENT_COLLECTOR_PORT}
-      - PROFILER_TRANSPORT_METADATA_COLLECTOR_PORT=${PROFILER_TRANSPORT_METADATA_COLLECTOR_PORT}
-      - PROFILER_TRANSPORT_STAT_COLLECTOR_PORT=${PROFILER_TRANSPORT_STAT_COLLECTOR_PORT}
-      - PROFILER_TRANSPORT_SPAN_COLLECTOR_PORT=${PROFILER_TRANSPORT_SPAN_COLLECTOR_PORT}
-      - PROFILER_SAMPLING_TYPE=${PROFILER_SAMPLING_TYPE}
-      - PROFILER_SAMPLING_COUNTING_SAMPLING_RATE=${PROFILER_SAMPLING_COUNTING_SAMPLING_RATE}
-      - PROFILER_SAMPLING_PERCENT_SAMPLING_RATE=${PROFILER_SAMPLING_PERCENT_SAMPLING_RATE}
-      - PROFILER_SAMPLING_NEW_THROUGHPUT=${PROFILER_SAMPLING_NEW_THROUGHPUT}
-      - PROFILER_SAMPLING_CONTINUE_THROUGHPUT=${PROFILER_SAMPLING_CONTINUE_THROUGHPUT}
-      - DEBUG_LEVEL=${AGENT_DEBUG_LEVEL}
-      - PROFILER_TRANSPORT_MODULE=${PROFILER_TRANSPORT_MODULE}
-
   backend1:
     build: ./backend
     container_name: backend1
     restart: always
+    networks:
+      - pinpoint-docker_pinpoint
+      - default
     env_file:
       - "./backend-secret.env"
       - "./spring-source.env"
+
     environment:
       - SERVER_PORT=8080
       - ACTIVE_PROFILE=deploy
@@ -69,7 +46,8 @@ services:
       - mysqldb
     ports:
       - "8080:8080"
-    command: [ "java", "-jar", "/app.jar" ]
+    command: [ "java", "-jar", "-javaagent:/usr/local/pinpoint-agent-2.5.3/pinpoint-bootstrap-2.5.3.jar", "-Dpinpoint.agentId=test", "-Dpinpoint.applicationName=consolelog","-Dpinpoint.config=/usr/local/pinpoint-agent-2.5.3/pinpoint-root.config", "/app.jar" ]
+#    command: [ "java", "-jar", "/app.jar" ]
 
   backend2:
     build: ./backend
