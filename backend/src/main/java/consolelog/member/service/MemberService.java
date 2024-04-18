@@ -4,9 +4,18 @@ import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.config.BaseEntity;
 import consolelog.image.service.AmazonS3Service;
-import consolelog.member.domain.*;
-import consolelog.member.dto.*;
-import consolelog.member.exception.*;
+import consolelog.member.domain.LoginId;
+import consolelog.member.domain.Member;
+import consolelog.member.domain.Nickname;
+import consolelog.member.domain.Password;
+import consolelog.member.dto.EditMemberRequest;
+import consolelog.member.dto.ProfileResponse;
+import consolelog.member.dto.SignupRequest;
+import consolelog.member.dto.UniqueResponse;
+import consolelog.member.exception.DuplicateNicknameException;
+import consolelog.member.exception.InvalidLoginIdException;
+import consolelog.member.exception.MemberNotFoundException;
+import consolelog.member.exception.PasswordConfirmationException;
 import consolelog.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,7 +95,19 @@ public class MemberService extends BaseEntity {
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        if (!editMemberRequest.getNickname().equals(member.getNickname()) && !editMemberRequest.getNickname().isEmpty()) {
+        multipartFile.ifPresent(file -> {
+            if (!file.isEmpty()) {
+                String profileImageUrl = amazonS3Service.upload(member.getNickname(), file);
+                member.updateProfileImageUrl(profileImageUrl);
+            }
+
+        });
+
+        if (editMemberRequest == null) {
+            return;
+        }
+
+        if (!editMemberRequest.getNickname().isEmpty() && !editMemberRequest.getNickname().equals(member.getNickname())) {
             Nickname validNickname = new Nickname(editMemberRequest.getNickname());
             validateUniqueNickname(validNickname);
             member.updateNickname(validNickname);
