@@ -31,7 +31,6 @@ public class Love extends BaseEntity {
     private Love(Project project, Member member) {
         this.project = project;
         this.member = member;
-        project.addPostLike(this);
     }
 
     public boolean isLikeOf(Long memberId) {

@@ -8,7 +8,7 @@ import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.AuthorizationExtractor;
 import consolelog.global.support.token.Login;
 import consolelog.global.support.token.TokenManager;
-import consolelog.global.support.token.TokenNotFoundException;
+import consolelog.global.exception.TokenNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

@@ -2,6 +2,7 @@ package consolelog.member.domain;
 
 import consolelog.auth.domain.RefreshToken;
 import consolelog.global.config.BaseEntity;
+import consolelog.member.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

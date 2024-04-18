@@ -34,36 +34,5 @@ public class LikeService {
         this.commentRepository = commentRepository;
     }
 
-    //checkAuthority(authinfo, postId) 사용여부 확인
-    @Transactional
-    public LikeFlipResponse flipPostLike(Long postId, AuthInfo authInfo) {
-        Project project = projectRepository.findById(postId)
-                .orElseThrow(ProjectNotFoundException::new);
-        int likeCount = flipPostLike(authInfo.getId(), project);
-        boolean liked = likeRepository.existsByProjectAndMemberId(project, authInfo.getId());
 
-        return new LikeFlipResponse(likeCount, liked);
-    }
-
-    private int flipPostLike(Long memberId, Project project) {
-        final Optional<Love> postLike = likeRepository.findByPostAndMemberId(project, memberId);
-        if (postLike.isPresent()) {
-            project.deleteLike(postLike.get());
-            projectRepository.decreaseLikeCount(project.getId());
-            return project.getLikeCount() - 1;
-        }
-        addNewPostLike(memberId, project);
-        projectRepository.increaseLikeCount(project.getId());
-        return project.getLikeCount() + 1;
-    }
-
-    private void addNewPostLike(Long memberId, Project project) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
-        Love love = Love.builder()
-                .project(project)
-                .member(member)
-                .build();
-        likeRepository.save(love);
-    }
 }
