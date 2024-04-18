@@ -4,8 +4,9 @@ import { theme } from './theme';
 import { RecoilRoot } from 'recoil';
 import MyPage from './pages/MyPage';
 import './index.css';
-import SignUp from './pages/SignUp.tsx';
-import LogIn from './pages/LogIn.tsx';
+import SignUp from './entities/signup/ui/SignUp.tsx';
+import LogIn from './entities/login/ui/LogIn.tsx';
+import ProjectInfo from './entities/projectInputModal/ui/ProjectInfo.tsx';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -83,7 +84,11 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LogIn />,
-  }
+  },
+  {
+    path: '/modal',
+    element: <ProjectInfo />,
+  },
 ]);
 function App() {
   return (
