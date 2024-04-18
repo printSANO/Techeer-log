@@ -31,6 +31,7 @@ public enum ResultCode {
 
     // Like
     LIKE_CREATED_SUCCESS("L001", 201, "좋아요 성공"),
+    LIKE_DELETED_SUCCESS("L002", 200, "좋아요 취소"),
 
     // Image
     UPLOAD_SUCCESS("I001", 200, "이미지 업로드 성공"),

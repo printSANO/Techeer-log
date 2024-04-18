@@ -40,4 +40,5 @@ public class Love extends BaseEntity {
     public void delete() {
         this.project = null;
     }
+
 }
