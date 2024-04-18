@@ -57,23 +57,14 @@ public class Comment {
 
 
     //  댓글 작성자의 아이디와 일치하는지 확인
-    public boolean isAuthorized(Long accessMemberId) {
+    public void validateOwner(Long accessMemberId) {
         if (!accessMemberId.equals(member.getId())) {
             throw new AuthorizationException();
         }
-        return true;
     }
-
-
-    // 수정 필요
-    // Getter 사용가능한 변수는 @Getter 로 수정
 
     public String getMessage() {
         return message.getValue();
-    }
-
-    public void changePretendingToBeRemoved() {
-        this.softRemoved = true;
     }
 
     public void updateContent(String content) {

@@ -38,7 +38,6 @@ public enum ErrorCode {
     // Comment
     COMMENT_NOT_FOUND_ERROR("C001", 400, "댓글을 찾을 수 없습니다."),
     INVALID_MESSAGE_ERROR("C002", 400, "댓글은 1자이상 255자 이하여야 합니다."),
-    REPLY_DEPTH_ERROR("C003", 400, "대댓글에 답글을 달 수 없습니다."),
 
 
     // Like

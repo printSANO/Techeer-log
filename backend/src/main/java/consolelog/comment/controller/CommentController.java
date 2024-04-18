@@ -32,52 +32,47 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 생성", description = "댓글 생성")
-    @PostMapping("/project/{id}/comments")
-    public ResponseEntity<ResultResponse<CommentResponse>> addComment(@PathVariable(name = "id") Long projectId,
-                                                                      @Valid @RequestBody NewCommentRequest newCommentRequest,
+    @PostMapping("/comments")
+    public ResponseEntity<ResultResponse<String>> addComment(@Valid @RequestBody CommentRequest commentRequest,
                                                                       @Login AuthInfo authInfo) {
 
-        // 수정 필요
-        // 사용하지 않는 변수 삭제
-        CommentResponse commentResponse = commentService.addComment(projectId, newCommentRequest, authInfo);
-        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(COMMENT_CREATED_SUCCESS, commentResponse);
 
-        // 수정 필요
+        CommentResponse commentResponse = commentService.addComment(commentRequest, authInfo);
+        String commentLocation = "/comments/" + commentResponse.getCommentId();
+        ResultResponse<String> resultResponse = new ResultResponse<>(COMMENT_CREATED_SUCCESS, commentLocation);
+
+
         return ResponseEntity.status(COMMENT_CREATED_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "댓글 조회")
-    @GetMapping("/project/{id}/comments")
-    // 수정 필요
-    // 반환값 오류
-    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable(name = "id") Long postId,
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable Long commentId,
                                                        @Login AuthInfo authInfo) {
-        CommentsResponse commentsResponse = commentService.findComments(postId, authInfo);
+        CommentsResponse commentsResponse = commentService.findComments(commentId, authInfo);
         ResultResponse<CommentsResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS, commentsResponse);
-        // 수정 필요
+
         return ResponseEntity.status(GET_COMMENT_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "댓글 수정", description = "댓글 수정")
-    @PutMapping("/comments/{id}")
-    public ResponseEntity<ResultResponse<CommentResponse>> updateComment(@PathVariable(name = "id") Long commentId,
-                                                                         @Valid @RequestBody UpdateCommentRequest updateCommentRequest,
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<ResultResponse<CommentResponse>> updateComment(@PathVariable Long commentId,
+                                                                         @Valid @RequestBody CommentRequest commentRequest,
                                                                          @Login AuthInfo authInfo) {
-        CommentResponse updatedCommentResponse = commentService.updateComment(commentId, updateCommentRequest, authInfo);
+        CommentResponse updatedCommentResponse = commentService.updateComment(commentId, commentRequest, authInfo);
         ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(UPDATE_COMMENT_SUCCESS, updatedCommentResponse);
-        // 수정 필요
+
         return ResponseEntity.status(UPDATE_COMMENT_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "댓글 삭제", description = "댓글 삭제")
-
-    @DeleteMapping("/comments/{id}")
-    // 수정 필요
-    public ResponseEntity<ResultResponse<String>> deleteComment(@PathVariable(name = "id") Long commentId,
-                                                        @Login AuthInfo authInfo) {
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<ResultResponse<String>> deleteComment(@PathVariable Long commentId,
+                                                                @Login AuthInfo authInfo) {
         commentService.deleteComment(commentId, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_COMMENT_SUCCESS);
-        // 수정 필요
+
         return ResponseEntity.status(DELETE_COMMENT_SUCCESS.getStatus()).body(resultResponse);
     }
 }

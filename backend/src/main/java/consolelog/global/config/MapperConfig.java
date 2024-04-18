@@ -1,6 +1,7 @@
 package consolelog.global.config;
 
 import consolelog.global.mapper.*;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -33,8 +33,8 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponse addComment(Long postId, NewCommentRequest newCommentRequest, AuthInfo authInfo) {
-        Project project = projectRepository.findById(postId)
+    public CommentResponse addComment(CommentRequest commentRequest, AuthInfo authInfo) {
+        Project project = projectRepository.findById(commentRequest.getProjectId())
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
@@ -42,7 +42,7 @@ public class CommentService {
         Comment comment = Comment.builder()
                 .member(member)
                 .project(project)
-                .message(newCommentRequest.getContent())
+                .message(commentRequest.getContent())
                 .build();
         commentRepository.save(comment);
 
@@ -51,11 +51,11 @@ public class CommentService {
 
 
     //댓글들 조회하고 응답 생성
-    public CommentsResponse findComments(Long postId, AuthInfo authInfo) {
-        if (!projectRepository.existsById(postId)) {
-            throw new ProjectNotFoundException();
+    public CommentsResponse findComments(Long projectId, AuthInfo authInfo) {
+        if (!projectRepository.existsById(projectId)) {
+            throw new CommentNotFoundException();
         }
-        List<Comment> comments = commentRepository.findCommentsByProjectId(postId);
+        List<Comment> comments = commentRepository.findCommentsByProjectId(projectId);
         List<CommentResponse> commentResponses = comments.stream()
                 .map(it -> convertToCommentResponse(authInfo, it))
                 .toList();
@@ -76,19 +76,16 @@ public class CommentService {
     public void deleteComment(Long commentId, AuthInfo authInfo) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
-        comment.isAuthorized(authInfo.getId());
+        comment.validateOwner(authInfo.getId());
         commentRepository.delete(comment);
     }
 
     @Transactional
-    // 수정 필요
-    // 반환값이 사용되고 있지 않다고 한다. 코드를 한 번 더 확인해보아라
-    // 항상 경고표시가 나오면, 왜 발생하는지 확인해라
-    public CommentResponse updateComment(Long commentId, UpdateCommentRequest updateCommentRequest, AuthInfo authInfo) {
+    public CommentResponse updateComment(Long commentId, CommentRequest updateCommentRequest, AuthInfo authInfo) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
 
-        comment.isAuthorized(authInfo.getId());
+        comment.validateOwner(authInfo.getId());
 
         comment.updateContent(updateCommentRequest.getContent());
         Comment updatedComment = commentRepository.save(comment);

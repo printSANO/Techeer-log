@@ -15,9 +15,7 @@ public class CommentResponse {
     private final String content;
     private final LocalDateTime createdAt;
     private final boolean authorized;
-    // 수정 필요
-    // 불필요한 인자값 삭제
-    // 만약, authorized 가 필요한 값이면, 어디에 사용하는 값인지 주석 필요
+
     public CommentResponse(Long commentId, String nickname, String content, LocalDateTime createdAt,
                            boolean authorized, String profileImageUrl) {
         this.commentId = commentId;
@@ -29,9 +27,15 @@ public class CommentResponse {
     }
 
     public static CommentResponse of(Comment comment, Long accessMemberId) {
-        return new CommentResponse(comment.getId(), comment.getMember().getNickname(), comment.getMessage(),
-                comment.getCreatedAt(), comment.isAuthorized(accessMemberId),
-                comment.getMember().getProfileImageUrl());
+        comment.validateOwner(accessMemberId);
+        return new CommentResponse(
+                comment.getId(),
+                comment.getMember().getNickname(),
+                comment.getMessage(),
+                comment.getCreatedAt(),
+                true,
+                comment.getMember().getProfileImageUrl()
+        );
     }
 
     public static CommentResponse softRemovedOf(Comment comment) {
