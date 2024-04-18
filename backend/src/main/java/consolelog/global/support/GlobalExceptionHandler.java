@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     }
     // IllegalArgumentException : Page size must not be less than one
     // NumberFormatException
-    //
+    // MethodArgumentNotValidException
     @Order(2)
     @ExceptionHandler
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {

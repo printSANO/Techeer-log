@@ -2,7 +2,6 @@ package consolelog.project.service;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.exception.AuthorizationException;
-import consolelog.comment.repository.CommentRepository;
 import consolelog.framework.domain.Framework;
 import consolelog.global.mapper.FrameworkMapper;
 import consolelog.framework.dto.FrameworkRequest;
@@ -11,7 +10,6 @@ import consolelog.framework.exception.FrameworkNotFoundException;
 import consolelog.framework.repository.FrameworkRepository;
 import consolelog.global.mapper.ProjectMapper;
 import consolelog.global.support.UtilMethod;
-import consolelog.love.repository.LikeRepository;
 import consolelog.member.domain.Member;
 import consolelog.global.mapper.MemberMapper;
 import consolelog.member.exception.MemberNotFoundException;
@@ -41,7 +39,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class ProjectService {
-    private final ProjectRepository projectRepository; // final로 선언하면 생성자에서만 값을 할당할 수 있음
+    private final ProjectRepository projectRepository;
     private final ViewCountManager viewCountManager;
     private final UtilMethod utilMethod;
     private final ProjectMapper projectMapper;
@@ -53,8 +51,6 @@ public class ProjectService {
     private final ProjectFrameworkRepository projectFrameworkRepository;
 
     public ProjectService(ProjectRepository projectRepository,
-                          CommentRepository commentRepository,
-                          LikeRepository likeRepository,
                           ViewCountManager viewCountManager,
                           UtilMethod utilMethod, ProjectMapper projectMapper, MemberMapper memberMapper, FrameworkMapper frameworkMapper, ProjectMemberRepository projectMemberRepository,
                           MemberRepository memberRepository, FrameworkRepository frameworkRepository, ProjectFrameworkRepository projectFrameworkRepository) { // 생성자 주입
@@ -72,24 +68,16 @@ public class ProjectService {
 
     @Transactional
     public ProjectResponse findProjectResponse(Long projectId, String cookieValue) {
-        if (viewCountManager.isFirstAccess(cookieValue, projectId)) {
+        // 다른 함수에서 요청했을 때, Cookie 값에 "N" 을 넣는다
+        if (!cookieValue.equals("N") || viewCountManager.isFirstAccess(cookieValue, projectId)) {
             projectRepository.updateViewCount(projectId);
         }
         Project findProject = findProjectById(projectId);
 
         ProjectResponse projectResponse = projectMapper.projectToProjectResponse(findProject);
+        projectResponse.setWriter(memberMapper.memberToMemberResponse(findProject.getMember()));
         projectResponse.setProjectMemberResponseList(getProjectMemberResponseList(findProject.getProjectMemberList()));
         projectResponse.setFrameworkResponseList(getFrameworkResponseList(findProject.getProjectFrameworkList()));
-
-        return projectResponse;
-    }
-    @Transactional
-    public ProjectResponse findProjectResponse(Long projectId) {
-        Project project = findProjectById(projectId);
-
-        ProjectResponse projectResponse = projectMapper.projectToProjectResponse(project);
-        projectResponse.setProjectMemberResponseList(getProjectMemberResponseList(project.getProjectMemberList()));
-        projectResponse.setFrameworkResponseList(getFrameworkResponseList(project.getProjectFrameworkList()));
 
         return projectResponse;
     }
@@ -129,10 +117,23 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-    public List<ProjectResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
+    public List<ProjectItemResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
         Slice<Project> projectSlice = getProjectSlice(projectListRequest);
 
-        return projectMapper.projectListToProjectResponseList(projectSlice.toList());
+        return projectListToProjectResponseList(projectSlice.toList());
+    }
+
+    private List<ProjectItemResponse> projectListToProjectResponseList(List<Project> projectList) {
+        List<ProjectItemResponse> projectItemResponseList = new ArrayList<>();
+
+        for (Project project : projectList) {
+            ProjectItemResponse projectItemResponse = projectMapper.projectToProjectItemResponse(project);
+            projectItemResponse.setWriter(memberMapper.memberToMemberResponse(project.getMember()));
+
+            projectItemResponseList.add(projectItemResponse);
+        }
+
+        return projectItemResponseList;
     }
 
     private Slice<Project> getProjectSlice(ProjectListRequest projectListRequest) {

@@ -3,10 +3,10 @@ package consolelog.project.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
+import consolelog.project.dto.ProjectItemResponse;
 import consolelog.project.dto.ProjectListRequest;
 import consolelog.project.dto.ProjectRequest;
 import consolelog.project.dto.ProjectResponse;
-import consolelog.project.dto.PagePostResponse;
 import consolelog.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -66,7 +66,7 @@ public class ProjectController {
                                                                       @RequestBody ProjectRequest projectRequest,
                                                                       @Login AuthInfo authInfo) {
         projectService.updateProject(projectId, projectRequest, authInfo);
-        ProjectResponse projectResponse = projectService.findProjectResponse(projectId);
+        ProjectResponse projectResponse = projectService.findProjectResponse(projectId, "N");
         ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(UPDATE_PROJECT_SUCCESS, projectResponse);
 
         return ResponseEntity.status(UPDATE_PROJECT_SUCCESS.getStatus()).body(resultResponse);
@@ -83,10 +83,10 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 리스트 조회", description = "프로젝트 리스트 조회")
     @GetMapping(path = "/projects/list")
-    public ResponseEntity<ResultResponse<List<ProjectResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest) {
-        List<ProjectResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest);
+    public ResponseEntity<ResultResponse<List<ProjectItemResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest) {
+        List<ProjectItemResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest);
 
-        ResultResponse<List<ProjectResponse>> listResultResponse
+        ResultResponse<List<ProjectItemResponse>> listResultResponse
                 = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectResponseList);
 
         return ResponseEntity.status(FIND_PROJECT_LIST_SUCCESS.getStatus()).body(listResultResponse);
