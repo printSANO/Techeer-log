@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <div className="bg-[url('./src/shared/assests/pointBanner.png')] flex flex-row justify-center items-center w-screen h-[9.375rem]">
+    <div className="bg-[#212121] flex flex-row justify-center items-center w-screen h-[6.5rem]">
       <div className="flex flex-row justify-between items-center w-[1200px]">
         <span className="break-words font-['Bayon'] font-normal text-[2rem] leading-[1.5] text-[#FFFFFF]">
           Techeer.log

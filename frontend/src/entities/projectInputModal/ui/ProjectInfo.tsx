@@ -4,7 +4,7 @@ import github from '../../../shared/assests/modalImg/github.svg';
 import internet from '../../../shared/assests/modalImg/Internet.svg';
 import blog from '../../../shared/assests/modalImg/bloglink.svg';
 
-function ProjectInfo() {
+export const ProjectInfo = () => {
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">
@@ -187,6 +187,4 @@ function ProjectInfo() {
       </div>
     </div>
   );
-}
-
-export default ProjectInfo;
+};

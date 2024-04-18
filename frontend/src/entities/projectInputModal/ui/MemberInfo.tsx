@@ -1,7 +1,7 @@
 import check from '../../../shared/assests/modalImg/check.svg';
 import close from '../image/close.svg';
 
-export default function MemberInfo() {
+export const MemberInfo = () => {
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">
@@ -109,4 +109,4 @@ export default function MemberInfo() {
       </div>
     </div>
   );
-}
+};
