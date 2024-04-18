@@ -32,10 +32,9 @@ public class MemberController {
     }
 
     @Operation(summary = "회원가입", description = "회원가입 기능")
-    @PostMapping(value = "/signup", consumes = "multipart/form-data")
-    public ResponseEntity<ResultResponse<MemberResponse>> signUp(@RequestPart("data") SignupRequest signupRequest,
-                                                                @RequestPart("file") MultipartFile multipartFile) {
-        Member member = memberService.signUp(signupRequest, multipartFile);
+    @PostMapping(value = "/signup")
+    public ResponseEntity<ResultResponse<MemberResponse>> signUp(@RequestBody SignupRequest signupRequest) {
+        Member member = memberService.signUp(signupRequest);
         ResultResponse<MemberResponse> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, memberMapper.memberToMemberResponse(member));
 
         return ResponseEntity.status(SIGNUP_SUCCESS.getStatus()).body(resultResponse);

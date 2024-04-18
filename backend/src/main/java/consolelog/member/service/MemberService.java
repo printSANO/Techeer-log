@@ -17,6 +17,7 @@ import consolelog.member.exception.InvalidLoginIdException;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.exception.PasswordConfirmationException;
 import consolelog.member.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +27,9 @@ import java.util.Optional;
 @Service
 @Transactional
 public class MemberService extends BaseEntity {
+
+    @Value("${spring.default.image.address}")
+    private String defaultProfileImageUrl;
 
     private final MemberRepository memberRepository;
     private final EncryptorI encryptor;
@@ -38,13 +42,13 @@ public class MemberService extends BaseEntity {
     }
 
     @Transactional
-    public Member signUp(SignupRequest signupRequest, MultipartFile multipartFile) {
+    public Member signUp(SignupRequest signupRequest) {
         validate(signupRequest);
-        String profileImageUrl = amazonS3Service.upload(signupRequest.getNickname(), multipartFile);
+
         Member member = Member.builder()
                 .loginId(new LoginId(signupRequest.getLoginId()))
                 .password(Password.of(encryptor, signupRequest.getPassword()))
-                .profileImageUrl(profileImageUrl)
+                .profileImageUrl(defaultProfileImageUrl)
                 .nickname(new Nickname(signupRequest.getNickname()))
                 .build();
         memberRepository.save(member);
