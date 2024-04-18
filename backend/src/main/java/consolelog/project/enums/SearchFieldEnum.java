@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum SearchFieldEnum {
     TITLE("TITLE"),
     WRITER("WRITER"),
+    TEAM_MEMBER("TEAM_MEMBER"),
     CONTENT("CONTENT"),
     ALL("ALL"),
     ;

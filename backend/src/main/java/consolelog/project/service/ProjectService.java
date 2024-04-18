@@ -144,11 +144,12 @@ public class ProjectService {
         Sort.Direction sortDirection = projectListRequest.getSortDirection();
         String keyword = projectListRequest.getKeyword();
 
-        Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, "createdAt"));
+        Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, "id"));
 
         switch (searchFieldEnum) {
             case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(keyword, pageable);
             case CONTENT -> projectSlice = projectRepository.findAllByContentContaining(keyword, pageable);
+            case WRITER -> projectSlice = projectRepository.findAllByMemberId(Long.parseLong(keyword), pageable);
             case ALL -> projectSlice = projectRepository.findAllByTitleOrContentContaining(keyword, pageable);
         }
 

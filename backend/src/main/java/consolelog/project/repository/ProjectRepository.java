@@ -21,7 +21,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
      Slice<Project> findAllByTitleContaining(String title, Pageable pageable);
     Slice<Project> findAllByContentContaining(String content, Pageable pageable);
-    Slice<Project> findAllByMemberIdContaining(Long memberId, Pageable pageable);
+    Slice<Project> findAllByMemberId(Long memberId, Pageable pageable);
 
     @Query("SELECT p FROM Project p WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword%")
     Slice<Project> findAllByTitleOrContentContaining(@Param("keyword") String keyword,Pageable pageable);

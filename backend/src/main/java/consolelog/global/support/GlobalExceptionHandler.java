@@ -50,7 +50,9 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(MAX_UPLOAD_SIZE_EXCEEDED_ERROR.getStatus()).body(response);
     }
-
+    // IllegalArgumentException : Page size must not be less than one
+    // NumberFormatException
+    //
     @Order(2)
     @ExceptionHandler
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
