@@ -29,10 +29,10 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
         <div className="m-[1rem_0_1.4rem_0] flex flex-col items-centerx break-words font-['Inter'] font-semibold text-[2rem] text-[#FFFFFF]">
           Techeer.log
         </div>
-        <div className="m-[0_0_1.3rem_0] inline-block break-words font-['Inter'] font-normal text-[1rem] text-[#C7C7C7]">
+        <div className="m-[0_0_1.3rem_0] inline-block break-words font-['Inter'] font-normal text-[1.1em] text-[#C7C7C7]">
           테커 내 모든 프로젝트를 한 번에 살펴볼 수 있는 서비스
         </div>
-        <div className="bg-[#FFFFFF] absolute w-[100%] h-[0.1rem]"></div>
+        <div className="bg-[#989898] absolute w-[100%] h-[0.1rem]"></div>
         <div className="flex flex-row items-center justify-between w-[100%] mt-[1.5rem] mb-[2rem] box-sizing-border">
           <div className="flex flex-row box-sizing-border items-center ml-[0.4rem]">
             <button className="bg-[url('./shared/assests/Icon-Like.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]"></button>
@@ -41,8 +41,8 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
             </div>
           </div>
           <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
-            <button className="bg-[url('./shared/assests/Icon-Scrap.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0_0_0] w-[2.5rem] h-[2.5rem]"></button>
-            <button className="bg-[url('./shared/assests/Icon-Share.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0.7rem] w-[2.5rem] h-[2.5rem]"></button>
+            <button className="bg-[url('./shared/assests/Icon-Scrap.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0_0_0] w-[2.2rem] h-[2.2rem]"></button>
+            <button className="bg-[url('./shared/assests/Icon-Share.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0.7rem] w-[2rem] h-[2rem]"></button>
           </div>
         </div>
         <div className="flex flex-row w-[100%] justify-between box-sizing-border">
@@ -183,10 +183,10 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
             </div>
             <input
               placeholder="댓글을 작성하세요."
-              className="placeholder-white bg-transparent w-[100%] border-none m-[0_0_1.5rem_0] inline-block self-start break-words font-['Inter'] font-normal text-[1.3rem] text-[#FFFFFF]"
+              className="placeholder-white bg-transparent w-[100%] border-none m-[0_0_1.5rem_0] inline-block self-start break-words font-['Inter'] font-normal text-[1.2rem] text-[#FFFFFF]"
             ></input>
             <div className="bg-[#989898] w-[100%] h-[0.1rem]"></div>
-            <button className="rounded-[0.3rem] mt-[2rem] bg-[#696868] relative flex flex-row justify-center self-end p-[0.8rem_0rem_0.8rem_0] w-[8rem] box-sizing-border">
+            <button className="rounded-[0.3rem] mt-[2rem] bg-[#696868] relative flex flex-row justify-center self-end p-[0.6rem_0rem_0.6rem_0] w-[7.5rem] box-sizing-border">
               <span className="break-words font-['Inter'] font-semibold text-[1.2rem] tracking-[0.1rem] text-[#FFFFFF]">
                 댓글 작성
               </span>
@@ -210,7 +210,7 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
                 수정 삭제
               </div>
             </div>
-            <span className="self-start break-words font-['Inter'] font-normal text-[1.3rem] text-[#FFFFFF]">
+            <span className="self-start break-words font-['Inter'] font-normal text-[1.2rem] text-[#FFFFFF]">
               우왕 저도 참고해서 이번 부트캠프 열심히 해보겠습니다~~
             </span>
           </div>
@@ -233,7 +233,7 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
                 수정 삭제
               </div>
             </div>
-            <span className="self-start break-words font-['Inter'] font-normal text-[1.3rem] text-[#FFFFFF]">
+            <span className="self-start break-words font-['Inter'] font-normal text-[1.2rem] text-[#FFFFFF]">
               우왕 저도 참고해서 이번 부트캠프 열심히 해보겠습니다~~
             </span>
           </div>
