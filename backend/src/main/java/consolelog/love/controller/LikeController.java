@@ -27,14 +27,5 @@ public class LikeController {
         this.likeService = likeService;
     }
 
-    @Operation(summary = "PostLike", description = "PostLike 누르기/취소하기, PostLike 개수")
-    @PutMapping("/posts/{id}/like")
-    public ResponseEntity<ResultResponse<LikeFlipResponse>> flipPostLike(@PathVariable("id") Long postId,
-                                                                         @Login AuthInfo authInfo) {
-        LikeFlipResponse likeFlipResponse = likeService.flipPostLike(postId, authInfo);
-        ResultResponse<LikeFlipResponse> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS, likeFlipResponse);
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
-    }
 }
 

@@ -8,8 +8,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.Arrays;
+
+import static consolelog.global.response.ErrorCode.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -39,10 +42,25 @@ public class GlobalExceptionHandler {
 
     @Order(1)
     @ExceptionHandler
-    protected ResponseEntity<String> handleException(Exception e) {
+    protected ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 
-        log.error(ErrorCode.INTERNAL_SERVER_ERROR + ", " + Arrays.toString(e.getStackTrace()));
+        log.error(MAX_UPLOAD_SIZE_EXCEEDED_ERROR + ", " + Arrays.toString(e.getStackTrace()));
 
-        return ResponseEntity.status(500).body("서버 내부 예외적 에러 발생");
+        final ErrorResponse response = new ErrorResponse(MAX_UPLOAD_SIZE_EXCEEDED_ERROR);
+
+        return ResponseEntity.status(MAX_UPLOAD_SIZE_EXCEEDED_ERROR.getStatus()).body(response);
+    }
+    // IllegalArgumentException : Page size must not be less than one
+    // NumberFormatException
+    // MethodArgumentNotValidException
+    @Order(2)
+    @ExceptionHandler
+    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+
+        log.error(e + ", " + Arrays.toString(e.getStackTrace()));
+
+        final ErrorResponse response = new ErrorResponse(INTERNAL_SERVER_ERROR);
+
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR.getStatus()).body(response);
     }
 }

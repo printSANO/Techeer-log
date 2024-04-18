@@ -16,12 +16,12 @@ public enum ResultCode {
     SIGNUP_SUCCESS("M001", 201, "회원가입 성공"),
     FIND_PROFILE_SUCCESS("MOO2", 200, "프로필 조회 성공"),
 
-    // Post
-    FIND_POST_SUCCESS("P001", 200, "로그인 상태 게시글 조회 성공"),
-    ADD_POST_SUCCESS("P002", 201, "게시글 등록 성공"),
-    UPDATE_POST_SUCCESS("P003", 201, "게시글 수정 성공"),
+    // Project
+    FIND_PROJECT_SUCCESS("P001", 200, "로그인 상태 게시글 조회 성공"),
+    ADD_PROJECT_SUCCESS("P002", 201, "게시글 등록 성공"),
+    UPDATE_PROJECT_SUCCESS("P003", 201, "게시글 수정 성공"),
     DELETE_SUCCESS("P004", 200, "게시글 삭제 성공"),
-    FIND_POST_LIST_SUCCESS("P005", 200, "게시글 리스트 조회 성공"),
+    FIND_PROJECT_LIST_SUCCESS("P005", 200, "게시글 리스트 조회 성공"),
 
     // Comment
     COMMENT_CREATED_SUCCESS("C001", 201, "댓글 등록 성공"),
