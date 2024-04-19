@@ -2,11 +2,12 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { theme } from './theme';
 import { RecoilRoot } from 'recoil';
-import MyPage from './pages/MyPage';
+import {MyPage} from './entities/myPage/ui/MyPage.tsx';
 import './index.css';
+import LogIn from './pages/LogIn.tsx';
+import {ProjectView} from './entities/projectView/ui/ProjectView.tsx';
 import SignUp from './entities/signup/ui/SignUp.tsx';
-import LogIn from './entities/login/ui/LogIn.tsx';
-import ProjectInfo from './entities/projectInputModal/ui/ProjectInfo.tsx';
+import {ProjectInfo} from './entities/projectInputModal';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LogIn />,
+  },
+  {
+    path: '/projectview',
+    element: <ProjectView/>,
   },
   {
     path: '/modal',

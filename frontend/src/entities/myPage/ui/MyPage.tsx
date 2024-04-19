@@ -1,7 +1,7 @@
-import Footer from './Footer';
-import NavBar from './NavBar';
+import Footer from '../../../pages/Footer.tsx';
+import NavBar from '../../../pages/NavBar.tsx';
 
-function MyPage() {
+export const MyPage = () => {
   return (
     <div className="bg-[#111111] flex flex-col items-center w-[100vw] box-sizing-border">
       <NavBar />
@@ -53,7 +53,7 @@ function MyPage() {
                 <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">Spring</span>
               </div>
             </div>
-            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21rem] box-sizing-border">
+            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21.6rem] box-sizing-border">
               <p className="m-[0_0.5rem_0_0]break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
                 <span className="container-17-sub-10"></span>
                 <span>• 서비스 운영중</span>
@@ -77,7 +77,7 @@ function MyPage() {
                 <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">Spring</span>
               </div>
             </div>
-            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21rem] box-sizing-border">
+            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21.6rem] box-sizing-border">
               <p className="m-[0_0.5rem_0_0]break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
                 <span className="container-17-sub-10"></span>
                 <span>• 서비스 운영중</span>
@@ -101,7 +101,7 @@ function MyPage() {
                 <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">Spring</span>
               </div>
             </div>
-            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21rem] box-sizing-border">
+            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21.6rem] box-sizing-border">
               <p className="m-[0_0.5rem_0_0]break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
                 <span className="container-17-sub-10"></span>
                 <span>• 서비스 운영중</span>
@@ -125,7 +125,7 @@ function MyPage() {
                 <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">Spring</span>
               </div>
             </div>
-            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21rem] box-sizing-border">
+            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21.6rem] box-sizing-border">
               <p className="m-[0_0.5rem_0_0]break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
                 <span className="container-17-sub-10"></span>
                 <span>• 서비스 운영중</span>
@@ -149,7 +149,7 @@ function MyPage() {
                 <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">Spring</span>
               </div>
             </div>
-            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21rem] box-sizing-border">
+            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21.6rem] box-sizing-border">
               <p className="m-[0_0.5rem_0_0]break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
                 <span className="container-17-sub-10"></span>
                 <span>• 서비스 운영중</span>
@@ -173,7 +173,7 @@ function MyPage() {
                 <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">Spring</span>
               </div>
             </div>
-            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21rem] box-sizing-border">
+            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21.6rem] box-sizing-border">
               <p className="m-[0_0.5rem_0_0]break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
                 <span className="container-17-sub-10"></span>
                 <span>• 서비스 운영중</span>
@@ -197,7 +197,7 @@ function MyPage() {
                 <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">Spring</span>
               </div>
             </div>
-            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21rem] box-sizing-border">
+            <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[21.6rem] box-sizing-border">
               <p className="m-[0_0.5rem_0_0]break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
                 <span className="container-17-sub-10"></span>
                 <span>• 서비스 운영중</span>
@@ -212,4 +212,3 @@ function MyPage() {
   );
 }
 
-export default MyPage;
