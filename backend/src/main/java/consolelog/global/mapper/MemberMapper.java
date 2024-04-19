@@ -8,5 +8,4 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MemberMapper {
     MemberResponse memberToMemberResponse(Member member);
-    Member memberResponseToMember(MemberResponse memberResponse);
 }
