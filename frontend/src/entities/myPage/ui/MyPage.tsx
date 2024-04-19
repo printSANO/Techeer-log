@@ -1,7 +1,7 @@
-import Footer from './Footer';
-import NavBar from './NavBar';
+import Footer from '../../../pages/Footer.tsx';
+import NavBar from '../../../pages/NavBar.tsx';
 
-function MyPage() {
+export const MyPage = () => {
   return (
     <div className="bg-[#111111] flex flex-col items-center w-[100vw] box-sizing-border">
       <NavBar />
@@ -212,4 +212,3 @@ function MyPage() {
   );
 }
 
-export default MyPage;

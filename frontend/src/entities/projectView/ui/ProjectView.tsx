@@ -1,10 +1,10 @@
-import Footer from './Footer';
-import NavBar from './NavBar';
-import GithubIcon from '../shared/assests/Icon-Github.png';
-import MediumIcon from '../shared/assests/Icon-Medium.png';
-import LinkIcon from '../shared/assests/Icon-Link.png';
+import Footer from '../../../pages/Footer.tsx';
+import NavBar from '../../../pages/NavBar.tsx';
+import GithubIcon from '../image/Icon-Github.png';
+import MediumIcon from '../image/Icon-Medium.png';
+import LinkIcon from '../image/Icon-Link.png';
 
-function ProjectView() {
+export const ProjectView = () => {
   const word = `CONG(콩) : 축하 아카이빙 서비스
 
 CONG은 왜 필요할까?
@@ -35,14 +35,14 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
         <div className="bg-[#989898] absolute w-[100%] h-[0.1rem]"></div>
         <div className="flex flex-row items-center justify-between w-[100%] mt-[1.5rem] mb-[2rem] box-sizing-border">
           <div className="flex flex-row box-sizing-border items-center ml-[0.4rem]">
-            <button className="bg-[url('./shared/assests/Icon-Like.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]"></button>
+            <button className="bg-[url('./entities/projectView/image/Icon-Like.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]"></button>
             <div className="inline-block break-words font-['Inter'] font-semibold text-[1.1rem] text-[#989898]">
               129
             </div>
           </div>
           <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
-            <button className="bg-[url('./shared/assests/Icon-Scrap.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0_0_0] w-[2.2rem] h-[2.2rem]"></button>
-            <button className="bg-[url('./shared/assests/Icon-Share.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0.7rem] w-[2rem] h-[2rem]"></button>
+            <button className="bg-[url('./entities/projectView/image/Icon-Scrap.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0_0_0] w-[2.2rem] h-[2.2rem]"></button>
+            <button className="bg-[url('./entities/projectView/image/Icon-Share.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0.7rem] w-[2rem] h-[2rem]"></button>
           </div>
         </div>
         <div className="flex flex-row w-[100%] justify-between box-sizing-border">
@@ -245,4 +245,3 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
   );
 }
 
-export default ProjectView;
