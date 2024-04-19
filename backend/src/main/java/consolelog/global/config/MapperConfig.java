@@ -1,11 +1,6 @@
 package consolelog.global.config;
 
-import consolelog.framework.dto.FrameworkMapper;
-import consolelog.framework.dto.FrameworkMapperImpl;
-import consolelog.member.dto.MemberMapper;
-import consolelog.member.dto.MemberMapperImpl;
-import consolelog.project.dto.ProjectMapper;
-import consolelog.project.dto.ProjectMapperImpl;
+import consolelog.global.mapper.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

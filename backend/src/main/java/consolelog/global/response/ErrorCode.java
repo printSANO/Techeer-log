@@ -33,7 +33,8 @@ public enum ErrorCode {
     // Project
     INVALID_CONTENT_ERROR("P001", 400, "내용은 1글자 이상 1000글자 이하 입니다."),
     INVALID_TITLE_ERROR("P002", 400, "제목은 1글자 이상 50글자 이하 입니다."),
-    PROJECT_NOT_FOUND_ERROR("POO3", 400, "해당 프로젝트를 찾을 수 없습니다."),
+    PROJECT_NOT_FOUND_ERROR("P003", 400, "해당 프로젝트를 찾을 수 없습니다."),
+    PAGEABLE_ACCESS_ERROR("P004", 400, "페이징 과정에서 에러가 발생했습니다"),
 
     // Comment
     COMMENT_NOT_FOUND_ERROR("C001", 400, "댓글을 찾을 수 없습니다."),

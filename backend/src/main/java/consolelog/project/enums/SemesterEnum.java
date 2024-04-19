@@ -1,9 +1,10 @@
 package consolelog.project.enums;
 
+import consolelog.global.support.EnumModel;
 import lombok.Getter;
 
 @Getter
-public enum SemesterEnum {
+public enum SemesterEnum implements EnumModel {
     FIRST("FIRST"), SECOND("SECOND");
 
     private final String name;

@@ -55,7 +55,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private boolean isGetMethodExcludeNickname(HttpServletRequest request) {
         return request.getMethod().equalsIgnoreCase("GET") &&
                 !(request.getRequestURI().equalsIgnoreCase("/api/v1/members/nickname")
-                || request.getRequestURI().equalsIgnoreCase("/api/v1/project/list/*"));
+                        || request.getRequestURI().equalsIgnoreCase("/api/v1/projects/list/**"));
     }
 
     private boolean notExistHeader(HttpServletRequest request) {
