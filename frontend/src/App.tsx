@@ -2,6 +2,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { theme } from './theme';
 import { RecoilRoot } from 'recoil';
+import MainPage from './pages/MainPage.tsx';
 import {MyPage} from './entities/myPage/ui/MyPage.tsx';
 import './index.css';
 import LogIn from './pages/LogIn.tsx';
@@ -74,6 +75,10 @@ a {
 `;
 
 const router = createBrowserRouter([
+  {
+    path: '/mainpage',
+    element: <MainPage />,
+  },
   {
     path: '/mypage',
     element: <MyPage />,
