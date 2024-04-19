@@ -20,17 +20,14 @@ import java.time.LocalDateTime;
 public class Comment {
 
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
-    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
@@ -38,10 +35,8 @@ public class Comment {
     @Embedded
     private Message message;
 
-    @Getter
     private boolean softRemoved;
 
-    @Getter
     @CreatedDate
     private LocalDateTime createdAt;
 

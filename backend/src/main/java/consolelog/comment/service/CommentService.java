@@ -12,13 +12,12 @@ import consolelog.member.repository.MemberRepository;
 import consolelog.project.domain.Project;
 import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
