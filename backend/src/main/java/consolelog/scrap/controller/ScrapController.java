@@ -3,7 +3,6 @@ package consolelog.scrap.controller;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
-import consolelog.scrap.dto.ScrapRequest;
 import consolelog.scrap.service.ScrapService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,16 +18,15 @@ import static consolelog.global.response.ResultCode.SCRAP_DELETED_SUCCESS;
 @RequestMapping("/v1")
 public class ScrapController {
     private final ScrapService scrapService;
-
     public ScrapController(ScrapService scrapService) {
         this.scrapService = scrapService;
     }
 
     @Operation(summary = "스크랩 하기", description = "스크랩 하기")
-    @PostMapping("/scraps")
-    public ResponseEntity<ResultResponse<Void>> createScrap(@RequestBody ScrapRequest scrapRequest,
+    @PostMapping("/scraps/{projectId}")
+    public ResponseEntity<ResultResponse<Void>> createScrap(@PathVariable Long projectId,
                                                                      @Login AuthInfo authInfo) {
-        scrapService.createScrap(scrapRequest.getProjectId(), authInfo);
+        scrapService.createScrap(projectId, authInfo);
         ResultResponse<Void> resultResponse = new ResultResponse<>(SCRAP_CREATED_SUCCESS);
 
         return ResponseEntity.status(SCRAP_CREATED_SUCCESS.getStatus()).body(resultResponse);
@@ -36,10 +34,10 @@ public class ScrapController {
     }
 
     @Operation(summary = "스크랩 취소", description = "스크랩 취소")
-    @DeleteMapping("/scraps/{scrapId}")
-    public ResponseEntity<ResultResponse<Void>> deleteScrap(@PathVariable Long scrapId,
+    @DeleteMapping("/scraps/{projectId}")
+    public ResponseEntity<ResultResponse<Void>> deleteScrap(@PathVariable Long projectId,
                                                                      @Login AuthInfo authInfo) {
-        scrapService.deleteScrap(scrapId, authInfo);
+        scrapService.deleteScrap(projectId, authInfo);
         ResultResponse<Void> resultResponse = new ResultResponse<>(SCRAP_DELETED_SUCCESS);
 
         return ResponseEntity.status(SCRAP_DELETED_SUCCESS.getStatus()).body(resultResponse);
