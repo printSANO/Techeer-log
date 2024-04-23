@@ -1,9 +1,9 @@
-import code from '../../../shared/assests/markdownImg/code.svg';
-import quote from '../../../shared/assests/markdownImg/Get Quote.svg';
-import imgfile from '../../../shared/assests/markdownImg/Image.svg';
-import link from '../../../shared/assests/markdownImg/Link.svg';
-import strikethrough from '../../../shared/assests/markdownImg/Strikethrough.svg';
-import italic from '../../../shared/assests/markdownImg/Italic.svg';
+import code from '../../../shared/assets/image/markdownImg/code.svg';
+import quote from '../../../shared/assets/image/markdownImg/Get Quote.svg';
+import imgfile from '../../../shared/assets/image/markdownImg/Image.svg';
+import link from '../../../shared/assets/image/markdownImg/Link.svg';
+import strikethrough from '../../../shared/assets/image/markdownImg/Strikethrough.svg';
+import italic from '../../../shared/assets/image/markdownImg/Italic.svg';
 
 export const markdownView = () => {
   return (

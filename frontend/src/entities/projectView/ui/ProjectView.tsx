@@ -1,5 +1,5 @@
-import Footer from '../../../pages/Footer.tsx';
-import NavBar from '../../../pages/NavBar.tsx';
+import Footer from '../../../shared/ui/Footer.tsx';
+import NavBar from '../../../shared/ui/NavBar.tsx';
 import GithubIcon from '../image/Icon-Github.png';
 import MediumIcon from '../image/Icon-Medium.png';
 import LinkIcon from '../image/Icon-Link.png';
@@ -243,5 +243,4 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
       <Footer />
     </div>
   );
-}
-
+};

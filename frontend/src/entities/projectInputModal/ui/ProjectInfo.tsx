@@ -1,8 +1,8 @@
 import calendarImg from '../image/calendar.svg';
 import dropdown from '../image/dropdown.svg';
-import github from '../../../shared/assests/modalImg/github.svg';
-import internet from '../../../shared/assests/modalImg/Internet.svg';
-import blog from '../../../shared/assests/modalImg/bloglink.svg';
+import github from '../../../shared/assets/image/modalImg/github.svg';
+import internet from '../../../shared/assets/image/modalImg/Internet.svg';
+import blog from '../../../shared/assets/image/modalImg/bloglink.svg';
 
 export const ProjectInfo = () => {
   return (

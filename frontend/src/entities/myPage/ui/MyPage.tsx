@@ -1,5 +1,5 @@
-import Footer from '../../../pages/Footer.tsx';
-import NavBar from '../../../pages/NavBar.tsx';
+import Footer from '../../../shared/ui/Footer.tsx';
+import NavBar from '../../../shared/ui/NavBar.tsx';
 
 export const MyPage = () => {
   return (
@@ -210,5 +210,4 @@ export const MyPage = () => {
       <Footer />
     </div>
   );
-}
-
+};
