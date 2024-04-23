@@ -1,4 +1,4 @@
-import check from '../../../shared/assests/modalImg/check.svg';
+import check from '../../../shared/assets/image/modalImg/check.svg';
 import close from '../image/close.svg';
 export const TechStackInfo = () => {
   return (

@@ -1,16 +1,6 @@
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { theme } from './theme';
-import { RecoilRoot } from 'recoil';
-import MainPage from './pages/MainPage.tsx';
-import {MyPage} from './entities/myPage/ui/MyPage.tsx';
-import './index.css';
-import LogIn from './pages/LogIn.tsx';
-import {ProjectView} from './entities/projectView/ui/ProjectView.tsx';
-import SignUp from './entities/signup/ui/SignUp.tsx';
-import {ProjectInfo} from './entities/projectInputModal';
+import { createGlobalStyle } from 'styled-components';
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -62,8 +52,7 @@ table {
 }
 body {
   font-weight: 300;
-  font-family: Inter;
-  background-color:${(props) => props.theme.bgColor};
+  background-color: #111111;
   color:black;
   line-height: 1.2;
   overflow-x: hidden;
@@ -73,44 +62,3 @@ a {
   color:inherit;
 }
 `;
-
-const router = createBrowserRouter([
-  {
-    path: '/mainpage',
-    element: <MainPage />,
-  },
-  {
-    path: '/mypage',
-    element: <MyPage />,
-  },
-  {
-    path: '/signup',
-    element: <SignUp />,
-  },
-  {
-    path: '/login',
-    element: <LogIn />,
-  },
-  {
-    path: '/projectview',
-    element: <ProjectView/>,
-  },
-  {
-    path: '/modal',
-    element: <ProjectInfo />,
-  },
-]);
-function App() {
-  return (
-    <>
-      <RecoilRoot>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </RecoilRoot>
-    </>
-  );
-}
-
-export default App;
