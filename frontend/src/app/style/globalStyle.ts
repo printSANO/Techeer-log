@@ -52,7 +52,6 @@ table {
 }
 body {
   font-weight: 300;
-  background-color: #111111;
   color:black;
   line-height: 1.2;
   overflow-x: hidden;
