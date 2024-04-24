@@ -3,8 +3,8 @@ import MainPage from '../../pages/MainPage.tsx';
 import { MyPage } from '../../entities/myPage';
 import SignUp from '../../entities/signup/ui/SignUp.tsx';
 import LogIn from '../../entities/login/ui/LogIn.tsx';
-import { ProjectView } from '../../entities/projectView';
 import { ProjectInfo } from '../../entities/projectInputModal';
+import {ProjectPage} from "../../pages";
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/projectview',
-    element: <ProjectView />,
+    element: <ProjectPage />,
   },
   {
     path: '/modal',

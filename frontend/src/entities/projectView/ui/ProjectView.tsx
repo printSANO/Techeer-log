@@ -1,4 +1,3 @@
-import Footer from '../../../shared/ui/Footer.tsx';
 import NavBar from '../../../shared/ui/NavBar.tsx';
 import GithubIcon from '../image/Icon-Github.png';
 import MediumIcon from '../image/Icon-Medium.png';
@@ -25,8 +24,8 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
   return (
     <div className="bg-[#0F1012] w-[100vw] box-sizing-border">
       <NavBar />
-      <div className="w-[1150px] relative ml-auto mr-auto">
-        <div className="m-[1rem_0_1.4rem_0] flex flex-col items-centerx break-words font-['Inter'] font-semibold text-[2rem] text-[#FFFFFF]">
+      <div className="w-[1150px] pt-[5.5rem] relative ml-auto mr-auto">
+        <div className="m-[0_0_1.4rem_0] flex flex-col items-centerx break-words font-['Inter'] font-semibold text-[2rem] text-[#FFFFFF]">
           Techeer.log
         </div>
         <div className="m-[0_0_1.3rem_0] inline-block break-words font-['Inter'] font-normal text-[1.1em] text-[#C7C7C7]">
@@ -35,19 +34,19 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
         <div className="bg-[#989898] absolute w-[100%] h-[0.1rem]"></div>
         <div className="flex flex-row items-center justify-between w-[100%] mt-[1.5rem] mb-[2rem] box-sizing-border">
           <div className="flex flex-row box-sizing-border items-center ml-[0.4rem]">
-            <button className="bg-[url('./entities/projectView/image/Icon-Like.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]"></button>
+            <button className="bg-[url('/src/entities/projectView/image/Icon-Like.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]"></button>
             <div className="inline-block break-words font-['Inter'] font-semibold text-[1.1rem] text-[#989898]">
               129
             </div>
           </div>
           <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
-            <button className="bg-[url('./entities/projectView/image/Icon-Scrap.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0_0_0] w-[2.2rem] h-[2.2rem]"></button>
-            <button className="bg-[url('./entities/projectView/image/Icon-Share.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0.7rem] w-[2rem] h-[2rem]"></button>
+            <button className="bg-[url('/src/entities/projectView/image/Icon-Scrap.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0_0_0] w-[2.2rem] h-[2.2rem]"></button>
+            <button className="bg-[url('/src/entities/projectView/image/Icon-Share.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0.7rem] w-[2rem] h-[2rem]"></button>
           </div>
         </div>
         <div className="flex flex-row w-[100%] justify-between box-sizing-border">
           <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[1.4rem_1.4rem_3rem_1.4rem] box-sizing-border">
-            <div className="rounded-[0.6rem] bg-[url('./shared/assests/ThumbNailImg.png')] bg-cover w-[100%] h-[23.2rem]"></div>
+            <div className="rounded-[0.6rem] bg-[url('/src/shared/assets/image/ThumbNailImg.png')] bg-cover w-[100%] h-[23.2rem]"></div>
             <p className="m-[2rem_1.1rem_0_1.1rem] whitespace-pre-wrap leading-5 self-start break-words font-['Inter'] font-normal text-[1rem] text-[#FFFFFF]">
               {word}
             </p>
@@ -176,71 +175,7 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
             </div>
           </div>
         </div>
-        <div className="relative flex flex-col w-[90%] mt-[5rem] mr-auto ml-auto box-sizing-border">
-          <div className="rounded-[0.3rem] mb-[4rem] flex flex-col w-[100%] box-sizing-border">
-            <div className="m-[0_0_3.3rem_0] inline-block self-start break-words font-['Inter'] font-semibold text-[1.5rem] text-[#FFFFFF]">
-              2개의 댓글
-            </div>
-            <input
-              placeholder="댓글을 작성하세요."
-              className="placeholder-white bg-transparent w-[100%] border-none m-[0_0_1.5rem_0] inline-block self-start break-words font-['Inter'] font-normal text-[1.2rem] text-[#FFFFFF]"
-            ></input>
-            <div className="bg-[#989898] w-[100%] h-[0.1rem]"></div>
-            <button className="rounded-[0.3rem] mt-[2rem] bg-[#696868] relative flex flex-row justify-center self-end p-[0.6rem_0rem_0.6rem_0] w-[7.5rem] box-sizing-border">
-              <span className="break-words font-['Inter'] font-semibold text-[1.2rem] tracking-[0.1rem] text-[#FFFFFF]">
-                댓글 작성
-              </span>
-            </button>
-          </div>
-          <div className="w-[100%] mb-[1.5rem]">
-            <div className="flex justify-between self-start w-[100%] box-sizing-border mb-[3rem]">
-              <div className="flex flex-row">
-                <div className="rounded-[16.3rem] bg-[url('./shared/assests/BigProfileImg.png')] bg-[50%_50%] bg-cover bg-no-repeat m-[0_1.3rem_0_0] w-[4.3rem] h-[4.3rem]"></div>
-                <div className="m-[0.5rem_0_0.6rem_0] flex flex-col flex-start box-sizing-border">
-                  <div className="m-[0_0_0.6rem_0] inline-block break-words font-['Inter'] font-semibold text-[1.3rem] text-[#FFFFFF]">
-                    이이름
-                  </div>
-                  <span className="m-[0_0.7rem_0_0] break-words font-['Inter'] font-normal text-[1rem] text-[#FFFFFF]">
-                    2023.10.12
-                  </span>
-                </div>
-              </div>
-
-              <div className="m-[1.7rem_0rem_1.5rem_0] inline-block break-words font-['Inter'] font-normal text-[1rem] text-[#FFFFFF]">
-                수정 삭제
-              </div>
-            </div>
-            <span className="self-start break-words font-['Inter'] font-normal text-[1.2rem] text-[#FFFFFF]">
-              우왕 저도 참고해서 이번 부트캠프 열심히 해보겠습니다~~
-            </span>
-          </div>
-          <div className="bg-[#989898] w-[100%] h-[0.05rem] mb-[7rem]"></div>
-          <div className="w-[100%] mr-auto ml-auto mb-[1.5rem]">
-            <div className="flex justify-between self-start w-[100%] box-sizing-border mb-[3rem]">
-              <div className="flex flex-row">
-                <div className="rounded-[16.3rem] bg-[url('./shared/assests/BigProfileImg.png')] bg-[50%_50%] bg-cover bg-no-repeat m-[0_1.3rem_0_0] w-[4.3rem] h-[4.3rem]"></div>
-                <div className="m-[0.5rem_0_0.6rem_0] flex flex-col flex-start box-sizing-border">
-                  <div className="m-[0_0_0.6rem_0] inline-block break-words font-['Inter'] font-semibold text-[1.3rem] text-[#FFFFFF]">
-                    이이름
-                  </div>
-                  <span className="m-[0_0.7rem_0_0] break-words font-['Inter'] font-normal text-[1rem] text-[#FFFFFF]">
-                    2일 전
-                  </span>
-                </div>
-              </div>
-
-              <div className="m-[1.7rem_0rem_1.5rem_0] inline-block break-words font-['Inter'] font-normal text-[1rem] text-[#FFFFFF]">
-                수정 삭제
-              </div>
-            </div>
-            <span className="self-start break-words font-['Inter'] font-normal text-[1.2rem] text-[#FFFFFF]">
-              우왕 저도 참고해서 이번 부트캠프 열심히 해보겠습니다~~
-            </span>
-          </div>
-          <div className="bg-[#989898] w-[100%] h-[0.05rem] mb-[7rem]"></div>
-        </div>
       </div>
-      <Footer />
     </div>
   );
 };
