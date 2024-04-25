@@ -24,6 +24,12 @@ public class Scrap extends BaseEntity {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    public Scrap() {
+    protected Scrap() {
     }
+
+    public Scrap(Member member, Project project) {
+        this.member = member;
+        this.project = project;
+    }
+
 }

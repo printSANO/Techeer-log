@@ -51,6 +51,9 @@ public enum ErrorCode {
     // Framework
     FRAMEWORK_NOT_FOUND_ERROR("F001", 400, "프레임워크가 존재하지 않습니다"),
 
+    // Scrap
+    SCRAP_NOT_FOUND_ERROR("S001", 400, "스크랩을 찾을 수 없습니다."),
+    SCRAP_DUPLICATE_ERROR("S002", 400, "이미 스크랩한 프로젝트입니다."),
     ;
 
     private final String code;
