@@ -1,5 +1,3 @@
-import Footer from '../../../shared/ui/Footer.tsx';
-
 export const ProjectComment = () => {
   return (
     <div className="bg-[#0F1012] w-[100vw] box-sizing-border">
@@ -43,7 +41,6 @@ export const ProjectComment = () => {
         </div>
         <div className="bg-[#989898] w-[100%] h-[0.05rem] mb-[7rem]"></div>
       </div>
-      <Footer />
     </div>
   );
 };
