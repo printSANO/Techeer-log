@@ -11,10 +11,4 @@ public class CommentDeletionEvent {
     public CommentDeletionEvent(Long commentId) {
         this.commentId = commentId;
     }
-
-    // 수정 필요
-    // @Getter 가 있는데, getter 를 2번 선언함
-    public Long getCommentId() {
-        return commentId;
-    }
 }

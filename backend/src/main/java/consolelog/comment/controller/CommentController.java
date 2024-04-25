@@ -8,7 +8,6 @@ import consolelog.global.support.token.Login;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,68 +32,47 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 생성", description = "댓글 생성")
-    @PostMapping("/project/{id}/comments")
-    public ResponseEntity<ResultResponse<CommentResponse>> addComment(@PathVariable(name = "id") Long projectId,
-                                                                      @Valid @RequestBody NewCommentRequest newCommentRequest,
+    @PostMapping("/comments")
+    public ResponseEntity<ResultResponse<String>> addComment(@Valid @RequestBody CommentRequest commentRequest,
                                                                       @Login AuthInfo authInfo) {
 
-        // 수정 필요
-        // 사용하지 않는 변수 삭제
-        Long commentId = commentService.addComment(projectId, newCommentRequest, authInfo);
-        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(COMMENT_CREATED_SUCCESS);
 
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+        CommentResponse commentResponse = commentService.addComment(commentRequest, authInfo);
+        String commentLocation = "/comments/" + commentResponse.getCommentId();
+        ResultResponse<String> resultResponse = new ResultResponse<>(COMMENT_CREATED_SUCCESS, commentLocation);
+
+
+        return ResponseEntity.status(COMMENT_CREATED_SUCCESS.getStatus()).body(resultResponse);
     }
 
-    //대댓글
-    @Operation(summary = "대댓글 생성", description = "대댓글 생성")
-    @PostMapping("/comments/{id}/reply")
-    public ResponseEntity<ResultResponse<ReplyResponse>> addReply(@PathVariable(name = "id") Long commentId,
-                                                                  @Valid @RequestBody NewReplyRequest newReplyRequest,
-                                                                  @Login AuthInfo authInfo) {
-
-        // 수정 필요
-        // 사용하지 않는 변수 삭제
-        Long replyId = commentService.addReply(commentId, newReplyRequest, authInfo);
-        ResultResponse<ReplyResponse> resultResponse = new ResultResponse<>(COMMENT_REPLY_CREATED_SUCCESS);
-
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
-    }
-
-    @Operation(summary = "댓글 및 대댓글 조회")
-    @GetMapping("/project/{id}/comments")
-    // 수정 필요
-    // 반환값 오류
-    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable(name = "id") Long postId,
+    @Operation(summary = "댓글 조회")
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable Long commentId,
                                                        @Login AuthInfo authInfo) {
-        CommentsResponse commentsResponse = commentService.findComments(postId, authInfo);
+        CommentsResponse commentsResponse = commentService.findComments(commentId, authInfo);
         ResultResponse<CommentsResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS, commentsResponse);
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+
+        return ResponseEntity.status(GET_COMMENT_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "댓글 수정", description = "댓글 수정")
-    @PutMapping("/comments/{id}")
-    public ResponseEntity<ResultResponse<CommentResponse>> updateComment(@PathVariable(name = "id") Long commentId,
-                                                                         @Valid @RequestBody UpdateCommentRequest updateCommentRequest,
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<ResultResponse<CommentResponse>> updateComment(@PathVariable Long commentId,
+                                                                         @Valid @RequestBody CommentRequest commentRequest,
                                                                          @Login AuthInfo authInfo) {
-        commentService.updateComment(commentId, updateCommentRequest, authInfo);
-        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(UPDATE_COMMENT_SUCCESS);
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+        CommentResponse updatedCommentResponse = commentService.updateComment(commentId, commentRequest, authInfo);
+        ResultResponse<CommentResponse> resultResponse = new ResultResponse<>(UPDATE_COMMENT_SUCCESS, updatedCommentResponse);
+
+        return ResponseEntity.status(UPDATE_COMMENT_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "댓글 삭제", description = "댓글 삭제")
-
-    @DeleteMapping("/comments/{id}")
-    // 수정 필요
-    public ResponseEntity<ResultResponse> deleteComment(@PathVariable(name = "id") Long commentId,
-                                                        @Login AuthInfo authInfo) {
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<ResultResponse<String>> deleteComment(@PathVariable Long commentId,
+                                                                @Login AuthInfo authInfo) {
         commentService.deleteComment(commentId, authInfo);
-        ResultResponse resultResponse = new ResultResponse<>(DELETE_COMMENT_SUCCESS);
-        // 수정 필요
-        return ResponseEntity.status(HttpStatus.OK).body(resultResponse);
+        ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_COMMENT_SUCCESS);
+
+        return ResponseEntity.status(DELETE_COMMENT_SUCCESS.getStatus()).body(resultResponse);
     }
 }
