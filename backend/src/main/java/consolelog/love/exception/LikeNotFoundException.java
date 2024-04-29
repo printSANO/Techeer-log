@@ -8,6 +8,6 @@ public class LikeNotFoundException extends BusinessException {
 
 
     public LikeNotFoundException() {
-        super(ErrorCode.COMMENT_NOT_FOUND_ERROR);
+        super(ErrorCode.COMMENT_LIKE_ALREADY_EXISTS_ERROR);
     }
 }

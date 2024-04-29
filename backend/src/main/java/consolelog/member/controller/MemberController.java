@@ -6,6 +6,7 @@ import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
 import consolelog.member.domain.Member;
 import consolelog.member.dto.*;
+import consolelog.global.mapper.MemberMapper;
 import consolelog.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;

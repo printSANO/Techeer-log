@@ -7,11 +7,9 @@ drop table if exists comment, framework, love, member, project, project_framewor
 CREATE TABLE comment
 (
     comment_id   BIGINT AUTO_INCREMENT NOT NULL,
-    parent_id    BIGINT                NULL,
     member_id    BIGINT                NULL,
     project_id   BIGINT                NULL,
     soft_removed BIT(1)                NOT NULL,
-    like_count   INT                   NOT NULL,
     created_at   datetime              NULL,
     message      VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_comment PRIMARY KEY (comment_id)
@@ -122,9 +120,6 @@ ALTER TABLE refresh_token
 
 ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
-
-ALTER TABLE comment
-    ADD CONSTRAINT FK_COMMENT_ON_PARENT FOREIGN KEY (parent_id) REFERENCES comment (comment_id);
 
 ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);

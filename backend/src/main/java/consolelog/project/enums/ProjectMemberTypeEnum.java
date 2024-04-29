@@ -1,9 +1,10 @@
 package consolelog.project.enums;
 
+import consolelog.global.support.EnumModel;
 import lombok.Getter;
 
 @Getter
-public enum ProjectMemberTypeEnum {
+public enum ProjectMemberTypeEnum implements EnumModel {
     FRONTEND("FRONTEND"),
     BACKEND("BACKEND"),
     DEVOPS("DEVOPS"),
