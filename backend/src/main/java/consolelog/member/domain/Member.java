@@ -66,6 +66,14 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void updatePassword(Password password) {
+        this.password = password;
+    }
+
     public boolean hasId(Long id) {
         return this.id.equals(id);
     }

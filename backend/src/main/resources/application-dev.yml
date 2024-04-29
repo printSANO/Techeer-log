@@ -26,7 +26,9 @@ spring:
       schema-locations: classpath:sql/schema.sql
       # data-locations: classpath:data.sql
       mode: always
-
+  default:
+    image:
+      address: ${DEFAULT_IMAGE}
 
 security:
   jwt:
@@ -45,6 +47,9 @@ cloud:
       bucket: ${BUCKET}
     region:
       static: ${REGION}
+
+
+
 
 #logging:
 #  level:
