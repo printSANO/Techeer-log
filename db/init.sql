@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS console_log;
 
 use console_log;
 
-drop table if exists comment, framework, love, member, project, project_framework, project_member, refresh_token, scrap;
+drop table if exists comment, framework, love, member, non_register_project_member, project, project_framework, project_member, refresh_token, scrap;
 
 CREATE TABLE comment
 (
@@ -46,6 +46,15 @@ CREATE TABLE member
     password          VARCHAR(255)          NULL,
     nickname          VARCHAR(255)          NULL,
     CONSTRAINT pk_member PRIMARY KEY (member_id)
+);
+
+CREATE TABLE non_register_project_member
+(
+    non_register_project_member_id BIGINT AUTO_INCREMENT NOT NULL,
+    project_id                     BIGINT                NOT NULL,
+    project_member_type            VARCHAR(255)          NULL,
+    name                           VARCHAR(255)          NULL,
+    CONSTRAINT pk_nonregisterprojectmember PRIMARY KEY (non_register_project_member_id)
 );
 
 CREATE TABLE project
@@ -129,6 +138,9 @@ ALTER TABLE love
 
 ALTER TABLE love
     ADD CONSTRAINT FK_LOVE_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
+
+ALTER TABLE non_register_project_member
+    ADD CONSTRAINT FK_NONREGISTERPROJECTMEMBER_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
 
 ALTER TABLE project_framework
     ADD CONSTRAINT FK_PROJECTFRAMEWORK_ON_FRAMEWORK FOREIGN KEY (framework_id) REFERENCES framework (framework_id);

@@ -79,6 +79,9 @@ public class Project extends BaseEntity {
     private List<ProjectMember> projectMemberList = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<NonRegisterProjectMember> nonRegisterProjectMemberList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ProjectFramework> projectFrameworkList = new ArrayList<>();
 
     public boolean isOwner(Long accessMemberId) {

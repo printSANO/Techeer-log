@@ -35,5 +35,6 @@ public class ProjectResponse {
     private int loveCount = 0;
     private MemberResponse writer;
     private List<ProjectMemberResponse> projectMemberResponseList;
+    private List<NonRegisterProjectMemberResponse> nonRegisterProjectMemberResponseList;
     private List<FrameworkResponse> frameworkResponseList;
 }
