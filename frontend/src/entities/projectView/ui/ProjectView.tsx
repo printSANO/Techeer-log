@@ -1,7 +1,10 @@
-import NavBar from '../../../shared/ui/NavBar.tsx';
-import GithubIcon from '../image/Icon-Github.png';
-import MediumIcon from '../image/Icon-Medium.png';
-import LinkIcon from '../image/Icon-Link.png';
+import GithubIcon from '../../../shared/assets/image/projectViewImg/Icon-Github.png';
+import MediumIcon from '../../../shared/assets/image/projectViewImg/Icon-Medium.png';
+import LinkIcon from '../../../shared/assets/image/projectViewImg/Icon-Link.png';
+import LikeIcon from '../../../shared/assets/image/projectViewImg/Icon-Like.svg';
+import LikeFillIcon from '../../../shared/assets/image/projectViewImg/Icon-Like-Fill.svg';
+
+import { useState } from 'react';
 export const ProjectView = () => {
   const word = `CONG(콩) : 축하 아카이빙 서비스
 
@@ -20,9 +23,9 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
 
 'CONG'을 통해 축하받고 싶은 일을 알리고 축하 노트를 받아요!
 축하의 순간, 사라지지 않게 콩! `;
+  const [isLike, setIsLike] = useState<boolean>(false);
   return (
     <div className="bg-[#0F1012] w-[100vw] box-sizing-border">
-      <NavBar />
       <div className="w-[1150px] pt-[5.5rem] relative ml-auto mr-auto">
         <div className="m-[1rem_0_1.4rem_0] flex flex-col items-centerx break-words font-['Pretendard'] font-semibold text-[2rem] text-[#FFFFFF]">
           북그북그
@@ -30,11 +33,18 @@ Unlearn Point 2️⃣ : 축하는 대단한 일이어야만 받을 수 있겠지
         <div className="m-[0_0_1.3rem_0] inline-block break-words font-['Pretendard'] font-normal text-[1.1em] text-[#C7C7C7]">
           테커 내 모든 프로젝트를 한 번에 살펴볼 수 있는 서비스
         </div>
-        <div className="bg-[#CCCCCC] absolute w-[100%] h-[0.07rem]"></div>
-        {/*좋아요 스크랩 공유*/}
-        <div className="flex flex-row items-center justify-between w-[100%] mt-[1rem] mb-[4rem] box-sizing-border">
-          <div className="flex flex-row box-sizing-border items-center ml-[0.4rem]">
-            <button className="bg-[url('/src/entities/projectView/image/Icon-Like.svg')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]"></button>
+        <div className="bg-[#989898] absolute w-[100%] h-[0.1rem]"></div>
+        {/*좋아요, 저장, 공유*/}
+        <div className="flex flex-row items-center justify-between w-[100%] mt-[1.5rem] mb-[2rem] box-sizing-border">
+          <div
+            onClick={() => {
+              setIsLike(!isLike);
+            }}
+            className="flex flex-row box-sizing-border items-center ml-[0.4rem]"
+          >
+            <div className="cursor-pointer m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]">
+              {isLike ? <img src={LikeFillIcon} alt="like" /> : <img src={LikeIcon} alt="like" />}
+            </div>
             <div className="inline-block break-words font-['Pretendard'] font-semibold text-[1rem] text-[#989898]">
               129
             </div>
