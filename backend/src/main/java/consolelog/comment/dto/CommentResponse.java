@@ -26,26 +26,14 @@ public class CommentResponse {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public static CommentResponse of(Comment comment, Long accessMemberId) {
-        comment.validateOwner(accessMemberId);
+    public static CommentResponse of(Comment comment, boolean isAuthorized) {
         return new CommentResponse(
                 comment.getId(),
                 comment.getMember().getNickname(),
                 comment.getMessage(),
                 comment.getCreatedAt(),
-                true,
+                isAuthorized,
                 comment.getMember().getProfileImageUrl()
         );
     }
-
-    public static CommentResponse softRemovedOf(Comment comment) {
-        return new CommentResponse(
-                comment.getId(),
-                null,
-                null,
-                comment.getCreatedAt(),
-                false,
-                null);
-    }
-
 }
