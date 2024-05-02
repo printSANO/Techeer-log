@@ -1,6 +1,5 @@
 package consolelog.comment.service;
 
-
 import consolelog.auth.dto.AuthInfo;
 import consolelog.comment.domain.Comment;
 import consolelog.comment.dto.*;
@@ -14,15 +13,14 @@ import consolelog.project.exception.ProjectNotFoundException;
 import consolelog.project.repository.ProjectRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
-
 
     public CommentService(CommentRepository commentRepository, MemberRepository memberRepository,
                           ProjectRepository projectRepository) {
@@ -45,31 +43,25 @@ public class CommentService {
                 .build();
         commentRepository.save(comment);
 
-        return CommentResponse.of(comment, authInfo.getId());
+        return CommentResponse.of(comment, true);
     }
-
 
     //댓글들 조회하고 응답 생성
     public CommentsResponse findComments(Long projectId, AuthInfo authInfo) {
         if (!projectRepository.existsById(projectId)) {
-            throw new CommentNotFoundException();
+            throw new ProjectNotFoundException();
         }
         List<Comment> comments = commentRepository.findCommentsByProjectId(projectId);
         List<CommentResponse> commentResponses = comments.stream()
-                .map(it -> convertToCommentResponse(authInfo, it))
-                .toList();
+                .map(comment -> {
+                    boolean isAuthorized = comment.getMember().getId().equals(authInfo.getId());
+                    return CommentResponse.of(comment, isAuthorized);
+                })
+                .collect(Collectors.toList());
         int numOfComment = commentResponses.size();
-        return new CommentsResponse(commentResponses, numOfComment );
-    }
 
-    private CommentResponse convertToCommentResponse(AuthInfo authInfo, Comment comment) {
-        Long id = authInfo.getId();
-        if (comment.isSoftRemoved()) {
-            return CommentResponse.softRemovedOf(comment);
-        }
-        return CommentResponse.of(comment, id);
+        return new CommentsResponse(commentResponses, numOfComment);
     }
-
 
     @Transactional
     public void deleteComment(Long commentId, AuthInfo authInfo) {
@@ -89,9 +81,6 @@ public class CommentService {
         comment.updateContent(updateCommentRequest.getContent());
         Comment updatedComment = commentRepository.save(comment);
 
-        return CommentResponse.of(updatedComment, authInfo.getId());
+        return CommentResponse.of(updatedComment, true);
     }
 }
-
-
-
