@@ -1,8 +1,59 @@
-export default function SignUp() {
+import { useState } from 'react';
+import axios from 'axios';
+
+export function SignUp() {
+  const [nickname, setNickname] = useState('');
+  const [loginId, setLoginId] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordconfirmation, setPasswordconfirmation] = useState('');
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
+
+  const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(event.target.value);
+  };
+
+  const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginId(event.target.value);
+  };
+
+  const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+    if (passwordconfirmation !== '' && event.target.value !== passwordconfirmation) {
+      setPasswordMatchError(true);
+    } else {
+      setPasswordMatchError(false);
+    }
+  };
+
+  const passwordconfirmationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordconfirmation(event.target.value);
+    if (password !== event.target.value) {
+      setPasswordMatchError(true);
+    } else {
+      setPasswordMatchError(false);
+    }
+  };
+
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post('/api/v1/members/signup', { loginId, password, nickname });
+      if (response.data.status != '200') {
+        return Error;
+      }
+    } catch (error) {
+      console.error('로그인에 실패했습니다', error);
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleSignup();
+  };
+
   return (
     //   확인용 배경 박스
     <div className="bg-[#111111] bg-opacity-90 flex w-screen h-screen justify-center items-center">
-      <div className="rounded-[20px] bg-[url('./shared/assests/signup.svg')] bg-cover bg-no-repeat flex flex-row w-[960px] h-[600px] box-sizing-border">
+      <div className="rounded-[20px] bg-[url('./shared/assets/image/signupImg/signup.svg')] bg-cover bg-no-repeat flex flex-row w-[960px] h-[600px] box-sizing-border">
         {/*왼쪽 박스*/}
         <div className="flex flex-col justify-center ml-8 box-sizing-border w-[55%] gap-2">
           <p className="break-words font-['Bayon'] font-normal text-[3rem] text-[#FFFFFF]">Techeer.log</p>
@@ -15,7 +66,10 @@ export default function SignUp() {
           </p>
         </div>
         {/*오른쪽 박스*/}
-        <div className="gap-4 backdrop-blur-[1.3rem] rounded-r-[20px] bg-[rgba(45,46,114,0.7)] flex flex-col justify-center items-center p-[0_2.5rem_0_2.5rem] w-[45%] box-sizing-border">
+        <form
+          onSubmit={handleSubmit}
+          className="gap-4 backdrop-blur-[1.3rem] rounded-r-[20px] bg-[rgba(45,46,114,0.7)] flex flex-col justify-center items-center p-[0_2.5rem_0_2.5rem] w-[45%] box-sizing-border"
+        >
           <div className="mb-8 inline-block break-words font-['Pretendard'] font-semibold text-[2rem] text-[#F0F0F0]">
             회원가입
           </div>
@@ -34,6 +88,8 @@ export default function SignUp() {
                   placeholder="이름을 입력하세요"
                   required
                   className="h-10 w-[14rem] text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none"
+                  value={nickname}
+                  onChange={nicknameChange}
                 />
               </label>
               <label className="block">
@@ -43,6 +99,8 @@ export default function SignUp() {
                   placeholder="아이디를 입력하세요"
                   required
                   className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none"
+                  value={loginId}
+                  onChange={loginIdChange}
                 />
               </label>
               <label className="block">
@@ -52,6 +110,8 @@ export default function SignUp() {
                   placeholder="비밀번호를 입력하세요"
                   required
                   className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none"
+                  value={password}
+                  onChange={passwordChange}
                 />
               </label>
               <label className="block">
@@ -60,8 +120,13 @@ export default function SignUp() {
                   name="passwordconfirmation"
                   placeholder="비밀번호를 한번 더 입력하세요"
                   required
-                  className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none"
+                  className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none `${ passwordMatchError ? 'border-red-500' : ''}`"
+                  value={passwordconfirmation}
+                  onChange={passwordconfirmationChange}
                 />
+                {passwordMatchError && (
+                  <p className="mt-[0.313rem] text-sm text-red-500">비밀번호가 일치하지 않습니다.</p>
+                )}
               </label>
             </div>
             {/*<div className="flex mb-8 items-center gap-4">*/}
@@ -112,12 +177,15 @@ export default function SignUp() {
             {/*  </label>*/}
             {/*</div>*/}
           </div>
-          <div className="ml-4 rounded-[6px] bg-[#471993] flex flex-row justify-center w-[23rem] box-sizing-border">
+          <button
+            type="submit"
+            className="ml-4 rounded-[6px] bg-[#471993] flex flex-row justify-center w-[23rem] box-sizing-border"
+          >
             <span className="break-words font-['Pretendard'] font-normal text-[1rem] leading-[3] text-[#F0F0F0]">
               회원가입
             </span>
-          </div>
-        </div>
+          </button>
+        </form>
       </div>
     </div>
   );
