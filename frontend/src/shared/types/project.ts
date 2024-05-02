@@ -19,7 +19,7 @@ export enum ProjectMemberType {
 }
 export interface ProjectMember {
   memberResponse: MemberResponse;
-  projectMemberTypeEnum: ProjectMemberType;
+  projectMemberTypeEnum: string;
 }
 
 export enum FrameworkType {
@@ -28,7 +28,7 @@ export enum FrameworkType {
 }
 export interface Framework {
   name: string;
-  frameworkTypeEnum: FrameworkType;
+  frameworkTypeEnum: string;
 }
 
 export interface ProjectData {

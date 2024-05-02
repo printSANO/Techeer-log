@@ -3,12 +3,13 @@ import MediumIcon from '../../../shared/assets/image/projectViewImg/Icon-Medium.
 import LinkIcon from '../../../shared/assets/image/projectViewImg/Icon-Link.png';
 import LikeIcon from '../../../shared/assets/image/projectViewImg/Icon-Like.svg';
 import LikeFillIcon from '../../../shared/assets/image/projectViewImg/Icon-Like-Fill.svg';
-import { FrameworkType, ProjectData } from '../../../shared/types/project.ts';
+import { ProjectData } from '../../../shared/types/project.ts';
 import { useState } from 'react';
 export const ProjectView = (props: { data: ProjectData }) => {
   const project = props.data;
   const projectMember = props.data.projectMemberResponseList;
   const techStack = props.data.frameworkResponseList;
+  console.log('type:', techStack[0]);
 
   const [isLike, setIsLike] = useState<boolean>(false);
 
@@ -128,7 +129,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
                   techStack.map((tech) => {
-                    if (tech.frameworkTypeEnum === FrameworkType.BACKEND) {
+                    if (tech.frameworkTypeEnum === 'BACKEND') {
                       return (
                         <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
@@ -145,7 +146,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
                   techStack.map((tech) => {
-                    if (tech.frameworkTypeEnum === FrameworkType.FRONTEND) {
+                    if (tech.frameworkTypeEnum === 'FRONTEND') {
                       return (
                         <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
@@ -177,7 +178,14 @@ export const ProjectView = (props: { data: ProjectData }) => {
                 <div className="flex flex-col justify-between self-start w-[17.8rem] box-sizing-border">
                   {projectMember &&
                     projectMember.map((member) => {
-                      if (member.projectMemberTypeEnum === 0) {
+                      if (member.projectMemberTypeEnum === 'BACKEND') {
+                        return (
+                          <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
+                            {member.memberResponse.nickname}
+                          </span>
+                        );
+                      }
+                      if (member.projectMemberTypeEnum === 'FRONTEND') {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
                             {member.memberResponse.nickname}
@@ -187,12 +195,6 @@ export const ProjectView = (props: { data: ProjectData }) => {
                     })}
                   {/*위의 비즈니스 로직을 따로 분리해야하나? model로? enum에따라 배열 나눠서 전달 or map3번 돌림 코드를 깔끔하게 짜려면 분리하는게 맞는듯 계산 시간은 비슷 7*3==7*/}
                   {/*멤버enum타입에 리더가있는지..? 있다면 리더를 프,백 중 어디 배치..?*/}
-                  <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
-                    어쩌구, 저쩌구, 가나다, 마바사
-                  </span>
-                  <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
-                    아자차, 타파하, 먕먕먕
-                  </span>
                 </div>
               </div>
             </div>
