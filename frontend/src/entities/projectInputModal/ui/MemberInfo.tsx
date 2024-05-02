@@ -1,7 +1,13 @@
 import check from '../../../shared/assets/image/modalImg/check.svg';
 import close from '../image/close.svg';
 
-export const MemberInfo = () => {
+export const MemberInfo = ({ setStep }: any) => {
+  const nextStep = () => {
+    setStep('next');
+  };
+  const prevStep = () => {
+    setStep('prev');
+  };
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">
@@ -98,10 +104,16 @@ export const MemberInfo = () => {
           </div>
           {/* 하단 버튼 */}
           <div className="absolute right-0 bottom-0 rounded-[0.3rem] flex flex-row w-[100%] gap-2 justify-end box-sizing-border">
-            <div className="rounded-[0.3rem] bg-[#333333] flex flex-row justify-center items-center w-[4.2rem] h-[2.1rem] box-sizing-border">
+            <div
+              onClick={prevStep}
+              className="rounded-[0.3rem] bg-[#333333] flex flex-row justify-center items-center w-[4.2rem] h-[2.1rem] box-sizing-border cursor-pointer"
+            >
               <span className="break-words font-medium text-[0.9rem] leading-[1.286] text-[#F1EEF9]">취소</span>
             </div>
-            <div className="rounded-[0.3rem] bg-[#8A8991] flex flex-row justify-center items-center w-[4.2rem] h-[2.1rem] box-sizing-border">
+            <div
+              onClick={nextStep}
+              className="rounded-[0.3rem] bg-[#8A8991] flex flex-row justify-center items-center w-[4.2rem] h-[2.1rem] box-sizing-border cursor-pointer"
+            >
               <span className="break-words font-medium text-[0.9rem] leading-[1.286] text-[#F1EEF9)]">다음</span>
             </div>
           </div>

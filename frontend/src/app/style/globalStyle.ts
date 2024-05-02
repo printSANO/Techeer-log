@@ -60,4 +60,29 @@ a {
   text-decoration:none;
   color:inherit;
 }
+
+h1 {
+    font-family: 'Pre-S';
+    font-size: 3rem;
+}
+
+h2 {
+    font-family: 'Pre-S';
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-family: 'Pre-S';
+    font-size: 2rem;
+}
+
+h4 {
+    font-family: 'Pre-S';
+    font-size: 1.5rem;
+}
+
+strong {
+    font-family: 'Pre-B';
+    font-weight: 800;
+}
 `;
