@@ -1,14 +1,12 @@
 package consolelog.global.support;
 
-import consolelog.global.error.ErrorCode;
+import consolelog.global.exception.NoAccessTokenException;
 import consolelog.global.support.token.AuthorizationExtractor;
-import consolelog.global.support.token.InvalidAccessTokenException;
-import consolelog.global.support.token.InvalidRefreshTokenException;
+import consolelog.global.exception.InvalidAccessTokenException;
 import consolelog.global.support.token.TokenManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -42,7 +40,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         if (notExistHeader(request)) {
 //            LOGGER.info("no header" + request.getRequestURI());
-            throw new RuntimeException();
+            throw new NoAccessTokenException();
         }
 
         String token = AuthorizationExtractor.extractAccessToken(request);
@@ -57,7 +55,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private boolean isGetMethodExcludeNickname(HttpServletRequest request) {
         return request.getMethod().equalsIgnoreCase("GET") &&
                 !(request.getRequestURI().equalsIgnoreCase("/api/v1/members/nickname")
-                || request.getRequestURI().equalsIgnoreCase("/api/v1/posts/list/*"));
+                        || request.getRequestURI().equalsIgnoreCase("/api/v1/projects/list/**"));
     }
 
     private boolean notExistHeader(HttpServletRequest request) {

@@ -1,0 +1,25 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Pre-R';
+    src: local('Pre-R'),
+    url('shared/assets/fonts/Pretendard/Pretendard-Regular.woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Pre-S';
+    src: local('Pre-S'),
+    url('shared/assets/fonts/Pretendard/Pretendard-SemiBold.woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Bayon';
+    src: local('Bayon'),
+    url('shared/assets/fonts/Bayon/Bayon-Regular.ttf');
+    font-weight: 400;
+}

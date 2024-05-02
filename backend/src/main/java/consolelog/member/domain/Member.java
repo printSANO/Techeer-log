@@ -1,6 +1,8 @@
 package consolelog.member.domain;
 
+import consolelog.auth.domain.RefreshToken;
 import consolelog.global.config.BaseEntity;
+import consolelog.member.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +34,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleType roleType = RoleType.USER;
 
+    @OneToOne(mappedBy = "member")
+    private RefreshToken refreshToken;
+
     public String getLoginId() {
         return loginId.getValue();
     }
@@ -59,6 +64,14 @@ public class Member extends BaseEntity {
 
     public void updateNickname(Nickname nickname) {
         this.nickname = nickname;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void updatePassword(Password password) {
+        this.password = password;
     }
 
     public boolean hasId(Long id) {

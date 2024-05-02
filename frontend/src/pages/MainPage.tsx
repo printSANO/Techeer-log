@@ -1,366 +1,60 @@
-import styled from "styled-components";
-import NavBar from "../components/NavBar";
-import { AiOutlineClockCircle } from "react-icons/ai";
-import more from "../assets/More.png";
-import line from "../assets/Line.png";
-// import LoginModal from "../components/LoginModal";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useInView } from "react-intersection-observer";
-import nopost from "../assets/NoPost.png";
-import { motion } from "framer-motion";
+import NavBar from '../shared/ui/NavBar.tsx';
+// import { DropDown } from '../entities/filter/index';
+import { Search } from '../entities/search/index.ts';
+import { EmblaCarousel } from '../entities/carousel/index';
+import { EmblaOptionsType } from 'embla-carousel';
+import ProjectCard from '../shared/ui/ProjectCard.tsx';
 
-const Background = styled.div`
-  width: 100vw;
-  background: #121212;
-  background-repeat: repeat-y;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow-x: hidden;
-`;
-
-const BackgroundNone = styled.div`
-  width: 100vw;
-  background: #121212;
-  height: 100vh;
-  background-repeat: repeat-y;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow-x: hidden;
-`;
-const Header = styled.div`
-  width: 100%;
-  height: 51px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 6.5rem;
-`;
-
-const Headers = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  width: 14rem;
-  height: 100%;
-  margin-left: 85px;
-  margin-bottom: 1rem;
-  gap: 20px;
-`;
-
-const NewWord2 = styled.a`
-  color: #ececec;
-  text-align: center;
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-`;
-
-const ButtonLine = styled.div`
-  position: absolute;
-  width: 50%;
-  height: 2px;
-  background: #e0e0e0;
-  bottom: 0;
-`;
-
-const Buttonleft = styled.button`
-  background-color: transparent;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  gap: 10px;
-`;
-
-const More = styled.img`
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 70px;
-`;
-
-const Row = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  margin-top: 32px;
-
-  margin-left: auto;
-  margin-right: auto;
-  gap: 40px 55px;
-`;
-
-const Box = styled(motion.div)`
-  width: 310px;
-  height: 380px;
-  background-color: #1e1e1e;
-  border-radius: 10px;
-  cursor: pointer;
-`;
-
-const MainImg = styled.img`
-  width: 310px;
-  height: 175.75px;
-  border-radius: 10px;
-`;
-
-const MainImgNone = styled.div`
-  width: 310px;
-  height: 175.75px;
-  border-radius: 10px;
-`;
-
-const Bottom = styled.div`
-  padding-top: 12px;
-`;
-
-const Title = styled.p`
-  display: flex;
-  width: 100%;
-  height: 32px;
-  flex-direction: column;
-  color: #fff;
-  font-family: Inter;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  padding-left: 16px;
-`;
-
-const Info = styled.p`
-  display: flex;
-  width: 100%;
-  height: 43px;
-  flex-direction: column;
-  justify-content: center;
-  color: #acacac;
-  font-family: Inter;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  font-style: normal;
-  font-weight: 400;
-  padding: 16px;
-  margin-top: 50px;
-`;
-
-const Line = styled.img`
-  width: 100%;
-  height: 1px;
-  background: #403f3f;
-`;
-
-const DetailUnder = styled.div`
-  display: flex;
-  line-height: 1.5;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.425rem 1rem;
-`;
-
-const ProfileImg = styled.img`
-  border-radius: 50%;
-  width: 23px;
-  height: 23px;
-  border-radius: 0.8rem;
-`;
-
-const Like = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #cfcfcf;
-  font-family: Inter;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-const Posts = styled.div`
-  width: 100%;
-  display: flex;
-  position: absolute;
-  align-items: center;
-  margin-top: 20rem;
-  flex-direction: column;
-`;
-
-const NoPostImg = styled.img`
-  width: 20rem;
-`;
-
-const NoPostWord = styled.p`
-  display: flex;
-  width: 392px;
-  height: 89px;
-  flex-direction: column;
-  justify-content: center;
-  color: #acacac;
-  text-align: center;
-  font-family: Inter;
-  font-size: 2rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-`;
-
-// const ModalWrapper = styled.div`
-//   position: absolute;
-//   z-index: 2;
-// `;
-
-interface FormType {
-  title: string;
-  nickname: string;
-  createdAt: string;
-  commentCount: number;
-  likeCount: number;
-  id: number;
-  profileImageUrl: string;
-  mainImageUrl: string;
-}
-
-function MainPage() {
-  const [lastPost, setLastPost] = useState(-2);
-  const [posts, setPosts] = useState<FormType[]>([]);
-  const [ref, inView] = useInView();
-  const [pagenum, setPagenum] = useState(0);
-  const [islastPost, setIsLastPost] = useState(false);
-
-  //첫 포스트 요청
-  const getPostList = (): void => {
-    axios
-      .get("api/v1/posts/list/0", {
-        params: { page: pagenum, size: 10, sort: "desc" },
-      })
-      .then((res) => {
-        setLastPost(res.data.data.posts[0].id + 1);
-        setIsLastPost(res.data.data.lastpage);
-        setPosts(res.data.data.posts);
-        setPagenum((prev) => prev + 1);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLastPost(-2);
-      });
-  };
-  useEffect(() => {
-    getPostList();
-  }, []);
-  useEffect(() => {
-    if (pagenum == 1) {
-      getPostList2();
-    }
-  }, [pagenum]);
-
-  //무한 스크롤 요청
-  const getPostList2 = (): void => {
-    axios
-      .get("api/v1/posts/list/0", {
-        params: { page: pagenum, size: 10, sort: "desc" },
-      })
-      .then((res) => {
-        const postsData = res.data.data.posts;
-        setPosts((posts) => [...posts, ...postsData]);
-        setIsLastPost(res.data.data.lastpage);
-      })
-      .catch(() => {
-        setLastPost(-2);
-      });
-  };
-  useEffect(() => {
-    if (inView && islastPost) {
-      getPostList2();
-      setPagenum((prev) => prev + 1);
-    }
-  }, [inView]);
+export default function MainPage() {
+  const OPTIONS: EmblaOptionsType = { loop: true };
+  const SLIDE_COUNT = 5;
+  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
   return (
-    <>
-      {lastPost < -1 ? (
-        <BackgroundNone>
-          <NavBar />
-
-          <Posts>
-            <NoPostImg src={nopost} />
-            <NoPostWord>포스트가 없습니다.</NoPostWord>
-          </Posts>
-        </BackgroundNone>
-      ) : (
-        <Background>
-          <NavBar />
-          <Header>
-            <Headers>
-              <Buttonleft>
-                <AiOutlineClockCircle size="24" color="#ececec" />
-                <NewWord2>최신</NewWord2>
-                <ButtonLine />
-              </Buttonleft>
-            </Headers>
-            <More src={more} />
-          </Header>
-          <Row>
-            {posts.length > 0 &&
-              posts.map((data: FormType, index) => (
-                <Link to={`/board/${data.id}`}>
-                  <Box
-                    key={index}
-                    whileHover={{ y: -10 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {data.mainImageUrl ? (
-                      <MainImg src={data.mainImageUrl} />
-                    ) : (
-                      <MainImgNone></MainImgNone>
-                    )}
-                    <Bottom>
-                      <Title>{data.title}</Title>
-                      <Info>
-                        작성일 : {data.createdAt.replace("T", " ")} ·{" "}
-                        {data.commentCount}개의 댓글
-                      </Info>
-                      <Line src={line} />
-                      <DetailUnder>
-                        <a style={{ display: "flex", paddingTop: "4px" }}>
-                          <ProfileImg src={data.profileImageUrl} />
-                          <span style={{ color: "#fff", paddingLeft: "8px" }}>
-                            <b
-                              style={{
-                                color: "#ECECEC",
-                                fontWeight: "bold",
-                                paddingLeft: "5px",
-                              }}
-                            >
-                              {data.nickname}
-                            </b>
-                          </span>
-                        </a>
-                        <Like>❤︎ {data.likeCount}</Like>
-                      </DetailUnder>
-                    </Bottom>
-                  </Box>
-                </Link>
-              ))}
-            <div ref={ref}></div>
-          </Row>
-
-          {/* <ModalWrapper>
-        <LoginModal />
-      </ModalWrapper> */}
-        </Background>
-      )}
-    </>
+    <div className="bg-[#111111] flex flex-col items-center w-screen justify-center items-center">
+      <NavBar />
+      {/* 메인페이지-소개 */}
+      <div className="w-[100vw] h-[41.6vw] bg-cover bg-[url('./shared/assets/image/mainImg/Background-Main.png')] flex justify-center items-center">
+        <div className="w-[100vw] h-[100vw] flex flex-col justify-center items-center font-['Pretendard-Regular'] font-normal text-[#FFFFFF]">
+          <span className="font-['Pretendard-Black'] text-[6.25rem] m-[0_0_1.5rem_0]">Techeer</span>
+          <span className="font-['Pretendard-Thin'] text-[1.875rem]">
+            테커에서 진행하는 <a className="font-['Pretendard-Medium']">다양한 프로젝트를 한눈에</a>
+          </span>
+          <Search />
+        </div>
+      </div>
+      {/* 메인페이지-프로젝트 */}
+      <div className="w-[75rem] mt-[6.063rem] flex flex-col justify-center">
+        {/* 우수선정작 */}
+        <div className="flex flex-col justify-center items-center mb-12">
+          <img src="./src/shared/assets/image/mainImg/Icon-Point.png" className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />
+          <span className="font-['Pretendard-Thin'] text-[1.875rem] text-white">
+            2023 동계 부트캠프 <a className="font-['Pretendard-Bold']">우수 선정작</a>
+          </span>
+        </div>
+        {/* Carousel */}
+        {/* 캐러셀 참고 : https://codesandbox.io/p/sandbox/embla-carousel-loop-react-yvfd5v?file=%2Fsrc%2Fjs%2Findex.tsx */}
+        <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+        {/* 테커 모든 프로젝트 */}
+        <div className="flex flex-col justify-center items-center mb-12">
+          <img src="./src/shared/assets/image/mainImg/Icon-Point.png" className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />
+          <span className="font-['Pretendard-Thin'] text-[1.875rem] text-white">
+            테커 모든 <a className="font-['Pretendard-Bold']">프로젝트</a>
+          </span>
+        </div>
+        {/* Filter */}
+        {/*<DropDown />*/}
+        {/* Filtered Projects */}
+        <div className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+        </div>
+      </div>
+    </div>
   );
 }
-
-export default MainPage;

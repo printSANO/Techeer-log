@@ -4,13 +4,16 @@ import consolelog.auth.domain.encryptor.EncryptorI;
 import consolelog.auth.dto.AuthInfo;
 import consolelog.global.config.BaseEntity;
 import consolelog.image.service.AmazonS3Service;
-import consolelog.member.domain.*;
-import consolelog.member.dto.EditNicknameRequest;
+import consolelog.member.domain.LoginId;
+import consolelog.member.domain.Member;
+import consolelog.member.domain.Nickname;
+import consolelog.member.domain.Password;
+import consolelog.member.dto.EditMemberRequest;
 import consolelog.member.dto.ProfileResponse;
 import consolelog.member.dto.SignupRequest;
 import consolelog.member.dto.UniqueResponse;
 import consolelog.member.exception.DuplicateNicknameException;
-import consolelog.member.exception.InvalidSignupFlowException;
+import consolelog.member.exception.InvalidLoginIdException;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.exception.PasswordConfirmationException;
 import consolelog.member.repository.MemberRepository;
@@ -18,9 +21,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class MemberService extends BaseEntity {
+
+
 
     private final MemberRepository memberRepository;
     private final EncryptorI encryptor;
@@ -33,13 +40,14 @@ public class MemberService extends BaseEntity {
     }
 
     @Transactional
-    public Member signUp(SignupRequest signupRequest, MultipartFile multipartFile) {
+    public Member signUp(SignupRequest signupRequest) {
         validate(signupRequest);
-        String profileImageUrl = amazonS3Service.upload(signupRequest.getNickname(), multipartFile);
+        String defaultProfileImageUrl = "https://console-log.s3.ap-northeast-2.amazonaws.com/default/teecher.png";
+
         Member member = Member.builder()
                 .loginId(new LoginId(signupRequest.getLoginId()))
                 .password(Password.of(encryptor, signupRequest.getPassword()))
-                .profileImageUrl(profileImageUrl)
+                .profileImageUrl(defaultProfileImageUrl)
                 .nickname(new Nickname(signupRequest.getNickname()))
                 .build();
         memberRepository.save(member);
@@ -66,7 +74,7 @@ public class MemberService extends BaseEntity {
         boolean isDuplicatedLoginId = memberRepository
                 .existsMemberByLoginIdValue(signupRequest.getLoginId());
         if (isDuplicatedLoginId) {
-            throw new InvalidSignupFlowException();
+            throw new InvalidLoginIdException();
         }
     }
 
@@ -75,7 +83,7 @@ public class MemberService extends BaseEntity {
         boolean isDuplicatedNickname = memberRepository
                 .existsMemberByNicknameValue(signupRequest.getNickname());
         if (isDuplicatedNickname) {
-            throw new InvalidSignupFlowException();
+            throw new DuplicateNicknameException();
         }
     }
 
@@ -86,13 +94,39 @@ public class MemberService extends BaseEntity {
     }
 
     @Transactional
-    public void editNickname(EditNicknameRequest editNicknameRequest, AuthInfo authInfo) {
+    public void edit(EditMemberRequest editMemberRequest, AuthInfo authInfo, Optional<MultipartFile> multipartFile) {
         Member member = memberRepository.findById(authInfo.getId())
                 .orElseThrow(MemberNotFoundException::new);
 
-        Nickname validNickname = new Nickname(editNicknameRequest.getNickname());
-        validateUniqueNickname(validNickname);
-        member.updateNickname(validNickname);
+        multipartFile.ifPresent(file -> {
+            if (!file.isEmpty()) {
+                String profileImageUrl = amazonS3Service.upload(member.getNickname(), file);
+                member.updateProfileImageUrl(profileImageUrl);
+            }
+
+        });
+
+        if (editMemberRequest == null) {
+            return;
+        }
+
+        if (!editMemberRequest.getNickname().isEmpty() && !editMemberRequest.getNickname().equals(member.getNickname())) {
+            Nickname validNickname = new Nickname(editMemberRequest.getNickname());
+            validateUniqueNickname(validNickname);
+            member.updateNickname(validNickname);
+        }
+
+        if (!editMemberRequest.getPassword().equals(member.getPassword()) && !editMemberRequest.getPassword().isEmpty()) {
+            Password validPassword = Password.of(encryptor, editMemberRequest.getPassword());
+            member.updatePassword(validPassword);
+        }
+
+        multipartFile.ifPresent(file -> {
+            if (!file.isEmpty()) {
+                String profileImageUrl = amazonS3Service.upload(editMemberRequest.getNickname(), file);
+                member.updateProfileImageUrl(profileImageUrl);
+            }
+        });
     }
 
     private void validateUniqueNickname(Nickname validNickname) {
@@ -106,4 +140,5 @@ public class MemberService extends BaseEntity {
                 .orElseThrow(MemberNotFoundException::new);
         return ProfileResponse.of(member);
     }
+
 }

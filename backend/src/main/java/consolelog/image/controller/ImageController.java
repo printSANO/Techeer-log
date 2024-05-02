@@ -1,8 +1,8 @@
 package consolelog.image.controller;
 
 import consolelog.auth.dto.AuthInfo;
-import consolelog.global.result.ResultCode;
-import consolelog.global.result.ResultResponse;
+import consolelog.global.response.ResultCode;
+import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.Login;
 import consolelog.image.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import static consolelog.global.response.ResultCode.*;
 
 
 @RestController
@@ -29,9 +26,10 @@ public class ImageController {
     @PostMapping( value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<ResultResponse<String>> upload(@Login AuthInfo authInfo, @RequestParam MultipartFile multipartFile) {
         String imageUrl = imageService.upload(authInfo.getNickname(), multipartFile);
-        ResultResponse<String> response = new ResultResponse<>(ResultCode.UPLOAD_SUCCESS, imageUrl);
+        ResultResponse<String> response = new ResultResponse<>(UPLOAD_SUCCESS, imageUrl);
 
-        // 수정 필요
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity
+                .status(UPLOAD_SUCCESS.getStatus())
+                .body(response);
     }
 }

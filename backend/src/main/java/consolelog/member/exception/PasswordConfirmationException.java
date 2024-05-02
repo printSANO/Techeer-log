@@ -1,9 +1,9 @@
 package consolelog.member.exception;
 
-import consolelog.global.advice.BadRequestException;
-import consolelog.global.error.ErrorCode;
+import consolelog.global.response.ErrorCode;
+import consolelog.global.exception.BusinessException;
 
-public class PasswordConfirmationException extends BadRequestException {
+public class PasswordConfirmationException extends BusinessException {
 
 
     public PasswordConfirmationException() {

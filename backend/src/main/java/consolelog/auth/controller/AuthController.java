@@ -4,11 +4,11 @@ import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.dto.LoginRequest;
 import consolelog.auth.service.AuthService;
 import consolelog.auth.service.RefreshTokenService;
-import consolelog.global.result.ResultResponse;
+import consolelog.global.response.ResultResponse;
 import consolelog.global.support.token.AuthorizationExtractor;
 import consolelog.global.support.token.Login;
 import consolelog.global.support.token.TokenManager;
-import consolelog.global.support.token.TokenNotFoundException;
+import consolelog.global.exception.TokenNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
-import static consolelog.global.result.ResultCode.*;
-import static consolelog.global.support.ConstantString.*;
+import static consolelog.global.response.ResultCode.*;
+import static consolelog.global.support.ConstantString.BEARER_STRING;
+import static consolelog.global.support.ConstantString.REFRESH_TOKEN_STRING;
 
 @Tag(name = "Auth", description = "Auth API Document")
 @RestController
@@ -47,8 +48,7 @@ public class AuthController {
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGIN_SUCCESS);
 
         // 200을 보냄
-        // 수정 필요
-        return ResponseEntity.ok()
+        return ResponseEntity.status(LOGIN_SUCCESS.getStatus())
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .header(REFRESH_TOKEN_STRING, BEARER_STRING + refreshToken)
                 .body(resultResponse);
@@ -70,8 +70,7 @@ public class AuthController {
 
         ResultResponse<String> resultResponse = new ResultResponse<>(REFRESH_SUCCESS);
 
-        // 수정 필요
-        return ResponseEntity.ok()
+        return ResponseEntity.status(REFRESH_SUCCESS.getStatus())
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .body(resultResponse);
     }
@@ -82,8 +81,8 @@ public class AuthController {
         refreshTokenService.deleteToken(authInfo.getId());
         ResultResponse<String> resultResponse = new ResultResponse<>(LOGOUT_SUCCESS);
 
-        // 수정 필요
-        return ResponseEntity.ok().body(resultResponse);
+        return ResponseEntity.status(LOGOUT_SUCCESS.getStatus())
+                .body(resultResponse);
     }
 
     private void validateExistHeader(HttpServletRequest request) {
