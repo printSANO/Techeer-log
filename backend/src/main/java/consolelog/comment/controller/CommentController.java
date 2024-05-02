@@ -45,11 +45,11 @@ public class CommentController {
         return ResponseEntity.status(COMMENT_CREATED_SUCCESS.getStatus()).body(resultResponse);
     }
 
-    @Operation(summary = "댓글 조회")
-    @GetMapping("/comments/{commentId}")
-    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable Long commentId,
+    @Operation(summary = "댓글 리스트 조회")
+    @GetMapping("/comments/{projectId}")
+    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable Long projectId,
                                                        @Login AuthInfo authInfo) {
-        CommentsResponse commentsResponse = commentService.findComments(commentId, authInfo);
+        CommentsResponse commentsResponse = commentService.findComments(projectId, authInfo);
         ResultResponse<CommentsResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS, commentsResponse);
 
         return ResponseEntity.status(GET_COMMENT_SUCCESS.getStatus()).body(resultResponse);

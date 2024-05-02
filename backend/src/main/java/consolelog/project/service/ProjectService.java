@@ -14,17 +14,16 @@ import consolelog.member.domain.Member;
 import consolelog.global.mapper.MemberMapper;
 import consolelog.member.exception.MemberNotFoundException;
 import consolelog.member.repository.MemberRepository;
-import consolelog.project.domain.Project;
-import consolelog.project.domain.ProjectFramework;
-import consolelog.project.domain.ProjectMember;
-import consolelog.project.domain.ViewCountManager;
+import consolelog.project.domain.*;
 import consolelog.project.dto.*;
 import consolelog.project.enums.SearchFieldEnum;
 import consolelog.project.exception.PageableAccessException;
 import consolelog.project.exception.ProjectNotFoundException;
+import consolelog.project.repository.NonRegisterProjectMemberRepository;
 import consolelog.project.repository.ProjectFrameworkRepository;
 import consolelog.project.repository.ProjectMemberRepository;
 import consolelog.project.repository.ProjectRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -37,6 +36,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ProjectService {
     private final ProjectRepository projectRepository;
@@ -49,22 +49,7 @@ public class ProjectService {
     private final MemberRepository memberRepository;
     private final FrameworkRepository frameworkRepository;
     private final ProjectFrameworkRepository projectFrameworkRepository;
-
-    public ProjectService(ProjectRepository projectRepository,
-                          ViewCountManager viewCountManager,
-                          UtilMethod utilMethod, ProjectMapper projectMapper, MemberMapper memberMapper, FrameworkMapper frameworkMapper, ProjectMemberRepository projectMemberRepository,
-                          MemberRepository memberRepository, FrameworkRepository frameworkRepository, ProjectFrameworkRepository projectFrameworkRepository) { // 생성자 주입
-        this.projectRepository = projectRepository;  // 생성자를 통해 PostRepository를 주입받음
-        this.viewCountManager = viewCountManager;
-        this.utilMethod = utilMethod;
-        this.projectMapper = projectMapper;
-        this.memberMapper = memberMapper;
-        this.frameworkMapper = frameworkMapper;
-        this.projectMemberRepository = projectMemberRepository;
-        this.memberRepository = memberRepository;
-        this.frameworkRepository = frameworkRepository;
-        this.projectFrameworkRepository = projectFrameworkRepository;
-    }
+    private final NonRegisterProjectMemberRepository nonRegisterProjectMemberRepository;
 
     @Transactional
     public ProjectResponse findProjectResponse(Long projectId, String cookieValue) {
@@ -77,10 +62,21 @@ public class ProjectService {
         ProjectResponse projectResponse = projectMapper.projectToProjectResponse(findProject);
         projectResponse.setWriter(memberMapper.memberToMemberResponse(findProject.getMember()));
         projectResponse.setProjectMemberResponseList(getProjectMemberResponseList(findProject.getProjectMemberList()));
+        projectResponse.setNonRegisterProjectMemberResponseList(getNonRegisterProjectMemberResponseList(findProject.getNonRegisterProjectMemberList()));
         projectResponse.setFrameworkResponseList(getFrameworkResponseList(findProject.getProjectFrameworkList()));
 
         return projectResponse;
     }
+
+    private List<NonRegisterProjectMemberResponse> getNonRegisterProjectMemberResponseList(List<NonRegisterProjectMember> nonRegisterProjectMemberList) {
+        List<NonRegisterProjectMemberResponse> nonRegisterProjectMemberResponseList = new ArrayList<>();
+
+        for (NonRegisterProjectMember nonRegisterProjectMember : nonRegisterProjectMemberList) {
+            nonRegisterProjectMemberResponseList.add(nonRegisterProjectMember.getResponse());
+        }
+        return nonRegisterProjectMemberResponseList;
+    }
+
     @Transactional
     public Long addProject(ProjectRequest projectRequest, AuthInfo authInfo) {
         validateMemberList(projectRequest);
@@ -93,10 +89,20 @@ public class ProjectService {
         Project savedProject = projectOptional.orElseThrow(ProjectNotFoundException::new);
 
         saveProjectMemberList(savedProject, projectRequest.getProjectMemberRequestList());
+        saveProjectNonRegisterProjectMemberList(savedProject, projectRequest.getNonRegisterProjectMemberRequestList());
         saveProjectFrameworkList(savedProject, projectRequest.getFrameworkRequestList());
 
         return savedProject.getId();
     }
+
+    private void saveProjectNonRegisterProjectMemberList(Project project, List<NonRegisterProjectMemberRequest> nonRegisterProjectMemberRequestList) {
+        List<NonRegisterProjectMember> nonRegisterProjectMemberList = new ArrayList<>();
+        for (NonRegisterProjectMemberRequest nonRegisterProjectMemberRequest : nonRegisterProjectMemberRequestList) {
+            nonRegisterProjectMemberList.add(new NonRegisterProjectMember(project, nonRegisterProjectMemberRequest));
+        }
+        nonRegisterProjectMemberRepository.saveAll(nonRegisterProjectMemberList);
+    }
+
     @Transactional
     public void updateProject(Long id, ProjectRequest projectRequest, AuthInfo authInfo) {
         Project project = findProjectById(id);
@@ -106,10 +112,13 @@ public class ProjectService {
         projectRepository.save(project);
 
         deleteAllProjectMember(project);
+        deleteAllNonRegisterProjectMember(project);
         deleteAllProjectFramework(project);
         saveProjectMemberList(project, projectRequest.getProjectMemberRequestList());
         saveProjectFrameworkList(project, projectRequest.getFrameworkRequestList());
     }
+
+
     @Transactional
     public void deleteProject(Long id, AuthInfo authInfo) {
         Project project = findProjectById(id);
@@ -163,6 +172,10 @@ public class ProjectService {
 
     private void deleteAllProjectFramework(Project project) {
         projectFrameworkRepository.deleteAllByProjectId(project.getId());
+    }
+
+    private void deleteAllNonRegisterProjectMember(Project project) {
+        nonRegisterProjectMemberRepository.deleteAllByProjectId(project.getId());
     }
 
     private void deleteAllProjectMember(Project project) {

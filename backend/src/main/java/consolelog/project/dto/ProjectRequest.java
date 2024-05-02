@@ -1,6 +1,7 @@
 package consolelog.project.dto;
 
 import consolelog.framework.dto.FrameworkRequest;
+import consolelog.project.domain.NonRegisterProjectMember;
 import consolelog.project.enums.PlatformEnum;
 import consolelog.project.enums.ProjectStatusEnum;
 import consolelog.project.enums.ProjectTypeEnum;
@@ -34,5 +35,6 @@ public class ProjectRequest {
     private String websiteLink;
     private String mainImageUrl;
     private List<ProjectMemberRequest> projectMemberRequestList;
+    private List<NonRegisterProjectMemberRequest> nonRegisterProjectMemberRequestList;
     private List<FrameworkRequest> frameworkRequestList;
 }
