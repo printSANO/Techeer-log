@@ -63,17 +63,20 @@ a {
 
 h1 {
     font-family: 'Pre-S';
-    font-size: 3rem;
+    font-size: 3rem;  
+    margin-top: 1rem;
 }
 
 h2 {
     font-family: 'Pre-S';
     font-size: 2.5rem;
+    margin-top: 0.7rem;
 }
 
 h3 {
     font-family: 'Pre-S';
     font-size: 2rem;
+    margin-top: 0.5rem;
 }
 
 h4 {
