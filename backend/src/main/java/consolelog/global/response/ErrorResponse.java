@@ -1,7 +1,6 @@
 package consolelog.global.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import consolelog.global.response.ErrorCode;
 import lombok.Getter;
 
 @Getter
