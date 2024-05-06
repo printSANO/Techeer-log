@@ -5,7 +5,7 @@ import link from '/src/shared/assets/image/markdownImg/Link.svg';
 import strikethrough from '/src/shared/assets/image/markdownImg/Strikethrough.svg';
 import italic from '/src/shared/assets/image/markdownImg/Italic.svg';
 import * as textEdit from '../../entities/textEdit/index';
-import { ImageUpload } from '../../entities/textEdit/api/ImageUpload';
+import { ImageUpload } from '../../entities/textEdit/ui/ImageUpload';
 import { MarkdownView } from '.';
 
 export const ProjectWrite = () => {
