@@ -3,13 +3,133 @@ import dropdown from '../image/dropdown.svg';
 import github from '../../../shared/assets/image/modalImg/github.svg';
 import internet from '../../../shared/assets/image/modalImg/Internet.svg';
 import blog from '../../../shared/assets/image/modalImg/bloglink.svg';
+import { useState } from 'react';
+import useStore from '../../../shared/store/store';
 
 export const ProjectInfo = ({ setStep }: any) => {
+  const {
+    projectType,
+    changeprojectType,
+    year,
+    changeyear,
+    platform,
+    changeplatform,
+    semester,
+    changesemester,
+    projectStatus,
+    changeprojectStatus,
+    changegithubLink,
+    changeblogLink,
+    changewebsiteLink,
+  } = useStore();
   const nextStep = () => {
     setStep('next');
   };
   const prevStep = () => {
     setStep('prev');
+  };
+  const [isDropDownOpen1, setIsDropDownOpen1] = useState(false);
+  const [isDropDownOpen2, setIsDropDownOpen2] = useState(false);
+  const [isDropDownOpen3, setIsDropDownOpen3] = useState(false);
+  const [isDropDownOpen4, setIsDropDownOpen4] = useState(false);
+  const githubChange = (e: any) => {
+    changegithubLink(e.target.value);
+  };
+  const blogChange = (e: any) => {
+    changeblogLink(e.target.value);
+  };
+  const websiteChange = (e: any) => {
+    changewebsiteLink(e.target.value);
+  };
+  const dropDownLeftGisu = () => {
+    setIsDropDownOpen1(!isDropDownOpen1);
+  };
+  const dropDownRightGisu = () => {
+    setIsDropDownOpen2(!isDropDownOpen2);
+  };
+  const dropDownLeftPlatform = () => {
+    setIsDropDownOpen3(!isDropDownOpen3);
+  };
+  const dropDownRightPlatform = () => {
+    setIsDropDownOpen4(!isDropDownOpen4);
+  };
+  const handleChangeProjectType1 = () => {
+    changeprojectType('부트캠프');
+    changesemester('동계');
+    setIsDropDownOpen1(false);
+  };
+  const handleChangeProjectType2 = () => {
+    changeprojectType('팀 프로젝트');
+    changesemester('');
+    setIsDropDownOpen1(false);
+  };
+  const handleChangeProjectType3 = () => {
+    changeprojectType('개인 프로젝트');
+    changesemester('');
+    setIsDropDownOpen1(false);
+  };
+  const handleChangeYear1 = () => {
+    changeyear('2024');
+    changesemester('');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangeYear2 = () => {
+    changeyear('2023');
+    changesemester('');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangeYear3 = () => {
+    changeyear('2022');
+    changesemester('');
+    setIsDropDownOpen2(false);
+  };
+
+  const handleChangeSemester1 = () => {
+    changeyear('2024');
+    changesemester('동계');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangeSemester2 = () => {
+    changeyear('2024');
+    changesemester('하계');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangeSemester3 = () => {
+    changeyear('2023');
+    changesemester('동계');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangeSemester4 = () => {
+    changeyear('2023');
+    changesemester('하계');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangeSemester5 = () => {
+    changeyear('2022');
+    changesemester('동계');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangeSemester6 = () => {
+    changeyear('2022');
+    changesemester('하계');
+    setIsDropDownOpen2(false);
+  };
+  const handleChangePlatform1 = () => {
+    changeplatform('웹');
+    setIsDropDownOpen3(false);
+  };
+  const handleChangePlatform2 = () => {
+    changeplatform('모바일');
+    setIsDropDownOpen3(false);
+  };
+
+  const handleChangeService1 = () => {
+    changeprojectStatus('서비스 운영 중');
+    setIsDropDownOpen4(false);
+  };
+  const handleChangeService2 = () => {
+    changeprojectStatus('서비스 운영 중 아님');
+    setIsDropDownOpen4(false);
   };
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen z-20">
@@ -78,24 +198,94 @@ export const ProjectInfo = ({ setStep }: any) => {
                   <div className="w-[16rem] break-words font-['Pretendard'] font-normal text-[0.9rem] leading-[1.286] text-[#ECEFF5]">
                     진행기수
                   </div>
-                  <div className="flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 ">
-                    부트캠프
+                  <div
+                    onClick={dropDownLeftGisu}
+                    className="cursor-pointer flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 "
+                  >
+                    {projectType}
                     <div>
-                      <img src={dropdown} className="inline" />
+                      <img src={dropdown} className="inline " />
                     </div>
                   </div>
+
+                  {isDropDownOpen1 && (
+                    <div className="absolute mt-12 bg-[rgba(148,146,160,1)] shadow-lg rounded-sm border-[1px] border-solid w-[16rem]">
+                      {/* Dropdown 내용 */}
+                      <ul className="w-full text-[0.8rem]">
+                        <li className="px-4 py-2 cursor-pointer  hover:bg-gray-100" onClick={handleChangeProjectType1}>
+                          부트캠프
+                        </li>
+                        <li onClick={handleChangeProjectType2} className="px-4 py-2 hover:bg-gray-100  cursor-pointer">
+                          팀 프로젝트
+                        </li>
+                        <li onClick={handleChangeProjectType3} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                          개인 프로젝트
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
                 {/* 우측 */}
                 <div className="flex flex-col gap-2">
                   <div className="w-[16rem] break-words font-['Pretendard'] font-normal text-[0.9rem] leading-[1.286] text-[#242424]">
                     진행기수
                   </div>
-                  <div className="flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 ">
-                    2023 동계
+                  <div
+                    onClick={dropDownRightGisu}
+                    className="flex cursor-pointer flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 "
+                  >
+                    {year} {semester}
                     <div>
                       <img src={dropdown} className="inline" />
                     </div>
                   </div>
+                  {isDropDownOpen2 &&
+                    (projectType === '부트캠프' ? (
+                      <div className="absolute mt-12 bg-[rgba(148,146,160,1)] shadow-lg rounded-sm border-[1px] border-solid w-[16rem]">
+                        {/* Dropdown 내용 */}
+                        <ul className="w-full text-[0.8rem]">
+                          <li
+                            className="px-4 py-2 cursor-pointer fontsize-[1rem] hover:bg-gray-100"
+                            onClick={handleChangeSemester1}
+                          >
+                            2024 동계
+                          </li>
+                          <li onClick={handleChangeSemester2} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            2024 하계
+                          </li>
+                          <li onClick={handleChangeSemester3} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            2023 동계
+                          </li>
+                          <li onClick={handleChangeSemester4} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            2023 하계
+                          </li>
+                          <li onClick={handleChangeSemester5} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            2022 동계
+                          </li>
+                          <li onClick={handleChangeSemester6} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            2022 하계
+                          </li>
+                        </ul>
+                      </div>
+                    ) : (
+                      <div className="absolute mt-12 bg-[rgba(148,146,160,1)] shadow-lg rounded-sm border-[1px] border-solid w-[16rem]">
+                        {/* Dropdown 내용 */}
+                        <ul className="w-full text-[0.8rem]">
+                          <li
+                            className="px-4 py-2 cursor-pointer fontsize-[1rem] hover:bg-gray-100"
+                            onClick={handleChangeYear1}
+                          >
+                            2024
+                          </li>
+                          <li onClick={handleChangeYear2} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            2023
+                          </li>
+                          <li onClick={handleChangeYear3} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            2022
+                          </li>
+                        </ul>
+                      </div>
+                    ))}
                 </div>
               </div>
               {/* 3열 */}
@@ -105,11 +295,33 @@ export const ProjectInfo = ({ setStep }: any) => {
                   <div className="w-[16rem] break-words font-['Pretendard'] font-normal text-[0.9rem] leading-[1.286] text-[#ECEFF5]">
                     프로젝트 형태
                   </div>
-                  <div className="flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 ">
-                    웹
+                  <div
+                    onClick={dropDownLeftPlatform}
+                    className="cursor-pointer flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 "
+                  >
+                    {platform}
                     <div>
                       <img src={dropdown} className="inline" />
                     </div>
+                    {isDropDownOpen3 && (
+                      <div className="absolute mt-6 bg-[rgba(148,146,160,1)] shadow-lg rounded-sm border-[1px] border-solid w-[16rem] border-white">
+                        {/* Dropdown 내용 */}
+                        <ul className="w-full text-[0.8rem]">
+                          <li
+                            className="px-4 py-2 cursor-pointer  hover:bg-gray-100 text-white"
+                            onClick={handleChangePlatform1}
+                          >
+                            웹
+                          </li>
+                          <li
+                            onClick={handleChangePlatform2}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-white"
+                          >
+                            모바일
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* 우측 */}
@@ -117,11 +329,33 @@ export const ProjectInfo = ({ setStep }: any) => {
                   <div className="w-[16rem] break-words font-['Pretendard'] font-normal text-[0.9rem] leading-[1.286] text-[#ECEFF5]">
                     프로젝트 상태
                   </div>
-                  <div className="flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 ">
-                    운영중
+                  <div
+                    onClick={dropDownRightPlatform}
+                    className="cursor-pointer flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid pb-1 "
+                  >
+                    {projectStatus}
                     <div>
                       <img src={dropdown} className="inline" />
                     </div>
+                    {isDropDownOpen4 && (
+                      <div className="absolute mt-6 bg-[rgba(148,146,160,1)] shadow-lg rounded-sm border-[1px] border-solid w-[16rem] border-white">
+                        {/* Dropdown 내용 */}
+                        <ul className="w-full text-[0.8rem]">
+                          <li
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-white"
+                            onClick={handleChangeService1}
+                          >
+                            서비스 운영 중
+                          </li>
+                          <li
+                            onClick={handleChangeService2}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-white"
+                          >
+                            서비스 운영 중 아님
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -137,6 +371,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                   </div>
                   <label className="block w-full">
                     <input
+                      onChange={githubChange}
                       type="text"
                       name=""
                       placeholder="Github 링크를 입력하세요"
@@ -154,6 +389,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                   </div>
                   <label className="block w-full">
                     <input
+                      onChange={blogChange}
                       type="text"
                       name=""
                       placeholder=""
@@ -171,6 +407,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                   <label className="block w-full">
                     <input
                       type="text"
+                      onChange={websiteChange}
                       name=""
                       placeholder=""
                       className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.9rem] bg-transparent focus:border-white focus:text-white outline-none"

@@ -1,4 +1,5 @@
 import check from '../../../shared/assets/image/modalImg/check.svg';
+import useStore from '../../../shared/store/store';
 import close from '../image/close.svg';
 export const TechStackInfo = ({ setStep }: any) => {
   const nextStep = () => {
@@ -7,6 +8,22 @@ export const TechStackInfo = ({ setStep }: any) => {
   const prevStep = () => {
     setStep('prev');
   };
+  const {
+    projectType,
+    changeprojectType,
+    year,
+    changeyear,
+    platform,
+    changeplatform,
+    semester,
+    changesemester,
+    projectStatus,
+    changeprojectStatus,
+    githubLink,
+    blogLink,
+    changewebsiteLink,
+  } = useStore();
+  console.log(year, platform, githubLink, blogLink);
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">

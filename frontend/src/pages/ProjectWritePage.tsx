@@ -5,7 +5,7 @@ import { ProjectWrite } from '../feature/ProjectWrite';
 import { useNavigate } from 'react-router-dom';
 
 export const ProjectWritePage = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
