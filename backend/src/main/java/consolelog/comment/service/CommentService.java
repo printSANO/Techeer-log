@@ -14,7 +14,6 @@ import consolelog.project.repository.ProjectRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -57,7 +56,7 @@ public class CommentService {
                     boolean isAuthorized = comment.getMember().getId().equals(authInfo.getId());
                     return CommentResponse.of(comment, isAuthorized);
                 })
-                .collect(Collectors.toList());
+                .toList();
         int numOfComment = commentResponses.size();
 
         return new CommentsResponse(commentResponses, numOfComment);
