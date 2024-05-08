@@ -1,29 +1,23 @@
+import { useState } from 'react';
 import check from '../../../shared/assets/image/modalImg/check.svg';
-import useStore from '../../../shared/store/store';
-import close from '../image/close.svg';
+import TagsInput from 'react-tagsinput';
+import 'react-tagsinput/react-tagsinput.css';
+
 export const TechStackInfo = ({ setStep }: any) => {
+  const [fronttags, setFrontTags] = useState<string[]>([]);
+  const [backtags, setBackTags] = useState<string[]>([]);
   const nextStep = () => {
     setStep('next');
   };
   const prevStep = () => {
     setStep('prev');
   };
-  const {
-    projectType,
-    changeprojectType,
-    year,
-    changeyear,
-    platform,
-    changeplatform,
-    semester,
-    changesemester,
-    projectStatus,
-    changeprojectStatus,
-    githubLink,
-    blogLink,
-    changewebsiteLink,
-  } = useStore();
-  console.log(year, platform, githubLink, blogLink);
+  const handleFrontChange = (tag: string[]) => {
+    setFrontTags(tag);
+  };
+  const handleBackChange = (tag: string[]) => {
+    setBackTags(tag);
+  };
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">
@@ -56,56 +50,24 @@ export const TechStackInfo = ({ setStep }: any) => {
             <div className="flex flex-col w-full gap-2">
               <span className="text-[#ECEFF5] text-[0.9rem] font-normal">Backend</span>
               <label className="block w-full">
-                <input
-                  type="text"
-                  name=""
-                  placeholder="백엔드 사용 기술을 입력하세요."
-                  required
-                  className="rounded-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] pl-3 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
+                <TagsInput
+                  value={backtags}
+                  onChange={handleBackChange}
+                  className="rounded-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] pl-[0.3rem] h-[6.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
+                  inputProps={{ placeholder: '백엔드 사용 기술을 입력하세요.' }}
                 />
               </label>
-            </div>
-            {/* 태그들 */}
-            <div className="flex flex-row gap-2 -mt-5">
-              <div className="rounded-[0.4rem] w-fit bg-[rgba(70,70,70,0.5)] flex flex-row items-center justify-between p-[0.4rem_0.8rem] box-sizing-border">
-                <div className="m-[0_1rem_0.1rem_0] inline-block break-words font-['Pretendard'] font-medium text-[0.8rem] text-[#CCCCCC]">
-                  Spring Boot
-                </div>
-                <img src={close} className="w-[0.6rem] h-[0.6rem]" />
-              </div>
-              <div className="rounded-[0.4rem] w-fit bg-[rgba(70,70,70,0.5)] flex flex-row items-center justify-between p-[0.4rem_0.8rem] box-sizing-border">
-                <div className="m-[0_1rem_0.1rem_0] inline-block break-words font-['Pretendard'] font-medium text-[0.8rem] text-[#CCCCCC]">
-                  Docker
-                </div>
-                <img src={close} className="w-[0.6rem] h-[0.6rem]" />
-              </div>
             </div>
             <div className="flex flex-col w-full gap-2">
               <span className="text-[#ECEFF5] text-[0.9rem] font-normal">Frontend</span>
               <label className="block w-full">
-                <input
-                  type="text"
-                  name=""
-                  placeholder="프론트엔드 사용 기술을 입력하세요."
-                  required
-                  className="rounded-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] pl-3 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
+                <TagsInput
+                  value={fronttags}
+                  onChange={handleFrontChange}
+                  className="rounded-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] pl-[0.3rem] h-[6.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
+                  inputProps={{ placeholder: '프론트엔드 사용 기술을 입력하세요.' }}
                 />
               </label>
-            </div>
-            {/* 태그들 */}
-            <div className="flex flex-row gap-2 -mt-5">
-              <div className="rounded-[0.4rem] w-fit bg-[rgba(70,70,70,0.5)] flex flex-row items-center justify-between p-[0.4rem_0.8rem] box-sizing-border">
-                <div className="m-[0_1rem_0.1rem_0] inline-block break-words font-['Pretendard'] font-medium text-[0.8rem] text-[#CCCCCC]">
-                  React
-                </div>
-                <img src={close} className="w-[0.6rem] h-[0.6rem]" />
-              </div>
-              <div className="rounded-[0.4rem] w-fit bg-[rgba(70,70,70,0.5)] flex flex-row items-center justify-between p-[0.4rem_0.8rem] box-sizing-border">
-                <div className="m-[0_1rem_0.1rem_0] inline-block break-words font-['Pretendard'] font-medium text-[0.8rem] text-[#CCCCCC]">
-                  Typescript
-                </div>
-                <img src={close} className="w-[0.6rem] h-[0.6rem]" />
-              </div>
             </div>
           </div>
           {/* 하단 버튼 */}

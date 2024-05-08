@@ -1,7 +1,44 @@
 // store.js
 import create from 'zustand';
 
-const useStore = create((set) => ({
+interface Type {
+  title: string;
+  subtitle: string;
+  content: string;
+  startDate: string;
+  endDate: string;
+  platform: string;
+  projectType: string;
+  year: number;
+  semester: string;
+  projectStatus: string;
+  githubLink: string;
+  blogLink: string;
+  websiteLink: string;
+  mainImageUrl: string;
+  projectMemberRequestList: [
+    {
+      memberId: number;
+      projectMemberTypeEnum: string;
+    },
+  ];
+  frameworkRequestList: [
+    {
+      name: string;
+      frameworkTypeEnum: string;
+    },
+  ];
+  changeplatform: (value: string) => void;
+  changeprojectType: (value: string) => void;
+  changeyear: (value: any) => void;
+  changeprojectStatus: (value: any) => void;
+  changegithubLink: (value: any) => void;
+  changeblogLink: (value: any) => void;
+  changewebsiteLink: (value: any) => void;
+  changesemester: (value: any) => void;
+}
+
+const useStore = create<Type>((set) => ({
   title: '',
   subtitle: '',
   content: '',
@@ -60,6 +97,10 @@ const useStore = create((set) => ({
   changesemester: (value: any) =>
     set({
       semester: value,
+    }),
+  changeframeworkRequestList: (value: any) =>
+    set({
+      frameworkRequestList: value,
     }),
 }));
 
