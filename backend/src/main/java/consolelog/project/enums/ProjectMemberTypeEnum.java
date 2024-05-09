@@ -7,6 +7,7 @@ import lombok.Getter;
 public enum ProjectMemberTypeEnum implements EnumModel {
     FRONTEND("FRONTEND"),
     BACKEND("BACKEND"),
+    LEADER("LEADER"),
     DEVOPS("DEVOPS"),
     MENTOR("MENTOR")
     ;
