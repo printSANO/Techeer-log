@@ -1,54 +1,54 @@
-import { useState } from 'react';
-import axios from 'axios';
+// import { useState } from 'react';
+// import axios from 'axios';
 
 export function SignUp() {
-  const [nickname, setNickname] = useState('');
-  const [loginId, setLoginId] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordconfirmation, setPasswordconfirmation] = useState('');
-  const [passwordMatchError, setPasswordMatchError] = useState(false);
+  // const [nickname, setNickname] = useState('');
+  // const [loginId, setLoginId] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [passwordconfirmation, setPasswordconfirmation] = useState('');
+  // const [passwordMatchError, setPasswordMatchError] = useState(false);
 
-  const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(event.target.value);
-  };
+  // const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setNickname(event.target.value);
+  // };
 
-  const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginId(event.target.value);
-  };
+  // const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setLoginId(event.target.value);
+  // };
 
-  const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-    if (passwordconfirmation !== '' && event.target.value !== passwordconfirmation) {
-      setPasswordMatchError(true);
-    } else {
-      setPasswordMatchError(false);
-    }
-  };
+  // const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPassword(event.target.value);
+  //   if (passwordconfirmation !== '' && event.target.value !== passwordconfirmation) {
+  //     setPasswordMatchError(true);
+  //   } else {
+  //     setPasswordMatchError(false);
+  //   }
+  // };
 
-  const passwordconfirmationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordconfirmation(event.target.value);
-    if (password !== event.target.value) {
-      setPasswordMatchError(true);
-    } else {
-      setPasswordMatchError(false);
-    }
-  };
+  // const passwordconfirmationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPasswordconfirmation(event.target.value);
+  //   if (password !== event.target.value) {
+  //     setPasswordMatchError(true);
+  //   } else {
+  //     setPasswordMatchError(false);
+  //   }
+  // };
 
-  const handleSignup = async () => {
-    try {
-      const response = await axios.post('/api/v1/members/signup', { loginId, password, nickname });
-      if (response.data.status != '200') {
-        return Error;
-      }
-    } catch (error) {
-      console.error('로그인에 실패했습니다', error);
-    }
-  };
+  // const handleSignup = async () => {
+  //   try {
+  //     const response = await axios.post('/api/v1/members/signup', { loginId, password, nickname });
+  //     if (response.data.status != '200') {
+  //       return Error;
+  //     }
+  //   } catch (error) {
+  //     console.error('로그인에 실패했습니다', error);
+  //   }
+  // };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleSignup();
-  };
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   handleSignup();
+  // };
 
   return (
     //   확인용 배경 박스
