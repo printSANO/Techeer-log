@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 
 @Getter
-public class SimpleResultResponse<T> {
+public class SimpleResultResponse {
     private final String code;
     private final String message;
 

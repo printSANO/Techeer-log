@@ -72,14 +72,14 @@ public class MemberController {
     // 닉네임 수정 구현해 볼 것
     @Operation(summary = "프로필 수정", description = "프로필 수정 기능")
     @PatchMapping(consumes = "multipart/form-data")
-    public ResponseEntity<SimpleResultResponse<String>> editMember(@RequestPart(value = "data", required = false) EditMemberRequest editMemberRequest,
+    public ResponseEntity<SimpleResultResponse> editMember(@RequestPart(value = "data", required = false) EditMemberRequest editMemberRequest,
                                                                    @RequestPart(value = "part", required = false) Optional<MultipartFile> multipartFile,
                                                                    @Login AuthInfo authInfo) {
 
         memberService.edit(editMemberRequest, authInfo, multipartFile);
         refreshTokenService.deleteToken(authInfo.getId());
 
-        SimpleResultResponse<String> resultResponse = new SimpleResultResponse<>(EDIT_PROFILE_SUCCESS);
+        SimpleResultResponse resultResponse = new SimpleResultResponse(EDIT_PROFILE_SUCCESS);
 
         return ResponseEntity.status(EDIT_PROFILE_SUCCESS.getStatus())
                 .body(resultResponse);
