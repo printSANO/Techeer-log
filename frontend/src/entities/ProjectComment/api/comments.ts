@@ -1,22 +1,16 @@
 import axios from 'axios';
+import { accessToken } from '../../../shared/authorization/getToken.ts';
 interface PostComment {
   projectId?: number;
   commentId?: number;
   content: string;
 }
-// zustand
-// import useStore from './useStore'
-// import { useTokenStore } from './stores/useTokenStore'
-//
-
-// const token = useStore(useTokenStore, (state) => state.bears)
-const token = localStorage.getItem('user');
 
 export const getComments = (projectId: number) => {
   return axios
     .get(`/api/v1/comments/${projectId}`, {
       headers: {
-        authorization: `Bearer ${token}}`,
+        authorization: `Bearer ${accessToken}}`,
       },
     })
     .then((response) => response.data.data);
@@ -29,7 +23,7 @@ export const postComment = (comment: PostComment) => {
       { content: comment.content, projectId: comment.projectId },
       {
         headers: {
-          authorization: `Bearer ${token}}`,
+          authorization: `Bearer ${accessToken}}`,
         },
       },
     )
@@ -43,7 +37,7 @@ export const putComment = (comment: PostComment) => {
       { content: comment.content, projectId: comment.projectId },
       {
         headers: {
-          authorization: `Bearer ${token}}`,
+          authorization: `Bearer ${accessToken}}`,
         },
       },
     )
@@ -54,7 +48,7 @@ export const deleteComment = (commentId: number) => {
   return axios
     .delete(`/api/v1/comments/${commentId}`, {
       headers: {
-        authorization: `Bearer ${token}}`,
+        authorization: `Bearer ${accessToken}}`,
       },
     })
     .then((response) => response.data.data);
