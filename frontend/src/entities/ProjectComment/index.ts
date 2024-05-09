@@ -1,2 +1,2 @@
 export { ProjectComment } from './ui/ProjectComment.tsx';
-export { getComments, postComment } from './api/comments.ts';
+export { getComments, postComment, putComment, deleteComment } from './api/comments.ts';
