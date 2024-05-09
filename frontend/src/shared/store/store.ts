@@ -22,12 +22,11 @@ interface Type {
       projectMemberTypeEnum: string;
     },
   ];
-  frameworkRequestList: [
-    {
-      name: string;
-      frameworkTypeEnum: string;
-    },
-  ];
+  frontframeworkRequestList: [];
+  backframeworkRequestList: [];
+  frontprojectMemberList: [];
+  backprojectMemberList: [];
+  leader: string;
   changeplatform: (value: string) => void;
   changeprojectType: (value: string) => void;
   changeyear: (value: any) => void;
@@ -36,11 +35,18 @@ interface Type {
   changeblogLink: (value: any) => void;
   changewebsiteLink: (value: any) => void;
   changesemester: (value: any) => void;
+  changefrontframeworkRequestList: (value: any) => void;
+  changebackframeworkRequestList: (value: any) => void;
+  changefrontprojectMemberList: (value: any) => void;
+  changebackprojectMemberList: (value: any) => void;
+  changeleader: (value: any) => void;
+  changeTitle: (value: any) => void;
+  changeSubtitle: (value: any) => void;
 }
 
 const useStore = create<Type>((set) => ({
-  title: '',
-  subtitle: '',
+  title: '제목',
+  subtitle: '부제목',
   content: '',
   startDate: '',
   endDate: '',
@@ -59,12 +65,17 @@ const useStore = create<Type>((set) => ({
       projectMemberTypeEnum: '',
     },
   ],
-  frameworkRequestList: [
+  nonRegisterProjectMemberRequestList: [
     {
-      name: '',
-      frameworkTypeEnum: '',
+      name: 'string',
+      projectMemberTypeEnum: 'FRONTEND',
     },
   ],
+  frontframeworkRequestList: [],
+  backframeworkRequestList: [],
+  frontprojectMemberList: [],
+  backprojectMemberList: [],
+  leader: '',
   changeplatform: (value: string) =>
     set({
       platform: value,
@@ -98,9 +109,34 @@ const useStore = create<Type>((set) => ({
     set({
       semester: value,
     }),
-  changeframeworkRequestList: (value: any) =>
+  changefrontframeworkRequestList: (value: any) =>
     set({
-      frameworkRequestList: value,
+      frontframeworkRequestList: value,
+    }),
+  changebackframeworkRequestList: (value: any) =>
+    set({
+      backframeworkRequestList: value,
+    }),
+
+  changefrontprojectMemberList: (value: any) =>
+    set({
+      frontprojectMemberList: value,
+    }),
+  changebackprojectMemberList: (value: any) =>
+    set({
+      backprojectMemberList: value,
+    }),
+  changeleader: (value: any) =>
+    set({
+      leader: value,
+    }),
+  changeTitle: (value: any) =>
+    set({
+      title: value,
+    }),
+  changeSubtitle: (value: any) =>
+    set({
+      subtitle: value,
     }),
 }));
 

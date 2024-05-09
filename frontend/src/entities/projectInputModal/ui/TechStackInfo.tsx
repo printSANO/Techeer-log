@@ -2,12 +2,17 @@ import { useState } from 'react';
 import check from '../../../shared/assets/image/modalImg/check.svg';
 import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css';
+import useStore from '../../../shared/store/store';
 
 export const TechStackInfo = ({ setStep }: any) => {
   const [fronttags, setFrontTags] = useState<string[]>([]);
   const [backtags, setBackTags] = useState<string[]>([]);
+  const { changefrontframeworkRequestList, changebackframeworkRequestList } = useStore();
   const nextStep = () => {
     setStep('next');
+
+    changefrontframeworkRequestList(fronttags);
+    changebackframeworkRequestList(backtags);
   };
   const prevStep = () => {
     setStep('prev');

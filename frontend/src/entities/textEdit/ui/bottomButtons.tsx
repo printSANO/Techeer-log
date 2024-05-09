@@ -5,11 +5,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../../shared/store/store';
 
-export const bottomButtons = () => {
+export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
-  const nowProject = useStore((state:any) => state.nowProject);
+  const nowProject = useStore((state: any) => state.nowProject);
   const handleGoBack = () => {
-    navigate(-1); // 뒤로가기
+    setStep('prev');
   };
   const handleSubmit = async (): Promise<void> => {
     try {
@@ -22,7 +22,7 @@ export const bottomButtons = () => {
         },
         {
           headers: {
-            authorization: "",
+            authorization: '',
           },
         },
       );

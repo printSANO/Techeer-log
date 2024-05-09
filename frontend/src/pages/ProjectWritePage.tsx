@@ -14,6 +14,7 @@ export const ProjectWritePage = () => {
       setStep(step + 1);
       if (step === 3) setModalOpen(false);
     } else if (direction === 'prev') {
+      setModalOpen(true);
       setStep(step - 1);
       if (step === 1) navigate('/');
     }
@@ -21,8 +22,8 @@ export const ProjectWritePage = () => {
   return (
     <>
       <div className="relative flex flex-col w-screen h-screen bg-black px-[0rem]">
-        <textEdit.headerInput />
-        <ProjectWrite />
+        <textEdit.HeaderInput />
+        <ProjectWrite setStep={combinedStep} />
         {modalOpen && (
           <>
             {step === 1 && (

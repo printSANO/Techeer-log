@@ -8,7 +8,7 @@ import * as textEdit from '../../entities/textEdit/index';
 import { ImageUpload } from '../../entities/textEdit/ui/ImageUpload';
 import { MarkdownView } from '.';
 
-export const ProjectWrite = () => {
+export const ProjectWrite = ({ setStep }: any) => {
   const [markdown, setMarkdown] = useState('');
   // Markdown 내용이 변경될 때 호출되는 함수
   const onsetImageurl = (markdown: string) => {
@@ -143,7 +143,7 @@ export const ProjectWrite = () => {
           <MarkdownView markdown={markdown} />
         </div>
       </div>
-      <textEdit.bottomButtons />
+      <textEdit.bottomButtons setStep={setStep}/>
     </div>
   );
 };
