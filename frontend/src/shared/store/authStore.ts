@@ -8,12 +8,16 @@ type AuthState = {
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-  accessToken: null,
+  accessToken: localStorage.getItem('accessToken') || null,
   refreshToken: null,
   login: (accessToken: string, refreshToken: string) => {
     set({ accessToken, refreshToken });
+    // localStorage.setItem('accessToken', accessToken);
+    console.log('useAuthStore login: ', accessToken, refreshToken);
   },
   logout: () => {
     set({ accessToken: null, refreshToken: null });
+    localStorage.removeItem('accessToken');
+    console.log('useAuthStore logout: ');
   },
 }));

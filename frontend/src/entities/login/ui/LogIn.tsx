@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useAuthStore } from '../../../shared/global/authStore';
+import { useAuthStore } from '../../../shared/store/authStore';
+// import { handleLogin } from '../api/login';
 
 export function LogIn() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
 
   // 토큰 상태 관리 함수
-  const authStore = useAuthStore((state) => state.login);
+  // const authStore = useAuthStore((state) => state.login);
+  // const logout = useAuthStore((state) => state.logout);
+  const { login } = useAuthStore();
 
   const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginId(event.target.value);
@@ -17,62 +20,72 @@ export function LogIn() {
     setPassword(event.target.value);
   };
 
-  // 액세스 토큰 재발급
-  const refreshAccessToken = async () => {
-    try {
-      // zustand에서 상태 가져오기
-      const { refreshToken } = useAuthStore.getState();
+  // // 액세스 토큰 재발급
+  // const refreshAccessToken = async () => {
+  //   try {
+  //     // zustand에서 상태 가져오기
+  //     const { refreshToken } = useAuthStore.getState();
+  //     console.log('refreshAccessToken: ');
 
-      // axios 요청 헤더에 토큰 정보 포함하여 요청 보내기
-      const response = await axios.post(
-        '/api/v1/auth/refresh',
-        {},
-        {
-          headers: {
-            refresh_token: refreshToken,
-          },
-        },
-      );
+  //     // axios 요청 헤더에 토큰 정보 포함하여 요청 보내기
+  //     const response = await axios.post(
+  //       '/api/v1/auth/refresh',
+  //       {},
+  //       {
+  //         headers: {
+  //           refresh_token: refreshToken,
+  //         },
+  //       },
+  //     );
 
-      // 새로 발급받은 토큰 정보 저장
-      if (refreshToken != null) {
-        // 응답 헤더에서 토큰 정보 추출 : response.headers['authorization']
-        authStore(response.headers['authorization'], refreshToken);
-      }
-    } catch (error) {
-      console.error('토큰 재발급에 실패했습니다.', error);
-    }
-  };
+  //     // 새로 발급받은 토큰 정보 저장
+  //     if (refreshToken != null) {
+  //       // 응답 헤더에서 토큰 정보 추출 : response.headers['authorization']
+  //       authStore(response.headers['authorization'], refreshToken);
+  //       // authStore('new', refreshToken);
+  //     }
+  //   } catch (error) {
+  //     console.error('토큰 재발급에 실패했습니다.', error);
+  //   }
+  // };
 
   // 액세스 토큰 만료 5분 전에 토큰 재발급
-  const setAccessTokenTimeout = () => {
-    // 액세스 토큰 만료 시간 55분으로 설정
-    const EXPIRES_IN = 55 * 60 * 1000;
-    setTimeout(() => {
-      refreshAccessToken();
-    }, EXPIRES_IN);
-  };
+  // const setAccessTokenTimeout = () => {
+  //   // 액세스 토큰 만료 시간 55분으로 설정
+  //   const EXPIRES_IN = 55 * 60 * 1000;
+  //   setTimeout(() => {
+  //     refreshAccessToken();
+  //   }, EXPIRES_IN);
+  // };
 
   const handleLogin = async () => {
     try {
+      console.log('handleLogin: ', loginId, password);
       const response = await axios.post('/api/v1/auth/login', { loginId, password });
 
       // 응답 헤더에서 토큰 정보 추출
       const accessToken = response.headers['authorization'];
       const refreshToken = response.headers['refresh-token'];
 
+      // const accessToken = 'Bearer asdf';
+      // const refreshToken = 'Bearer asdf';
+
+      console.log('handleLogin: ', accessToken, refreshToken);
+
       // 발급받은 토큰 정보 저장
-      authStore(accessToken, refreshToken);
+      // Access Token은 클라이언트 관리, Refresh Token은 전역 관리
+      localStorage.setItem('accessToken', accessToken);
+      login(accessToken, refreshToken);
+      // logout(); //test
 
       // 토큰 타이머
-      setAccessTokenTimeout();
+      // setAccessTokenTimeout();
     } catch (error) {
       console.error('로그인에 실패했습니다', error);
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     handleLogin();
   };
 
@@ -90,10 +103,7 @@ export function LogIn() {
         </div>
         {/* 오른쪽 박스 블러 배경 */}
         {/* 로그인 폼 */}
-        <form
-          onSubmit={handleSubmit}
-          className="gap-4 backdrop-blur-[1.25rem] rounded-r-[1.25rem] bg-[rgba(0,1,58,0.7)] flex flex-col justify-center items-center w-[31.875rem]"
-        >
+        <div className="gap-4 backdrop-blur-[1.25rem] rounded-r-[1.25rem] bg-[rgba(0,1,58,0.7)] flex flex-col justify-center items-center w-[31.875rem]">
           <div className="m-[0_0_4.625rem_0] inline-block break-words font-['Pretendard'] font-semibold text-[2.25rem] tracking-[0.044rem] leading-[1.333] text-[#F0F0F0]">
             로그인
           </div>
@@ -138,6 +148,7 @@ export function LogIn() {
             <button
               type="submit"
               className="relative break-words font-['Pretendard'] font-normal text-[1rem] tracking-[0.019rem] leading-[3] text-[#FFFFFF]"
+              onClick={handleSubmit}
             >
               로그인
             </button>
@@ -145,7 +156,7 @@ export function LogIn() {
           <span className="m-[0_0_0_0.063rem] break-words font-['Pretendard'] font-normal text-[1rem] underline tracking-[0.019rem] leading-[3] text-[#757575]">
             회원가입
           </span>
-        </form>
+        </div>
       </div>
     </div>
   );
