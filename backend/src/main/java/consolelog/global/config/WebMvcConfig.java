@@ -49,7 +49,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/api/v1/auth/login")
                 .excludePathPatterns("/api/v1/auth/refresh")
                 .excludePathPatterns("/api/v1/members/signup")
-                .excludePathPatterns("/api/v1/projects/list");
+                .excludePathPatterns("/api/v1/projects/list")
+                .excludePathPatterns("/api/v1/comments/**"); // 댓글 조회 경로 인증 해제
     }
 
     @Override

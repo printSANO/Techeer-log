@@ -20,12 +20,12 @@ FROM openjdk:17
 COPY --from=builder build/libs/*.jar app.jar
 
 # Add Pinpoint
-ADD https://github.com/pinpoint-apm/pinpoint/releases/download/v2.5.3/pinpoint-agent-2.5.3.tar.gz /usr/local
-RUN tar -zxvf /usr/local/pinpoint-agent-2.5.3.tar.gz -C /usr/local
-
-# Update the Pinpoint configuration
-RUN sed -i 's/profiler.transport.grpc.collector.ip=127.0.0.1/profiler.transport.grpc.collector.ip=pinpoint-collector/g' /usr/local/pinpoint-agent-2.5.3/pinpoint-root.config
-RUN sed -i 's/profiler.collector.ip=127.0.0.1/profiler.collector.ip=pinpoint-collector/g' /usr/local/pinpoint-agent-2.5.3/pinpoint-root.config
+#ADD https://github.com/pinpoint-apm/pinpoint/releases/download/v2.5.3/pinpoint-agent-2.5.3.tar.gz /usr/local
+#RUN tar -zxvf /usr/local/pinpoint-agent-2.5.3.tar.gz -C /usr/local
+#
+## Update the Pinpoint configuration
+#RUN sed -i 's/profiler.transport.grpc.collector.ip=127.0.0.1/profiler.transport.grpc.collector.ip=pinpoint-collector/g' /usr/local/pinpoint-agent-2.5.3/pinpoint-root.config
+#RUN sed -i 's/profiler.collector.ip=127.0.0.1/profiler.collector.ip=pinpoint-collector/g' /usr/local/pinpoint-agent-2.5.3/pinpoint-root.config
 
 #ENTRYPOINT ["java","-jar","/app.jar"]
 
