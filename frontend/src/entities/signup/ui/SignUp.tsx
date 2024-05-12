@@ -1,54 +1,58 @@
-// import { useState } from 'react';
-// import axios from 'axios';
+import { useState } from 'react';
+import axios from 'axios';
 
 export function SignUp() {
-  // const [nickname, setNickname] = useState('');
-  // const [loginId, setLoginId] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [passwordconfirmation, setPasswordconfirmation] = useState('');
-  // const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [nickname, setNickname] = useState('');
+  const [loginId, setLoginId] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
 
-  // const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setNickname(event.target.value);
-  // };
+  const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(event.target.value);
+  };
 
-  // const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setLoginId(event.target.value);
-  // };
+  const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginId(event.target.value);
+  };
 
-  // const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(event.target.value);
-  //   if (passwordconfirmation !== '' && event.target.value !== passwordconfirmation) {
-  //     setPasswordMatchError(true);
-  //   } else {
-  //     setPasswordMatchError(false);
-  //   }
-  // };
+  const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+    if (passwordConfirmation !== '' && event.target.value !== passwordConfirmation) {
+      setPasswordMatchError(true);
+    } else {
+      setPasswordMatchError(false);
+    }
+  };
 
-  // const passwordconfirmationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPasswordconfirmation(event.target.value);
-  //   if (password !== event.target.value) {
-  //     setPasswordMatchError(true);
-  //   } else {
-  //     setPasswordMatchError(false);
-  //   }
-  // };
+  const passwordConfirmationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordConfirmation(event.target.value);
+    if (password !== event.target.value) {
+      setPasswordMatchError(true);
+    } else {
+      setPasswordMatchError(false);
+    }
+  };
 
-  // const handleSignup = async () => {
-  //   try {
-  //     const response = await axios.post('/api/v1/members/signup', { loginId, password, nickname });
-  //     if (response.data.status != '200') {
-  //       return Error;
-  //     }
-  //   } catch (error) {
-  //     console.error('로그인에 실패했습니다', error);
-  //   }
-  // };
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post('/api/v1/members/signup', {
+        loginId,
+        nickname,
+        password,
+        passwordConfirmation,
+      });
+      if (response.data.status != '200') {
+        return Error;
+      }
+    } catch (error) {
+      console.error('로그인에 실패했습니다', error);
+    }
+  };
 
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   handleSignup();
-  // };
+  const handleSubmit = async () => {
+    handleSignup();
+  };
 
   return (
     //   확인용 배경 박스
@@ -66,10 +70,7 @@ export function SignUp() {
           </p>
         </div>
         {/*오른쪽 박스*/}
-        <form
-          onSubmit={handleSubmit}
-          className="gap-4 backdrop-blur-[1.3rem] rounded-r-[20px] bg-[rgba(45,46,114,0.7)] flex flex-col justify-center items-center p-[0_2.5rem_0_2.5rem] w-[45%] box-sizing-border"
-        >
+        <div className="gap-4 backdrop-blur-[1.3rem] rounded-r-[20px] bg-[rgba(45,46,114,0.7)] flex flex-col justify-center items-center p-[0_2.5rem_0_2.5rem] w-[45%] box-sizing-border">
           <div className="mb-8 inline-block break-words font-['Pretendard'] font-semibold text-[2rem] text-[#F0F0F0]">
             회원가입
           </div>
@@ -117,12 +118,12 @@ export function SignUp() {
               <label className="block">
                 <input
                   type="password"
-                  name="passwordconfirmation"
+                  name="passwordConfirmation"
                   placeholder="비밀번호를 한번 더 입력하세요"
                   required
                   className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none `${ passwordMatchError ? 'border-red-500' : ''}`"
-                  value={passwordconfirmation}
-                  onChange={passwordconfirmationChange}
+                  value={passwordConfirmation}
+                  onChange={passwordConfirmationChange}
                 />
                 {passwordMatchError && (
                   <p className="mt-[0.313rem] text-sm text-red-500">비밀번호가 일치하지 않습니다.</p>
@@ -180,12 +181,13 @@ export function SignUp() {
           <button
             type="submit"
             className="ml-4 rounded-[6px] bg-[#471993] flex flex-row justify-center w-[23rem] box-sizing-border"
+            onClick={handleSubmit}
           >
             <span className="break-words font-['Pretendard'] font-normal text-[1rem] leading-[3] text-[#F0F0F0]">
               회원가입
             </span>
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
