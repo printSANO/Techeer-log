@@ -2,11 +2,15 @@ package consolelog.member.controller;
 
 import consolelog.auth.dto.AuthInfo;
 import consolelog.auth.service.RefreshTokenService;
+import consolelog.global.mapper.MemberMapper;
 import consolelog.global.response.ResultResponse;
+import consolelog.global.response.SimpleResultResponse;
 import consolelog.global.support.token.Login;
 import consolelog.member.domain.Member;
-import consolelog.member.dto.*;
-import consolelog.global.mapper.MemberMapper;
+import consolelog.member.dto.EditMemberRequest;
+import consolelog.member.dto.MemberResponse;
+import consolelog.member.dto.ProfileResponse;
+import consolelog.member.dto.SignupRequest;
 import consolelog.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +42,8 @@ public class MemberController {
         Member member = memberService.signUp(signupRequest);
         ResultResponse<MemberResponse> resultResponse = new ResultResponse<>(SIGNUP_SUCCESS, memberMapper.memberToMemberResponse(member));
 
-        return ResponseEntity.status(SIGNUP_SUCCESS.getStatus()).body(resultResponse);
+        return ResponseEntity.status(SIGNUP_SUCCESS.getStatus())
+                .body(resultResponse);
     }
 
 //    @GetMapping(value = "/signup/exists", params = "loginId")
@@ -59,21 +64,24 @@ public class MemberController {
         ProfileResponse profileResponse = memberService.findProfile(authInfo);
         ResultResponse<ProfileResponse> resultResponse = new ResultResponse<>(FIND_PROFILE_SUCCESS, profileResponse);
 
-        return ResponseEntity.status(FIND_PROFILE_SUCCESS.getStatus()).body(resultResponse);
+        return ResponseEntity.status(FIND_PROFILE_SUCCESS.getStatus())
+                .body(resultResponse);
     }
 
     // 수정 필요
     // 닉네임 수정 구현해 볼 것
-
+    @Operation(summary = "프로필 수정", description = "프로필 수정 기능")
     @PatchMapping(consumes = "multipart/form-data")
-    public ResponseEntity<ResultResponse<String>> editMember(@RequestPart(value = "data", required = false) EditMemberRequest editMemberRequest,
-                                           @RequestPart(value = "part", required = false) Optional<MultipartFile> multipartFile,
-                                           @Login AuthInfo authInfo) {
+    public ResponseEntity<SimpleResultResponse> editMember(@RequestPart(value = "data", required = false) EditMemberRequest editMemberRequest,
+                                                                   @RequestPart(value = "part", required = false) Optional<MultipartFile> multipartFile,
+                                                                   @Login AuthInfo authInfo) {
+
         memberService.edit(editMemberRequest, authInfo, multipartFile);
         refreshTokenService.deleteToken(authInfo.getId());
-        ResultResponse<String> resultResponse = new ResultResponse<>(LOGOUT_SUCCESS);
 
-        return ResponseEntity.status(LOGOUT_SUCCESS.getStatus())
+        SimpleResultResponse resultResponse = new SimpleResultResponse(EDIT_PROFILE_SUCCESS);
+
+        return ResponseEntity.status(EDIT_PROFILE_SUCCESS.getStatus())
                 .body(resultResponse);
     }
 }
