@@ -16,17 +16,24 @@ interface Type {
   blogLink: string;
   websiteLink: string;
   mainImageUrl: string;
-  projectMemberRequestList: [
-    {
-      memberId: number;
-      projectMemberTypeEnum: string;
-    },
-  ];
+  projectMemberRequestList: [];
   frontframeworkRequestList: [];
   backframeworkRequestList: [];
   frontprojectMemberList: [];
   backprojectMemberList: [];
+  nonRegisterProjectMemberRequestList: [
+    {
+      name: string;
+      projectMemberTypeEnum: string;
+    },
+  ];
   leader: string;
+  frameworkResponseList: [
+    {
+      name: string;
+      frameworkTypeEnum: string;
+    },
+  ];
   changeplatform: (value: string) => void;
   changeprojectType: (value: string) => void;
   changeyear: (value: any) => void;
@@ -42,14 +49,19 @@ interface Type {
   changeleader: (value: any) => void;
   changeTitle: (value: any) => void;
   changeSubtitle: (value: any) => void;
+  changestartDate: (value: any) => void;
+  changeendDate: (value: any) => void;
+  changenonRegisterProjectMemberRequestList: (value: any) => void;
+  changeframeworkResponseList: (value: any) => void;
+  changecontent: (value: any) => void;
 }
 
 const useStore = create<Type>((set) => ({
   title: '제목',
   subtitle: '부제목',
   content: '',
-  startDate: '',
-  endDate: '',
+  startDate: '0000. 00. 00',
+  endDate: '0000. 00. 00',
   platform: '웹',
   projectType: '부트캠프',
   year: 2024,
@@ -59,16 +71,17 @@ const useStore = create<Type>((set) => ({
   blogLink: '',
   websiteLink: '',
   mainImageUrl: '',
-  projectMemberRequestList: [
-    {
-      memberId: 0,
-      projectMemberTypeEnum: '',
-    },
-  ],
+  projectMemberRequestList: [],
   nonRegisterProjectMemberRequestList: [
     {
       name: 'string',
       projectMemberTypeEnum: 'FRONTEND',
+    },
+  ],
+  frameworkResponseList: [
+    {
+      name: 'string',
+      frameworkTypeEnum: 'FRONTEND',
     },
   ],
   frontframeworkRequestList: [],
@@ -137,6 +150,26 @@ const useStore = create<Type>((set) => ({
   changeSubtitle: (value: any) =>
     set({
       subtitle: value,
+    }),
+  changestartDate: (value: any) =>
+    set({
+      startDate: value,
+    }),
+  changeendDate: (value: any) =>
+    set({
+      endDate: value,
+    }),
+  changenonRegisterProjectMemberRequestList: (value: any) =>
+    set({
+      nonRegisterProjectMemberRequestList: value,
+    }),
+  changeframeworkResponseList: (value: any) =>
+    set({
+      nonRegisterProjectMemberRequestList: value,
+    }),
+  changecontent: (value: any) =>
+    set({
+      content: value,
     }),
 }));
 

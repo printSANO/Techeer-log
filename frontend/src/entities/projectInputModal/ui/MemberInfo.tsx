@@ -4,15 +4,19 @@ import useStore from '../../../shared/store/store';
 import { ChangeEvent, useState } from 'react';
 
 export const MemberInfo = ({ setStep }: any) => {
-  const { changefrontprojectMemberList, changebackprojectMemberList, changeleader } = useStore();
+  const {
+    changefrontprojectMemberList,
+    changebackprojectMemberList,
+    changeleader,
+  } = useStore();
   const [fronttags, setFrontTags] = useState<string[]>([]);
   const [backtags, setBackTags] = useState<string[]>([]);
   const [leader, setLeader] = useState<string>('');
   const nextStep = () => {
-    setStep('next');
     changefrontprojectMemberList(fronttags);
     changebackprojectMemberList(backtags);
     changeleader(leader);
+    setStep('next');
   };
   const leaderonchange = (e: ChangeEvent<HTMLInputElement>) => {
     setLeader(e.target.value);

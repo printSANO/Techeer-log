@@ -5,6 +5,8 @@ import internet from '../../../shared/assets/image/modalImg/Internet.svg';
 import blog from '../../../shared/assets/image/modalImg/bloglink.svg';
 import { useState } from 'react';
 import useStore from '../../../shared/store/store';
+import { Calendar } from './Calendar';
+import moment from 'moment';
 
 export const ProjectInfo = ({ setStep }: any) => {
   const {
@@ -21,13 +23,17 @@ export const ProjectInfo = ({ setStep }: any) => {
     changegithubLink,
     changeblogLink,
     changewebsiteLink,
+    changestartDate,
+    changeendDate,
   } = useStore();
+  // 다음, 이전 버튼
   const nextStep = () => {
     setStep('next');
   };
   const prevStep = () => {
     setStep('prev');
   };
+  // 드롭다운
   const [isDropDownOpen1, setIsDropDownOpen1] = useState(false);
   const [isDropDownOpen2, setIsDropDownOpen2] = useState(false);
   const [isDropDownOpen3, setIsDropDownOpen3] = useState(false);
@@ -131,6 +137,28 @@ export const ProjectInfo = ({ setStep }: any) => {
     changeprojectStatus('서비스 운영 중 아님');
     setIsDropDownOpen4(false);
   };
+  //달력
+  const [isCalendarOpen1, setIsCalendarOpen1] = useState(false);
+  const [isCalendarOpen2, setIsCalendarOpen2] = useState(false);
+  const today = new Date();
+  const [nowDate1, setNowDate1] = useState(moment(today).format('YYYY. MM. DD'));
+  const [nowDate2, setNowDate2] = useState(moment(today).format('YYYY. MM. DD'));
+  const calendarOpen1 = () => {
+    setIsCalendarOpen1(!isCalendarOpen1);
+  };
+  const handleDateChange1 = (selectedDate: any) => {
+    setIsCalendarOpen1(false);
+    setNowDate1(moment(selectedDate).format('YYYY. MM. DD'));
+    changestartDate(moment(selectedDate).format('YYYY. MM. DD'));
+  };
+  const calendarOpen2 = () => {
+    setIsCalendarOpen2(!isCalendarOpen2);
+  };
+  const handleDateChange2 = (selectedDate: any) => {
+    setIsCalendarOpen2(false);
+    setNowDate2(moment(selectedDate).format('YYYY. MM. DD'));
+    changeendDate(moment(selectedDate).format('YYYY. MM. DD'));
+  };
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen z-20">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">
@@ -172,23 +200,25 @@ export const ProjectInfo = ({ setStep }: any) => {
                     프로젝트 시작일
                   </div>
                   <div className="flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid">
-                    2024. 01. 01
-                    <div>
+                    {nowDate1}
+                    <div className="cursor-pointer" onClick={calendarOpen1}>
                       <img src={calendarImg} className="inline" />
                     </div>
                   </div>
                 </div>
+                {isCalendarOpen1 && <Calendar onChange={handleDateChange1} />}
                 {/* 우측 */}
                 <div className="flex flex-col gap-2">
                   <div className="w-[16rem] break-words font-['Pretendard'] font-normal text-[0.9rem] leading-[1.286] text-[#ECEFF5]">
                     프로젝트 종료일
                   </div>
                   <div className="flex flex-row justify-between m-[0_0_0_0] w-[16rem] break-words font-['Pretendard','Roboto_Condensed'] text-[0.8rem] leading-[1.5] text-[#9492A0] border-b-[0.05rem] border-solid">
-                    2024. 03. 01
-                    <div>
+                    {nowDate2}
+                    <div className="cursor-pointer" onClick={calendarOpen2}>
                       <img src={calendarImg} className="inline" />
                     </div>
                   </div>
+                  {isCalendarOpen2 && <Calendar onChange={handleDateChange2} />}
                 </div>
               </div>
               {/* 2열 */}
@@ -376,7 +406,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                       name=""
                       placeholder="Github 링크를 입력하세요"
                       required
-                      className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-3 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
+                      className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
                     />
                   </label>
                 </div>

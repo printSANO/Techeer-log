@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import imgfile from '/src/shared/assets/image/markdownImg/Image.svg';
 import * as textEdit from '../index';
+import { useAuthStore } from '../../../shared/store/authStore';
 
 export const ImageUpload = ({ setImageurl }: any) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const fileInputRef = useRef(null);
+  const { accessToken } = useAuthStore();
   const formData = new FormData();
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +21,7 @@ export const ImageUpload = ({ setImageurl }: any) => {
   };
 
   useEffect(() => {
-    textEdit.uploadImage(selectedImage, formData, setSelectedImage, setImageurl);
+    textEdit.uploadImage(selectedImage, formData, setSelectedImage, setImageurl, accessToken);
   }, [selectedImage]);
   return (
     <>

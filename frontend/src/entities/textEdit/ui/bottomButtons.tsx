@@ -1,43 +1,84 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* 하단 취소, 완료버튼 */
 
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import useStore from '../../../shared/store/store';
+import * as api from '../api/index';
+import { useNavigate } from 'react-router-dom';
 
 export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
-  const nowProject = useStore((state: any) => state.nowProject);
+  const {
+    title,
+    subtitle,
+    content,
+    startDate,
+    endDate,
+    platform,
+    projectType,
+    year,
+    semester,
+    projectStatus,
+    githubLink,
+    blogLink,
+    websiteLink,
+    mainImageUrl,
+    projectMemberRequestList,
+    nonRegisterProjectMemberRequestList,
+    frontframeworkRequestList,
+    backframeworkRequestList,
+    frontprojectMemberList,
+    backprojectMemberList,
+    frameworkResponseList,
+    changenonRegisterProjectMemberRequestList,
+    changeframeworkResponseList,
+  } = useStore();
+  const [projectMemberRequestList2, setProjectMemberRequestList2] = useState<any>([]);
+  const [projectMemberRequestList3, setProjectMemberRequestList3] = useState<any>([]);
+  useEffect(() => {
+    setProjectMemberRequestList2([]);
+    setProjectMemberRequestList3([]);
+    frontprojectMemberList.map((item: any) => {
+      projectMemberRequestList2.push({ name: item, projectMemberTypeEnum: 'FRONTEND' });
+    });
+    backprojectMemberList.map((item: any) => {
+      projectMemberRequestList3.push({ name: item, projectMemberTypeEnum: 'BACKEND' });
+    });
+    changenonRegisterProjectMemberRequestList([...projectMemberRequestList2, ...projectMemberRequestList3]);
+    setProjectMemberRequestList2([]);
+    setProjectMemberRequestList3([]);
+    frontframeworkRequestList.map((item: any) => {
+      projectMemberRequestList2.push({ name: item, frameworkTypeEnum: 'FRONTEND' });
+    });
+    backframeworkRequestList.map((item: any) => {
+      projectMemberRequestList3.push({ name: item, frameworkTypeEnum: 'BACKEND' });
+    });
+    changeframeworkResponseList([...projectMemberRequestList2, ...projectMemberRequestList3]);
+  }, []);
   const handleGoBack = () => {
     setStep('prev');
   };
-  const handleSubmit = async (): Promise<void> => {
-    try {
-      const response = await axios.post(
-        '/api/v1/projects',
-        {
-          title: nowProject.title,
-          content: nowProject.content,
-          mainImageUrl: nowProject.mainImageUrl,
-        },
-        {
-          headers: {
-            authorization: '',
-          },
-        },
-      );
-      console.log(response.data);
-      navigate('/');
-    } catch (error) {
-      alert('제목, 내용을 입력해주세요!');
-    }
-  };
   const onSubmit = async () => {
-    try {
-      await handleSubmit();
-    } catch (error) {
-      console.log(error);
-    }
+    api.UploadProject(
+      title,
+      subtitle,
+      content,
+      startDate,
+      endDate,
+      platform,
+      projectType,
+      year,
+      semester,
+      projectStatus,
+      githubLink,
+      blogLink,
+      websiteLink,
+      mainImageUrl,
+      projectMemberRequestList,
+      nonRegisterProjectMemberRequestList,
+      frameworkResponseList,
+      navigate,
+    );
   };
   return (
     <div className="fixed bottom-0 flex flex-row w-full h-[7%] bg-[#212121] items-center justify-between p-[2rem_2rem]">

@@ -23,7 +23,7 @@ export const ProjectWritePage = () => {
     <>
       <div className="relative flex flex-col w-screen h-screen bg-black px-[0rem]">
         <textEdit.HeaderInput />
-        <ProjectWrite setStep={combinedStep} />
+        {!modalOpen && <ProjectWrite setStep={combinedStep} />}
         {modalOpen && (
           <>
             {step === 1 && (

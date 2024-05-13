@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainPage from '../../pages/MainPage.tsx';
 import { MyPage } from '../../entities/myPage';
-import SignUp from '../../entities/signup/ui/SignUp.tsx';
-import LogIn from '../../entities/login/ui/LogIn.tsx';
+import { SignUp } from '../../entities/signup/index.ts';
+import { LogIn } from '../../entities/login/index.ts';
 import { ProjectInfo } from '../../entities/projectInputModal';
 import { ProjectPage, ProjectWritePage } from '../../pages';
 

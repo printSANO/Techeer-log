@@ -7,15 +7,18 @@ import italic from '/src/shared/assets/image/markdownImg/Italic.svg';
 import * as textEdit from '../../entities/textEdit/index';
 import { ImageUpload } from '../../entities/textEdit/ui/ImageUpload';
 import { MarkdownView } from '.';
+import useStore from '../../shared/store/store';
 
 export const ProjectWrite = ({ setStep }: any) => {
   const [markdown, setMarkdown] = useState('');
+  const { changecontent } = useStore();
   // Markdown 내용이 변경될 때 호출되는 함수
   const onsetImageurl = (markdown: string) => {
     setMarkdown((prev) => prev + markdown);
   };
   const handleMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
+    changecontent(e.target.value);
   };
   const handleButtonH1Change = () => {
     if (markdown === '') setMarkdown('# ');
@@ -143,7 +146,7 @@ export const ProjectWrite = ({ setStep }: any) => {
           <MarkdownView markdown={markdown} />
         </div>
       </div>
-      <textEdit.bottomButtons setStep={setStep}/>
+      <textEdit.bottomButtons setStep={setStep} />
     </div>
   );
 };
