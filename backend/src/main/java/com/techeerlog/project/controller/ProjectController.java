@@ -48,7 +48,7 @@ public class ProjectController {
                 .body(resultResponse);
     }
 
-    @Operation(summary = "프로젝트 생성", description = "프로젝트 생성")
+    @Operation(summary = "프로젝트 생성", description = "날짜 입력은 2000.10.04 의 형태로 변형해서 입력 해주어야 한다!!  ")
     @PostMapping("/projects")
     public ResponseEntity<ResultResponse<URI>> addPost(@Valid @RequestBody ProjectRequest projectRequest,
                                                        @Login AuthInfo authInfo) {
