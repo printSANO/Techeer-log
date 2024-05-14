@@ -5,20 +5,21 @@ export interface Writer {
   profileImageUrl: string;
 }
 
-export interface MemberResponse {
-  id: number;
-  loginId: string;
-  nickname: string;
-  profileImageUrl: string;
-}
+// export interface MemberResponse {
+//   id: number;
+//   loginId: string;
+//   nickname: string;
+//   profileImageUrl: string;
+// }
 
 export enum ProjectMemberType {
   FRONTEND,
   BACKEND,
-  DESIGNER,
+  LEADER,
 }
 export interface ProjectMember {
-  memberResponse: MemberResponse;
+  name: string;
+  memberId?: number;
   projectMemberTypeEnum: string;
 }
 
@@ -50,6 +51,7 @@ export interface ProjectData {
   viewCount: number;
   loveCount: number;
   writer: Writer;
-  projectMemberResponseList: ProjectMember[];
-  frameworkResponseList: Framework[];
+  projectMemberRequestList: ProjectMember[];
+  nonRegisterProjectMemberRequestList: ProjectMember[];
+  frameworkRequestList: Framework[];
 }

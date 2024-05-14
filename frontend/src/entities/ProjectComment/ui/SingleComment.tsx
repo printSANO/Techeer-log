@@ -17,7 +17,7 @@ export const SingleComment: React.FC<SingleCommentProps> = ({ projectId, comment
   const [isEditing, setIsEditing] = useState(false);
   const queryClient = useQueryClient();
 
-  const currentUser = 'string'; //유저정보 조회 API로 받아옴
+  const currentUser = 'string'; //navbar에서 유저정보 조회 API로 받아옴 -> 전역저장값 가져옴
 
   const onCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);

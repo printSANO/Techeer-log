@@ -1,17 +1,17 @@
 import GithubIcon from '../../../shared/assets/image/projectViewImg/Icon-Github.png';
 import MediumIcon from '../../../shared/assets/image/projectViewImg/Icon-Medium.png';
 import LinkIcon from '../../../shared/assets/image/projectViewImg/Icon-Link.png';
-import LikeIcon from '../../../shared/assets/image/projectViewImg/Icon-Like.svg';
-import LikeFillIcon from '../../../shared/assets/image/projectViewImg/Icon-Like-Fill.svg';
-import { ProjectData } from '../../../shared/types/project.ts';
-import { useState } from 'react';
+import { Framework, ProjectData, ProjectMember } from '../../../shared/types/project.ts';
+import { LikeButton } from './LikeButton.tsx';
+import { ScrapButton } from './ScrapButton.tsx';
+import { ShareButton } from './ShareButton.tsx';
 export const ProjectView = (props: { data: ProjectData }) => {
-  const project = props.data;
-  const projectMember = props.data.projectMemberResponseList;
-  const techStack = props.data.frameworkResponseList;
-  console.log('type:', techStack[0]);
+  const project: ProjectData = props.data;
+  const projectMember: ProjectMember[] = props.data.nonRegisterProjectMemberRequestList;
+  const techStack: Framework[] = props.data.frameworkRequestList;
 
-  const [isLike, setIsLike] = useState<boolean>(false);
+  // const [isLike, setIsLike] = useState<boolean>(false);
+  // const [isScrapped, setIsScrapped] = useState<boolean>(false);
 
   return (
     <div className="bg-[#0F1012] w-[100vw] box-sizing-border">
@@ -25,29 +25,22 @@ export const ProjectView = (props: { data: ProjectData }) => {
         <div className="bg-[#989898] absolute w-[100%] h-[0.1rem]"></div>
         {/*좋아요, 저장, 공유*/}
         <div className="flex flex-row items-center justify-between w-[100%] mt-[1.5rem] mb-[2rem] box-sizing-border">
-          <div
-            onClick={() => {
-              setIsLike(!isLike);
-            }}
-            className="flex flex-row box-sizing-border items-center ml-[0.4rem]"
-          >
-            <div className="cursor-pointer m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]">
-              {isLike ? <img src={LikeFillIcon} alt="like" /> : <img src={LikeIcon} alt="like" />}
-            </div>
-            <div className="inline-block break-words font-['Pretendard'] font-semibold text-[1rem] text-[#989898]">
-              {project.loveCount}
-            </div>
+          <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
+            <LikeButton projectId={project.id} loveCount={project.loveCount} />
           </div>
           <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
-            <button className="bg-[url('/src/shared/assets/image/projectViewImg/Icon-Scrap.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0_0_0] w-[2rem] h-[2rem]"></button>
-            <button className="bg-[url('/src/shared/assets/image/projectViewImg/Icon-Share.png')] bg-[50%_50%] cursor-pointer bg-contain bg-no-repeat m-[0_0.6rem_0_0.7rem] w-[1.8rem] h-[1.8rem]"></button>
+            <ScrapButton projectId={project.id} />
+            <ShareButton />
           </div>
         </div>
         {/*글*/}
         <div className="flex flex-row w-[100%] justify-between box-sizing-border">
           {/*소개*/}
           <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[1.4rem_1.4rem_3rem_1.4rem] box-sizing-border">
-            <div className="rounded-[0.6rem] bg-[url('/src/shared/assets/image/ThumbNailImg.png')] bg-cover w-[100%] h-[23.2rem]"></div>
+            <div
+              style={{ backgroundImage: `url(${project.mainImageUrl})` }}
+              className="rounded-[0.6rem] bg-cover w-[100%] h-[23.2rem]"
+            ></div>
             <p className="m-[2rem_1.1rem_0_1.1rem] whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
               {project.content}
             </p>
@@ -181,20 +174,18 @@ export const ProjectView = (props: { data: ProjectData }) => {
                       if (member.projectMemberTypeEnum === 'BACKEND') {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
-                            {member.memberResponse.nickname}
+                            {member.name}
                           </span>
                         );
                       }
                       if (member.projectMemberTypeEnum === 'FRONTEND') {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
-                            {member.memberResponse.nickname}
+                            {member.name}
                           </span>
                         );
                       }
                     })}
-                  {/*위의 비즈니스 로직을 따로 분리해야하나? model로? enum에따라 배열 나눠서 전달 or map3번 돌림 코드를 깔끔하게 짜려면 분리하는게 맞는듯 계산 시간은 비슷 7*3==7*/}
-                  {/*멤버enum타입에 리더가있는지..? 있다면 리더를 프,백 중 어디 배치..?*/}
                 </div>
               </div>
             </div>
