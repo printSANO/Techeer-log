@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useAuthStore } from '../../../shared/store/authStore';
+import { useNavigate } from 'react-router-dom';
 // import { handleLogin } from '../api/login';
 
 export function LogIn() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   // 토큰 상태 관리 함수
   // const authStore = useAuthStore((state) => state.login);
@@ -76,6 +78,7 @@ export function LogIn() {
       // Access Token은 클라이언트 관리, Refresh Token은 전역 관리
       localStorage.setItem('accessToken', accessToken);
       login(accessToken, refreshToken);
+      navigate('/');
       // logout(); //test
 
       // 토큰 타이머

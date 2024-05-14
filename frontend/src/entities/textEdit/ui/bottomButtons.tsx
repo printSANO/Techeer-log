@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* 하단 취소, 완료버튼 */
 
-import { useEffect, useState } from 'react';
 import useStore from '../../../shared/store/store';
 import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../../shared/store/authStore';
 
 export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
@@ -25,36 +25,9 @@ export const bottomButtons = ({ setStep }: any) => {
     mainImageUrl,
     projectMemberRequestList,
     nonRegisterProjectMemberRequestList,
-    frontframeworkRequestList,
-    backframeworkRequestList,
-    frontprojectMemberList,
-    backprojectMemberList,
     frameworkResponseList,
-    changenonRegisterProjectMemberRequestList,
-    changeframeworkResponseList,
   } = useStore();
-  const [projectMemberRequestList2, setProjectMemberRequestList2] = useState<any>([]);
-  const [projectMemberRequestList3, setProjectMemberRequestList3] = useState<any>([]);
-  useEffect(() => {
-    setProjectMemberRequestList2([]);
-    setProjectMemberRequestList3([]);
-    frontprojectMemberList.map((item: any) => {
-      projectMemberRequestList2.push({ name: item, projectMemberTypeEnum: 'FRONTEND' });
-    });
-    backprojectMemberList.map((item: any) => {
-      projectMemberRequestList3.push({ name: item, projectMemberTypeEnum: 'BACKEND' });
-    });
-    changenonRegisterProjectMemberRequestList([...projectMemberRequestList2, ...projectMemberRequestList3]);
-    setProjectMemberRequestList2([]);
-    setProjectMemberRequestList3([]);
-    frontframeworkRequestList.map((item: any) => {
-      projectMemberRequestList2.push({ name: item, frameworkTypeEnum: 'FRONTEND' });
-    });
-    backframeworkRequestList.map((item: any) => {
-      projectMemberRequestList3.push({ name: item, frameworkTypeEnum: 'BACKEND' });
-    });
-    changeframeworkResponseList([...projectMemberRequestList2, ...projectMemberRequestList3]);
-  }, []);
+  const { accessToken } = useAuthStore();
   const handleGoBack = () => {
     setStep('prev');
   };
@@ -77,6 +50,7 @@ export const bottomButtons = ({ setStep }: any) => {
       projectMemberRequestList,
       nonRegisterProjectMemberRequestList,
       frameworkResponseList,
+      accessToken,
       navigate,
     );
   };

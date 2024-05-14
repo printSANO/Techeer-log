@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import code from '/src/shared/assets/image/markdownImg/code.svg';
 import quote from '/src/shared/assets/image/markdownImg/Get Quote.svg';
 import link from '/src/shared/assets/image/markdownImg/Link.svg';
@@ -11,7 +11,45 @@ import useStore from '../../shared/store/store';
 
 export const ProjectWrite = ({ setStep }: any) => {
   const [markdown, setMarkdown] = useState('');
-  const { changecontent } = useStore();
+  const {
+    changecontent,
+    leader,
+    changenonRegisterProjectMemberRequestList,
+    changeframeworkResponseList,
+    frontframeworkRequestList,
+    backframeworkRequestList,
+    frontprojectMemberList,
+    backprojectMemberList,
+  } = useStore();
+
+  const [projectMemberRequestList2, setProjectMemberRequestList2] = useState<any>([]);
+  const [projectMemberRequestList3, setProjectMemberRequestList3] = useState<any>([]);
+  const [projectFrameworkList2, setProjectFrameworkList2] = useState<any>([]);
+  const [projectFrameworkList3, setProjectFrameworkList3] = useState<any>([]);
+  useEffect(() => {
+    setProjectMemberRequestList2([]);
+    setProjectMemberRequestList3([]);
+    frontprojectMemberList.map((item: any) => {
+      projectMemberRequestList2.push({ name: item, projectMemberTypeEnum: 'FRONTEND' });
+    });
+    backprojectMemberList.map((item: any) => {
+      projectMemberRequestList3.push({ name: item, projectMemberTypeEnum: 'BACKEND' });
+    });
+    changenonRegisterProjectMemberRequestList([
+      ...projectMemberRequestList2,
+      ...projectMemberRequestList3,
+      { name: leader, projectMemberTypeEnum: 'LEADER' },
+    ]);
+    setProjectFrameworkList2([]);
+    setProjectFrameworkList3([]);
+    frontframeworkRequestList.map((item: any) => {
+      projectFrameworkList2.push({ name: item, frameworkTypeEnum: 'FRONTEND' });
+    });
+    backframeworkRequestList.map((item: any) => {
+      projectFrameworkList3.push({ name: item, frameworkTypeEnum: 'BACKEND' });
+    });
+    changeframeworkResponseList([...projectFrameworkList2, ...projectFrameworkList3]);
+  }, []);
   // Markdown 내용이 변경될 때 호출되는 함수
   const onsetImageurl = (markdown: string) => {
     setMarkdown((prev) => prev + markdown);

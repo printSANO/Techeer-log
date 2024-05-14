@@ -3,7 +3,7 @@ import dropdown from '../image/dropdown.svg';
 import github from '../../../shared/assets/image/modalImg/github.svg';
 import internet from '../../../shared/assets/image/modalImg/Internet.svg';
 import blog from '../../../shared/assets/image/modalImg/bloglink.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useStore from '../../../shared/store/store';
 import { Calendar } from './Calendar';
 import moment from 'moment';
@@ -141,23 +141,27 @@ export const ProjectInfo = ({ setStep }: any) => {
   const [isCalendarOpen1, setIsCalendarOpen1] = useState(false);
   const [isCalendarOpen2, setIsCalendarOpen2] = useState(false);
   const today = new Date();
-  const [nowDate1, setNowDate1] = useState(moment(today).format('YYYY. MM. DD'));
-  const [nowDate2, setNowDate2] = useState(moment(today).format('YYYY. MM. DD'));
+  const [nowDate1, setNowDate1] = useState(moment(today).format('YYYY-MM-DD'));
+  const [nowDate2, setNowDate2] = useState(moment(today).format('YYYY-MM-DD'));
+  useEffect(() => {
+    changestartDate(moment(today).format('YYYY-MM-DD'));
+    changeendDate(moment(today).format('YYYY-MM-DD'));
+  }, []);
   const calendarOpen1 = () => {
     setIsCalendarOpen1(!isCalendarOpen1);
   };
   const handleDateChange1 = (selectedDate: any) => {
     setIsCalendarOpen1(false);
-    setNowDate1(moment(selectedDate).format('YYYY. MM. DD'));
-    changestartDate(moment(selectedDate).format('YYYY. MM. DD'));
+    setNowDate1(moment(selectedDate).format('YYYY-MM-DD'));
+    changestartDate(moment(selectedDate).format('YYYY-MM-DD'));
   };
   const calendarOpen2 = () => {
     setIsCalendarOpen2(!isCalendarOpen2);
   };
   const handleDateChange2 = (selectedDate: any) => {
     setIsCalendarOpen2(false);
-    setNowDate2(moment(selectedDate).format('YYYY. MM. DD'));
-    changeendDate(moment(selectedDate).format('YYYY. MM. DD'));
+    setNowDate2(moment(selectedDate).format('YYYY-MM-DD'));
+    changeendDate(moment(selectedDate).format('YYYY-MM-DD'));
   };
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen z-20">

@@ -18,6 +18,7 @@ export const UploadProject = async (
   projectMemberRequestList: any,
   nonRegisterProjectMemberRequestList: any,
   frameworkRequestList: any,
+  accessToken: any,
   navigate: any,
 ) => {
   try {
@@ -44,14 +45,13 @@ export const UploadProject = async (
       },
       {
         headers: {
-          authorization:
-            'Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidHlwZSI6IlVTRVIiLCJuaWNrbmFtZSI6InN0cmluZyIsImlhdCI6MTcxNTYxMjA1NSwiZXhwIjoxNzE1NjE1NjU1fQ.recmy5KdGsRotk6__rtJ2nuVSZjhfcLiYfbcWon5w_RDzSlO77JY5-dSrC7BT5loZB7g6hMLnN-GgB-acVGJ6w',
+          authorization: accessToken,
         },
       },
     );
     console.log(response.data);
     navigate('/');
   } catch (error) {
-    alert('제목, 내용을 입력해주세요!');
+    alert('내용을 모두 입력하여 주세요!');
   }
 };

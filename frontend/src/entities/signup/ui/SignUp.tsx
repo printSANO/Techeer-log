@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export function SignUp() {
   const [nickname, setNickname] = useState('');
@@ -7,6 +8,7 @@ export function SignUp() {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const navigate = useNavigate();
 
   const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(event.target.value);
@@ -42,6 +44,7 @@ export function SignUp() {
         password,
         passwordConfirmation,
       });
+      navigate('/login');
       if (response.data.status != '200') {
         return Error;
       }
