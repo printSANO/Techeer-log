@@ -1,8 +1,14 @@
 spring:
   profiles:
-    active: local
+    active:
+    - ${ACTIVE_PROFILE}
+
+# logging 경로 지정
+logging:
+  config: classpath:log4j2.xml
 
 
 
 
 #        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
