@@ -36,7 +36,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 조회", description = "프로젝트 조회")
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity<ResultResponse<ProjectResponse>> findProject(@Parameter(in = ParameterIn.PATH) @PathVariable Long projectId,
+    public ResponseEntity<ResultResponse<ProjectResponse>> findProject(@Parameter(in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
                                                                        @Parameter(in = ParameterIn.COOKIE) @CookieValue(value = "viewedProject", required = false, defaultValue = "") String projectLog) {
         ProjectResponse findProjectResponse = projectService.findProjectResponse(projectId, projectLog);
         String updatedLog = projectService.updateProjectLog(projectId, projectLog);
@@ -61,7 +61,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 수정", description = "프로젝트 수정")
     @PutMapping("/projects/{projectId}")
-    public ResponseEntity<ResultResponse<ProjectResponse>> updatePost(@PathVariable Long projectId,
+    public ResponseEntity<ResultResponse<ProjectResponse>> updatePost(@PathVariable("projectId") Long projectId,
                                                                       @RequestBody ProjectRequest projectRequest,
                                                                       @Login AuthInfo authInfo) {
         projectService.updateProject(projectId, projectRequest, authInfo);
@@ -73,7 +73,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 삭제", description = "프로젝트 삭제")
     @DeleteMapping("/projects/{projectId}")
-    public ResponseEntity<ResultResponse<String>> deletePost(@PathVariable Long projectId, @Login AuthInfo authInfo) {
+    public ResponseEntity<ResultResponse<String>> deletePost(@PathVariable("projectId") Long projectId, @Login AuthInfo authInfo) {
         projectService.deleteProject(projectId, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_SUCCESS);
 

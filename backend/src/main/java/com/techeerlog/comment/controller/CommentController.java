@@ -49,7 +49,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 리스트 조회")
     @GetMapping("/comments/{projectId}")
-    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable Long projectId,
+    public ResponseEntity<ResultResponse<CommentsResponse>> findComments(@PathVariable("projectId") Long projectId,
                                                                          @Login AuthInfo authInfo) {
         CommentsResponse commentsResponse = commentService.findComments(projectId, authInfo);
         ResultResponse<CommentsResponse> resultResponse = new ResultResponse<>(GET_COMMENT_SUCCESS, commentsResponse);
@@ -59,7 +59,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 수정", description = "댓글 수정")
     @PutMapping("/comments/{commentId}")
-    public ResponseEntity<ResultResponse<CommentResponse>> updateComment(@PathVariable Long commentId,
+    public ResponseEntity<ResultResponse<CommentResponse>> updateComment(@PathVariable("commentId") Long commentId,
                                                                          @Valid @RequestBody CommentRequest commentRequest,
                                                                          @Login AuthInfo authInfo) {
         CommentResponse updatedCommentResponse = commentService.updateComment(commentId, commentRequest, authInfo);
@@ -70,7 +70,7 @@ public class CommentController {
 
     @Operation(summary = "댓글 삭제", description = "댓글 삭제")
     @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<ResultResponse<String>> deleteComment(@PathVariable Long commentId,
+    public ResponseEntity<ResultResponse<String>> deleteComment(@PathVariable("commentId") Long commentId,
                                                                 @Login AuthInfo authInfo) {
         commentService.deleteComment(commentId, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(DELETE_COMMENT_SUCCESS);

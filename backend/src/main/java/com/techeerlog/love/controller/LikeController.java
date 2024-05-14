@@ -26,7 +26,7 @@ public class LikeController {
 
     @Operation(summary = "좋아요", description = "좋아요")
     @PostMapping("/loves/{projectId}")
-    public ResponseEntity<ResultResponse<String>> addLove(@PathVariable Long projectId,
+    public ResponseEntity<ResultResponse<String>> addLove(@PathVariable("projectId") Long projectId,
                                                           @Login AuthInfo authInfo) {
         likeService.addLove(projectId, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS);
@@ -37,7 +37,7 @@ public class LikeController {
 
     @Operation(summary = "좋아요 취소", description = "좋아요 취소")
     @DeleteMapping("/loves/{projectId}")
-    public ResponseEntity<ResultResponse<String>> deleteLove(@PathVariable Long projectId,
+    public ResponseEntity<ResultResponse<String>> deleteLove(@PathVariable("projectId") Long projectId,
                                                              @Login AuthInfo authInfo) {
         likeService.deleteLove(projectId, authInfo);
         ResultResponse<String> resultResponse = new ResultResponse<>(LIKE_DELETED_SUCCESS);

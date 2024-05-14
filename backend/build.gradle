@@ -20,8 +20,8 @@ bootJar {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.5'
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.2.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.11'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.11'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     //@Valid(유효성 검증)
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

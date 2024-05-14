@@ -23,7 +23,7 @@ public class ScrapController {
 
     @Operation(summary = "스크랩 하기", description = "스크랩 하기")
     @PostMapping("/scraps/{projectId}")
-    public ResponseEntity<ResultResponse<Void>> createScrap(@PathVariable Long projectId,
+    public ResponseEntity<ResultResponse<Void>> createScrap(@PathVariable("projectId") Long projectId,
                                                             @Login AuthInfo authInfo) {
         scrapService.createScrap(projectId, authInfo);
         ResultResponse<Void> resultResponse = new ResultResponse<>(SCRAP_CREATED_SUCCESS);
@@ -34,7 +34,7 @@ public class ScrapController {
 
     @Operation(summary = "스크랩 취소", description = "스크랩 취소")
     @DeleteMapping("/scraps/{projectId}")
-    public ResponseEntity<ResultResponse<Void>> deleteScrap(@PathVariable Long projectId,
+    public ResponseEntity<ResultResponse<Void>> deleteScrap(@PathVariable("projectId") Long projectId,
                                                                      @Login AuthInfo authInfo) {
         scrapService.deleteScrap(projectId, authInfo);
         ResultResponse<Void> resultResponse = new ResultResponse<>(SCRAP_DELETED_SUCCESS);
