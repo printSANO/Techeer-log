@@ -25,4 +25,5 @@ certbot
 
 logs
 nginx/nginx-develop.conf
+.DS_Store
 

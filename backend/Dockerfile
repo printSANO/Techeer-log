@@ -32,4 +32,3 @@ COPY --from=builder build/libs/*.jar app.jar
 COPY wait-for-it.sh wait-for-it.sh
 RUN chmod +x wait-for-it.sh
 ENTRYPOINT ["./wait-for-it.sh", "mysqldb:3306", "-s", "-t", "100", "--"]
-
