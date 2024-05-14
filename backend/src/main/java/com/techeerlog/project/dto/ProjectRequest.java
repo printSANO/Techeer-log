@@ -1,5 +1,6 @@
 package com.techeerlog.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.techeerlog.framework.dto.FrameworkRequest;
 import com.techeerlog.project.enums.PlatformEnum;
 import com.techeerlog.project.enums.ProjectStatusEnum;
@@ -21,7 +22,9 @@ public class ProjectRequest {
     private String title;
     private String subtitle;
     private String content;
+    @JsonFormat(pattern = "yyyy.MM.dd")
     private LocalDate startDate;
+    @JsonFormat(pattern = "yyyy.MM.dd")
     private LocalDate endDate;
     private PlatformEnum platform;
     private ProjectTypeEnum projectType;
