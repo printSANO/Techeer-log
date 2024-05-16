@@ -52,11 +52,8 @@ public class ProjectService {
     private final NonRegisterProjectMemberRepository nonRegisterProjectMemberRepository;
 
     @Transactional
-    public ProjectResponse findProjectResponse(Long projectId, String cookieValue) {
-        // 다른 함수에서 요청했을 때, Cookie 값에 "N" 을 넣는다
-        if (!cookieValue.equals("N") || viewCountManager.isFirstAccess(cookieValue, projectId)) {
-            projectRepository.updateViewCount(projectId);
-        }
+    public ProjectResponse findProjectResponse(Long projectId) {
+
         Project findProject = findProjectById(projectId);
 
         ProjectResponse projectResponse = projectMapper.projectToProjectResponse(findProject);
@@ -114,7 +111,9 @@ public class ProjectService {
         deleteAllProjectMember(project);
         deleteAllNonRegisterProjectMember(project);
         deleteAllProjectFramework(project);
+
         saveProjectMemberList(project, projectRequest.getProjectMemberRequestList());
+        saveProjectNonRegisterProjectMemberList(project, projectRequest.getNonRegisterProjectMemberRequestList());
         saveProjectFrameworkList(project, projectRequest.getFrameworkRequestList());
     }
 
