@@ -6,6 +6,8 @@ import com.techeerlog.auth.dto.AuthInfo;
 public interface TokenManager {
     String createAccessToken(AuthInfo authInfo);
 
+    String createAnonymousAccessToken();
+
     String createRefreshToken();
 
     String getPayload(String token);
@@ -17,4 +19,5 @@ public interface TokenManager {
 
     String createNewTokenWithNewNickname(String newNickname, AuthInfo authInfo);
 
+    boolean isAnonymousToken(String token);
 }

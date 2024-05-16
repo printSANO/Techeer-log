@@ -46,11 +46,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/v1/auth/login")
-                .excludePathPatterns("/api/v1/auth/refresh")
-                .excludePathPatterns("/api/v1/members/signup")
-                .excludePathPatterns("/api/v1/projects/list")
-                .excludePathPatterns("/api/v1/comments/**"); // 댓글 조회 경로 인증 해제
+                .excludePathPatterns("/api/v1/auth/anonymous")
+                .excludePathPatterns("/api/v1/enums")
+                .excludePathPatterns("/swagger-ui.html", "/swagger-ui/**", "/api/v3/api-docs/**");
     }
 
     @Override

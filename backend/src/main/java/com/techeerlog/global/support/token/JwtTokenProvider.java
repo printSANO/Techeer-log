@@ -45,6 +45,21 @@ public class JwtTokenProvider implements TokenManager {
     }
 
     @Override
+    public String createAnonymousAccessToken() {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder()
+                .claim("id", -1L)
+                .claim("type", "anonymous")
+                .claim("nickname", "anonymous")
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(signingKey)
+                .compact();
+    }
+
+    @Override
     public String createRefreshToken() {
         Date now = new Date();
         Date validity = new Date(now.getTime() + refreshTokenValidityMilliseconds);
@@ -107,5 +122,10 @@ public class JwtTokenProvider implements TokenManager {
     public String createNewTokenWithNewNickname(String newNickname, AuthInfo authInfo) {
         AuthInfo newAuthInfo = new AuthInfo(authInfo.getId(), authInfo.getType(), newNickname);
         return this.createAccessToken(newAuthInfo);
+    }
+
+    @Override
+    public boolean isAnonymousToken(String token) {
+        return getParsedClaims(token).getId() == -1L;
     }
 }
