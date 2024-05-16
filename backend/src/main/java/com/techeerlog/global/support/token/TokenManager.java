@@ -19,4 +19,5 @@ public interface TokenManager {
 
     String createNewTokenWithNewNickname(String newNickname, AuthInfo authInfo);
 
+    boolean isAnonymousToken(String token);
 }

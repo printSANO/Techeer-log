@@ -1,5 +1,6 @@
 package com.techeerlog.global.support;
 
+import com.techeerlog.global.exception.AnonymousNotAllowedException;
 import com.techeerlog.global.exception.InvalidAccessTokenException;
 import com.techeerlog.global.exception.NoAccessTokenException;
 import com.techeerlog.global.support.token.AuthorizationExtractor;
@@ -11,26 +12,28 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Component
-// @Slf4j   // logging
 public class AuthInterceptor implements HandlerInterceptor {
-    // private static final Logger LOGGER = LoggerFactory.getLogger(AuthInterceptor.class);
     private final TokenManager tokenManager;
+    private final Set<String> anonymousAllowedPaths;
 
     public AuthInterceptor(TokenManager tokenManager) {
         this.tokenManager = tokenManager;
+        this.anonymousAllowedPaths = new HashSet<>(Arrays.asList(
+                "/api/v1/auth/login",
+                "/api/v1/members/signup"
+        ));
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (isGetMethodExcludeNickname(request))
-            return true;
-
         if (CorsUtils.isPreFlightRequest(request))
             return true;
-
 
 //        Logging Method
 //        if (isGetMethod(request)) {
@@ -39,23 +42,39 @@ public class AuthInterceptor implements HandlerInterceptor {
 //        }
 
         if (notExistHeader(request)) {
-//            LOGGER.info("no header" + request.getRequestURI());
             throw new NoAccessTokenException();
         }
 
         String token = AuthorizationExtractor.extractAccessToken(request);
+
         if (isInvalidToken(token)) {
-//            LOGGER.info("no token" + request.getRequestURI());
             throw new InvalidAccessTokenException();
+        }
+
+        if (isGetMethod(request))
+            return true;
+
+        // Post, Put, Delete method
+        if (isAnonymousNotAllowed(request.getRequestURI(), token)) {
+            throw new AnonymousNotAllowedException();
         }
         return true;
     }
 
+    private boolean isAnonymousNotAllowed(String requestURI, String token) {
+        if (isAnonymousAllowedPath(requestURI))
+            return false;
 
-    private boolean isGetMethodExcludeNickname(HttpServletRequest request) {
-        return request.getMethod().equalsIgnoreCase("GET") &&
-                !(request.getRequestURI().equalsIgnoreCase("/api/v1/members/nickname")
-                        || request.getRequestURI().equalsIgnoreCase("/api/v1/projects/list/**"));
+        if (isAnonymousToken(token))
+            return true;
+
+        return false;
+    }
+
+
+
+    private boolean isGetMethod(HttpServletRequest request) {
+        return request.getMethod().equalsIgnoreCase("GET");
     }
 
     private boolean notExistHeader(HttpServletRequest request) {
@@ -67,4 +86,22 @@ public class AuthInterceptor implements HandlerInterceptor {
         return !tokenManager.isValid(token);
     }
 
+    private boolean isAnonymousAllowedPath(String requestURI) {
+        for (String path : anonymousAllowedPaths) {
+            if (path.endsWith("/*")) {
+                // 패턴 매칭을 위해 api/v1/* 이면 api/v1 으로 변환 후 이를 startwith 로 비교한다
+                String basePath = path.substring(0, path.length() - 2);
+                if (requestURI.startsWith(basePath)) {
+                    return true;
+                }
+            } else if (requestURI.equals(path)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isAnonymousToken(String token) {
+        return tokenManager.isAnonymousToken(token);
+    }
 }
