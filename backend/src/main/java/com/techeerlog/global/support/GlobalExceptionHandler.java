@@ -43,26 +43,27 @@ public class GlobalExceptionHandler {
     }
 
     @Order(1)
-    @ExceptionHandler
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
     protected ResponseEntity<ErrorResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        final ErrorCode errorCode = MAX_UPLOAD_SIZE_EXCEEDED_ERROR;
+        final ErrorResponse response = new ErrorResponse(errorCode);
 
-        log.error(MAX_UPLOAD_SIZE_EXCEEDED_ERROR + ", " + Arrays.toString(e.getStackTrace()));
+        log.error("{}, {}", errorCode, Arrays.toString(e.getStackTrace()));
 
-        final ErrorResponse response = new ErrorResponse(MAX_UPLOAD_SIZE_EXCEEDED_ERROR);
-
-        return ResponseEntity.status(MAX_UPLOAD_SIZE_EXCEEDED_ERROR.getStatus()).body(response);
+        return ResponseEntity.status(errorCode.getStatus()).body(response);
     }
+
     // IllegalArgumentException : Page size must not be less than one
     // NumberFormatException
     // MethodArgumentNotValidException
     @Order(2)
-    @ExceptionHandler
+    @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+        final ErrorCode errorCode = INTERNAL_SERVER_ERROR;
+        final ErrorResponse response = new ErrorResponse(errorCode);
 
-        log.error(e + ", " + Arrays.toString(e.getStackTrace()));
+        log.error("{}, {}", errorCode, Arrays.toString(e.getStackTrace()));
 
-        final ErrorResponse response = new ErrorResponse(INTERNAL_SERVER_ERROR);
-
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR.getStatus()).body(response);
+        return ResponseEntity.status(errorCode.getStatus()).body(response);
     }
 }
