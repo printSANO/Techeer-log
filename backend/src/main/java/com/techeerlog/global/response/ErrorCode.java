@@ -12,6 +12,7 @@ public enum ErrorCode {
     NO_ACCESS_TOKEN_ERROR("G003", 400, "Access Token이 Header에 존재하지 않습니다."),
     MAX_UPLOAD_SIZE_EXCEEDED_ERROR("G004", 400, "파일 크기가 한도를 초과하였습니다"),
 
+
     // Token
     INVALID_ACCESS_TOKEN_ERROR("T001", 400, "유효하지 않은 access 토큰입니다."),
     INVALID_REFRESH_TOKEN_ERROR("T002", 400, "유효하지 않은 refresh 토큰입니다."),
