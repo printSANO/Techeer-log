@@ -33,7 +33,7 @@ public class ProjectController {
     @Operation(summary = "프로젝트 조회", description = "프로젝트 조회")
     @GetMapping("/projects/{projectId}")
     public ResponseEntity<ResultResponse<ProjectResponse>> findProject(@PathVariable("projectId") Long projectId, @Login AuthInfo authInfo) {
-        ProjectResponse findProjectResponse = projectService.findProjectResponse(projectId);
+        ProjectResponse findProjectResponse = projectService.findProjectResponse(projectId, authInfo);
         ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(FIND_PROJECT_SUCCESS, findProjectResponse);
 
         return ResponseEntity.status(FIND_PROJECT_SUCCESS.getStatus())
@@ -57,7 +57,7 @@ public class ProjectController {
                                                                       @RequestBody ProjectRequest projectRequest,
                                                                       @Login AuthInfo authInfo) {
         projectService.updateProject(projectId, projectRequest, authInfo);
-        ProjectResponse projectResponse = projectService.findProjectResponse(projectId);
+        ProjectResponse projectResponse = projectService.findProjectResponse(projectId, authInfo);
         ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(UPDATE_PROJECT_SUCCESS, projectResponse);
 
         return ResponseEntity.status(UPDATE_PROJECT_SUCCESS.getStatus()).body(resultResponse);
@@ -74,8 +74,8 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 리스트 조회", description = "프로젝트 리스트 조회")
     @GetMapping(path = "/projects/list")
-    public ResponseEntity<ResultResponse<List<ProjectItemResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest) {
-        List<ProjectItemResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest);
+    public ResponseEntity<ResultResponse<List<ProjectItemResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest, @Login AuthInfo authInfo) {
+        List<ProjectItemResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest, authInfo);
 
         ResultResponse<List<ProjectItemResponse>> listResultResponse
                 = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectResponseList);

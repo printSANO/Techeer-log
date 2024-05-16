@@ -4,7 +4,7 @@ import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.support.UtilMethod;
 import com.techeerlog.love.domain.Love;
 import com.techeerlog.love.exception.LikeNotFoundException;
-import com.techeerlog.love.repository.LikeRepository;
+import com.techeerlog.love.repository.LoveRepository;
 import com.techeerlog.member.domain.Member;
 import com.techeerlog.project.domain.Project;
 import com.techeerlog.project.exception.ProjectNotFoundException;
@@ -16,15 +16,15 @@ import java.util.Optional;
 
 @Service
 public class LikeService {
-    private final LikeRepository likeRepository;
+    private final LoveRepository loveRepository;
     private final ProjectRepository projectRepository;
     private final UtilMethod utilMethod;
 
 
-    public LikeService(LikeRepository likeRepository, ProjectRepository projectRepository,
+    public LikeService(LoveRepository loveRepository, ProjectRepository projectRepository,
                        UtilMethod utilMethod) {
 
-        this.likeRepository = likeRepository;
+        this.loveRepository = loveRepository;
         this.projectRepository = projectRepository;
         this.utilMethod = utilMethod;
     }
@@ -34,11 +34,11 @@ public class LikeService {
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
 
-        likeRepository.findByMemberIdAndProjectId(member.getId(), project.getId())
+        loveRepository.findByMemberIdAndProjectId(member.getId(), project.getId())
                 .ifPresent(love -> {
                     throw new LikeNotFoundException();
                 });
-        likeRepository.save(Love.builder()
+        loveRepository.save(Love.builder()
                 .project(project)
                 .member(member)
                 .build());
@@ -49,10 +49,10 @@ public class LikeService {
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
 
-        Optional<Love> love = likeRepository.findByMemberIdAndProjectId(member.getId(), project.getId());
+        Optional<Love> love = loveRepository.findByMemberIdAndProjectId(member.getId(), project.getId());
         if (love.isEmpty()) {
             throw new LikeNotFoundException();
         }
-        likeRepository.delete(love.get());
+        loveRepository.delete(love.get());
     }
 }
