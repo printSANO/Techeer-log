@@ -44,8 +44,8 @@ public enum ErrorCode {
 
 
     // Like
-    COMMENT_LIKE_NOT_FOUND_ERROR("L001", 400, "해당 회원이 누른 좋아요가 존재하지 않습니다."),
-    COMMENT_LIKE_ALREADY_EXISTS_ERROR("L002", 400, "이미 좋아요를 누른 댓글입니다."),
+    COMMENT_LOVE_NOT_FOUND_ERROR("L001", 400, "해당 회원이 누른 좋아요가 존재하지 않습니다."),
+    COMMENT_LOVE_ALREADY_EXISTS_ERROR("L002", 400, "이미 좋아요를 누른 댓글입니다."),
 
     // Image
     S3_UPLOAD_ERROR("I001", 400, "S3 이미지 업로드가 실패하였습니다"),

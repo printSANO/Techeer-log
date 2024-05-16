@@ -4,45 +4,44 @@ package com.techeerlog.love.controller;
 import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.response.ResultResponse;
 import com.techeerlog.global.support.token.Login;
-import com.techeerlog.love.service.LikeService;
+import com.techeerlog.love.service.LoveService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.techeerlog.global.response.ResultCode.LIKE_CREATED_SUCCESS;
-import static com.techeerlog.global.response.ResultCode.LIKE_DELETED_SUCCESS;
+import static com.techeerlog.global.response.ResultCode.*;
 
 
-@Tag(name = "Like", description = "Like API Document")
+@Tag(name = "Love", description = "Love API Document")
 @RestController
 @RequestMapping("/v1")
-public class LikeController {
-    private final LikeService likeService;
+public class LoveController {
+    private final LoveService loveService;
 
-    public LikeController(LikeService likeService) {
-        this.likeService = likeService;
+    public LoveController(LoveService loveService) {
+        this.loveService = loveService;
     }
 
     @Operation(summary = "좋아요", description = "좋아요")
     @PostMapping("/loves/{projectId}")
     public ResponseEntity<ResultResponse<String>> addLove(@PathVariable("projectId") Long projectId,
                                                           @Login AuthInfo authInfo) {
-        likeService.addLove(projectId, authInfo);
-        ResultResponse<String> resultResponse = new ResultResponse<>(LIKE_CREATED_SUCCESS);
+        loveService.addLove(projectId, authInfo);
+        ResultResponse<String> resultResponse = new ResultResponse<>(LOVE_CREATED_SUCCESS);
 
 
-        return ResponseEntity.status(LIKE_CREATED_SUCCESS.getStatus()).body(resultResponse);
+        return ResponseEntity.status(LOVE_CREATED_SUCCESS.getStatus()).body(resultResponse);
     }
 
     @Operation(summary = "좋아요 취소", description = "좋아요 취소")
     @DeleteMapping("/loves/{projectId}")
     public ResponseEntity<ResultResponse<String>> deleteLove(@PathVariable("projectId") Long projectId,
                                                              @Login AuthInfo authInfo) {
-        likeService.deleteLove(projectId, authInfo);
-        ResultResponse<String> resultResponse = new ResultResponse<>(LIKE_DELETED_SUCCESS);
+        loveService.deleteLove(projectId, authInfo);
+        ResultResponse<String> resultResponse = new ResultResponse<>(LOVE_DELETED_SUCCESS);
 
-        return ResponseEntity.status(LIKE_DELETED_SUCCESS.getStatus()).body(resultResponse);
+        return ResponseEntity.status(LOVE_DELETED_SUCCESS.getStatus()).body(resultResponse);
     }
 
 }
