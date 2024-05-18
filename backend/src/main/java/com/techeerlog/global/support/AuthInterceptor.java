@@ -65,10 +65,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (isAnonymousAllowedPath(requestURI))
             return false;
 
-        if (isAnonymousToken(token))
-            return true;
-
-        return false;
+        return isAnonymousToken(token);
     }
 
 
