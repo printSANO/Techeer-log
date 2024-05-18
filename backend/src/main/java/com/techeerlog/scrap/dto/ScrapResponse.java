@@ -1,5 +1,6 @@
 package com.techeerlog.scrap.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,17 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ScrapResponse {
     private Long scrapId;
     private Long projectId;
-    private Long memberId;
-    private boolean isScraped;
-
-    public ScrapResponse(Long scrapId, Long projectId, Long memberId, boolean isScraped) {
-        this.scrapId = scrapId;
-        this.projectId = projectId;
-        this.memberId = memberId;
-        this.isScraped = isScraped;
-    }
-
 }

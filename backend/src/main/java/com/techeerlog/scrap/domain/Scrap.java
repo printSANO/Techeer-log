@@ -5,6 +5,7 @@ import com.techeerlog.member.domain.Member;
 import com.techeerlog.project.domain.Project;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -27,6 +28,7 @@ public class Scrap extends BaseEntity {
     protected Scrap() {
     }
 
+    @Builder
     public Scrap(Member member, Project project) {
         this.member = member;
         this.project = project;
