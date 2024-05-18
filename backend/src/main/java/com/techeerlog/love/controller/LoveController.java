@@ -4,6 +4,7 @@ package com.techeerlog.love.controller;
 import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.response.ResultResponse;
 import com.techeerlog.global.support.token.Login;
+import com.techeerlog.love.dto.LoveResponse;
 import com.techeerlog.love.service.LoveService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,10 +26,10 @@ public class LoveController {
 
     @Operation(summary = "좋아요", description = "좋아요")
     @PostMapping("/loves/{projectId}")
-    public ResponseEntity<ResultResponse<String>> addLove(@PathVariable("projectId") Long projectId,
+    public ResponseEntity<ResultResponse<LoveResponse>> addLove(@PathVariable("projectId") Long projectId,
                                                           @Login AuthInfo authInfo) {
-        loveService.addLove(projectId, authInfo);
-        ResultResponse<String> resultResponse = new ResultResponse<>(LOVE_CREATED_SUCCESS);
+        LoveResponse loveResponse = loveService.addLove(projectId, authInfo);
+        ResultResponse<LoveResponse> resultResponse = new ResultResponse<>(LOVE_CREATED_SUCCESS, loveResponse);
 
 
         return ResponseEntity.status(LOVE_CREATED_SUCCESS.getStatus()).body(resultResponse);
@@ -36,10 +37,10 @@ public class LoveController {
 
     @Operation(summary = "좋아요 취소", description = "좋아요 취소")
     @DeleteMapping("/loves/{projectId}")
-    public ResponseEntity<ResultResponse<String>> deleteLove(@PathVariable("projectId") Long projectId,
+    public ResponseEntity<ResultResponse<LoveResponse>> deleteLove(@PathVariable("projectId") Long projectId,
                                                              @Login AuthInfo authInfo) {
-        loveService.deleteLove(projectId, authInfo);
-        ResultResponse<String> resultResponse = new ResultResponse<>(LOVE_DELETED_SUCCESS);
+        LoveResponse loveResponse = loveService.deleteLove(projectId, authInfo);
+        ResultResponse<LoveResponse> resultResponse = new ResultResponse<>(LOVE_DELETED_SUCCESS, loveResponse);
 
         return ResponseEntity.status(LOVE_DELETED_SUCCESS.getStatus()).body(resultResponse);
     }

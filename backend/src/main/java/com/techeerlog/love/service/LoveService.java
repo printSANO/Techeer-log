@@ -3,6 +3,7 @@ package com.techeerlog.love.service;
 import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.support.UtilMethod;
 import com.techeerlog.love.domain.Love;
+import com.techeerlog.love.dto.LoveResponse;
 import com.techeerlog.love.exception.LoveNotFoundException;
 import com.techeerlog.love.repository.LoveRepository;
 import com.techeerlog.member.domain.Member;
@@ -29,22 +30,26 @@ public class LoveService {
         this.utilMethod = utilMethod;
     }
 
-    public void addLove(Long projectId, AuthInfo authInfo) {
+    public LoveResponse addLove(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
 
-        loveRepository.findByMemberIdAndProjectId(member.getId(), project.getId())
-                .ifPresent(love -> {
-                    throw new LoveNotFoundException();
-                });
-        loveRepository.save(Love.builder()
+        // 좋아요 중복 체크
+        if (loveRepository.existsByMemberIdAndProjectId(member.getId(), project.getId())) {
+            throw new LoveNotFoundException();
+        }
+        Love love = Love.builder()
                 .project(project)
                 .member(member)
-                .build());
+                .build();
+        loveRepository.save(love);
+
+        return new LoveResponse(love.getId(), project.getId());
     }
 
-    public void deleteLove(Long projectId, AuthInfo authInfo) {
+
+    public LoveResponse deleteLove(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
@@ -53,6 +58,9 @@ public class LoveService {
         if (love.isEmpty()) {
             throw new LoveNotFoundException();
         }
+
+        Long loveId = love.get().getId();
         loveRepository.delete(love.get());
+        return new LoveResponse(loveId, project.getId());
     }
 }
