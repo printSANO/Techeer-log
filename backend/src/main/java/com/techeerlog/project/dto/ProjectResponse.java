@@ -34,8 +34,8 @@ public class ProjectResponse {
     private String githubLink;
     private String blogLink;
     private String websiteLink;
-    private int viewCount = 0;
     private int loveCount = 0;
+    private boolean isLoved;
     private MemberResponse writer;
     private List<ProjectMemberResponse> projectMemberResponseList;
     private List<NonRegisterProjectMemberResponse> nonRegisterProjectMemberResponseList;

@@ -11,6 +11,7 @@ import com.techeerlog.global.mapper.FrameworkMapper;
 import com.techeerlog.global.mapper.MemberMapper;
 import com.techeerlog.global.mapper.ProjectMapper;
 import com.techeerlog.global.support.UtilMethod;
+import com.techeerlog.love.repository.LoveRepository;
 import com.techeerlog.member.domain.Member;
 import com.techeerlog.member.exception.MemberNotFoundException;
 import com.techeerlog.member.repository.MemberRepository;
@@ -50,17 +51,17 @@ public class ProjectService {
     private final FrameworkRepository frameworkRepository;
     private final ProjectFrameworkRepository projectFrameworkRepository;
     private final NonRegisterProjectMemberRepository nonRegisterProjectMemberRepository;
+    private final LoveRepository loveRepository;
 
     @Transactional
-    public ProjectResponse findProjectResponse(Long projectId, String cookieValue) {
-        // 다른 함수에서 요청했을 때, Cookie 값에 "N" 을 넣는다
-        if (!cookieValue.equals("N") || viewCountManager.isFirstAccess(cookieValue, projectId)) {
-            projectRepository.updateViewCount(projectId);
-        }
+    public ProjectResponse findProjectResponse(Long projectId, AuthInfo authInfo) {
+
         Project findProject = findProjectById(projectId);
 
         ProjectResponse projectResponse = projectMapper.projectToProjectResponse(findProject);
         projectResponse.setWriter(memberMapper.memberToMemberResponse(findProject.getMember()));
+        projectResponse.setLoveCount(findProject.getLoveList().size());
+        projectResponse.setLoved(loveRepository.findByMemberIdAndProjectId(authInfo.getId(), findProject.getId()).isPresent());
         projectResponse.setProjectMemberResponseList(getProjectMemberResponseList(findProject.getProjectMemberList()));
         projectResponse.setNonRegisterProjectMemberResponseList(getNonRegisterProjectMemberResponseList(findProject.getNonRegisterProjectMemberList()));
         projectResponse.setFrameworkResponseList(getFrameworkResponseList(findProject.getProjectFrameworkList()));
@@ -114,7 +115,9 @@ public class ProjectService {
         deleteAllProjectMember(project);
         deleteAllNonRegisterProjectMember(project);
         deleteAllProjectFramework(project);
+
         saveProjectMemberList(project, projectRequest.getProjectMemberRequestList());
+        saveProjectNonRegisterProjectMemberList(project, projectRequest.getNonRegisterProjectMemberRequestList());
         saveProjectFrameworkList(project, projectRequest.getFrameworkRequestList());
     }
 
@@ -126,18 +129,20 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-    public List<ProjectItemResponse> findProjectListResponse(ProjectListRequest projectListRequest) {
+    public List<ProjectItemResponse> findProjectListResponse(ProjectListRequest projectListRequest, AuthInfo authInfo) {
         Slice<Project> projectSlice = getProjectSlice(projectListRequest);
 
-        return projectListToProjectResponseList(projectSlice.toList());
+        return projectListToProjectResponseList(projectSlice.toList(), authInfo);
     }
 
-    private List<ProjectItemResponse> projectListToProjectResponseList(List<Project> projectList) {
+    private List<ProjectItemResponse> projectListToProjectResponseList(List<Project> projectList, AuthInfo authInfo) {
         List<ProjectItemResponse> projectItemResponseList = new ArrayList<>();
 
         for (Project project : projectList) {
             ProjectItemResponse projectItemResponse = projectMapper.projectToProjectItemResponse(project);
             projectItemResponse.setWriter(memberMapper.memberToMemberResponse(project.getMember()));
+            projectItemResponse.setLoveCount(project.getLoveList().size());
+            projectItemResponse.setLoved(loveRepository.findByMemberIdAndProjectId(authInfo.getId(), project.getId()).isPresent());
 
             projectItemResponseList.add(projectItemResponse);
         }
@@ -195,7 +200,7 @@ public class ProjectService {
             if (framework.isEmpty()) {
                 Framework newFramework = new Framework();
                 newFramework.setName(frameworkRequest.getName().toLowerCase());
-                newFramework.setFrameworkType(frameworkRequest.getFrameworkTypeEnum());
+                newFramework.setFrameworkTypeEnum(frameworkRequest.getFrameworkTypeEnum());
 
                 framework = Optional.of(frameworkRepository.save(newFramework));
             }
@@ -264,10 +269,6 @@ public class ProjectService {
     private Project findProjectById(Long projectId) {
         return projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
-    }
-
-    public String updateProjectLog(Long projectId, String cookieValue) {
-        return viewCountManager.getUpdatedLog(cookieValue, projectId);
     }
 
     private void validateOwner(AuthInfo authInfo, Project project) {

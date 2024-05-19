@@ -17,6 +17,7 @@ public enum ErrorCode {
     INVALID_ACCESS_TOKEN_ERROR("T001", 400, "유효하지 않은 access 토큰입니다."),
     INVALID_REFRESH_TOKEN_ERROR("T002", 400, "유효하지 않은 refresh 토큰입니다."),
     TOKEN_NOT_FOUND_ERROR("T003", 400, "토큰이 존재하지 않습니다"),
+    ANONYMOUS_NOT_ALLOWED_ERROR("T004", 400, "익명 사용자는 접근 불가능한 기능입니다. 로그인 이후 시도 해주세요."),
 
     // Auth
     AUTHORIZED_ERROR("A001", 400, "접근 권한이 없습니다. 로그인이 유효한지 확인해주세요"),

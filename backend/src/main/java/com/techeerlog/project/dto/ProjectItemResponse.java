@@ -28,7 +28,7 @@ public class ProjectItemResponse {
     private int year;
     private SemesterEnum semester;
     private ProjectStatusEnum projectStatus;
-    private int viewCount = 0;
     private int loveCount = 0;
+    private boolean isLoved;
     private MemberResponse writer;
 }

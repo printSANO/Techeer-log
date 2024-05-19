@@ -9,12 +9,8 @@ import com.techeerlog.project.dto.ProjectRequest;
 import com.techeerlog.project.dto.ProjectResponse;
 import com.techeerlog.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,15 +32,11 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 조회", description = "프로젝트 조회")
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity<ResultResponse<ProjectResponse>> findProject(@Parameter(in = ParameterIn.PATH) @PathVariable("projectId") Long projectId,
-                                                                       @Parameter(in = ParameterIn.COOKIE) @CookieValue(value = "viewedProject", required = false, defaultValue = "") String projectLog) {
-        ProjectResponse findProjectResponse = projectService.findProjectResponse(projectId, projectLog);
-        String updatedLog = projectService.updateProjectLog(projectId, projectLog);
-        ResponseCookie responseCookie = ResponseCookie.from("viewedProject", updatedLog).maxAge(86400L).build();
+    public ResponseEntity<ResultResponse<ProjectResponse>> findProject(@PathVariable("projectId") Long projectId, @Login AuthInfo authInfo) {
+        ProjectResponse findProjectResponse = projectService.findProjectResponse(projectId, authInfo);
         ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(FIND_PROJECT_SUCCESS, findProjectResponse);
 
         return ResponseEntity.status(FIND_PROJECT_SUCCESS.getStatus())
-                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                 .body(resultResponse);
     }
 
@@ -65,7 +57,7 @@ public class ProjectController {
                                                                       @RequestBody ProjectRequest projectRequest,
                                                                       @Login AuthInfo authInfo) {
         projectService.updateProject(projectId, projectRequest, authInfo);
-        ProjectResponse projectResponse = projectService.findProjectResponse(projectId, "N");
+        ProjectResponse projectResponse = projectService.findProjectResponse(projectId, authInfo);
         ResultResponse<ProjectResponse> resultResponse = new ResultResponse<>(UPDATE_PROJECT_SUCCESS, projectResponse);
 
         return ResponseEntity.status(UPDATE_PROJECT_SUCCESS.getStatus()).body(resultResponse);
@@ -82,8 +74,8 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 리스트 조회", description = "프로젝트 리스트 조회")
     @GetMapping(path = "/projects/list")
-    public ResponseEntity<ResultResponse<List<ProjectItemResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest) {
-        List<ProjectItemResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest);
+    public ResponseEntity<ResultResponse<List<ProjectItemResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest, @Login AuthInfo authInfo) {
+        List<ProjectItemResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest, authInfo);
 
         ResultResponse<List<ProjectItemResponse>> listResultResponse
                 = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectResponseList);

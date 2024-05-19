@@ -6,6 +6,7 @@ import com.techeerlog.auth.service.AuthService;
 import com.techeerlog.auth.service.RefreshTokenService;
 import com.techeerlog.global.exception.TokenNotFoundException;
 import com.techeerlog.global.response.ResultResponse;
+import com.techeerlog.global.response.SimpleResultResponse;
 import com.techeerlog.global.support.token.AuthorizationExtractor;
 import com.techeerlog.global.support.token.Login;
 import com.techeerlog.global.support.token.TokenManager;
@@ -38,17 +39,28 @@ public class AuthController {
         this.refreshTokenService = refreshTokenService;
     }
 
+    @Operation(summary = "익명 사용자 토큰 발급", description = "익명 사용자 토큰 발급 기능")
+    @GetMapping("/anonymous")
+    public ResponseEntity<SimpleResultResponse> anonymous() {
+        String anonymousAccessToken = tokenManager.createAnonymousAccessToken();
+
+        SimpleResultResponse resultResponse = new SimpleResultResponse(ANONYMOUS_SUCCESS);
+
+        return ResponseEntity.status(ANONYMOUS_SUCCESS.getStatus())
+                .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + anonymousAccessToken)
+                .body(resultResponse);
+    }
+
     @Operation(summary = "로그인", description = "로그인 기능")
     @PostMapping("/login")
-    public ResponseEntity<ResultResponse<String>> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<SimpleResultResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         AuthInfo authInfo = authService.login(loginRequest);
         String accessToken = tokenManager.createAccessToken(authInfo);
         String refreshToken = tokenManager.createRefreshToken();
         refreshTokenService.saveToken(refreshToken, authInfo.getId());
 
-        ResultResponse<String> resultResponse = new ResultResponse<>(LOGIN_SUCCESS);
+        SimpleResultResponse resultResponse = new SimpleResultResponse(LOGIN_SUCCESS);
 
-        // 200을 보냄
         return ResponseEntity.status(LOGIN_SUCCESS.getStatus())
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
                 .header(REFRESH_TOKEN_STRING, BEARER_STRING + refreshToken)
