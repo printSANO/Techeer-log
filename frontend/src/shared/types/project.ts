@@ -20,7 +20,7 @@ export enum ProjectMemberType {
 export interface ProjectMember {
   name: string;
   memberId?: number;
-  projectMemberTypeEnum: string;
+  projectMemberTypeEnum: ProjectMemberType;
 }
 
 export enum FrameworkType {
@@ -29,7 +29,7 @@ export enum FrameworkType {
 }
 export interface Framework {
   name: string;
-  frameworkTypeEnum: string;
+  frameworkTypeEnum: FrameworkType;
 }
 
 export interface ProjectData {
@@ -51,7 +51,7 @@ export interface ProjectData {
   viewCount: number;
   loveCount: number;
   writer: Writer;
-  projectMemberRequestList: ProjectMember[];
-  nonRegisterProjectMemberRequestList: ProjectMember[];
-  frameworkRequestList: Framework[];
+  projectMemberResponseList: ProjectMember[];
+  nonRegisterProjectMemberResponseList: ProjectMember[];
+  frameworkResponseList: Framework[];
 }

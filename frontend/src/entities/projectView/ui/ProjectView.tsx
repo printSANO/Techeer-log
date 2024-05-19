@@ -1,14 +1,21 @@
 import GithubIcon from '../../../shared/assets/image/projectViewImg/Icon-Github.png';
 import MediumIcon from '../../../shared/assets/image/projectViewImg/Icon-Medium.png';
 import LinkIcon from '../../../shared/assets/image/projectViewImg/Icon-Link.png';
-import { Framework, ProjectData, ProjectMember } from '../../../shared/types/project.ts';
+import {
+  Framework,
+  FrameworkType,
+  ProjectData,
+  ProjectMember,
+  ProjectMemberType,
+} from '../../../shared/types/project.ts';
 import { LikeButton } from './LikeButton.tsx';
 import { ScrapButton } from './ScrapButton.tsx';
 import { ShareButton } from './ShareButton.tsx';
 export const ProjectView = (props: { data: ProjectData }) => {
   const project: ProjectData = props.data;
-  const projectMember: ProjectMember[] = props.data.nonRegisterProjectMemberRequestList;
-  const techStack: Framework[] = props.data.frameworkRequestList;
+  const projectMember: ProjectMember[] = props.data.nonRegisterProjectMemberResponseList;
+  console.log(typeof(projectMember[0].projectMemberTypeEnum));
+  const techStack: Framework[] = props.data.frameworkResponseList;
 
   // const [isLike, setIsLike] = useState<boolean>(false);
   // const [isScrapped, setIsScrapped] = useState<boolean>(false);
@@ -122,7 +129,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
                   techStack.map((tech) => {
-                    if (tech.frameworkTypeEnum === 'BACKEND') {
+                    if (tech.frameworkTypeEnum === FrameworkType.BACKEND) {
                       return (
                         <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
@@ -139,7 +146,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
                   techStack.map((tech) => {
-                    if (tech.frameworkTypeEnum === 'FRONTEND') {
+                    if (tech.frameworkTypeEnum === FrameworkType.FRONTEND) {
                       return (
                         <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
@@ -171,14 +178,21 @@ export const ProjectView = (props: { data: ProjectData }) => {
                 <div className="flex flex-col justify-between self-start w-[17.8rem] box-sizing-border">
                   {projectMember &&
                     projectMember.map((member) => {
-                      if (member.projectMemberTypeEnum === 'BACKEND') {
+                      if (member.projectMemberTypeEnum === ProjectMemberType.LEADER) {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
                             {member.name}
                           </span>
                         );
                       }
-                      if (member.projectMemberTypeEnum === 'FRONTEND') {
+                      if (member.projectMemberTypeEnum === ProjectMemberType.BACKEND) {
+                        return (
+                          <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
+                            {member.name}
+                          </span>
+                        );
+                      }
+                      if (member.projectMemberTypeEnum === ProjectMemberType.FRONTEND) {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
                             {member.name}
