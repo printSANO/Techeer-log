@@ -32,7 +32,7 @@ public class Member extends BaseEntity {
 
     @Getter
     @Enumerated(EnumType.STRING)
-    private final RoleType roleType = RoleType.USER;
+    private RoleType roleType = RoleType.USER;
 
     @OneToOne(mappedBy = "member")
     private RefreshToken refreshToken;

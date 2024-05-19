@@ -6,7 +6,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-17T01:05:53+0900",
+    date = "2024-05-19T16:17:22+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.2 (Amazon.com Inc.)"
 )
 public class FrameworkMapperImpl implements FrameworkMapper {
@@ -20,6 +20,7 @@ public class FrameworkMapperImpl implements FrameworkMapper {
         FrameworkResponse frameworkResponse = new FrameworkResponse();
 
         frameworkResponse.setName( framework.getName() );
+        frameworkResponse.setFrameworkTypeEnum( framework.getFrameworkTypeEnum() );
 
         return frameworkResponse;
     }

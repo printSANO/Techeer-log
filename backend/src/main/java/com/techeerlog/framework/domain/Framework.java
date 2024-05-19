@@ -22,6 +22,6 @@ public class Framework {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    private FrameworkTypeEnum frameworkType;
+    private FrameworkTypeEnum frameworkTypeEnum;
 
 }
