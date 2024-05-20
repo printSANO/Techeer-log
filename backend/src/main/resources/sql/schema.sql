@@ -17,9 +17,9 @@ CREATE TABLE comment
 
 CREATE TABLE framework
 (
-    framework_id   BIGINT AUTO_INCREMENT NOT NULL,
-    name           VARCHAR(255)          NOT NULL,
-    framework_type VARCHAR(255)          NULL,
+    framework_id        BIGINT AUTO_INCREMENT NOT NULL,
+    name                VARCHAR(255)          NOT NULL,
+    framework_type_enum VARCHAR(255)          NULL,
     CONSTRAINT pk_framework PRIMARY KEY (framework_id)
 );
 
@@ -77,7 +77,6 @@ CREATE TABLE project
     github_link    VARCHAR(255)          NULL,
     blog_link      VARCHAR(255)          NULL,
     website_link   VARCHAR(255)          NULL,
-    view_count     INT                   NOT NULL,
     member_id      BIGINT                NOT NULL,
     CONSTRAINT pk_project PRIMARY KEY (project_id)
 );
