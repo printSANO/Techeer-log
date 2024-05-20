@@ -22,6 +22,9 @@ export function LogIn() {
     setPassword(event.target.value);
   };
 
+  const toLogin = () => {
+    navigate('/signup');
+  };
   // // 액세스 토큰 재발급
   // const refreshAccessToken = async () => {
   //   try {
@@ -156,7 +159,10 @@ export function LogIn() {
               로그인
             </button>
           </div>
-          <span className="m-[0_0_0_0.063rem] break-words font-['Pretendard'] font-normal text-[1rem] underline tracking-[0.019rem] leading-[3] text-[#757575]">
+          <span
+            onClick={toLogin}
+            className="cursor-pointer m-[0_0_0_0.063rem] break-words font-['Pretendard'] font-normal text-[1rem] underline tracking-[0.019rem] leading-[3] text-[#757575]"
+          >
             회원가입
           </span>
         </div>

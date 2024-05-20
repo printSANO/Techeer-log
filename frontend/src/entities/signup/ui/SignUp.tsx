@@ -186,7 +186,7 @@ export function SignUp() {
             className="ml-4 rounded-[6px] bg-[#471993] flex flex-row justify-center w-[23rem] box-sizing-border"
             onClick={handleSubmit}
           >
-            <span className="break-words font-['Pretendard'] font-normal text-[1rem] leading-[3] text-[#F0F0F0]">
+            <span className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[3] text-[#F0F0F0]">
               회원가입
             </span>
           </button>
