@@ -63,7 +63,6 @@ public class Project extends BaseEntity {
     private String githubLink;
     private String blogLink;
     private String websiteLink;
-    private int viewCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)

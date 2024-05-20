@@ -7,9 +7,9 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class AuthInfo {
 
-    private Long id;
-    private String type;
-    private String nickname;
+    private final Long id;
+    private final String type;
+    private final String nickname;
 
     public AuthInfo(Long id, String type, String nickname) {
         this.id = id;

@@ -28,7 +28,7 @@
         </DefaultRolloverStrategy>
     </Appenders>
     <Loggers>
-        <Logger name="consolelog" level="info" additivity="false">
+        <Logger name="com.techeerlog" level="info" additivity="false">
             <AppenderRef ref="console"/>
             <AppenderRef ref="file"/>
         </Logger>

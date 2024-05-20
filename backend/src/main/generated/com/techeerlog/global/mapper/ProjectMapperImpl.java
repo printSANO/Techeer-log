@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-14T20:51:37+0900",
+    date = "2024-05-19T16:17:22+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.2 (Amazon.com Inc.)"
 )
 public class ProjectMapperImpl implements ProjectMapper {
@@ -136,7 +136,6 @@ public class ProjectMapperImpl implements ProjectMapper {
         project.setGithubLink( projectResponse.getGithubLink() );
         project.setBlogLink( projectResponse.getBlogLink() );
         project.setWebsiteLink( projectResponse.getWebsiteLink() );
-        project.setViewCount( projectResponse.getViewCount() );
 
         return project;
     }
@@ -164,7 +163,6 @@ public class ProjectMapperImpl implements ProjectMapper {
         projectResponse.setGithubLink( project.getGithubLink() );
         projectResponse.setBlogLink( project.getBlogLink() );
         projectResponse.setWebsiteLink( project.getWebsiteLink() );
-        projectResponse.setViewCount( project.getViewCount() );
 
         return projectResponse;
     }
@@ -188,7 +186,6 @@ public class ProjectMapperImpl implements ProjectMapper {
         projectItemResponse.setYear( project.getYear() );
         projectItemResponse.setSemester( project.getSemester() );
         projectItemResponse.setProjectStatus( project.getProjectStatus() );
-        projectItemResponse.setViewCount( project.getViewCount() );
 
         return projectItemResponse;
     }
