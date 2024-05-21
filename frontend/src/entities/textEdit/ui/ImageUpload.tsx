@@ -29,7 +29,7 @@ export const ImageUpload = ({ setImageurl }: any) => {
       },
       onError: (error) => {
         console.error(error);
-        alert('더 작은 용량의 이미지를 업로드해주세요!');
+        alert('이미지 업로드에 실패하였습니다.');
       },
     },
   );

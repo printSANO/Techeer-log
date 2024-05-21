@@ -1,0 +1,1 @@
+export { anonymousToken } from './anonymousToken';

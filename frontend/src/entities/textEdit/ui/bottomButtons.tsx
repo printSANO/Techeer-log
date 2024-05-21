@@ -6,6 +6,7 @@ import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../shared/store/authStore';
 import * as projectWrite from '../../../shared/constants/index';
+import { useMutation } from 'react-query';
 
 export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
@@ -36,32 +37,45 @@ export const bottomButtons = ({ setStep }: any) => {
     const platform = projectWrite.projectWrite.find((item) => item.name === platformName);
     return platform ? platform.enum : '';
   };
+  const enumPlatform = engChange(platform);
+  const enumProjectType = engChange(projectType);
+  const enumSemester = engChange(semester);
+  const enumProjectStatus = engChange(projectStatus);
+  const handleSubmit = useMutation(
+    () =>
+      api.UploadProject(
+        title,
+        subtitle,
+        content,
+        startDate,
+        endDate,
+        enumPlatform,
+        enumProjectType,
+        year,
+        enumSemester,
+        enumProjectStatus,
+        githubLink,
+        blogLink,
+        websiteLink,
+        mainImageUrl,
+        projectMemberRequestList,
+        nonRegisterProjectMemberRequestList,
+        frameworkResponseList,
+        accessToken,
+      ),
+    {
+      onSuccess: () => {
+        navigate('/');
+      },
+      onError: (error) => {
+        console.error(error);
+        alert('게시글 업로드에 실패하였습니다.');
+      },
+    },
+  );
+  const { mutate } = handleSubmit;
   const onSubmit = async () => {
-    const enumPlatform = engChange(platform);
-    const enumProjectType = engChange(projectType);
-    const enumSemester = engChange(semester);
-    const enumProjectStatus = engChange(projectStatus);
-    api.UploadProject(
-      title,
-      subtitle,
-      content,
-      startDate,
-      endDate,
-      enumPlatform,
-      enumProjectType,
-      year,
-      enumSemester,
-      enumProjectStatus,
-      githubLink,
-      blogLink,
-      websiteLink,
-      mainImageUrl,
-      projectMemberRequestList,
-      nonRegisterProjectMemberRequestList,
-      frameworkResponseList,
-      accessToken,
-      navigate,
-    );
+    mutate();
   };
   return (
     <div className="fixed bottom-0 flex flex-row w-full h-[7%] bg-[#212121] items-center justify-between p-[2rem_2rem]">

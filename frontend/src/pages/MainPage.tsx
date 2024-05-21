@@ -4,11 +4,26 @@ import { Search } from '../entities/search/index.ts';
 import { EmblaCarousel } from '../entities/carousel/index';
 import { EmblaOptionsType } from 'embla-carousel';
 import ProjectCard from '../shared/ui/ProjectCard.tsx';
+import { useEffect } from 'react';
+import * as api from '../shared/api/index';
+import { useAuthStore } from '../shared/store/authStore.ts';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+  const { login, accessToken } = useAuthStore();
+  const callToken = async () => {
+    try {
+      const tokenData = await api.anonymousToken();
+      if (!accessToken) login(tokenData, '');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    callToken();
+  }, []);
 
   return (
     <div className="bg-[#111111] flex flex-col items-center w-screen justify-center items-center">
