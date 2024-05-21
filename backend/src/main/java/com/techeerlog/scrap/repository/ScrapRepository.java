@@ -10,4 +10,6 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
     //특정 멤버와 프로젝트에 대한 스크랩 찾기
     Optional<Scrap> findByMemberIdAndProjectId(Long memberId, Long projectId);
 
+    boolean existsByMemberIdAndProjectId(Long memberId, Long projectId);
+
 }
