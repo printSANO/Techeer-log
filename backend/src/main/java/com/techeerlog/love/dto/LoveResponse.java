@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoveResponse {
-    private Long loveId;
     private Long projectId;
 
 }

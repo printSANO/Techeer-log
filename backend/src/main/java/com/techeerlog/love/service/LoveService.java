@@ -3,7 +3,6 @@ package com.techeerlog.love.service;
 import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.support.UtilMethod;
 import com.techeerlog.love.domain.Love;
-import com.techeerlog.love.dto.LoveResponse;
 import com.techeerlog.love.exception.LoveNotFoundException;
 import com.techeerlog.love.repository.LoveRepository;
 import com.techeerlog.member.domain.Member;
@@ -30,7 +29,7 @@ public class LoveService {
         this.utilMethod = utilMethod;
     }
 
-    public LoveResponse addLove(Long projectId, AuthInfo authInfo) {
+    public void addLove(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
@@ -45,11 +44,10 @@ public class LoveService {
                 .build();
         loveRepository.save(love);
 
-        return new LoveResponse(love.getId(), project.getId());
     }
 
 
-    public LoveResponse deleteLove(Long projectId, AuthInfo authInfo) {
+    public void deleteLove(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
@@ -59,8 +57,6 @@ public class LoveService {
             throw new LoveNotFoundException();
         }
 
-        Long loveId = love.get().getId();
         loveRepository.delete(love.get());
-        return new LoveResponse(loveId, project.getId());
     }
 }

@@ -30,7 +30,7 @@ public class ScrapService {
         this.utilMethod = utilMethod;
     }
 
-    public ScrapResponse createScrap(Long projectId, AuthInfo authInfo) {
+    public void createScrap(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
@@ -45,10 +45,9 @@ public class ScrapService {
                 .build();
         scrapRepository.save(scrap);
 
-    return new ScrapResponse(scrap.getId(), project.getId());
     }
 
-    public ScrapResponse deleteScrap(Long projectId, AuthInfo authInfo) {
+    public void deleteScrap(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
@@ -59,7 +58,6 @@ public class ScrapService {
         }
         Long scrapId = scrap.get().getId();
         scrapRepository.delete(scrap.get());
-        return new ScrapResponse(scrapId, project.getId());
     }
 
 }
