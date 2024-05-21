@@ -3,7 +3,7 @@ package com.techeerlog.love.service;
 import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.support.UtilMethod;
 import com.techeerlog.love.domain.Love;
-import com.techeerlog.love.exception.LikeNotFoundException;
+import com.techeerlog.love.exception.LoveNotFoundException;
 import com.techeerlog.love.repository.LoveRepository;
 import com.techeerlog.member.domain.Member;
 import com.techeerlog.project.domain.Project;
@@ -15,13 +15,13 @@ import java.util.Optional;
 
 
 @Service
-public class LikeService {
+public class LoveService {
     private final LoveRepository loveRepository;
     private final ProjectRepository projectRepository;
     private final UtilMethod utilMethod;
 
 
-    public LikeService(LoveRepository loveRepository, ProjectRepository projectRepository,
+    public LoveService(LoveRepository loveRepository, ProjectRepository projectRepository,
                        UtilMethod utilMethod) {
 
         this.loveRepository = loveRepository;
@@ -34,15 +34,18 @@ public class LikeService {
                 .orElseThrow(ProjectNotFoundException::new);
         Member member = utilMethod.findMemberByAuthInfo(authInfo);
 
-        loveRepository.findByMemberIdAndProjectId(member.getId(), project.getId())
-                .ifPresent(love -> {
-                    throw new LikeNotFoundException();
-                });
-        loveRepository.save(Love.builder()
+        // 좋아요 중복 체크
+        if (loveRepository.existsByMemberIdAndProjectId(member.getId(), project.getId())) {
+            throw new LoveNotFoundException();
+        }
+        Love love = Love.builder()
                 .project(project)
                 .member(member)
-                .build());
+                .build();
+        loveRepository.save(love);
+
     }
+
 
     public void deleteLove(Long projectId, AuthInfo authInfo) {
         Project project = projectRepository.findById(projectId)
@@ -51,8 +54,9 @@ public class LikeService {
 
         Optional<Love> love = loveRepository.findByMemberIdAndProjectId(member.getId(), project.getId());
         if (love.isEmpty()) {
-            throw new LikeNotFoundException();
+            throw new LoveNotFoundException();
         }
+
         loveRepository.delete(love.get());
     }
 }

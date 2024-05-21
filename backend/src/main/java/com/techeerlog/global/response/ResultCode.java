@@ -33,15 +33,15 @@ public enum ResultCode {
     GET_COMMENT_SUCCESS("C004", 200, "댓글 조회 성공"),
 
     // Like
-    LIKE_CREATED_SUCCESS("L001", 201, "좋아요 성공"),
-    LIKE_DELETED_SUCCESS("L002", 200, "좋아요 취소"),
+    LOVE_CREATED_SUCCESS("L001", 201, "좋아요 성공"),
+    LOVE_DELETED_SUCCESS("L002", 200, "좋아요 취소"),
 
     // Image
     UPLOAD_SUCCESS("I001", 200, "이미지 업로드 성공"),
 
     // Scrap
     SCRAP_CREATED_SUCCESS("S001", 201, "스크랩 성공"),
-    SCRAP_DELETED_SUCCESS("S002", 200, "스크랩 삭제 성공"),
+    SCRAP_DELETED_SUCCESS("S002", 200, "스크랩 취소"),
     ;
 
 

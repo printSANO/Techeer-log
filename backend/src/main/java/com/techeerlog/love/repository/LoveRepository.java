@@ -12,4 +12,6 @@ public interface LoveRepository extends JpaRepository<Love, Long> {
     Optional<Love> findByMemberIdAndProjectId(Long memberId, Long projectId);
     void deleteAllByProject(Project project);
 
+    boolean existsByMemberIdAndProjectId(Long memberId, Long projectId);
+
 }
