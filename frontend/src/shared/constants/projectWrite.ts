@@ -30,30 +30,23 @@ export const projectWrite = [
     type: 'projectType',
   },
   {
-    year: 2024,
-    semester: '동계',
-    projectStatus: '서비스 운영 중',
-    githubLink: '',
-    blogLink: '',
-    websiteLink: '',
-    mainImageUrl: '',
-    projectMemberRequestList: [],
-    nonRegisterProjectMemberRequestList: [
-      {
-        name: 'string',
-        projectMemberTypeEnum: 'FRONTEND',
-      },
-    ],
-    frameworkResponseList: [
-      {
-        name: 'string',
-        frameworkTypeEnum: 'FRONTEND',
-      },
-    ],
-    frontframeworkRequestList: [],
-    backframeworkRequestList: [],
-    frontprojectMemberList: [],
-    backprojectMemberList: [],
-    leader: '',
+    name: '동계',
+    enum: 'FIRST',
+    type: 'semester',
+  },
+  {
+    name: '하계',
+    enum: 'SECOND',
+    type: 'semester',
+  },
+  {
+    name: '서비스 운영 중',
+    enum: 'RUNNING',
+    type: 'projectStatus',
+  },
+  {
+    name: '서비스 운영 중 아님',
+    enum: 'PREPARING',
+    type: 'projectStatus',
   },
 ];

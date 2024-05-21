@@ -5,6 +5,7 @@ import useStore from '../../../shared/store/store';
 import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../shared/store/authStore';
+import * as projectWrite from '../../../shared/constants/index';
 
 export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
@@ -31,18 +32,26 @@ export const bottomButtons = ({ setStep }: any) => {
   const handleGoBack = () => {
     setStep('prev');
   };
+  const engChange = (platformName: any) => {
+    const platform = projectWrite.projectWrite.find((item) => item.name === platformName);
+    return platform ? platform.enum : '';
+  };
   const onSubmit = async () => {
+    const enumPlatform = engChange(platform);
+    const enumProjectType = engChange(projectType);
+    const enumSemester = engChange(semester);
+    const enumProjectStatus = engChange(projectStatus);
     api.UploadProject(
       title,
       subtitle,
       content,
       startDate,
       endDate,
-      platform,
-      projectType,
+      enumPlatform,
+      enumProjectType,
       year,
-      semester,
-      projectStatus,
+      enumSemester,
+      enumProjectStatus,
       githubLink,
       blogLink,
       websiteLink,

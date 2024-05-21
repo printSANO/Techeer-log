@@ -128,7 +128,10 @@ export const ProjectInfo = ({ setStep }: any) => {
     changeplatform('모바일');
     setIsDropDownOpen3(false);
   };
-
+  const handleChangePlatform3 = () => {
+    changeplatform('웹 앱');
+    setIsDropDownOpen3(false);
+  };
   const handleChangeService1 = () => {
     changeprojectStatus('서비스 운영 중');
     setIsDropDownOpen4(false);
@@ -141,27 +144,27 @@ export const ProjectInfo = ({ setStep }: any) => {
   const [isCalendarOpen1, setIsCalendarOpen1] = useState(false);
   const [isCalendarOpen2, setIsCalendarOpen2] = useState(false);
   const today = new Date();
-  const [nowDate1, setNowDate1] = useState(moment(today).format('YYYY-MM-DD'));
-  const [nowDate2, setNowDate2] = useState(moment(today).format('YYYY-MM-DD'));
+  const [nowDate1, setNowDate1] = useState(moment(today).format('YYYY.MM.DD'));
+  const [nowDate2, setNowDate2] = useState(moment(today).format('YYYY.MM.DD'));
   useEffect(() => {
-    changestartDate(moment(today).format('YYYY-MM-DD'));
-    changeendDate(moment(today).format('YYYY-MM-DD'));
+    changestartDate(moment(today).format('YYYY.MM.DD'));
+    changeendDate(moment(today).format('YYYY.MM.DD'));
   }, []);
   const calendarOpen1 = () => {
     setIsCalendarOpen1(!isCalendarOpen1);
   };
   const handleDateChange1 = (selectedDate: any) => {
     setIsCalendarOpen1(false);
-    setNowDate1(moment(selectedDate).format('YYYY-MM-DD'));
-    changestartDate(moment(selectedDate).format('YYYY-MM-DD'));
+    setNowDate1(moment(selectedDate).format('YYYY.MM.DD'));
+    changestartDate(moment(selectedDate).format('YYYY.MM.DD'));
   };
   const calendarOpen2 = () => {
     setIsCalendarOpen2(!isCalendarOpen2);
   };
   const handleDateChange2 = (selectedDate: any) => {
     setIsCalendarOpen2(false);
-    setNowDate2(moment(selectedDate).format('YYYY-MM-DD'));
-    changeendDate(moment(selectedDate).format('YYYY-MM-DD'));
+    setNowDate2(moment(selectedDate).format('YYYY.MM.DD'));
+    changeendDate(moment(selectedDate).format('YYYY.MM.DD'));
   };
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen z-20">
@@ -352,6 +355,12 @@ export const ProjectInfo = ({ setStep }: any) => {
                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-white"
                           >
                             모바일
+                          </li>
+                          <li
+                            onClick={handleChangePlatform3}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-white"
+                          >
+                            웹 앱
                           </li>
                         </ul>
                       </div>
