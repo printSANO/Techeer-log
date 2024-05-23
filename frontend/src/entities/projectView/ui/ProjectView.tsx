@@ -1,6 +1,6 @@
 import GithubIcon from '../../../shared/assets/image/projectViewImg/Icon-Github.png';
-import MediumIcon from '../../../shared/assets/image/projectViewImg/Icon-Medium.png';
-import LinkIcon from '../../../shared/assets/image/projectViewImg/Icon-Link.png';
+import BlogIcon from '../../../shared/assets/image/modalImg/bloglink.svg'
+import WebIcon from '../../../shared/assets/image/modalImg/Internet.svg'
 import {
   Framework,
   ProjectData,
@@ -89,25 +89,25 @@ export const ProjectView = (props: { data: ProjectData }) => {
                     <span className="break-words font-['Pretendard'] h-12 font-normal text-[0.9rem] text-[#FFFFFF]">
                       {project.projectStatus}
                     </span>
-                    <div className="flex flex-row box-sizing-border">
+                    <div className="flex flex-row items-center box-sizing-border gap-4">
                       {project.githubLink && (
                         <div className="flex">
                           <a href={project.githubLink}>
-                            <img src={GithubIcon} className="cursor-pointer mr-[1rem] w-[1.7rem] h-[1.65rem]" />
+                            <img src={GithubIcon} className="cursor-pointer w-[1.7rem] h-[1.65rem]" />
                           </a>
                         </div>
                       )}
                       {project.blogLink && (
                         <div className="flex">
                           <a href={project.blogLink}>
-                            <img src={MediumIcon} className="cursor-pointer mr-[1rem] w-[1.8rem] h-[1.8rem]" />
+                            <img src={BlogIcon} className="cursor-pointer ml-1 w-[1.5rem] h-[1.5rem]" />
                           </a>
                         </div>
                       )}
                       {project.websiteLink && (
                         <div className="flex">
                           <a href={project.websiteLink}>
-                            <img src={LinkIcon} className="cursor-pointer mr-[1rem] w-[1.8rem] h-[1.8rem]" />
+                            <img src={WebIcon} className="cursor-pointer w-[1.7rem] h-[1.7rem]" />
                           </a>
                         </div>
                       )}
