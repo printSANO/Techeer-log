@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-export const uploadImage = async (selectedImage: File, formData: FormData, accessToken: any) => {
-
+export const uploadImage = async (selectedImage: File, accessToken: any) => {
   const response = await axios.post(
     '/api/image/upload',
     { file: selectedImage },
