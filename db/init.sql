@@ -2,16 +2,14 @@ CREATE DATABASE IF NOT EXISTS console_log;
 
 use console_log;
 
-drop table if exists comment, framework, love, member, project, project_framework, project_member, refresh_token, scrap;
+drop table if exists comment, framework, love, member, non_register_project_member, project, project_framework, project_member, refresh_token, scrap;
 
 CREATE TABLE comment
 (
     comment_id   BIGINT AUTO_INCREMENT NOT NULL,
-    parent_id    BIGINT                NULL,
     member_id    BIGINT                NULL,
     project_id   BIGINT                NULL,
     soft_removed BIT(1)                NOT NULL,
-    like_count   INT                   NOT NULL,
     created_at   datetime              NULL,
     message      VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_comment PRIMARY KEY (comment_id)
@@ -19,9 +17,9 @@ CREATE TABLE comment
 
 CREATE TABLE framework
 (
-    framework_id   BIGINT AUTO_INCREMENT NOT NULL,
-    name           VARCHAR(255)          NOT NULL,
-    framework_type VARCHAR(255)          NULL,
+    framework_id        BIGINT AUTO_INCREMENT NOT NULL,
+    name                VARCHAR(255)          NOT NULL,
+    framework_type_enum VARCHAR(255)          NULL,
     CONSTRAINT pk_framework PRIMARY KEY (framework_id)
 );
 
@@ -50,6 +48,15 @@ CREATE TABLE member
     CONSTRAINT pk_member PRIMARY KEY (member_id)
 );
 
+CREATE TABLE non_register_project_member
+(
+    non_register_project_member_id BIGINT AUTO_INCREMENT NOT NULL,
+    project_id                     BIGINT                NOT NULL,
+    project_member_type            VARCHAR(255)          NULL,
+    name                           VARCHAR(255)          NULL,
+    CONSTRAINT pk_nonregisterprojectmember PRIMARY KEY (non_register_project_member_id)
+);
+
 CREATE TABLE project
 (
     project_id     BIGINT AUTO_INCREMENT NOT NULL,
@@ -70,7 +77,6 @@ CREATE TABLE project
     github_link    VARCHAR(255)          NULL,
     blog_link      VARCHAR(255)          NULL,
     website_link   VARCHAR(255)          NULL,
-    view_count     INT                   NOT NULL,
     member_id      BIGINT                NOT NULL,
     CONSTRAINT pk_project PRIMARY KEY (project_id)
 );
@@ -124,9 +130,6 @@ ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
 
 ALTER TABLE comment
-    ADD CONSTRAINT FK_COMMENT_ON_PARENT FOREIGN KEY (parent_id) REFERENCES comment (comment_id);
-
-ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
 
 ALTER TABLE love
@@ -134,6 +137,9 @@ ALTER TABLE love
 
 ALTER TABLE love
     ADD CONSTRAINT FK_LOVE_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
+
+ALTER TABLE non_register_project_member
+    ADD CONSTRAINT FK_NONREGISTERPROJECTMEMBER_ON_PROJECT FOREIGN KEY (project_id) REFERENCES project (project_id);
 
 ALTER TABLE project_framework
     ADD CONSTRAINT FK_PROJECTFRAMEWORK_ON_FRAMEWORK FOREIGN KEY (framework_id) REFERENCES framework (framework_id);

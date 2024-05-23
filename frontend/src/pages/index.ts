@@ -1,1 +1,2 @@
-export { Project } from './Project/ui/Project.tsx';
+export { ProjectPage } from './ProjectPage.tsx';
+export { ProjectWritePage } from './ProjectWritePage.tsx';
