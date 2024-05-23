@@ -193,7 +193,7 @@ public class ProjectService {
         for (FrameworkRequest frameworkRequest : frameworkRequestList) {
             ProjectFramework projectFramework = new ProjectFramework();
 
-            Optional<Framework> framework = frameworkRepository.findByName(frameworkRequest.getName().toLowerCase());
+            Optional<Framework> framework = frameworkRepository.findByNameAndFrameworkTypeEnum(frameworkRequest.getName().toLowerCase(), frameworkRequest.getFrameworkTypeEnum());
 
             // framework 가 DB 에 없는 새로운 값인 경우 새로 객체를 만들고 DB 에 저장
             // 그리고 저장한 framework 를 가져온다
