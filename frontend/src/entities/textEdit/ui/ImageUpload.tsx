@@ -8,7 +8,6 @@ export const ImageUpload = ({ setImageurl }: any) => {
   //const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const fileInputRef = useRef(null);
   const { accessToken } = useAuthStore();
-  const formData = new FormData();
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -21,18 +20,15 @@ export const ImageUpload = ({ setImageurl }: any) => {
     if (fileInputRef.current) (fileInputRef.current as HTMLInputElement).click();
   };
 
-  const uploadImageMutation = useMutation(
-    (selectedImage: File) => textEdit.uploadImage(selectedImage, formData, accessToken),
-    {
-      onSuccess: (response) => {
-        setImageurl(`![](${response})`);
-      },
-      onError: (error) => {
-        console.error(error);
-        alert('이미지 업로드에 실패하였습니다.');
-      },
+  const uploadImageMutation = useMutation((selectedImage: File) => textEdit.uploadImage(selectedImage, accessToken), {
+    onSuccess: (response) => {
+      setImageurl(`![](${response})`);
     },
-  );
+    onError: (error) => {
+      console.error(error);
+      alert('이미지 업로드에 실패하였습니다.');
+    },
+  });
   /* useEffect(() => {
     textEdit.uploadImage(selectedImage, formData, setSelectedImage, setImageurl, accessToken);
   }, [selectedImage]); */
