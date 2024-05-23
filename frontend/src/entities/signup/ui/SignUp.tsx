@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../../shared/store/authStore';
+import * as api from '../../../shared/api/index';
 
 export function SignUp() {
   const [nickname, setNickname] = useState('');
@@ -7,7 +10,19 @@ export function SignUp() {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState(false);
-
+  const navigate = useNavigate();
+  const { login, accessToken } = useAuthStore();
+  const callToken = async () => {
+    try {
+      const tokenData = await api.anonymousToken();
+      if (accessToken === null) login(tokenData, '');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    callToken();
+  }, []);
   const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(event.target.value);
   };
@@ -36,12 +51,21 @@ export function SignUp() {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post('/api/v1/members/signup', {
-        loginId,
-        nickname,
-        password,
-        passwordConfirmation,
-      });
+      const response = await axios.post(
+        '/api/v1/members/signup',
+        {
+          loginId,
+          nickname,
+          password,
+          passwordConfirmation,
+        },
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        },
+      );
+      navigate('/login');
       if (response.data.status != '200') {
         return Error;
       }
@@ -183,7 +207,7 @@ export function SignUp() {
             className="ml-4 rounded-[6px] bg-[#471993] flex flex-row justify-center w-[23rem] box-sizing-border"
             onClick={handleSubmit}
           >
-            <span className="break-words font-['Pretendard'] font-normal text-[1rem] leading-[3] text-[#F0F0F0]">
+            <span className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[3] text-[#F0F0F0]">
               회원가입
             </span>
           </button>

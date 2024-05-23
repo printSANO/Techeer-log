@@ -1,16 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuthStore } from '../../../shared/store/authStore';
+import { useNavigate } from 'react-router-dom';
+import * as api from '../../../shared/api/index';
 // import { handleLogin } from '../api/login';
 
 export function LogIn() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   // 토큰 상태 관리 함수
   // const authStore = useAuthStore((state) => state.login);
   // const logout = useAuthStore((state) => state.logout);
-  const { login } = useAuthStore();
+  const { login, setnickname, accessToken } = useAuthStore();
+  const callToken = async () => {
+    try {
+      const tokenData = await api.anonymousToken();
+      if (accessToken === null) login(tokenData, '');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    callToken();
+  }, []);
 
   const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginId(event.target.value);
@@ -20,6 +34,9 @@ export function LogIn() {
     setPassword(event.target.value);
   };
 
+  const toLogin = () => {
+    navigate('/signup');
+  };
   // // 액세스 토큰 재발급
   // const refreshAccessToken = async () => {
   //   try {
@@ -58,30 +75,56 @@ export function LogIn() {
   //   }, EXPIRES_IN);
   // };
 
+  const handleNickname = async (newAccessToken: string) => {
+    try {
+      const response = await axios.get('/api/v1/members/profile', {
+        headers: {
+          authorization: newAccessToken,
+        },
+      });
+      console.log('handleNickname: ', response.data.data.nickname, accessToken);
+      setnickname(response.data.data.nickname);
+      navigate('/');
+    } catch (error) {
+      console.error('닉네임 정보를 가져오는데 실패했습니다', error);
+    }
+  };
   const handleLogin = async () => {
     try {
       console.log('handleLogin: ', loginId, password);
-      const response = await axios.post('/api/v1/auth/login', { loginId, password });
+      const response = await axios.post(
+        '/api/v1/auth/login',
+        {
+          loginId,
+          password,
+        },
+        {
+          headers: {
+            authorization: accessToken,
+          },
+        },
+      );
 
       // 응답 헤더에서 토큰 정보 추출
-      const accessToken = response.headers['authorization'];
-      const refreshToken = response.headers['refresh-token'];
+      const newAccessToken = response.headers['authorization'];
+      const newRefreshToken = response.headers['refresh-token'];
 
       // const accessToken = 'Bearer asdf';
       // const refreshToken = 'Bearer asdf';
 
-      console.log('handleLogin: ', accessToken, refreshToken);
+      console.log('handleLogin: ', newAccessToken, newRefreshToken);
 
       // 발급받은 토큰 정보 저장
       // Access Token은 클라이언트 관리, Refresh Token은 전역 관리
-      localStorage.setItem('accessToken', accessToken);
-      login(accessToken, refreshToken);
+      //localStorage.setItem('accessToken', newAccessToken);
+      login(newAccessToken, newRefreshToken);
+      handleNickname(newAccessToken);
       // logout(); //test
 
       // 토큰 타이머
       // setAccessTokenTimeout();
     } catch (error) {
-      console.error('로그인에 실패했습니다', error);
+      alert('로그인에 실패했습니다');
     }
   };
 
@@ -144,16 +187,21 @@ export function LogIn() {
             />
           </div>
           {/* 로그인 버튼 */}
-          <div className="rounded-[0.375rem] bg-[#4344E0] relative flex flex-row justify-center w-[292px]">
+          <div
+            onClick={handleSubmit}
+            className="cursor-pointer rounded-[0.375rem] bg-[#4344E0] relative flex flex-row justify-center w-[292px]"
+          >
             <button
               type="submit"
               className="relative break-words font-['Pretendard'] font-normal text-[1rem] tracking-[0.019rem] leading-[3] text-[#FFFFFF]"
-              onClick={handleSubmit}
             >
               로그인
             </button>
           </div>
-          <span className="m-[0_0_0_0.063rem] break-words font-['Pretendard'] font-normal text-[1rem] underline tracking-[0.019rem] leading-[3] text-[#757575]">
+          <span
+            onClick={toLogin}
+            className="cursor-pointer m-[0_0_0_0.063rem] break-words font-['Pretendard'] font-normal text-[1rem] underline tracking-[0.019rem] leading-[3] text-[#757575]"
+          >
             회원가입
           </span>
         </div>

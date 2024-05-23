@@ -4,11 +4,11 @@ import { MyPage } from '../../entities/myPage';
 import { SignUp } from '../../entities/signup/index.ts';
 import { LogIn } from '../../entities/login/index.ts';
 import { ProjectInfo } from '../../entities/projectInputModal';
-import { ProjectPage } from '../../pages';
+import { ProjectPage, ProjectWritePage } from '../../pages';
 
 export const router = createBrowserRouter([
   {
-    path: '/mainpage',
+    path: '/',
     element: <MainPage />,
   },
   {
@@ -30,5 +30,9 @@ export const router = createBrowserRouter([
   {
     path: '/modal',
     element: <ProjectInfo />,
+  },
+  {
+    path: '/projectwrite',
+    element: <ProjectWritePage />,
   },
 ]);

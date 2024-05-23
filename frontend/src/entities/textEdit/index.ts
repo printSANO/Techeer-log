@@ -1,3 +1,3 @@
-export { headerInput } from './ui/headerInput';
-export { markdownView } from './ui/markdownView';
+export { HeaderInput } from './ui/headerInput';
 export { bottomButtons } from './ui/bottomButtons';
+export { uploadImage } from './api/uploadImage';
