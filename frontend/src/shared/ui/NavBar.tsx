@@ -1,4 +1,17 @@
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../store/authStore';
+
 export default function NavBar() {
+  const { logout, nickname } = useAuthStore();
+  const navigate = useNavigate();
+
+  const goLogin = () => {
+    navigate('/login');
+  };
+  const handleLogout = () => {
+    logout();
+    window.location.replace('/');
+  };
   return (
     <div className="fixed top-0 w-screen flex justify-center items-center">
       <div className="backdrop-blur-[4px] flex flex-row items-center justify-between py-2 px-3 w-[1200px] box-sizing-border">
@@ -17,9 +30,21 @@ export default function NavBar() {
             </span>
           </div>
           <div className="rounded-[0.3rem] flex flex-row justify-center box-sizing-border">
-            <span className="break-words font-['Pretendard'] font-medium text-[1rem] leading-[1.5] text-[#FFFFFF]">
-              LOGIN
-            </span>
+            {!nickname ? (
+              <span
+                onClick={goLogin}
+                className="cursor-pointer break-words font-['Pretendard'] font-medium text-[1rem] leading-[1.5] text-[#FFFFFF]"
+              >
+                LOGIN
+              </span>
+            ) : (
+              <span
+                onClick={handleLogout}
+                className="cursor-pointer break-words font-['Pretendard'] font-medium text-[1rem] leading-[1.5] text-[#FFFFFF]"
+              >
+                LOGOUT
+              </span>
+            )}
           </div>
         </div>
       </div>

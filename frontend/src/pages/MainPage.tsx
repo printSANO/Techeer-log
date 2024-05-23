@@ -16,7 +16,7 @@ export default function MainPage() {
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();
-      if (!accessToken) login(tokenData, '');
+      if (accessToken === null) login(tokenData, '');
     } catch (error) {
       console.error(error);
     }

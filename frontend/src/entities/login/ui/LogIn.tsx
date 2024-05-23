@@ -13,11 +13,11 @@ export function LogIn() {
   // 토큰 상태 관리 함수
   // const authStore = useAuthStore((state) => state.login);
   // const logout = useAuthStore((state) => state.logout);
-  const { login, accessToken } = useAuthStore();
+  const { login, setnickname, accessToken } = useAuthStore();
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();
-      if (accessToken !== '') login(tokenData, '');
+      if (accessToken === null) login(tokenData, '');
     } catch (error) {
       console.error(error);
     }
@@ -75,6 +75,20 @@ export function LogIn() {
   //   }, EXPIRES_IN);
   // };
 
+  const handleNickname = async (newAccessToken: string) => {
+    try {
+      const response = await axios.get('/api/v1/members/profile', {
+        headers: {
+          authorization: newAccessToken,
+        },
+      });
+      console.log('handleNickname: ', response.data.data.nickname, accessToken);
+      setnickname(response.data.data.nickname);
+      navigate('/');
+    } catch (error) {
+      console.error('닉네임 정보를 가져오는데 실패했습니다', error);
+    }
+  };
   const handleLogin = async () => {
     try {
       console.log('handleLogin: ', loginId, password);
@@ -102,15 +116,15 @@ export function LogIn() {
 
       // 발급받은 토큰 정보 저장
       // Access Token은 클라이언트 관리, Refresh Token은 전역 관리
-      localStorage.setItem('accessToken', newAccessToken);
+      //localStorage.setItem('accessToken', newAccessToken);
       login(newAccessToken, newRefreshToken);
-      navigate('/');
+      handleNickname(newAccessToken);
       // logout(); //test
 
       // 토큰 타이머
       // setAccessTokenTimeout();
     } catch (error) {
-      console.error('로그인에 실패했습니다', error);
+      alert('로그인에 실패했습니다');
     }
   };
 
@@ -173,11 +187,13 @@ export function LogIn() {
             />
           </div>
           {/* 로그인 버튼 */}
-          <div className="rounded-[0.375rem] bg-[#4344E0] relative flex flex-row justify-center w-[292px]">
+          <div
+            onClick={handleSubmit}
+            className="cursor-pointer rounded-[0.375rem] bg-[#4344E0] relative flex flex-row justify-center w-[292px]"
+          >
             <button
               type="submit"
               className="relative break-words font-['Pretendard'] font-normal text-[1rem] tracking-[0.019rem] leading-[3] text-[#FFFFFF]"
-              onClick={handleSubmit}
             >
               로그인
             </button>
