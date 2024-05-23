@@ -18,7 +18,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
   const techStack: Framework[] = props.data.frameworkResponseList;
 
   return (
-    <div className="bg-[#0F1012] w-[100vw] box-sizing-border">
+    <div key={project.id} className="bg-[#0F1012] w-[100vw] box-sizing-border">
       <div className="w-[1150px] pt-[5.5rem] relative ml-auto mr-auto">
         <div className="m-[1rem_0_1.4rem_0] flex flex-col items-centerx break-words font-['Pretendard'] font-semibold text-[2rem] text-[#FFFFFF]">
           {project.title}
@@ -30,7 +30,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
         {/*좋아요, 저장, 공유*/}
         <div className="flex flex-row items-center justify-between w-[100%] mt-[1.5rem] mb-[2rem] box-sizing-border">
           <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
-            <LikeButton projectId={project.id} loveCount={project.loveCount} />
+            <LikeButton projectId={project.id} loveCount={project.loveCount} isLoved={project.loved} />
           </div>
           <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
             <ScrapButton projectId={project.id} />
@@ -42,9 +42,10 @@ export const ProjectView = (props: { data: ProjectData }) => {
           {/*소개*/}
           <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[1.4rem_1.4rem_3rem_1.4rem] box-sizing-border">
             <div
-              style={{ backgroundImage: `url(${project.mainImageUrl})` }}
-              className="rounded-[0.6rem] bg-cover w-[100%] h-[23.2rem]"
-            ></div>
+              className="rounded-[0.6rem] w-[100%] h-[23.2rem]"
+            >
+              <img src={project.mainImageUrl}/>
+            </div>
             <p className="m-[2rem_1.1rem_0_1.1rem] whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
               {project.content}
             </p>
@@ -92,7 +93,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
                       {project.githubLink && (
                         <div className="flex">
                           <a href={project.githubLink}>
-                            <img src={GithubIcon} className="cursor-pointer mr-[1rem] w-[1.8rem] h-[1.8rem]" />
+                            <img src={GithubIcon} className="cursor-pointer mr-[1rem] w-[1.7rem] h-[1.65rem]" />
                           </a>
                         </div>
                       )}

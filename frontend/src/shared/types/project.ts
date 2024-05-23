@@ -54,4 +54,5 @@ export interface ProjectData {
   projectMemberResponseList: ProjectMember[];
   nonRegisterProjectMemberResponseList: ProjectMember[];
   frameworkResponseList: Framework[];
+  loved: boolean;
 }

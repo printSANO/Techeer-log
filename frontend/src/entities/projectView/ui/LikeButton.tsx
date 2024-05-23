@@ -8,10 +8,11 @@ import { postLike, deleteLike } from '../api/like.ts';
 interface LikeData {
   projectId: number;
   loveCount: number;
+  isLoved: boolean;
 }
 
-export const LikeButton = ({ projectId, loveCount }: LikeData) => {
-  const [isLike, setIsLike] = useState<boolean>(false);
+export const LikeButton = ({ projectId, loveCount, isLoved }: LikeData) => {
+  const [isLike, setIsLike] = useState<boolean>(isLoved);
   const queryClient = useQueryClient();
 
   const postMutation = useMutation({
