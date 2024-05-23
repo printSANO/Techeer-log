@@ -1,2 +1,2 @@
 export { ProjectView } from './ui/ProjectView.tsx';
-export { ProjectComment } from './ui/ProjectComment.tsx';
+export { getProject } from './api/project.ts';
