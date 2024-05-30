@@ -41,7 +41,6 @@ services:
 
     environment:
       - SERVER_PORT=8080
-      - ACTIVE_PROFILE=deploy
     depends_on:
       - mysqldb
     ports:
@@ -58,7 +57,6 @@ services:
       - "./spring-source.env"
     environment:
       - SERVER_PORT=8081
-      - ACTIVE_PROFILE=deploy
     depends_on:
       - mysqldb
     ports:
