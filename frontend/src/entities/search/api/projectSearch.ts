@@ -6,7 +6,7 @@ export const projectSearch = async (keyword: string, accessToken: any) => {
       pageStart: 0,
       pageSize: 10,
       keyword,
-      searchFieldEnum: 'TITLE',
+      searchFieldEnum: 'ALL',
       sortDirection: 'ASC',
     },
     headers: {
@@ -15,5 +15,5 @@ export const projectSearch = async (keyword: string, accessToken: any) => {
     },
   });
 
-  return response;
+  return response.data.data;
 };
