@@ -6,8 +6,12 @@ import com.techeerlog.member.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
+@SQLDelete(sql = "UPDATE member SET deleted = TRUE WHERE member_id = ?")
+@SQLRestriction("deleted = FALSE")
 public class Member extends BaseEntity {
 
     @Getter
