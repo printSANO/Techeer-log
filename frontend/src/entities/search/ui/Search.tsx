@@ -3,7 +3,7 @@ import * as api from '../index';
 import { useAuthStore } from '../../../shared/store/authStore';
 import { useMutation } from '@tanstack/react-query';
 
-export function Search() {
+export function Search({ setResult }: any) {
   const [search, setSearch] = useState('');
   const { accessToken } = useAuthStore();
   const onSubmitSearch = (e: any) => {
@@ -21,6 +21,7 @@ export function Search() {
       return response;
     },
     onSuccess: (data) => {
+      setResult(data);
       console.log(data);
     },
     onError: (error: any) => {

@@ -4,7 +4,7 @@ import { Search } from '../entities/search/index.ts';
 import { EmblaCarousel } from '../entities/carousel/index';
 import { EmblaOptionsType } from 'embla-carousel';
 import ProjectCard from '../shared/ui/ProjectCard.tsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as api from '../shared/api/index';
 import { useAuthStore } from '../shared/store/authStore.ts';
 
@@ -13,6 +13,7 @@ export default function MainPage() {
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const { login, accessToken } = useAuthStore();
+  const [result, setresult] = useState([]); //
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();
@@ -35,7 +36,7 @@ export default function MainPage() {
           <span className="font-['Pretendard-Thin'] text-[1.875rem]">
             테커에서 진행하는 <a className="font-['Pretendard-Medium']">다양한 프로젝트를 한눈에</a>
           </span>
-          <Search />
+          <Search setResult={setresult} />
         </div>
       </div>
       {/* 메인페이지-프로젝트 */}
@@ -61,13 +62,7 @@ export default function MainPage() {
         {/*<DropDown />*/}
         {/* Filtered Projects */}
         <div className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
+          <ProjectCard results={result} />
         </div>
       </div>
     </div>
