@@ -6,7 +6,7 @@ import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../shared/store/authStore';
 import * as projectWrite from '../../../shared/constants/index';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
@@ -41,8 +41,8 @@ export const bottomButtons = ({ setStep }: any) => {
   const enumProjectType = engChange(projectType);
   const enumSemester = engChange(semester);
   const enumProjectStatus = engChange(projectStatus);
-  const handleSubmit = useMutation(
-    () =>
+  const handleSubmit = useMutation({
+    mutationFn: () =>
       api.UploadProject(
         title,
         subtitle,
@@ -63,16 +63,13 @@ export const bottomButtons = ({ setStep }: any) => {
         frameworkResponseList,
         accessToken,
       ),
-    {
-      onSuccess: () => {
-        navigate('/');
-      },
-      onError: (error) => {
-        console.error(error);
-        alert('게시글 업로드에 실패하였습니다.');
-      },
+    onSuccess: () => {
+      navigate('/');
     },
-  );
+    onError: (error) => {
+      alert('프로젝트 등록에 실패하였습니다.' + error);
+    },
+  });
   const { mutate } = handleSubmit;
   const onSubmit = async () => {
     mutate();

@@ -1,19 +1,32 @@
 import { useState } from 'react';
 import * as api from '../index';
 import { useAuthStore } from '../../../shared/store/authStore';
+import { useMutation } from '@tanstack/react-query';
 
 export function Search() {
   const [search, setSearch] = useState('');
   const { accessToken } = useAuthStore();
   const onSubmitSearch = (e: any) => {
     if (e.key === 'Enter') {
-      console.log('검색', search);
-      api.projectSearch(search, accessToken);
+      searchMutation.mutate();
     }
   };
   const onChangeSearch = (e: any) => {
     setSearch(e.target.value);
   };
+
+  const searchMutation = useMutation({
+    mutationFn: async () => {
+      const response = api.projectSearch(search, accessToken);
+      return response;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error: any) => {
+      console.log(error);
+    },
+  });
   return (
     <div className="rounded-[6.25rem] w-[28.125rem] h-[2.375rem] m-[1.5rem_0_0_0] flex justify-center items-center border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
       <img

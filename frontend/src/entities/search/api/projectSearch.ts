@@ -4,7 +4,7 @@ export const projectSearch = async (keyword: string, accessToken: any) => {
   const response = await axios.get('/api/v1/projects/list', {
     params: {
       pageStart: 0,
-      pageSize: 3,
+      pageSize: 10,
       keyword,
       searchFieldEnum: 'TITLE',
       sortDirection: 'ASC',
@@ -15,5 +15,5 @@ export const projectSearch = async (keyword: string, accessToken: any) => {
     },
   });
 
-  return response.data.data;
+  return response;
 };

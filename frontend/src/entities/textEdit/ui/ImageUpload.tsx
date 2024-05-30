@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import imgfile from '/src/shared/assets/image/markdownImg/Image.svg';
 import * as textEdit from '../index';
 import { useAuthStore } from '../../../shared/store/authStore';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const ImageUpload = ({ setImageurl }: any) => {
   //const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -20,11 +20,12 @@ export const ImageUpload = ({ setImageurl }: any) => {
     if (fileInputRef.current) (fileInputRef.current as HTMLInputElement).click();
   };
 
-  const uploadImageMutation = useMutation((selectedImage: File) => textEdit.uploadImage(selectedImage, accessToken), {
-    onSuccess: (response) => {
+  const uploadImageMutation = useMutation({
+    mutationFn: (selectedImage: File) => textEdit.uploadImage(selectedImage, accessToken),
+    onSuccess: (response: any) => {
       setImageurl(`![](${response})`);
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error(error);
       alert('이미지 업로드에 실패하였습니다.');
     },
@@ -34,23 +35,21 @@ export const ImageUpload = ({ setImageurl }: any) => {
   }, [selectedImage]); */
   return (
     <>
-      {!uploadImageMutation.isLoading && (
-        <>
-          <input
-            style={{ display: 'none' }}
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            ref={fileInputRef}
-          />
-          <button
-            onClick={handleImageUpload}
-            className="w-12 h-fit flex items-center justify-center cursor-pointer bg-transparent outline-none border-none"
-          >
-            <img src={imgfile} className="flex w-[1.4rem]" />
-          </button>
-        </>
-      )}
+      <>
+        <input
+          style={{ display: 'none' }}
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          ref={fileInputRef}
+        />
+        <button
+          onClick={handleImageUpload}
+          className="w-12 h-fit flex items-center justify-center cursor-pointer bg-transparent outline-none border-none"
+        >
+          <img src={imgfile} className="flex w-[1.4rem]" />
+        </button>
+      </>
     </>
   );
 };
