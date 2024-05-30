@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
@@ -26,6 +28,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(value = {AuditingEntityListener.class})
+@SQLDelete(sql = "UPDATE project SET deleted = TRUE WHERE project_id = ?")
+@SQLRestriction("deleted = FALSE")
 public class Project extends BaseEntity {
 
     @Id
