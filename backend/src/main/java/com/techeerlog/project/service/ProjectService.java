@@ -147,6 +147,7 @@ public class ProjectService {
             projectItemResponse.setLoveCount(project.getLoveList().size());
             projectItemResponse.setLoved(loveRepository.findByMemberIdAndProjectId(authInfo.getId(), project.getId()).isPresent());
             projectItemResponse.setScraped(scrapRepository.findByMemberIdAndProjectId(authInfo.getId(), project.getId()).isPresent());
+            projectItemResponse.setFrameworkResponseList(getFrameworkResponseList(project.getProjectFrameworkList()));
 
             projectItemResponseList.add(projectItemResponse);
         }

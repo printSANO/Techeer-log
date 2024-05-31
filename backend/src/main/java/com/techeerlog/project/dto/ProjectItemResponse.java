@@ -1,5 +1,6 @@
 package com.techeerlog.project.dto;
 
+import com.techeerlog.framework.dto.FrameworkResponse;
 import com.techeerlog.member.dto.MemberResponse;
 import com.techeerlog.project.enums.PlatformEnum;
 import com.techeerlog.project.enums.ProjectStatusEnum;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,4 +34,5 @@ public class ProjectItemResponse {
     private boolean isLoved;
     private boolean isScraped;
     private MemberResponse writer;
+    private List<FrameworkResponse> frameworkResponseList;
 }

@@ -76,7 +76,6 @@ public class ProjectController {
     public ResponseEntity<ResultResponse<ProjectItemListResponse>> findProjectList(@Valid ProjectListRequest projectListRequest, @Login AuthInfo authInfo) {
         ProjectItemListResponse projectItemListResponse = projectService.findProjectListResponse(projectListRequest, authInfo);
 
-
         ResultResponse<ProjectItemListResponse> listResultResponse
                 = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectItemListResponse);
 
