@@ -3,7 +3,7 @@ package com.techeerlog.project.controller;
 import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.response.ResultResponse;
 import com.techeerlog.global.support.token.Login;
-import com.techeerlog.project.dto.ProjectItemResponse;
+import com.techeerlog.project.dto.ProjectItemListResponse;
 import com.techeerlog.project.dto.ProjectListRequest;
 import com.techeerlog.project.dto.ProjectRequest;
 import com.techeerlog.project.dto.ProjectResponse;
@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 import static com.techeerlog.global.response.ResultCode.*;
 
@@ -74,11 +73,12 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 리스트 조회", description = "프로젝트 리스트 조회")
     @GetMapping(path = "/projects/list")
-    public ResponseEntity<ResultResponse<List<ProjectItemResponse>>> findProjectList(@Valid ProjectListRequest projectListRequest, @Login AuthInfo authInfo) {
-        List<ProjectItemResponse> projectResponseList = projectService.findProjectListResponse(projectListRequest, authInfo);
+    public ResponseEntity<ResultResponse<ProjectItemListResponse>> findProjectList(@Valid ProjectListRequest projectListRequest, @Login AuthInfo authInfo) {
+        ProjectItemListResponse projectItemListResponse = projectService.findProjectListResponse(projectListRequest, authInfo);
 
-        ResultResponse<List<ProjectItemResponse>> listResultResponse
-                = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectResponseList);
+
+        ResultResponse<ProjectItemListResponse> listResultResponse
+                = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectItemListResponse);
 
         return ResponseEntity.status(FIND_PROJECT_LIST_SUCCESS.getStatus()).body(listResultResponse);
     }

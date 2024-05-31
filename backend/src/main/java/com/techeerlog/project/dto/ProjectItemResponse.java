@@ -30,5 +30,6 @@ public class ProjectItemResponse {
     private ProjectStatusEnum projectStatus;
     private int loveCount = 0;
     private boolean isLoved;
+    private boolean isScraped;
     private MemberResponse writer;
 }
