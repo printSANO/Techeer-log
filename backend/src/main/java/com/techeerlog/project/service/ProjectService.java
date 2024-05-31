@@ -157,15 +157,15 @@ public class ProjectService {
         int pageSize = projectListRequest.getPageSize();
         SearchFieldEnum searchFieldEnum = projectListRequest.getSearchFieldEnum();
         Sort.Direction sortDirection = projectListRequest.getSortDirection();
-        String keyword = projectListRequest.getKeyword();
+        String searchKeyword = projectListRequest.getSearchKeyword();
 
         Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, "id"));
 
         switch (searchFieldEnum) {
-            case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(keyword, pageable);
-            case CONTENT -> projectSlice = projectRepository.findAllByContentContaining(keyword, pageable);
-            case WRITER -> projectSlice = projectRepository.findAllByMemberId(Long.parseLong(keyword), pageable);
-            case ALL -> projectSlice = projectRepository.findAllByTitleOrContentContaining(keyword, pageable);
+            case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(searchKeyword, pageable);
+            case CONTENT -> projectSlice = projectRepository.findAllByContentContaining(searchKeyword, pageable);
+            case WRITER -> projectSlice = projectRepository.findAllByMemberId(Long.parseLong(searchKeyword), pageable);
+            case ALL -> projectSlice = projectRepository.findAllByTitleOrContentContaining(searchKeyword, pageable);
         }
 
         if (projectSlice == null) {
