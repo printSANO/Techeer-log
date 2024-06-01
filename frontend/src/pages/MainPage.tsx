@@ -6,14 +6,16 @@ import { EmblaOptionsType } from 'embla-carousel';
 import ProjectCard from '../shared/ui/ProjectCard.tsx';
 import { useEffect, useState } from 'react';
 import * as api from '../shared/api/index';
+import * as search from '../entities/search/index';
 import { useAuthStore } from '../shared/store/authStore.ts';
+import { useMutation } from '@tanstack/react-query';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const { login, accessToken } = useAuthStore();
-  const [result, setresult] = useState([]); //
+  const [result, setresult] = useState(''); //
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();
@@ -22,8 +24,21 @@ export default function MainPage() {
       console.error(error);
     }
   };
+  const searchMutation = useMutation({
+    mutationFn: async () => {
+      const response = search.projectSearch('', accessToken);
+      return response;
+    },
+    onSuccess: (data) => {
+      setresult(data);
+    },
+    onError: (error: any) => {
+      console.log(error);
+    },
+  });
   useEffect(() => {
     callToken();
+    searchMutation.mutate();
   }, []);
 
   return (
