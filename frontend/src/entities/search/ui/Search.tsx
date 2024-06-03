@@ -23,6 +23,7 @@ export function Search({ setResult }: any) {
     onSuccess: (data) => {
       setResult(data);
       console.log(data);
+      setSearch('');
     },
     onError: (error: any) => {
       console.log(error);
