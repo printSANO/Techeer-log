@@ -24,6 +24,7 @@ import com.techeerlog.project.repository.NonRegisterProjectMemberRepository;
 import com.techeerlog.project.repository.ProjectFrameworkRepository;
 import com.techeerlog.project.repository.ProjectMemberRepository;
 import com.techeerlog.project.repository.ProjectRepository;
+import com.techeerlog.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +53,7 @@ public class ProjectService {
     private final ProjectFrameworkRepository projectFrameworkRepository;
     private final NonRegisterProjectMemberRepository nonRegisterProjectMemberRepository;
     private final LoveRepository loveRepository;
+    private final ScrapRepository scrapRepository;
 
     @Transactional
     public ProjectResponse findProjectResponse(Long projectId, AuthInfo authInfo) {
@@ -62,6 +64,7 @@ public class ProjectService {
         projectResponse.setWriter(memberMapper.memberToMemberResponse(findProject.getMember()));
         projectResponse.setLoveCount(findProject.getLoveList().size());
         projectResponse.setLoved(loveRepository.findByMemberIdAndProjectId(authInfo.getId(), findProject.getId()).isPresent());
+        projectResponse.setScraped(scrapRepository.findByMemberIdAndProjectId(authInfo.getId(), findProject.getId()).isPresent());
         projectResponse.setProjectMemberResponseList(getProjectMemberResponseList(findProject.getProjectMemberList()));
         projectResponse.setNonRegisterProjectMemberResponseList(getNonRegisterProjectMemberResponseList(findProject.getNonRegisterProjectMemberList()));
         projectResponse.setFrameworkResponseList(getFrameworkResponseList(findProject.getProjectFrameworkList()));
@@ -129,25 +132,31 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-    public List<ProjectItemResponse> findProjectListResponse(ProjectListRequest projectListRequest, AuthInfo authInfo) {
+    public ProjectItemListResponse findProjectListResponse(ProjectListRequest projectListRequest, AuthInfo authInfo) {
         Slice<Project> projectSlice = getProjectSlice(projectListRequest);
 
-        return projectListToProjectResponseList(projectSlice.toList(), authInfo);
+        return projectListToProjectItemListResponse(projectSlice, authInfo);
     }
 
-    private List<ProjectItemResponse> projectListToProjectResponseList(List<Project> projectList, AuthInfo authInfo) {
+    private ProjectItemListResponse projectListToProjectItemListResponse(Slice<Project> projectSlice, AuthInfo authInfo) {
         List<ProjectItemResponse> projectItemResponseList = new ArrayList<>();
 
-        for (Project project : projectList) {
+        for (Project project : projectSlice) {
             ProjectItemResponse projectItemResponse = projectMapper.projectToProjectItemResponse(project);
             projectItemResponse.setWriter(memberMapper.memberToMemberResponse(project.getMember()));
             projectItemResponse.setLoveCount(project.getLoveList().size());
             projectItemResponse.setLoved(loveRepository.findByMemberIdAndProjectId(authInfo.getId(), project.getId()).isPresent());
+            projectItemResponse.setScraped(scrapRepository.findByMemberIdAndProjectId(authInfo.getId(), project.getId()).isPresent());
+            projectItemResponse.setFrameworkResponseList(getFrameworkResponseList(project.getProjectFrameworkList()));
 
             projectItemResponseList.add(projectItemResponse);
         }
 
-        return projectItemResponseList;
+        return ProjectItemListResponse.builder()
+                .nextPage(projectSlice.getNumber() + 1)
+                .hasNextPage(projectSlice.hasNext())
+                .projectItemResponseList(projectItemResponseList)
+                .build();
     }
 
     private Slice<Project> getProjectSlice(ProjectListRequest projectListRequest) {
@@ -157,15 +166,15 @@ public class ProjectService {
         int pageSize = projectListRequest.getPageSize();
         SearchFieldEnum searchFieldEnum = projectListRequest.getSearchFieldEnum();
         Sort.Direction sortDirection = projectListRequest.getSortDirection();
-        String keyword = projectListRequest.getKeyword();
+        String searchKeyword = projectListRequest.getSearchKeyword();
 
         Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, "id"));
 
         switch (searchFieldEnum) {
-            case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(keyword, pageable);
-            case CONTENT -> projectSlice = projectRepository.findAllByContentContaining(keyword, pageable);
-            case WRITER -> projectSlice = projectRepository.findAllByMemberId(Long.parseLong(keyword), pageable);
-            case ALL -> projectSlice = projectRepository.findAllByTitleOrContentContaining(keyword, pageable);
+            case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(searchKeyword, pageable);
+            case CONTENT -> projectSlice = projectRepository.findAllByContentContaining(searchKeyword, pageable);
+            case WRITER -> projectSlice = projectRepository.findAllByMemberId(Long.parseLong(searchKeyword), pageable);
+            case ALL -> projectSlice = projectRepository.findAllByTitleOrContentContaining(searchKeyword, pageable);
         }
 
         if (projectSlice == null) {

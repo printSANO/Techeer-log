@@ -36,6 +36,7 @@ public class ProjectResponse {
     private String websiteLink;
     private int loveCount = 0;
     private boolean isLoved;
+    private boolean isScraped;
     private MemberResponse writer;
     private List<ProjectMemberResponse> projectMemberResponseList;
     private List<NonRegisterProjectMemberResponse> nonRegisterProjectMemberResponseList;

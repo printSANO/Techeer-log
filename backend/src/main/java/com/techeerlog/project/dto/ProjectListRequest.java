@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 public class ProjectListRequest {
     private int pageStart;
     private int pageSize;
-    private String keyword;
+    private String searchKeyword;
     private SearchFieldEnum searchFieldEnum;
     private Sort.Direction sortDirection;
 }
