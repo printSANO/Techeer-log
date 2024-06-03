@@ -69,7 +69,7 @@ public class DummyMethod {
             projects.add(new Project(
                     i, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.PERSONAL_PROJECT, 2021, SemesterEnum.FIRST, ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
             ));
-            projectRepository.saveAll(projects);
         }
+        projectRepository.saveAll(projects);
     }
 }
