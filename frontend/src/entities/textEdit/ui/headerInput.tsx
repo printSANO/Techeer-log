@@ -9,11 +9,11 @@ export const HeaderInput = () => {
   const { changeTitle, changeSubtitle } = useStore();
   const titleonchange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-    changeSubtitle(e.target.value);
+    changeTitle(e.target.value);
   };
   const subonChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSubtitle(e.target.value);
-    changeTitle(e.target.value);
+    changeSubtitle(e.target.value);
   };
   return (
     <div className="flex flex-col w-full h-[11.5rem] gap-2 font-['Pretendard'] p-[2.5rem_3.5rem_1rem_3.5rem] box-sizing-border">

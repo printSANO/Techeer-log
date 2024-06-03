@@ -4,15 +4,18 @@ import { Search } from '../entities/search/index.ts';
 import { EmblaCarousel } from '../entities/carousel/index';
 import { EmblaOptionsType } from 'embla-carousel';
 import ProjectCard from '../shared/ui/ProjectCard.tsx';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as api from '../shared/api/index';
+import * as search from '../entities/search/index';
 import { useAuthStore } from '../shared/store/authStore.ts';
+import { useMutation } from '@tanstack/react-query';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const { login, accessToken } = useAuthStore();
+  const [result, setresult] = useState(''); //
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();
@@ -21,12 +24,25 @@ export default function MainPage() {
       console.error(error);
     }
   };
+  const searchMutation = useMutation({
+    mutationFn: async () => {
+      const response = search.projectSearch('', accessToken);
+      return response;
+    },
+    onSuccess: (data) => {
+      setresult(data);
+    },
+    onError: (error: any) => {
+      console.log(error);
+    },
+  });
   useEffect(() => {
     callToken();
+    searchMutation.mutate();
   }, []);
 
   return (
-    <div className="bg-[#111111] flex flex-col items-center w-screen justify-center items-center">
+    <div className="bg-[#111111] flex flex-col w-screen justify-center items-center">
       <NavBar />
       {/* 메인페이지-소개 */}
       <div className="w-[100vw] h-[41.6vw] bg-cover bg-[url('./shared/assets/image/mainImg/Background-Main.png')] flex justify-center items-center">
@@ -35,7 +51,7 @@ export default function MainPage() {
           <span className="font-['Pretendard-Thin'] text-[1.875rem]">
             테커에서 진행하는 <a className="font-['Pretendard-Medium']">다양한 프로젝트를 한눈에</a>
           </span>
-          <Search />
+          <Search setResult={setresult} />
         </div>
       </div>
       {/* 메인페이지-프로젝트 */}
@@ -61,13 +77,7 @@ export default function MainPage() {
         {/*<DropDown />*/}
         {/* Filtered Projects */}
         <div className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
+          <ProjectCard results={result} />
         </div>
       </div>
     </div>
