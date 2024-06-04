@@ -9,6 +9,7 @@ import * as api from '../shared/api/index';
 import * as search from '../entities/search/index';
 import { useAuthStore } from '../shared/store/authStore.ts';
 import { useMutation } from '@tanstack/react-query';
+import Footer from '../shared/ui/Footer.tsx';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
@@ -80,6 +81,7 @@ export default function MainPage() {
           <ProjectCard results={result} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
