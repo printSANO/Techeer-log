@@ -5,6 +5,7 @@ import com.techeerlog.global.support.token.AuthenticationPrincipalArgumentResolv
 import com.techeerlog.global.support.token.TokenManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,14 +19,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+@Profile("deploy")
+public class WebMvcDeployConfig implements WebMvcConfigurer {
 
     private static final String ALLOW_METHOD_NAMES = "GET,HEAD,POST,DELETE,TRACE,OPTIONS,PATCH,PUT";
 
     private final AuthInterceptor authInterceptor;
     private final TokenManager tokenManager;
 
-    public WebMvcConfig(AuthInterceptor authInterceptor, TokenManager tokenManager) {
+    public WebMvcDeployConfig(AuthInterceptor authInterceptor, TokenManager tokenManager) {
         this.authInterceptor = authInterceptor;
         this.tokenManager = tokenManager;
     }

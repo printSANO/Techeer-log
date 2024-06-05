@@ -9,8 +9,9 @@ CREATE TABLE comment
     comment_id   BIGINT AUTO_INCREMENT NOT NULL,
     member_id    BIGINT                NULL,
     project_id   BIGINT                NULL,
-    soft_removed BIT(1)                NOT NULL,
-    created_at   datetime              NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NULL,
+    deleted    BIT(1)                NULL,
     message      VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_comment PRIMARY KEY (comment_id)
 );

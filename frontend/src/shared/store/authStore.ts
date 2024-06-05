@@ -10,21 +10,21 @@ type AuthState = {
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-  nickname: localStorage.getItem('nickname') || null,
-  accessToken: localStorage.getItem('accessToken') || null,
+  nickname: sessionStorage.getItem('nickname') || null,
+  accessToken: sessionStorage.getItem('accessToken') || null,
   refreshToken: null,
   setnickname: (nickname) => {
     set({ nickname });
-    localStorage.setItem('nickname', nickname);
+    sessionStorage.setItem('nickname', nickname);
   },
   login: (accessToken: string, refreshToken: string) => {
     set({ accessToken, refreshToken });
-    localStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('accessToken', accessToken);
   },
   logout: () => {
     set({ accessToken: null, refreshToken: null });
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('nickname');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('nickname');
     console.log('useAuthStore logout: ');
   },
 }));

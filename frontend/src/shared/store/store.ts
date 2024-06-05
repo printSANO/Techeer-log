@@ -21,19 +21,9 @@ interface Type {
   backframeworkRequestList: [];
   frontprojectMemberList: [];
   backprojectMemberList: [];
-  nonRegisterProjectMemberRequestList: [
-    {
-      name: string;
-      projectMemberTypeEnum: string;
-    },
-  ];
+  nonRegisterProjectMemberRequestList: [];
   leader: string;
-  frameworkResponseList: [
-    {
-      name: string;
-      frameworkTypeEnum: string;
-    },
-  ];
+  frameworkResponseList: [];
   changeplatform: (value: string) => void;
   changeprojectType: (value: string) => void;
   changeyear: (value: any) => void;
@@ -57,8 +47,8 @@ interface Type {
 }
 
 const useStore = create<Type>((set) => ({
-  title: '제목',
-  subtitle: '부제목',
+  title: '',
+  subtitle: '',
   content: '',
   startDate: '0000.00.00',
   endDate: '0000.00.00',
@@ -72,18 +62,8 @@ const useStore = create<Type>((set) => ({
   websiteLink: '',
   mainImageUrl: '',
   projectMemberRequestList: [],
-  nonRegisterProjectMemberRequestList: [
-    {
-      name: 'string',
-      projectMemberTypeEnum: 'FRONTEND',
-    },
-  ],
-  frameworkResponseList: [
-    {
-      name: 'string',
-      frameworkTypeEnum: 'FRONTEND',
-    },
-  ],
+  nonRegisterProjectMemberRequestList: [],
+  frameworkResponseList: [],
   frontframeworkRequestList: [],
   backframeworkRequestList: [],
   frontprojectMemberList: [],
