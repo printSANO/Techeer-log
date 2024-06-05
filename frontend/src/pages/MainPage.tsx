@@ -1,12 +1,12 @@
 import NavBar from '../shared/ui/NavBar.tsx';
 // import { DropDown } from '../entities/filter/index';
-import { Search } from '../entities/search/index.ts';
-import { EmblaCarousel } from '../entities/carousel/index';
+import { Search } from '../entities/search';
+import { EmblaCarousel } from '../entities/carousel';
 import { EmblaOptionsType } from 'embla-carousel';
-import ProjectCard from '../shared/ui/ProjectCard.tsx';
 import { useEffect } from 'react';
 import * as api from '../shared/api/index';
 import { useAuthStore } from '../shared/store/authStore.ts';
+import {ProjectList} from '../entities/projectList';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
@@ -60,15 +60,7 @@ export default function MainPage() {
         {/* Filter */}
         {/*<DropDown />*/}
         {/* Filtered Projects */}
-        <div className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-        </div>
+        <ProjectList/>
       </div>
     </div>
   );
