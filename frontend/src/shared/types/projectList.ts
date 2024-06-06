@@ -13,13 +13,13 @@ export interface Project {
   mainImageUrl: string;
   title: string;
   subtitle: string;
-  startDate: string; // YYYY-MM-DD 형식의 날짜 문자열
-  endDate: string; // YYYY-MM-DD 형식의 날짜 문자열
-  platform: 'WEB' | 'MOBILE' | 'DESKTOP' | 'OTHER'; // 가능한 플랫폼 값
-  projectType: 'BOOTCAMP' | 'PERSONAL' | 'TEAM'; // 프로젝트 유형
+  startDate: string;
+  endDate: string;
+  platform: 'WEB' | 'APP' | 'WEB_APP'
+  projectType: 'BOOTCAMP' | 'PERSONAL_PROJECT' | 'TEAM_PROJECT'; // 프로젝트 유형
   year: number;
   semester: 'FIRST' | 'SECOND'; // 학기 정보
-  projectStatus: 'RUNNING' | 'COMPLETED' | 'PLANNING'; // 프로젝트 상태
+  projectStatus: 'RUNNING' | 'COMPLETED' | 'PREPARING'; // 프로젝트 상태
   loveCount: number;
   writer: Writer;
   frameworkResponseList: Framework[];
