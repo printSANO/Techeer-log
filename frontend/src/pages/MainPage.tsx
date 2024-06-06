@@ -1,13 +1,13 @@
 import NavBar from '../shared/ui/NavBar.tsx';
 // import { DropDown } from '../entities/filter/index';
-import { Search } from '../entities/search/index.ts';
-import { EmblaCarousel } from '../entities/carousel/index';
+import { Search } from '../entities/search';
+import { EmblaCarousel } from '../entities/carousel';
 import { EmblaOptionsType } from 'embla-carousel';
-import ProjectCard from '../shared/ui/ProjectCard.tsx';
 import { useEffect, useState } from 'react';
 import * as api from '../shared/api/index';
 import * as search from '../entities/search/index';
 import { useAuthStore } from '../shared/store/authStore.ts';
+import {ProjectList} from '../entities/projectList';
 import { useMutation } from '@tanstack/react-query';
 
 export default function MainPage() {
@@ -15,7 +15,7 @@ export default function MainPage() {
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const { login, accessToken } = useAuthStore();
-  const [result, setresult] = useState(''); //
+  const [result, setresult] = useState('');
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();
@@ -31,6 +31,7 @@ export default function MainPage() {
     },
     onSuccess: (data) => {
       setresult(data);
+      console.log("검색 결과",result);
     },
     onError: (error: any) => {
       console.log(error);
@@ -76,9 +77,7 @@ export default function MainPage() {
         {/* Filter */}
         {/*<DropDown />*/}
         {/* Filtered Projects */}
-        <div className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
-          <ProjectCard results={result} />
-        </div>
+        <ProjectList/>
       </div>
     </div>
   );
