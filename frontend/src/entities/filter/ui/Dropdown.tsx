@@ -1,44 +1,41 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction } from 'react';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
+type DropDownProps = {
+  selectedType: string;
+  setSelectedType: React.Dispatch<SetStateAction<string>>;
+  selectedPeriod: string;
+  setSelectedPeriod: React.Dispatch<SetStateAction<string>>;
+};
 type DropdownMenuProps = {
   options: string[];
   selectedOption: string;
   setSelectedOption: React.Dispatch<SetStateAction<string>>;
 };
 
-export function DropDown() {
-  const firstDropdown = ['부트캠프', '팀 프로젝트', '개인 프로젝트'];
-  const secondDropdown = ['2023 동계', '2023 상반기', '2023 하계', '2023 하반기'];
-
-  // 각 드롭다운의 초기값을 '활동 별', '시기 별'로 할당
-  const [selectedFirstDropdown, setSelectedFirstDropdown] = useState<string>('활동 별');
-  const [selectedSecondDropdown, setSelectedSecondDropdown] = useState<string>('시기 별');
+export function DropDown({ selectedType, setSelectedType, selectedPeriod, setSelectedPeriod }: DropDownProps) {
+  const firstDropdown = ['전체','부트캠프', '팀 프로젝트', '개인 프로젝트'];
+  const secondDropdown = ['전체','2023 상반기', '2023 하반기'];
 
   // 첫 번째 드롭다운의 상태값이 바뀌면 두 번째 드롭다운의 상태값이 초기값으로 바뀜
   const handleFirstDropdownChange = (option: SetStateAction<string>) => {
-    setSelectedFirstDropdown(option);
-    setSelectedSecondDropdown('시기 별');
+    // setSelectedFirstDropdown(option);
+    setSelectedType(option);
+    setSelectedPeriod('전체');
   };
 
-  // (부트캠프 -> 동계, 하계), (팀 or 개인 -> 상반기, 하반기)
-  const filteredSecondDropdown =
-    selectedFirstDropdown === firstDropdown[0]
-      ? [secondDropdown[0], secondDropdown[2]]
-      : [secondDropdown[1], secondDropdown[3]];
-
   return (
-    <div className="space-x-4 mb-8">
+    <div className="space-x-4 mb-8 flex justify-center">
       <DropdownMenu
         options={firstDropdown}
-        selectedOption={selectedFirstDropdown}
+        selectedOption={selectedType}
         setSelectedOption={handleFirstDropdownChange}
       />
       <DropdownMenu
-        options={filteredSecondDropdown}
-        selectedOption={selectedSecondDropdown}
-        setSelectedOption={setSelectedSecondDropdown}
+        options={secondDropdown}
+        selectedOption={selectedPeriod}
+        setSelectedOption={setSelectedPeriod}
       />
     </div>
   );

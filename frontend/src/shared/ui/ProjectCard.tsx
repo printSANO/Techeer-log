@@ -1,12 +1,12 @@
 import { Project } from '../types/projectList.ts';
 interface propsProjects {
-  project: Project
+  project: Project;
 }
-export default function ProjectCard({ project }: propsProjects) {
+export default function ProjectCard({ project }:propsProjects) {
   return (
     <div
-      className="rounded-[0.3rem] border-solid border border-[#444444] flex flex-col p-[0_0_1rem_0] box-sizing-border w-[100%]"
       key={project.id}
+      className="rounded-[0.3rem] border-solid border border-[#444444] flex flex-col p-[0_0_1rem_0] box-sizing-border w-[100%]"
     >
       <div
         className="bg-[url('./shared/assets/image/cardImg/ThumbNailImg.png')] bg-cover rounded-[0.3rem] m-[0_0_1.3rem_0] w-[99.9%] h-[15rem]"></div>
@@ -21,8 +21,9 @@ export default function ProjectCard({ project }: propsProjects) {
       <div
         className="rounded-[0.3rem] m-[0_1rem_2rem_1rem] flex flex-row flex-wrap self-start w-[90%] h-[2rem] box-sizing-border">
         {project.frameworkResponseList &&
-          project.frameworkResponseList.map((framework: any) => (
+          project.frameworkResponseList.map((framework, index) => (
             <div
+              key={index}
               className="rounded-[0.3rem] bg-[#333333] relative m-[0_0.3rem_0.5rem_0] flex flex-row justify-center p-[0.3rem_0.7rem_0.2rem_0.6rem] box-sizing-border">
                     <span className="break-words font-['Pre-R'] font-semibold text-[0.8rem] text-[#FFFFFF]">
                       {framework.name}

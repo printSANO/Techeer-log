@@ -1,5 +1,5 @@
 import NavBar from '../shared/ui/NavBar.tsx';
-// import { DropDown } from '../entities/filter/index';
+import { DropDown } from '../entities/filter';
 import { Search } from '../entities/search';
 import { EmblaCarousel } from '../entities/carousel';
 import { EmblaOptionsType } from 'embla-carousel';
@@ -9,13 +9,16 @@ import * as search from '../entities/search/index';
 import { useAuthStore } from '../shared/store/authStore.ts';
 import {ProjectList} from '../entities/projectList';
 import { useMutation } from '@tanstack/react-query';
+import Footer from '../shared/ui/Footer.tsx';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const { login, accessToken } = useAuthStore();
-  const [result, setresult] = useState('');
+  const [result, setResult] = useState('');
+  const [selectedType, setSelectedType] = useState<string>('프로젝트 종류');
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('프로젝트 기간');
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();
@@ -30,7 +33,7 @@ export default function MainPage() {
       return response;
     },
     onSuccess: (data) => {
-      setresult(data);
+      setResult(data);
       console.log("검색 결과",result);
     },
     onError: (error: any) => {
@@ -52,7 +55,7 @@ export default function MainPage() {
           <span className="font-['Pretendard-Thin'] text-[1.875rem]">
             테커에서 진행하는 <a className="font-['Pretendard-Medium']">다양한 프로젝트를 한눈에</a>
           </span>
-          <Search setResult={setresult} />
+          <Search setResult={setResult} />
         </div>
       </div>
       {/* 메인페이지-프로젝트 */}
@@ -75,10 +78,19 @@ export default function MainPage() {
           </span>
         </div>
         {/* Filter */}
-        {/*<DropDown />*/}
+        <DropDown
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+          selectedPeriod={selectedPeriod}
+          setSelectedPeriod={setSelectedPeriod}
+        />
         {/* Filtered Projects */}
-        <ProjectList/>
+        <ProjectList
+          selectedType={selectedType}
+          selectedPeriod={selectedPeriod}
+        />
       </div>
+      <Footer/>
     </div>
   );
 }
