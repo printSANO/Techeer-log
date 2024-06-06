@@ -15,7 +15,7 @@ export default function MainPage() {
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const { login, accessToken } = useAuthStore();
-  const [result, setresult] = useState(''); //
+  const [result, setresult] = useState('');
   const callToken = async () => {
     try {
       const tokenData = await api.anonymousToken();

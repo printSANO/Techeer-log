@@ -1,3 +1,5 @@
+import { Framework } from './project.ts';
+
 export interface Writer {
   id: number;
   loginId: string;
@@ -20,6 +22,7 @@ export interface Project {
   projectStatus: 'RUNNING' | 'COMPLETED' | 'PLANNING'; // 프로젝트 상태
   loveCount: number;
   writer: Writer;
+  frameworkResponseList: Framework[];
   loved: boolean;
   scraped: boolean;
 }
