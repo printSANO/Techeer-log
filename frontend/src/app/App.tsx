@@ -3,18 +3,40 @@ import { RecoilRoot } from 'recoil';
 import { GlobalStyle } from './style/globalStyle.ts';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-const queryClient = new QueryClient();
+import { QueryProvider } from './QueryProvider.tsx';
+import { anonymousToken } from '../shared/api';
+import { useEffect, useState } from 'react';
+import { setAccessToken } from '../shared/authorization/getToken.ts';
+
+const initializeAnonymousToken = async () => {
+  const accessToken = sessionStorage.getItem('accessToken');
+  if (!accessToken) {
+    const token = await anonymousToken();
+    setAccessToken(token);
+  }
+};
 function App() {
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      await initializeAnonymousToken();
+      setIsInitialized(true);
+    };
+    init();
+  }, []);
+
+  if (!isInitialized) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <GlobalStyle />
-          <RouterProvider router={router} />
-        </RecoilRoot>
-      </QueryClientProvider>
-    </>
+    <RecoilRoot>
+      <QueryProvider>
+        <GlobalStyle />
+        <RouterProvider router={router} />
+      </QueryProvider>
+    </RecoilRoot>
   );
 }
 

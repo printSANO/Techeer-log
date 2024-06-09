@@ -4,5 +4,7 @@
   "singleQuote": true,
   "parser": "typescript",
   "useTabs": false,
-  "semi": true
+  "semi": true,
+  "bracketSpacing": true,
+  "trailingComma": "all"
 }

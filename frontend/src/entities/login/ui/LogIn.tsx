@@ -1,30 +1,12 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useAuthStore } from '../../../shared/store/authStore';
 import { useNavigate } from 'react-router-dom';
-import * as api from '../../../shared/api/index';
-// import { handleLogin } from '../api/login';
+import axiosInstance from '../../../shared/api/axiosInstance.ts';
 
 export function LogIn() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  // 토큰 상태 관리 함수
-  // const authStore = useAuthStore((state) => state.login);
-  // const logout = useAuthStore((state) => state.logout);
-  const { login, setnickname, accessToken } = useAuthStore();
-  const callToken = async () => {
-    try {
-      const tokenData = await api.anonymousToken();
-      if (accessToken === null) login(tokenData, '');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    callToken();
-  }, []);
 
   const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginId(event.target.value);
@@ -37,92 +19,33 @@ export function LogIn() {
   const toLogin = () => {
     navigate('/signup');
   };
-  // // 액세스 토큰 재발급
-  // const refreshAccessToken = async () => {
-  //   try {
-  //     // zustand에서 상태 가져오기
-  //     const { refreshToken } = useAuthStore.getState();
-  //     console.log('refreshAccessToken: ');
 
-  //     // axios 요청 헤더에 토큰 정보 포함하여 요청 보내기
-  //     const response = await axios.post(
-  //       '/api/v1/auth/refresh',
-  //       {},
-  //       {
-  //         headers: {
-  //           refresh_token: refreshToken,
-  //         },
-  //       },
-  //     );
-
-  //     // 새로 발급받은 토큰 정보 저장
-  //     if (refreshToken != null) {
-  //       // 응답 헤더에서 토큰 정보 추출 : response.headers['authorization']
-  //       authStore(response.headers['authorization'], refreshToken);
-  //       // authStore('new', refreshToken);
-  //     }
-  //   } catch (error) {
-  //     console.error('토큰 재발급에 실패했습니다.', error);
-  //   }
-  // };
-
-  // 액세스 토큰 만료 5분 전에 토큰 재발급
-  // const setAccessTokenTimeout = () => {
-  //   // 액세스 토큰 만료 시간 55분으로 설정
-  //   const EXPIRES_IN = 55 * 60 * 1000;
-  //   setTimeout(() => {
-  //     refreshAccessToken();
-  //   }, EXPIRES_IN);
-  // };
-
-  const handleNickname = async (newAccessToken: string) => {
+  const { login, setNickname } = useAuthStore();
+  const handleNickname = async () => {
     try {
-      const response = await axios.get('/api/v1/members/profile', {
-        headers: {
-          authorization: newAccessToken,
-        },
-      });
-      console.log('handleNickname: ', response.data.data.nickname, accessToken);
-      setnickname(response.data.data.nickname);
+      const response = await axiosInstance.get('/api/v1/members/profile');
+      setNickname(response.data.data.nickname);
       navigate('/');
     } catch (error) {
       console.error('닉네임 정보를 가져오는데 실패했습니다', error);
     }
   };
+
   const handleLogin = async () => {
     try {
-      console.log('handleLogin: ', loginId, password);
-      const response = await axios.post(
-        '/api/v1/auth/login',
-        {
-          loginId,
-          password,
-        },
-        {
-          headers: {
-            authorization: accessToken,
-          },
-        },
-      );
+      // console.log('handleLogin: ', loginId, password);
+      const response = await axiosInstance.post('/api/v1/auth/login', {
+        loginId,
+        password,
+      });
 
       // 응답 헤더에서 토큰 정보 추출
       const newAccessToken = response.headers['authorization'];
       const newRefreshToken = response.headers['refresh-token'];
 
-      // const accessToken = 'Bearer asdf';
-      // const refreshToken = 'Bearer asdf';
-
-      console.log('handleLogin: ', newAccessToken, newRefreshToken);
-
-      // 발급받은 토큰 정보 저장
-      // Access Token은 클라이언트 관리, Refresh Token은 전역 관리
-      //localStorage.setItem('accessToken', newAccessToken);
       login(newAccessToken, newRefreshToken);
-      handleNickname(newAccessToken);
-      // logout(); //test
 
-      // 토큰 타이머
-      // setAccessTokenTimeout();
+      handleNickname();
     } catch (error) {
       alert('로그인에 실패했습니다');
     }

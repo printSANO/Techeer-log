@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../../shared/store/authStore';
-import * as api from '../../../shared/api/index';
+import axiosInstance from '../../../shared/api/axiosInstance.ts';
 
 export function SignUp() {
   const [nickname, setNickname] = useState('');
@@ -11,18 +9,6 @@ export function SignUp() {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const navigate = useNavigate();
-  const { login, accessToken } = useAuthStore();
-  const callToken = async () => {
-    try {
-      const tokenData = await api.anonymousToken();
-      if (accessToken === null) login(tokenData, '');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    callToken();
-  }, []);
   const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(event.target.value);
   };
@@ -51,20 +37,12 @@ export function SignUp() {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post(
-        '/api/v1/members/signup',
-        {
-          loginId,
-          nickname,
-          password,
-          passwordConfirmation,
-        },
-        {
-          headers: {
-            authorization: accessToken,
-          },
-        },
-      );
+      const response = await axiosInstance.post('/api/v1/members/signup', {
+        loginId,
+        nickname,
+        password,
+        passwordConfirmation,
+      });
       navigate('/login');
       if (response.data.status != '200') {
         return Error;
