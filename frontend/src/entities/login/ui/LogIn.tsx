@@ -89,6 +89,7 @@ export function LogIn() {
       console.error('닉네임 정보를 가져오는데 실패했습니다', error);
     }
   };
+
   const handleLogin = async () => {
     try {
       console.log('handleLogin: ', loginId, password);
