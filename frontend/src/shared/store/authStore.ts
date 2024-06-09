@@ -20,7 +20,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: (accessToken: string, refreshToken: string) => {
     set({ accessToken, refreshToken });
     sessionStorage.setItem('accessToken', accessToken);
-    sessionStorage.setItem('refreshToken', refreshToken);
   },
   logout: () => {
     set({ accessToken: null, refreshToken: null });

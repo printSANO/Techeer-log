@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from '../../../shared/api/axiosInstance.ts';
 
 export const UploadProject = async (
   title: any,
@@ -18,34 +18,25 @@ export const UploadProject = async (
   projectMemberRequestList: any,
   nonRegisterProjectMemberRequestList: any,
   frameworkRequestList: any,
-  accessToken: any,
 ) => {
-  const response = await axios.post(
-    '/api/v1/projects',
-    {
-      title,
-      subtitle,
-      content,
-      startDate,
-      endDate,
-      platform,
-      projectType,
-      year,
-      semester,
-      projectStatus,
-      githubLink,
-      blogLink,
-      websiteLink,
-      mainImageUrl,
-      projectMemberRequestList,
-      nonRegisterProjectMemberRequestList,
-      frameworkRequestList,
-    },
-    {
-      headers: {
-        authorization: accessToken,
-      },
-    },
-  );
+  const response = await axiosInstance.post('/api/v1/projects', {
+    title,
+    subtitle,
+    content,
+    startDate,
+    endDate,
+    platform,
+    projectType,
+    year,
+    semester,
+    projectStatus,
+    githubLink,
+    blogLink,
+    websiteLink,
+    mainImageUrl,
+    projectMemberRequestList,
+    nonRegisterProjectMemberRequestList,
+    frameworkRequestList,
+  });
   return response.data.data;
 };

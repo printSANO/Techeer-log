@@ -1,13 +1,11 @@
 import { useRef } from 'react';
 import imgfile from '/src/shared/assets/image/markdownImg/Image.svg';
 import * as textEdit from '../index';
-import { useAuthStore } from '../../../shared/store/authStore';
 import { useMutation } from '@tanstack/react-query';
 
 export const ImageUpload = ({ setImageurl }: any) => {
   //const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const fileInputRef = useRef(null);
-  const { accessToken } = useAuthStore();
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -21,7 +19,7 @@ export const ImageUpload = ({ setImageurl }: any) => {
   };
 
   const uploadImageMutation = useMutation({
-    mutationFn: (selectedImage: File) => textEdit.uploadImage(selectedImage, accessToken),
+    mutationFn: (selectedImage: File) => textEdit.uploadImage(selectedImage),
     onSuccess: (response: any) => {
       setImageurl(`![](${response})`);
     },

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../shared/store/authStore';
 import * as api from '../../../shared/api/index';
+import axiosInstance from '../../../shared/api/axiosInstance.ts';
 
 export function SignUp() {
   const [nickname, setNickname] = useState('');
@@ -51,20 +51,12 @@ export function SignUp() {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post(
-        '/api/v1/members/signup',
-        {
-          loginId,
-          nickname,
-          password,
-          passwordConfirmation,
-        },
-        {
-          headers: {
-            authorization: accessToken,
-          },
-        },
-      );
+      const response = await axiosInstance.post('/api/v1/members/signup', {
+        loginId,
+        nickname,
+        password,
+        passwordConfirmation,
+      });
       navigate('/login');
       if (response.data.status != '200') {
         return Error;

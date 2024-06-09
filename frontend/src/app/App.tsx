@@ -11,7 +11,7 @@ import { setAccessToken } from '../shared/authorization/getToken.ts';
 const initializeAnonymousToken = async () => {
   const existingToken = sessionStorage.getItem('anonymousToken');
   if (!existingToken) {
-    console.log('익명토큰 요청');
+    // console.log('익명토큰 요청');
     const token = await anonymousToken();
     setAccessToken(token);
   }

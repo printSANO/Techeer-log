@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* 하단 취소, 완료버튼 */
-
 import useStore from '../../../shared/store/store';
 import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../../shared/store/authStore';
 import * as projectWrite from '../../../shared/constants/index';
 import { useMutation } from '@tanstack/react-query';
 
@@ -29,7 +27,6 @@ export const bottomButtons = ({ setStep }: any) => {
     nonRegisterProjectMemberRequestList,
     frameworkResponseList,
   } = useStore();
-  const { accessToken } = useAuthStore();
   const handleGoBack = () => {
     setStep('prev');
   };
@@ -61,7 +58,6 @@ export const bottomButtons = ({ setStep }: any) => {
         projectMemberRequestList,
         nonRegisterProjectMemberRequestList,
         frameworkResponseList,
-        accessToken,
       ),
     onSuccess: () => {
       navigate('/');

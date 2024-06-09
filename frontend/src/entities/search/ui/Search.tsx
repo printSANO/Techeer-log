@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import * as api from '../index';
-import { useAuthStore } from '../../../shared/store/authStore';
 import { useMutation } from '@tanstack/react-query';
 
 export function Search({ setResult }: any) {
   const [search, setSearch] = useState('');
-  const { accessToken } = useAuthStore();
   const onSubmitSearch = (e: any) => {
     if (e.key === 'Enter') {
       searchMutation.mutate();
@@ -17,7 +15,7 @@ export function Search({ setResult }: any) {
 
   const searchMutation = useMutation({
     mutationFn: async () => {
-      const response = api.projectSearch(search, accessToken);
+      const response = api.projectSearch(search);
       return response;
     },
     onSuccess: (data) => {

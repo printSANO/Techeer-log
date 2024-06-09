@@ -5,7 +5,6 @@ import { EmblaCarousel } from '../entities/carousel';
 import { EmblaOptionsType } from 'embla-carousel';
 import { useEffect, useState } from 'react';
 import * as search from '../entities/search/index';
-import { useAuthStore } from '../shared/store/authStore.ts';
 import { ProjectList } from '../entities/projectList';
 import { useMutation } from '@tanstack/react-query';
 import Footer from '../shared/ui/Footer.tsx';
@@ -14,14 +13,13 @@ export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-  const { accessToken } = useAuthStore();
   const [result, setResult] = useState('');
   const [selectedType, setSelectedType] = useState<string>('프로젝트 종류');
   const [selectedPeriod, setSelectedPeriod] = useState<string>('프로젝트 기간');
 
   const searchMutation = useMutation({
     mutationFn: async () => {
-      const response = search.projectSearch('', accessToken);
+      const response = search.projectSearch('');
       return response;
     },
     onSuccess: (data) => {
