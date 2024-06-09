@@ -1,4 +1,3 @@
-//input값을 어떻게 상위 페이지에 전달하냐는 건데.... usestate()의 setter말고 그냥 데이터만 보내주면 될것같음 -> props?
 import { Comment } from '../../../shared/types/comments.ts';
 import { postComment } from '../api/comments.ts';
 import { useState } from 'react';
@@ -63,7 +62,10 @@ export const ProjectComment = (data: ProjectCommentProps) => {
         </div>
         <div className="flex flex-col">
           {/*댓글 목록*/}
-          {comments && comments.map((comment: Comment) => <SingleComment projectId={projectId} comment={comment} />)}
+          {comments &&
+            comments.map((comment: Comment, index) => (
+              <SingleComment key={index} projectId={projectId} comment={comment} />
+            ))}
         </div>
       </div>
     </div>

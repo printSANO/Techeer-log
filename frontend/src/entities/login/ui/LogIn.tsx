@@ -20,11 +20,11 @@ export function LogIn() {
     navigate('/signup');
   };
 
-  const { login, setnickname } = useAuthStore();
+  const { login, setNickname } = useAuthStore();
   const handleNickname = async () => {
     try {
       const response = await axiosInstance.get('/api/v1/members/profile');
-      setnickname(response.data.data.nickname);
+      setNickname(response.data.data.nickname);
       navigate('/');
     } catch (error) {
       console.error('닉네임 정보를 가져오는데 실패했습니다', error);
@@ -42,7 +42,7 @@ export function LogIn() {
       // 응답 헤더에서 토큰 정보 추출
       const newAccessToken = response.headers['authorization'];
       const newRefreshToken = response.headers['refresh-token'];
-      // Access Token은 클라이언트 관리, Refresh Token은 전역 관리
+
       login(newAccessToken, newRefreshToken);
 
       handleNickname();
