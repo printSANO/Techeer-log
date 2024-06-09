@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { accessToken } from '../../../shared/authorization/getToken.ts';
+import axiosInstance from '../../../shared/api/axiosInstance.ts';
 interface PostComment {
   projectId?: number;
   commentId?: number;
@@ -7,49 +6,21 @@ interface PostComment {
 }
 
 export const getComments = (projectId: number) => {
-  return axios
-    .get(`/api/v1/comments/${projectId}`, {
-      headers: {
-        authorization: `Bearer ${accessToken}}`,
-      },
-    })
-    .then((response) => response.data.data);
+  return axiosInstance.get(`/api/v1/comments/${projectId}`, {}).then((response) => response.data.data);
 };
 
 export const postComment = (comment: PostComment) => {
-  return axios
-    .post(
-      `/api/v1/comments`,
-      { content: comment.content, projectId: comment.projectId },
-      {
-        headers: {
-          authorization: `Bearer ${accessToken}}`,
-        },
-      },
-    )
+  return axiosInstance
+    .post(`/api/v1/comments`, { content: comment.content, projectId: comment.projectId })
     .then((response) => response.data.data);
 };
 
 export const putComment = (comment: PostComment) => {
-  return axios
-    .put(
-      `/api/v1/comments/${comment.commentId}`,
-      { content: comment.content, projectId: comment.projectId },
-      {
-        headers: {
-          authorization: `Bearer ${accessToken}}`,
-        },
-      },
-    )
+  return axiosInstance
+    .put(`/api/v1/comments/${comment.commentId}`, { content: comment.content, projectId: comment.projectId })
     .then((response) => response.data.data);
 };
 
 export const deleteComment = (commentId: number) => {
-  return axios
-    .delete(`/api/v1/comments/${commentId}`, {
-      headers: {
-        authorization: `Bearer ${accessToken}}`,
-      },
-    })
-    .then((response) => response.data.data);
+  return axiosInstance.delete(`/api/v1/comments/${commentId}`).then((response) => response.data.data);
 };
