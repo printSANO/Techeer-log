@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import { QueryProvider } from './QueryProvider.tsx';
 import { anonymousToken } from '../shared/api';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setAccessToken } from '../shared/authorization/getToken.ts';
 
 const initializeAnonymousToken = async () => {
@@ -17,10 +17,19 @@ const initializeAnonymousToken = async () => {
   }
 };
 function App() {
-  // 앱 초기화시 익명 사용자 토큰 발급
+  const [isInitialized, setIsInitialized] = useState(false);
+
   useEffect(() => {
-    initializeAnonymousToken();
+    const init = async () => {
+      await initializeAnonymousToken();
+      setIsInitialized(true);
+    };
+    init();
   }, []);
+
+  if (!isInitialized) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <RecoilRoot>

@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-// import axios from 'axios';
-
 export default function NavBar() {
   const { logout, nickname } = useAuthStore();
   const navigate = useNavigate();
@@ -9,18 +7,7 @@ export default function NavBar() {
   const goLogin = () => {
     navigate('/login');
   };
-  //refresh-token 구현 후 주석 해제
-  /*  const loginApi = async () => {
-    try {
-      await axios.get('/api/v1/auth/logout', {
-        headers: {
-          authorization: accessToken,
-        },
-      });
-    } catch (error) {
-      alert('로그인에 실패했습니다');
-    }
-  }; */
+
   const handleLogout = () => {
     logout();
     window.location.replace('/');

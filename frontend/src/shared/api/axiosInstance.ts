@@ -12,8 +12,9 @@ axiosInstance.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) {
     config.headers.Authorization = `${token}`;
+  } else {
+    console.log('accesstoken이 비어 있습니다.');
   }
-  console.log('accesstoken이 비어 있습니다.');
   return config;
 });
 
@@ -27,6 +28,7 @@ axiosInstance.interceptors.response.use(
 
       const refreshToken = getRefreshToken();
       if (refreshToken) {
+        console.log('refreshToken:', refreshToken);
         try {
           const response = await axios.get('/api/v1/auth/refresh', { params: { refreshToken } });
           const accessToken = response.headers.authorization;
@@ -55,8 +57,7 @@ axiosInstance.interceptors.response.use(
 );
 
 const handleLogout = () => {
-  const { logout } = useAuthStore.getState();
-  logout();
+  useAuthStore.getState().logout;
 };
 
 const setAnonymousTokenHeader = async () => {
