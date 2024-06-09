@@ -9,9 +9,8 @@ import { useEffect, useState } from 'react';
 import { setAccessToken } from '../shared/authorization/getToken.ts';
 
 const initializeAnonymousToken = async () => {
-  const existingToken = sessionStorage.getItem('anonymousToken');
-  if (!existingToken) {
-    // console.log('익명토큰 요청');
+  const accessToken = sessionStorage.getItem('accessToken');
+  if (!accessToken) {
     const token = await anonymousToken();
     setAccessToken(token);
   }
