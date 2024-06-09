@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../../shared/store/authStore';
-import * as api from '../../../shared/api/index';
 import axiosInstance from '../../../shared/api/axiosInstance.ts';
 
 export function SignUp() {
@@ -11,18 +9,6 @@ export function SignUp() {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const navigate = useNavigate();
-  const { login, accessToken } = useAuthStore();
-  const callToken = async () => {
-    try {
-      const tokenData = await api.anonymousToken();
-      if (accessToken === null) login(tokenData, '');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    callToken();
-  }, []);
   const nicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(event.target.value);
   };
