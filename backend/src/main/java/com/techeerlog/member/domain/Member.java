@@ -38,9 +38,6 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleType roleType = RoleType.USER;
 
-    @OneToOne(mappedBy = "member")
-    private RefreshToken refreshToken;
-
     public String getLoginId() {
         return loginId.getValue();
     }

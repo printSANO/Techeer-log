@@ -45,6 +45,9 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new NoAccessTokenException();
         }
 
+        if (isRefreshMethod(request.getRequestURI()))
+            return true;
+
         String token = AuthorizationExtractor.extractAccessToken(request);
 
         if (isInvalidToken(token)) {
@@ -59,6 +62,10 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new AnonymousNotAllowedException();
         }
         return true;
+    }
+
+    private boolean isRefreshMethod(String requestURI) {
+        return requestURI.equals("/api/v1/auth/refresh");
     }
 
     private boolean isAnonymousNotAllowed(String requestURI, String token) {
