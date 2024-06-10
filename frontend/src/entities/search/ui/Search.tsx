@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as api from '../index';
 import { useAuthStore } from '../../../shared/store/authStore';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ export function Search({ setResult }: any) {
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('search') || '';
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const onSubmitSearch = (e: any) => {
     if (e.key === 'Enter' || e.key === 'Click') {
       searchMutation.mutate();
@@ -36,19 +37,25 @@ export function Search({ setResult }: any) {
       const updatedSearches = [searchresult, ...recentSearches.filter((item: string) => item !== searchresult)];
       localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
       setSearchresult('');
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
     },
     onError: (error: any) => {
       console.log(error);
     },
   });
+
   return (
     <>
       <div className="rounded-[6.25rem] w-[28.125rem] h-[2.375rem] m-[1.5rem_0_0_0] flex justify-center items-center border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
         <img
+          onClick={() => searchMutation.mutate()}
           src="./src/shared/assets/image/searchImg/Icon-Search.png"
-          className="w-[0.938rem] h-[0.938rem] m-[0_0.625rem_0_0]"
+          className="w-[0.938rem] h-[0.938rem] m-[0_0.625rem_0_0] cursor-pointer"
         />
         <input
+          ref={inputRef}
           value={searchresult}
           onKeyDown={onSubmitSearch}
           onChange={onChangeSearch}
@@ -59,14 +66,14 @@ export function Search({ setResult }: any) {
           onBlur={() => setIsFocused(false)}
           className="w-[90%] h-[30px] bg-transparent font-['Pretendard-Light'] text-[14px] text-[#FFFFFF] placeholder-white placeholder-font-['Pretendard-Light'] focus:outline-none"
         />
+        {!isFocused && (
+          <api.DropdownSearch
+            searchresult={searchresult}
+            setSearchresult={setSearchresult}
+            onSubmitSearch={onSubmitSearch}
+          />
+        )}
       </div>
-      {isFocused && (
-        <api.DropdownSearch
-          searchresult={searchresult}
-          setSearchresult={setSearchresult}
-          onSubmitSearch={onSubmitSearch}
-        />
-      )}
     </>
   );
 }

@@ -21,11 +21,17 @@ export function DropdownSearch({ setSearchresult, onSubmitSearch }: DropdownProp
     }
   }, []);
   return (
-    <div className="absolute mt-[29rem] rounded-[1rem] w-[28.125rem] flex border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
-      <div className="flex flex-col w-[90%] p-[0.625rem] text-left bg-transparent">
+    <div className="absolute top-[3rem] rounded-[1rem] w-[28.125rem] flex border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
+      <div className="flex flex-col w-[100%] p-[0.625rem] text-left bg-transparent">
         <p className="mb-[0.5rem] text-[#6a737b] text-[0.85rem] font-normal leading-7">최근 검색어</p>
-        {recentSearches.map((recent) => (
-          <button onClick={() => setsearchtoRecent(recent)} className="flex flex-row mb-[0.4rem] h-[1.3rem]">
+        {recentSearches.slice(0, 5).map((recent, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setsearchtoRecent(recent);
+            }}
+            className="flex flex-row mb-[0.4rem] h-[1.3rem] w-[100%]"
+          >
             <img src={iconSearch} className="w-[0.938rem] h-[0.938rem] m-[0.1rem_0.625rem_0_0]" />
             <p className="text-left">{recent}</p>
           </button>

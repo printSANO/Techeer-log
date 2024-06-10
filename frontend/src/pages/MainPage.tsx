@@ -41,7 +41,6 @@ export default function MainPage() {
     callToken();
     searchMutation.mutate();
   }, []);
-
   return (
     <div className="bg-[#111111] flex flex-col w-screen justify-center items-center">
       <NavBar />
