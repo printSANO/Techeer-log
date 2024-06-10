@@ -69,7 +69,7 @@ public class AuthController {
 
     @Operation(summary = "토큰 재발급", description = "accessToken 을 재생성")
     @GetMapping("/refresh")
-    public ResponseEntity<ResultResponse<String>> refresh(@RequestHeader(REFRESH_TOKEN_STRING) String refresh_token, HttpServletRequest request, @Login AuthInfo authInfo) {
+    public ResponseEntity<SimpleResultResponse> refresh(@RequestHeader(REFRESH_TOKEN_STRING) String refresh_token, HttpServletRequest request, @Login AuthInfo authInfo) {
         validateExistHeader(request);
         Long memberId = authInfo.getId();
 
@@ -81,7 +81,7 @@ public class AuthController {
 
         String accessToken = tokenManager.createAccessToken(authInfo);
 
-        ResultResponse<String> resultResponse = new ResultResponse<>(REFRESH_SUCCESS);
+        SimpleResultResponse resultResponse = new SimpleResultResponse(REFRESH_SUCCESS);
 
         return ResponseEntity.status(REFRESH_SUCCESS.getStatus())
                 .header(HttpHeaders.AUTHORIZATION, BEARER_STRING + accessToken)
