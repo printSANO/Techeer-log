@@ -13,8 +13,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @AllArgsConstructor
 @Getter
-@SQLDelete(sql = "UPDATE scrap SET deleted = TRUE WHERE scrap_id = ?")
-@SQLRestriction("deleted = FALSE")
 public class Scrap extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
