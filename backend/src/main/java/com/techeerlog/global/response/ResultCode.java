@@ -9,7 +9,7 @@ public enum ResultCode {
 
     // Auth
     LOGIN_SUCCESS("A001", 200, "로그인 성공"),
-    REFRESH_SUCCESS("A002", 204, "access token 재발급 성공"),
+    REFRESH_SUCCESS("A002", 200, "access token 재발급 성공"),
     LOGOUT_SUCCESS("A003", 200, "로그아웃 성공"),
     ANONYMOUS_SUCCESS("A004", 200, "익명 사용자 access token 발급 성공"),
 

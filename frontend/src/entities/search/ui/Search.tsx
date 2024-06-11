@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import * as api from '../index';
-import { useAuthStore } from '../../../shared/store/authStore';
 import { useMutation } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function Search({ setResult }: any) {
   const [searchresult, setSearchresult] = useState('');
-  const { accessToken } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('search') || '';
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  console.log(location);
   const onSubmitSearch = (e: any) => {
     if (e.key === 'Enter' || e.key === 'Click') {
       searchMutation.mutate();
@@ -28,7 +28,7 @@ export function Search({ setResult }: any) {
 
   const searchMutation = useMutation({
     mutationFn: async () => {
-      const response = api.projectSearch(searchresult, accessToken);
+      const response = api.projectSearch(searchresult);
       return response;
     },
     onSuccess: (data) => {
@@ -36,6 +36,7 @@ export function Search({ setResult }: any) {
       const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
       const updatedSearches = [searchresult, ...recentSearches.filter((item: string) => item !== searchresult)];
       localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      navigate(`?search=${searchresult}`);
       setSearchresult('');
       if (inputRef.current) {
         inputRef.current.blur();
@@ -66,7 +67,7 @@ export function Search({ setResult }: any) {
           onBlur={() => setIsFocused(false)}
           className="w-[90%] h-[30px] bg-transparent font-['Pretendard-Light'] text-[14px] text-[#FFFFFF] placeholder-white placeholder-font-['Pretendard-Light'] focus:outline-none"
         />
-        {!isFocused && (
+        {isFocused && (
           <api.DropdownSearch
             searchresult={searchresult}
             setSearchresult={setSearchresult}
