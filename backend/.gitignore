@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### Generated ###
-./src/main/generated/
+/src/main/generated/
