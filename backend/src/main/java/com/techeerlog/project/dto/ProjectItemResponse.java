@@ -2,10 +2,7 @@ package com.techeerlog.project.dto;
 
 import com.techeerlog.framework.dto.FrameworkResponse;
 import com.techeerlog.member.dto.MemberResponse;
-import com.techeerlog.project.enums.PlatformEnum;
-import com.techeerlog.project.enums.ProjectStatusEnum;
-import com.techeerlog.project.enums.ProjectTypeEnum;
-import com.techeerlog.project.enums.SemesterEnum;
+import com.techeerlog.project.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +26,7 @@ public class ProjectItemResponse {
     private ProjectTypeEnum projectTypeEnum;
     private int year;
     private SemesterEnum semesterEnum;
+    private RankEnum rankEnum;
     private ProjectStatusEnum projectStatusEnum;
     private int loveCount = 0;
     private boolean isLoved;
