@@ -27,10 +27,10 @@ public class ProjectResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private PlatformEnum platform;
-    private ProjectTypeEnum projectType;
+    private ProjectTypeEnum projectTypeEnum;
     private int year;
-    private SemesterEnum semester;
-    private ProjectStatusEnum projectStatus;
+    private SemesterEnum semesterEnum;
+    private ProjectStatusEnum projectStatusEnum;
     private String githubLink;
     private String blogLink;
     private String websiteLink;

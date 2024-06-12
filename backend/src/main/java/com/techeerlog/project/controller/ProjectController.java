@@ -3,10 +3,7 @@ package com.techeerlog.project.controller;
 import com.techeerlog.auth.dto.AuthInfo;
 import com.techeerlog.global.response.ResultResponse;
 import com.techeerlog.global.support.token.Login;
-import com.techeerlog.project.dto.ProjectItemListResponse;
-import com.techeerlog.project.dto.ProjectListRequest;
-import com.techeerlog.project.dto.ProjectRequest;
-import com.techeerlog.project.dto.ProjectResponse;
+import com.techeerlog.project.dto.*;
 import com.techeerlog.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -78,6 +75,17 @@ public class ProjectController {
 
         ResultResponse<ProjectItemListResponse> listResultResponse
                 = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, projectItemListResponse);
+
+        return ResponseEntity.status(FIND_PROJECT_LIST_SUCCESS.getStatus()).body(listResultResponse);
+    }
+
+    @Operation(summary = "우수작 프로젝트 리스트 조회", description = "우수작 프로젝트 리스트 조회")
+    @GetMapping(path = "/projects/prize")
+    public ResponseEntity<ResultResponse<ProjectItemListResponse>> findPrizeProjectList(@Valid PrizeProjectListRequest prizeProjectListRequest, @Login AuthInfo authInfo) {
+        ProjectItemListResponse prizeProjectItemListResponse = projectService.findPrizeProjectListResponse(prizeProjectListRequest, authInfo);
+
+        ResultResponse<ProjectItemListResponse> listResultResponse
+                = new ResultResponse<>(FIND_PROJECT_LIST_SUCCESS, prizeProjectItemListResponse);
 
         return ResponseEntity.status(FIND_PROJECT_LIST_SUCCESS.getStatus()).body(listResultResponse);
     }

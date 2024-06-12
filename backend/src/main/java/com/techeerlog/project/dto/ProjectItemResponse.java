@@ -26,10 +26,10 @@ public class ProjectItemResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private PlatformEnum platform;
-    private ProjectTypeEnum projectType;
+    private ProjectTypeEnum projectTypeEnum;
     private int year;
-    private SemesterEnum semester;
-    private ProjectStatusEnum projectStatus;
+    private SemesterEnum semesterEnum;
+    private ProjectStatusEnum projectStatusEnum;
     private int loveCount = 0;
     private boolean isLoved;
     private boolean isScraped;

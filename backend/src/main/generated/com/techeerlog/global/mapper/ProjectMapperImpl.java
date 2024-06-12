@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-31T15:23:57+0900",
+    date = "2024-06-12T17:07:07+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.2 (Amazon.com Inc.)"
 )
 public class ProjectMapperImpl implements ProjectMapper {
@@ -40,15 +40,15 @@ public class ProjectMapperImpl implements ProjectMapper {
         if ( projectRequest.getPlatform() != null ) {
             project.setPlatform( projectRequest.getPlatform() );
         }
-        if ( projectRequest.getProjectType() != null ) {
-            project.setProjectType( projectRequest.getProjectType() );
+        if ( projectRequest.getProjectTypeEnum() != null ) {
+            project.setProjectTypeEnum( projectRequest.getProjectTypeEnum() );
         }
         project.setYear( projectRequest.getYear() );
-        if ( projectRequest.getSemester() != null ) {
-            project.setSemester( projectRequest.getSemester() );
+        if ( projectRequest.getSemesterEnum() != null ) {
+            project.setSemesterEnum( projectRequest.getSemesterEnum() );
         }
-        if ( projectRequest.getProjectStatus() != null ) {
-            project.setProjectStatus( projectRequest.getProjectStatus() );
+        if ( projectRequest.getProjectStatusEnum() != null ) {
+            project.setProjectStatusEnum( projectRequest.getProjectStatusEnum() );
         }
         if ( projectRequest.getGithubLink() != null ) {
             project.setGithubLink( projectRequest.getGithubLink() );
@@ -76,10 +76,10 @@ public class ProjectMapperImpl implements ProjectMapper {
         project.setStartDate( projectRequest.getStartDate() );
         project.setEndDate( projectRequest.getEndDate() );
         project.setPlatform( projectRequest.getPlatform() );
-        project.setProjectType( projectRequest.getProjectType() );
+        project.setProjectTypeEnum( projectRequest.getProjectTypeEnum() );
         project.setYear( projectRequest.getYear() );
-        project.setSemester( projectRequest.getSemester() );
-        project.setProjectStatus( projectRequest.getProjectStatus() );
+        project.setSemesterEnum( projectRequest.getSemesterEnum() );
+        project.setProjectStatusEnum( projectRequest.getProjectStatusEnum() );
         project.setGithubLink( projectRequest.getGithubLink() );
         project.setBlogLink( projectRequest.getBlogLink() );
         project.setWebsiteLink( projectRequest.getWebsiteLink() );
@@ -101,10 +101,10 @@ public class ProjectMapperImpl implements ProjectMapper {
         projectRequest.setStartDate( project.getStartDate() );
         projectRequest.setEndDate( project.getEndDate() );
         projectRequest.setPlatform( project.getPlatform() );
-        projectRequest.setProjectType( project.getProjectType() );
+        projectRequest.setProjectTypeEnum( project.getProjectTypeEnum() );
         projectRequest.setYear( project.getYear() );
-        projectRequest.setSemester( project.getSemester() );
-        projectRequest.setProjectStatus( project.getProjectStatus() );
+        projectRequest.setSemesterEnum( project.getSemesterEnum() );
+        projectRequest.setProjectStatusEnum( project.getProjectStatusEnum() );
         projectRequest.setGithubLink( project.getGithubLink() );
         projectRequest.setBlogLink( project.getBlogLink() );
         projectRequest.setWebsiteLink( project.getWebsiteLink() );
@@ -129,10 +129,10 @@ public class ProjectMapperImpl implements ProjectMapper {
         project.setStartDate( projectResponse.getStartDate() );
         project.setEndDate( projectResponse.getEndDate() );
         project.setPlatform( projectResponse.getPlatform() );
-        project.setProjectType( projectResponse.getProjectType() );
+        project.setProjectTypeEnum( projectResponse.getProjectTypeEnum() );
         project.setYear( projectResponse.getYear() );
-        project.setSemester( projectResponse.getSemester() );
-        project.setProjectStatus( projectResponse.getProjectStatus() );
+        project.setSemesterEnum( projectResponse.getSemesterEnum() );
+        project.setProjectStatusEnum( projectResponse.getProjectStatusEnum() );
         project.setGithubLink( projectResponse.getGithubLink() );
         project.setBlogLink( projectResponse.getBlogLink() );
         project.setWebsiteLink( projectResponse.getWebsiteLink() );
@@ -156,10 +156,10 @@ public class ProjectMapperImpl implements ProjectMapper {
         projectResponse.setStartDate( project.getStartDate() );
         projectResponse.setEndDate( project.getEndDate() );
         projectResponse.setPlatform( project.getPlatform() );
-        projectResponse.setProjectType( project.getProjectType() );
+        projectResponse.setProjectTypeEnum( project.getProjectTypeEnum() );
         projectResponse.setYear( project.getYear() );
-        projectResponse.setSemester( project.getSemester() );
-        projectResponse.setProjectStatus( project.getProjectStatus() );
+        projectResponse.setSemesterEnum( project.getSemesterEnum() );
+        projectResponse.setProjectStatusEnum( project.getProjectStatusEnum() );
         projectResponse.setGithubLink( project.getGithubLink() );
         projectResponse.setBlogLink( project.getBlogLink() );
         projectResponse.setWebsiteLink( project.getWebsiteLink() );
@@ -182,10 +182,10 @@ public class ProjectMapperImpl implements ProjectMapper {
         projectItemResponse.setStartDate( project.getStartDate() );
         projectItemResponse.setEndDate( project.getEndDate() );
         projectItemResponse.setPlatform( project.getPlatform() );
-        projectItemResponse.setProjectType( project.getProjectType() );
+        projectItemResponse.setProjectTypeEnum( project.getProjectTypeEnum() );
         projectItemResponse.setYear( project.getYear() );
-        projectItemResponse.setSemester( project.getSemester() );
-        projectItemResponse.setProjectStatus( project.getProjectStatus() );
+        projectItemResponse.setSemesterEnum( project.getSemesterEnum() );
+        projectItemResponse.setProjectStatusEnum( project.getProjectStatusEnum() );
 
         return projectItemResponse;
     }
