@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import iconSearch from '../../../shared/assets/image/searchImg/Icon-Search.png';
 
 interface DropdownProps {
-  searchresult: string;
   setSearchresult: React.Dispatch<React.SetStateAction<string>>;
   onSubmitSearch: any;
 }

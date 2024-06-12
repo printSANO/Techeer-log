@@ -25,14 +25,14 @@ export default function NavBar() {
             Techeer.log
           </span>
         </div>
-        <div className="flex flex-row justify-between w-[11rem] h-[fit-content] box-sizing-border">
+        <div className="flex flex-row justify-between w-[16rem] h-[fit-content] box-sizing-border">
           <div className="flex flex-row justify-center box-sizing-border">
-            <span className="break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]">
-              소개
+            <span className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]">
+              새 프로젝트 작성
             </span>
           </div>
           <div className="flex flex-row justify-center box-sizing-border">
-            <span className="break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]">
+            <span className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]">
               프로젝트
             </span>
           </div>

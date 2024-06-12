@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as api from '../index';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
+import cancelSearch from '../../../shared/assets/image/searchImg/Cancel-Search.svg';
 
 export function Search({ setResult }: any) {
   const [searchresult, setSearchresult] = useState('');
@@ -11,7 +12,6 @@ export function Search({ setResult }: any) {
   const searchQuery = queryParams.get('search') || '';
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  console.log(location);
   const onSubmitSearch = (e: any) => {
     if (e.key === 'Enter' || e.key === 'Click') {
       searchMutation.mutate();
@@ -36,10 +36,14 @@ export function Search({ setResult }: any) {
       const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
       const updatedSearches = [searchresult, ...recentSearches.filter((item: string) => item !== searchresult)];
       localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
-      navigate(`?search=${searchresult}`);
-      setSearchresult('');
       if (inputRef.current) {
         inputRef.current.blur();
+      }
+      if (searchresult === '') {
+        navigate('/');
+      } else {
+        setSearchresult('');
+        navigate(`?search=${searchresult}`);
       }
     },
     onError: (error: any) => {
@@ -53,7 +57,7 @@ export function Search({ setResult }: any) {
         <img
           onClick={() => searchMutation.mutate()}
           src="./src/shared/assets/image/searchImg/Icon-Search.png"
-          className="w-[0.938rem] h-[0.938rem] m-[0_0.625rem_0_0] cursor-pointer"
+          className="w-[0.938rem] h-[0.938rem] m-[0_0.625rem_0_0.625rem] cursor-pointer"
         />
         <input
           ref={inputRef}
@@ -65,13 +69,17 @@ export function Search({ setResult }: any) {
           placeholder="검색하실 내용을 입력해 주세요."
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="w-[90%] h-[30px] bg-transparent font-['Pretendard-Light'] text-[14px] text-[#FFFFFF] placeholder-white placeholder-font-['Pretendard-Light'] focus:outline-none"
+          className="w-[93%] h-[30px] bg-transparent font-['Pretendard-Light'] text-[14px] text-[#FFFFFF] placeholder-white placeholder-font-['Pretendard-Light'] focus:outline-none"
         />
-        {isFocused && (
-          <api.DropdownSearch
-            searchresult={searchresult}
-            setSearchresult={setSearchresult}
-            onSubmitSearch={onSubmitSearch}
+        {isFocused && <api.DropdownSearch setSearchresult={setSearchresult} onSubmitSearch={onSubmitSearch} />}
+        {searchresult.length > 0 && (
+          <img
+            onClick={() => {
+              setSearchresult('');
+              navigate('/');
+            }}
+            src={cancelSearch}
+            className="w-[1.2rem] h-[1.2rem] m-[0_0.625rem_0_0] cursor-pointer"
           />
         )}
       </div>
