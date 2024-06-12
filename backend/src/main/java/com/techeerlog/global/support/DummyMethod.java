@@ -9,10 +9,7 @@ import com.techeerlog.member.domain.Nickname;
 import com.techeerlog.member.domain.Password;
 import com.techeerlog.member.repository.MemberRepository;
 import com.techeerlog.project.domain.Project;
-import com.techeerlog.project.enums.PlatformEnum;
-import com.techeerlog.project.enums.ProjectStatusEnum;
-import com.techeerlog.project.enums.ProjectTypeEnum;
-import com.techeerlog.project.enums.SemesterEnum;
+import com.techeerlog.project.enums.*;
 import com.techeerlog.project.repository.ProjectRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +64,7 @@ public class DummyMethod {
         List<Project> projects = new ArrayList<>();
         for (long i = 1; i <= 50; i++) {
             projects.add(new Project(
-                    i, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.PERSONAL_PROJECT, 2021, SemesterEnum.FIRST, ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                    i, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.PERSONAL_PROJECT, 2021, SemesterEnum.FIRST, RankEnum.NONE,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
             ));
         }
         projectRepository.saveAll(projects);
