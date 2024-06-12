@@ -32,6 +32,7 @@ public class EnumController {
         enumMap.put("searchFieldEnum", enumValuesToJson(SearchFieldEnum.class));
         enumMap.put("semesterEnum", enumValuesToJson(SemesterEnum.class));
         enumMap.put("roleType", enumValuesToJson(RoleType.class));
+        enumMap.put("rankEnum", enumValuesToJson(RankEnum.class));
         enumMap.put("sortDirection", new String[]{"ASC", "DESC"});
 
         ResultResponse<Map<String, String[]>> resultResponse = new ResultResponse<>(FIND_PROJECT_SUCCESS, enumMap);
