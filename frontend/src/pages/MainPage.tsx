@@ -11,7 +11,7 @@ import Footer from '../shared/ui/Footer.tsx';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
-  const SLIDE_COUNT = 5;
+  const SLIDE_COUNT = 3;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   const [result, setResult] = useState('');
   const [selectedType, setSelectedType] = useState<string>('프로젝트 종류');
@@ -58,7 +58,10 @@ export default function MainPage() {
         </div>
         {/* Carousel */}
         {/* 캐러셀 참고 : https://codesandbox.io/p/sandbox/embla-carousel-loop-react-yvfd5v?file=%2Fsrc%2Fjs%2Findex.tsx */}
-        <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+        <div className="overflow-x-hidden w-[98%] mx-auto">
+          <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+        </div>
+
         {/* 테커 모든 프로젝트 */}
         <div className="flex flex-col justify-center items-center mb-12">
           <img src="./src/shared/assets/image/mainImg/Icon-Point.png" className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />

@@ -1,40 +1,39 @@
-import React from 'react'
-import { EmblaOptionsType } from 'embla-carousel'
-import { DotButton, useDotButton } from './EmblaCarouselDotButton'
-import {
-  PrevButton,
-  NextButton,
-  usePrevNextButtons
-} from './EmblaCarouselArrowButtons'
-import useEmblaCarousel from 'embla-carousel-react'
-import '../css/embla.css'
-//import '../css/base.css'
+import React, { useCallback } from 'react';
+import { EmblaOptionsType, EmblaCarouselType } from 'embla-carousel';
+import { PrevButton, NextButton, usePrevNextButtons } from './EmblaCarouselArrowButtons';
+import Autoplay from 'embla-carousel-autoplay';
+import useEmblaCarousel from 'embla-carousel-react';
+import '../css/embla.css';
 
 type PropType = {
-  slides: number[]
-  options?: EmblaOptionsType
-}
+  slides: number[];
+  options?: EmblaOptionsType;
+};
 
 export const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, options } = props
-  const [emblaRef, emblaApi] = useEmblaCarousel(options)
+  const { slides, options } = props;
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
 
-  const { selectedIndex, scrollSnaps, onDotButtonClick } =
-    useDotButton(emblaApi)
+  const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
 
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick
-  } = usePrevNextButtons(emblaApi)
+    const resetOrStop = autoplay.options.stopOnInteraction === false ? autoplay.reset : autoplay.stop;
+
+    resetOrStop();
+  }, []);
+
+  const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(
+    emblaApi,
+    onNavButtonClick,
+  );
 
   return (
     <section className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((index) => (
-            <div className="embla__slide bg-[url('shared/assests/ThumbNailImg.png') bg-cover]" key={index}>
+            <div className="embla__slide" key={index}>
               <div className="embla__slide__number">{index + 1}</div>
             </div>
           ))}
@@ -46,19 +45,7 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
           <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
-
-        <div className="embla__dots">
-          {scrollSnaps.map((_, index) => (
-            <DotButton
-              key={index}
-              onClick={() => onDotButtonClick(index)}
-              className={'embla__dot'.concat(
-                index === selectedIndex ? ' embla__dot--selected' : ''
-              )}
-            />
-          ))}
-        </div>
       </div>
     </section>
-  )
-}
+  );
+};
