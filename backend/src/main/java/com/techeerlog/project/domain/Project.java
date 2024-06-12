@@ -4,10 +4,7 @@ import com.techeerlog.comment.domain.Comment;
 import com.techeerlog.global.config.BaseEntity;
 import com.techeerlog.love.domain.Love;
 import com.techeerlog.member.domain.Member;
-import com.techeerlog.project.enums.PlatformEnum;
-import com.techeerlog.project.enums.ProjectStatusEnum;
-import com.techeerlog.project.enums.ProjectTypeEnum;
-import com.techeerlog.project.enums.SemesterEnum;
+import com.techeerlog.project.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,15 +52,18 @@ public class Project extends BaseEntity {
     private PlatformEnum platform;
 
     @Enumerated(EnumType.STRING)
-    private ProjectTypeEnum projectType;
+    private ProjectTypeEnum projectTypeEnum;
 
     private int year;
 
     @Enumerated(EnumType.STRING)
-    private SemesterEnum semester;
+    private SemesterEnum semesterEnum;
 
     @Enumerated(EnumType.STRING)
-    private ProjectStatusEnum projectStatus;
+    private RankEnum rankEnum = RankEnum.NONE;
+
+    @Enumerated(EnumType.STRING)
+    private ProjectStatusEnum projectStatusEnum;
     private String githubLink;
     private String blogLink;
     private String websiteLink;
