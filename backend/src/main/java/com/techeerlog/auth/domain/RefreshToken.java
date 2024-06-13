@@ -31,4 +31,8 @@ public class RefreshToken {
         if (!this.token.equals(token))
             throw new InvalidRefreshTokenException();
     }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
