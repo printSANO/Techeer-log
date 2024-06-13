@@ -15,11 +15,12 @@ export interface Project {
   subtitle: string;
   startDate: string;
   endDate: string;
-  platform: 'WEB' | 'APP' | 'WEB_APP'
-  projectType: 'BOOTCAMP' | 'PERSONAL_PROJECT' | 'TEAM_PROJECT'; // 프로젝트 유형
+  platform: 'WEB' | 'APP' | 'WEB_APP';
+  projectType: 'BOOTCAMP' | 'PERSONAL_PROJECT' | 'TEAM_PROJECT';
   year: number;
   semester: 'FIRST' | 'SECOND'; // 학기 정보
-  projectStatus: 'RUNNING' | 'COMPLETED' | 'PREPARING'; // 프로젝트 상태
+  projectStatus: 'RUNNING' | 'COMPLETED' | 'PREPARING';
+  rankEnum: 'FIRST' | 'SECOND' | 'THIRD' | 'NONE';
   loveCount: number;
   writer: Writer;
   frameworkResponseList: Framework[];
