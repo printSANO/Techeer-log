@@ -1,7 +1,7 @@
 .embla {
-  max-width: 60rem;
+  max-width: 70rem;
   margin: auto;
-  --slide-height: 23rem;
+  --slide-height: 26rem;
   --slide-spacing: 1rem;
   --slide-size: 70%;
 }
@@ -15,34 +15,57 @@
   margin-left: calc(var(--slide-spacing) * -1);
 }
 .embla__slide {
-
   flex: 0 0 var(--slide-size);
-  min-width: 0;
+  /*min-width: 0;*/
   padding-left: var(--slide-spacing);
+  overflow: hidden
 }
 .embla__slide__number {
-  background-color: beige;
-  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
-  border-radius: 10px;
-  font-size: 4rem;
-  font-weight: 600;
+  /*box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);*/
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   height: var(--slide-height);
 }
+.hover-content {
+  backdrop-filter: blur(0.2rem);
+  padding: 3rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.embla__slide__number:hover .hover-content {
+  display: flex; /* 호버 시 보이도록 변경 */
+  opacity: 1;
+  transform: translateY(0);
+}
 .embla__controls {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  justify-content: space-between;
+  /*display: grid;*/
+  /*grid-template-columns: auto 1fr;*/
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
   gap: 1.2rem;
-  margin-top: 1.8rem;
+  margin-top: 1rem;
+  margin-bottom: 1.8rem;
 }
 .embla__buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.6rem;
   align-items: center;
+  color: white;
 }
 .embla__button {
   -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
@@ -54,15 +77,13 @@
   text-decoration: none;
   cursor: pointer;
   border: 0;
-  padding: 0;
   margin: 0;
-  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
-  width: 3.6rem;
-  height: 3.6rem;
+  box-shadow: inset 0 0 0 0.1rem lightgray;
+  width: 2.2rem;
+  height: 2.2rem;
   z-index: 1;
   border-radius: 50%;
-  color: var(--text-body);
-  display: flex;
+  color: lightgray;
   align-items: center;
   justify-content: center;
 }
