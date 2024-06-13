@@ -33,6 +33,7 @@ axiosInstance.interceptors.response.use(
       }
 
       try {
+        console.log('refreshToken:', refreshToken);
         const {
           headers: { authorization: accessToken },
         } = await axios.get('/api/v1/auth/refresh', {
@@ -44,13 +45,13 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = accessToken;
         return axiosInstance(originalRequest);
       } catch (e) {
-        // console.log('expired-refreshToken', refreshToken);
+        console.log('expired-refreshToken', refreshToken);
 
         useAuthStore.getState().logout();
 
         await setAnonymousToken();
 
-        window.location.assign('/login');
+        // window.location.assign('/login');
       }
     }
 

@@ -30,14 +30,21 @@ export default function MainPage() {
     },
   });
 
+  useEffect(() => {
+    searchMutation.mutate();
+  }, []);
+
   const data: prizeDate = {
     projectTypeEnum: 'BOOTCAMP',
     year: 2023,
     semesterEnum: 'SECOND',
   };
-  useEffect(() => {
-    searchMutation.mutate();
-  }, []);
+  function renameSemester(semester: string) {
+    if (semester === 'FIRST') return '하계';
+    if (semester === 'SECOND') return '동계';
+    else return '';
+  }
+  data.semesterEnum;
 
   return (
     <div className="bg-[#111111] flex flex-col w-screen justify-center items-center">
@@ -57,7 +64,8 @@ export default function MainPage() {
         <div className="flex flex-col justify-center items-center mb-12">
           <img src="./src/shared/assets/image/mainImg/Icon-Point.png" className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />
           <span className="font-['Pretendard-Thin'] text-[1.875rem] text-white">
-            2023 동계 부트캠프 <a className="font-['Pretendard-Bold']">우수 선정작</a>
+            {data.year} {renameSemester(data.semesterEnum)} 부트캠프
+            <a className="font-['Pretendard-Bold']"> 우수 선정작</a>
           </span>
         </div>
         <div className="overflow-x-hidden w-[98%] mx-auto mb-[6.25rem]">
