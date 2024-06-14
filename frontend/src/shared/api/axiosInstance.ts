@@ -45,13 +45,12 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = accessToken;
         return axiosInstance(originalRequest);
       } catch (e) {
-        console.log('expired-refreshToken', refreshToken);
-
         useAuthStore.getState().logout();
 
         await setAnonymousToken();
 
-        // window.location.assign('/login');
+        window.alert('로그인 세션이 만료되었습니다.');
+        window.location.assign('/login');
       }
     }
 
