@@ -7,6 +7,8 @@ import com.techeerlog.global.support.token.TokenManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 public class RefreshTokenService {
@@ -20,8 +22,15 @@ public class RefreshTokenService {
 
     @Transactional
     public void saveToken(String token, Long memberId) {
-        RefreshToken refreshToken = new RefreshToken(memberId, token);
-        refreshTokenRepository.save(refreshToken);
+        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findRefreshTokenByMemberId(memberId);
+        if (optionalRefreshToken.isPresent()) {
+            RefreshToken existingToken = optionalRefreshToken.get();
+            existingToken.setToken(token);
+            refreshTokenRepository.save(existingToken);
+        } else {
+            RefreshToken newRefreshToken = new RefreshToken(memberId, token);
+            refreshTokenRepository.save(newRefreshToken);
+        }
     }
 
     @Transactional
