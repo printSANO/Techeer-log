@@ -5,14 +5,15 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   const goLogin = () => {
-    window.location.replace('/login');
-    // navigate('/login');
+    navigate('/login');
   };
 
   const handleLogout = () => {
     logout();
-    window.location.replace('/');
-    //loginApi();
+    navigate('/');
+  };
+  const goProjectWrite = () => {
+    navigate('/projectwrite');
   };
   return (
     <div className="fixed top-0 w-screen flex justify-center items-center z-50">
@@ -27,7 +28,10 @@ export default function NavBar() {
         </div>
         <div className="flex flex-row justify-between w-[16rem] h-[fit-content] box-sizing-border">
           <div className="flex flex-row justify-center box-sizing-border">
-            <span className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]">
+            <span
+              onClick={goProjectWrite}
+              className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]"
+            >
               새 프로젝트 작성
             </span>
           </div>

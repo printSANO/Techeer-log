@@ -13,38 +13,34 @@ export function Search({ setResult }: any) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const onSubmitSearch = (e: any) => {
-    if (e.key === 'Enter' || e.key === 'Click') {
-      searchMutation.mutate();
+    if (e.key === 'Enter' || e.key === 'Click' || e.type === 'click') {
+      if (searchresult === '') {
+        navigate('/');
+      } else {
+        navigate(`?search=${searchresult}`);
+      }
     }
   };
   useEffect(() => {
     if (searchQuery) {
       setSearchresult(searchQuery);
     }
+    searchMutation.mutate();
   }, [searchQuery]);
+  console.log(searchresult);
   const onChangeSearch = (e: any) => {
     setSearchresult(e.target.value);
   };
-
   const searchMutation = useMutation({
     mutationFn: async () => {
-      const response = api.projectSearch(searchresult);
+      const response = await api.projectSearch(searchQuery);
       return response;
     },
     onSuccess: (data) => {
       setResult(data);
       const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-      const updatedSearches = [searchresult, ...recentSearches.filter((item: string) => item !== searchresult)];
+      const updatedSearches = [searchQuery, ...recentSearches.filter((item: string) => item !== searchQuery)];
       localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
-      if (inputRef.current) {
-        inputRef.current.blur();
-      }
-      if (searchresult === '') {
-        navigate('/');
-      } else {
-        setSearchresult('');
-        navigate(`?search=${searchresult}`);
-      }
     },
     onError: (error: any) => {
       console.log(error);
@@ -53,7 +49,7 @@ export function Search({ setResult }: any) {
 
   return (
     <>
-      <div className="rounded-[6.25rem] w-[28.125rem] h-[2.375rem] m-[1.5rem_0_0_0] flex justify-center items-center border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
+      <div className="rounded-[6.25rem] w-[30rem] h-[3rem] m-[1.5rem_0_0_0] flex justify-center items-center border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
         <img
           onClick={() => searchMutation.mutate()}
           src="./src/shared/assets/image/searchImg/Icon-Search.png"
@@ -69,9 +65,9 @@ export function Search({ setResult }: any) {
           placeholder="검색하실 내용을 입력해 주세요."
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="w-[93%] h-[30px] bg-transparent font-['Pretendard-Light'] text-[14px] text-[#FFFFFF] placeholder-white placeholder-font-['Pretendard-Light'] focus:outline-none"
+          className="w-[93%] h-[30px] bg-transparent font-['Pretendard-Light'] text-[15px] text-[#FFFFFF] placeholder-white placeholder-font-['Pretendard-Light'] focus:outline-none"
         />
-        {isFocused && <api.DropdownSearch setSearchresult={setSearchresult} onSubmitSearch={onSubmitSearch} />}
+        {!isFocused && <api.DropdownSearch />}
         {searchresult.length > 0 && (
           <img
             onClick={() => {

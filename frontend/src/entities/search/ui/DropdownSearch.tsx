@@ -1,17 +1,10 @@
 import { useEffect, useState } from 'react';
 import iconSearch from '../../../shared/assets/image/searchImg/Icon-Search.png';
+import { useNavigate } from 'react-router-dom';
 
-interface DropdownProps {
-  setSearchresult: React.Dispatch<React.SetStateAction<string>>;
-  onSubmitSearch: any;
-}
-
-export function DropdownSearch({ setSearchresult, onSubmitSearch }: DropdownProps) {
+export function DropdownSearch() {
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const setsearchtoRecent = (recentsearch: string) => {
-    setSearchresult(recentsearch);
-    onSubmitSearch({ key: 'Click' });
-  };
+  const navigate = useNavigate();
   useEffect(() => {
     const searches = localStorage.getItem('recentSearches');
 
@@ -19,15 +12,22 @@ export function DropdownSearch({ setSearchresult, onSubmitSearch }: DropdownProp
       setRecentSearches(JSON.parse(searches));
     }
   }, []);
+  const handleSearchClick = (search: string) => {
+    if (search === '') {
+      navigate('/');
+    } else {
+      navigate(`?search=${search}`);
+    }
+  };
   return (
-    <div className="absolute top-[3rem] rounded-[1rem] w-[28.125rem] flex border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
+    <div className="absolute top-[3rem] mt-[0.5rem] rounded-[1rem] w-[30rem] flex border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
       <div className="flex flex-col w-[100%] p-[0.625rem] text-left bg-transparent">
         <p className="mb-[0.5rem] text-[#6a737b] text-[0.85rem] font-normal leading-7">최근 검색어</p>
         {recentSearches.slice(0, 5).map((recent, index) => (
           <button
             key={index}
             onClick={() => {
-              setsearchtoRecent(recent);
+              handleSearchClick(recent);
             }}
             className="flex flex-row mb-[0.4rem] h-[1.3rem] w-[100%]"
           >
