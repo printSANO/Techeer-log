@@ -52,6 +52,7 @@ public class WebMvcDeployConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/v1/auth/anonymous")
                 .excludePathPatterns("/api/v1/enums")
+                .excludePathPatterns("/api/v1/health")
                 .excludePathPatterns("/swagger-ui.html", "/swagger-ui/**", "/api/v3/api-docs/**");
     }
 
