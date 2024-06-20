@@ -6,12 +6,13 @@ drop table if exists comment, framework, love, member, non_register_project_memb
 
 CREATE TABLE comment
 (
-    comment_id   BIGINT AUTO_INCREMENT NOT NULL,
-    member_id    BIGINT                NULL,
-    project_id   BIGINT                NULL,
-    soft_removed BIT(1)                NOT NULL,
-    created_at   datetime              NULL,
-    message      VARCHAR(255)          NOT NULL,
+    comment_id BIGINT AUTO_INCREMENT NOT NULL,
+    created_at datetime              NOT NULL,
+    updated_at datetime              NULL,
+    deleted    BIT(1)                NULL,
+    member_id  BIGINT                NULL,
+    project_id BIGINT                NULL,
+    message    VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_comment PRIMARY KEY (comment_id)
 );
 
@@ -59,25 +60,26 @@ CREATE TABLE non_register_project_member
 
 CREATE TABLE project
 (
-    project_id     BIGINT AUTO_INCREMENT NOT NULL,
-    created_at     datetime              NOT NULL,
-    updated_at     datetime              NULL,
-    deleted        BIT(1)                NULL,
-    main_image_url VARCHAR(255)          NULL,
-    title          VARCHAR(255)          NOT NULL,
-    subtitle       VARCHAR(255)          NULL,
-    content        LONGTEXT              NOT NULL,
-    start_date     date                  NULL,
-    end_date       date                  NULL,
-    platform       VARCHAR(255)          NULL,
-    project_type   VARCHAR(255)          NULL,
-    year           INT                   NOT NULL,
-    semester       VARCHAR(255)          NULL,
-    project_status VARCHAR(255)          NULL,
-    github_link    VARCHAR(255)          NULL,
-    blog_link      VARCHAR(255)          NULL,
-    website_link   VARCHAR(255)          NULL,
-    member_id      BIGINT                NOT NULL,
+    project_id          BIGINT AUTO_INCREMENT NOT NULL,
+    created_at          datetime              NOT NULL,
+    updated_at          datetime              NULL,
+    deleted             BIT(1)                NULL,
+    main_image_url      VARCHAR(255)          NULL,
+    title               VARCHAR(255)          NOT NULL,
+    subtitle            VARCHAR(255)          NULL,
+    content             LONGTEXT              NOT NULL,
+    start_date          date                  NULL,
+    end_date            date                  NULL,
+    platform            VARCHAR(255)          NULL,
+    project_type_enum   VARCHAR(255)          NULL,
+    year                INT                   NOT NULL,
+    semester_enum       VARCHAR(255)          NULL,
+    rank_enum           VARCHAR(255)          NULL,
+    project_status_enum VARCHAR(255)          NULL,
+    github_link         VARCHAR(255)          NULL,
+    blog_link           VARCHAR(255)          NULL,
+    website_link        VARCHAR(255)          NULL,
+    member_id           BIGINT                NOT NULL,
     CONSTRAINT pk_project PRIMARY KEY (project_id)
 );
 
@@ -104,8 +106,8 @@ CREATE TABLE project_member
 CREATE TABLE refresh_token
 (
     refresh_token_id BIGINT AUTO_INCREMENT NOT NULL,
-    token            VARCHAR(255)          NULL,
     member_id        BIGINT                NULL,
+    token            VARCHAR(255)          NULL,
     CONSTRAINT pk_refreshtoken PRIMARY KEY (refresh_token_id)
 );
 
@@ -122,9 +124,6 @@ CREATE TABLE scrap
 
 ALTER TABLE member
     ADD CONSTRAINT uc_member_nickname UNIQUE (nickname);
-
-ALTER TABLE refresh_token
-    ADD CONSTRAINT uc_refreshtoken_member UNIQUE (member_id);
 
 ALTER TABLE comment
     ADD CONSTRAINT FK_COMMENT_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
@@ -155,9 +154,6 @@ ALTER TABLE project_member
 
 ALTER TABLE project
     ADD CONSTRAINT FK_PROJECT_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
-
-ALTER TABLE refresh_token
-    ADD CONSTRAINT FK_REFRESHTOKEN_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);
 
 ALTER TABLE scrap
     ADD CONSTRAINT FK_SCRAP_ON_MEMBER FOREIGN KEY (member_id) REFERENCES member (member_id);

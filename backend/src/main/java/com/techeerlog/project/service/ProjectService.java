@@ -17,6 +17,7 @@ import com.techeerlog.member.exception.MemberNotFoundException;
 import com.techeerlog.member.repository.MemberRepository;
 import com.techeerlog.project.domain.*;
 import com.techeerlog.project.dto.*;
+import com.techeerlog.project.enums.RankEnum;
 import com.techeerlog.project.enums.SearchFieldEnum;
 import com.techeerlog.project.exception.PageableAccessException;
 import com.techeerlog.project.exception.ProjectNotFoundException;
@@ -134,6 +135,17 @@ public class ProjectService {
 
     public ProjectItemListResponse findProjectListResponse(ProjectListRequest projectListRequest, AuthInfo authInfo) {
         Slice<Project> projectSlice = getProjectSlice(projectListRequest);
+
+        return projectListToProjectItemListResponse(projectSlice, authInfo);
+    }
+
+    public ProjectItemListResponse findPrizeProjectListResponse(PrizeProjectListRequest prizeProjectListRequest, AuthInfo authInfo) {
+        Slice<Project> projectSlice = projectRepository.findPrizeProjectList(
+                prizeProjectListRequest.getProjectTypeEnum(),
+                prizeProjectListRequest.getYear(),
+                prizeProjectListRequest.getSemesterEnum(),
+                List.of(RankEnum.FIRST, RankEnum.SECOND, RankEnum.THIRD)
+        );
 
         return projectListToProjectItemListResponse(projectSlice, authInfo);
     }

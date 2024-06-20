@@ -31,6 +31,11 @@ export function Search({ setResult }: any) {
   const onChangeSearch = (e: any) => {
     setSearchresult(e.target.value);
   };
+  const handleBlurContainer = () => {
+    setTimeout(() => {
+      setIsFocused(false);
+    }, 200);
+  };
   const searchMutation = useMutation({
     mutationFn: async () => {
       const response = await api.projectSearch(searchQuery);
@@ -64,10 +69,10 @@ export function Search({ setResult }: any) {
           name="search"
           placeholder="검색하실 내용을 입력해 주세요."
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onBlur={handleBlurContainer}
           className="w-[93%] h-[30px] bg-transparent font-['Pretendard-Light'] text-[15px] text-[#FFFFFF] placeholder-white placeholder-font-['Pretendard-Light'] focus:outline-none"
         />
-        {!isFocused && <api.DropdownSearch />}
+        {isFocused && <api.DropdownSearch />}
         {searchresult.length > 0 && (
           <img
             onClick={() => {
