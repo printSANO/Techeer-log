@@ -59,7 +59,7 @@ export function LogIn() {
     // 전체 배경
     <div className="bg-[#111111] bg-opacity-90 flex w-screen h-screen justify-center items-center">
       {/* 모달 이미지 배경 */}
-      <div className="rounded-[1.25rem] bg-cover bg-[url('./src/shared/assets/image/loginImg/Background-Login.png')] bg-no-repeat flex flex-row w-[60rem] h-[37.5rem]">
+      <div className="rounded-[1.25rem] bg-cover bg-[url('/src/shared/assets/image/loginImg/Background-Login.png')] bg-no-repeat flex flex-row w-[60rem] h-[37.5rem]">
         {/* 왼쪽 박스 텍스트 그룹 */}
         <div className="flex flex-col justify-center ml-8 box-sizing-border w-[55%] gap-2">
           <p className="break-words font-['Bayon'] font-normal text-[3rem] text-[#FFFFFF]">Techeer.log</p>
@@ -76,7 +76,7 @@ export function LogIn() {
           {/* 아이디 입력 Input */}
           <div className="rounded-[0.375rem] border border-solid border-[#E2E2E2] border-1 relative flex flex-row w-[18.25rem] h-[3.125rem]">
             <div className="flex flex-row justify-center items-center p-[0.625rem]">
-              <img className="w-[1.125rem] h-[1.125rem]" src="./src/shared/assets/image/loginImg/Icon-Id.png" />
+              <img className="w-[1.125rem] h-[1.125rem]" src="/src/shared/assets/image/loginImg/Icon-Id.png" />
             </div>
             {/* <span className="break-words font-['Pretendard'] font-normal text-[1rem] tracking-[0.019rem] leading-[3] text-[#BABABA]">
               아이디
@@ -94,7 +94,7 @@ export function LogIn() {
           {/* 비밀번호 입력 Input */}
           <div className="rounded-[0.375rem] border border-solid border-[#E2E2E2] border-1 relative flex flex-row w-[18.25rem] h-[3.125rem]">
             <div className="flex flex-row justify-center items-center p-[0.625rem]">
-              <img className="w-[1.125rem] h-[1.125rem]" src="./src/shared/assets/image/loginImg/Icon-Password.png" />
+              <img className="w-[1.125rem] h-[1.125rem]" src="/src/shared/assets/image/loginImg/Icon-Password.png" />
             </div>
             {/* <span className="break-words font-['Pretendard'] font-normal text-[1rem] tracking-[0.019rem] leading-[3] text-[#BABABA]">
               비밀번호
