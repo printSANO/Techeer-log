@@ -17,7 +17,6 @@ export const Project = ({ projectId }: { projectId: number }) => {
   }
 
   if (data) {
-    console.log('projectPage', data);
     return (
       <div>
         <ProjectView data={data} />

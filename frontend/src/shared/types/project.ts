@@ -41,10 +41,10 @@ export interface ProjectData {
   startDate: string;
   endDate: string;
   platform: string;
-  projectType: string;
+  projectTypeEnum: string;
   year: number;
-  semester: string;
-  projectStatus: string;
+  semesterEnum: string;
+  projectStatusEnum: string;
   githubLink: string;
   blogLink: string;
   websiteLink: string;
@@ -55,4 +55,5 @@ export interface ProjectData {
   nonRegisterProjectMemberResponseList: ProjectMember[];
   frameworkResponseList: Framework[];
   loved: boolean;
+  scraped: boolean;
 }
