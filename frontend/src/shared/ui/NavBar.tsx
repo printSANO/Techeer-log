@@ -2,11 +2,9 @@
 import { useAuthStore } from '../store/authStore';
 export default function NavBar() {
   const { logout, nickname } = useAuthStore();
-  // const navigate = useNavigate();
 
   const goLogin = () => {
     window.location.replace('/login');
-    // navigate('/login');
   };
 
   const handleLogout = () => {
@@ -15,8 +13,8 @@ export default function NavBar() {
     //loginApi();
   };
   return (
-    <div className="fixed top-0 w-screen flex justify-center items-center z-50">
-      <div className="backdrop-blur-[4px] flex flex-row items-center justify-between py-2 px-3 w-[1200px] box-sizing-border">
+    <div className="fixed top-0 w-screen flex justify-center items-center z-50 backdrop-blur-[4px]">
+      <div className="flex flex-row items-center justify-between py-2 px-3 w-[1200px] box-sizing-border">
         <div className="flex flex-row justify-center my-2">
           <span className="break-words font-['Bayon'] font-normal text-[2rem] text-[#EFEFEF]">Techeer.log</span>
         </div>

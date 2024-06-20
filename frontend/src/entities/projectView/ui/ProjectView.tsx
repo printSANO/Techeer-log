@@ -1,20 +1,15 @@
 import GithubIcon from '../../../shared/assets/image/projectViewImg/Icon-Github.png';
-import BlogIcon from '../../../shared/assets/image/modalImg/bloglink.svg'
-import WebIcon from '../../../shared/assets/image/modalImg/Internet.svg'
-import {
-  Framework,
-  ProjectData,
-  ProjectMember,
-} from '../../../shared/types/project.ts';
+import BlogIcon from '../../../shared/assets/image/modalImg/bloglink.svg';
+import WebIcon from '../../../shared/assets/image/modalImg/Internet.svg';
+import { Framework, ProjectData, ProjectMember } from '../../../shared/types/project.ts';
 import { LikeButton } from './LikeButton.tsx';
 import { ScrapButton } from './ScrapButton.tsx';
 import { ShareButton } from './ShareButton.tsx';
 export const ProjectView = (props: { data: ProjectData }) => {
   const project: ProjectData = props.data;
+
   const projectMember: ProjectMember[] = props.data.nonRegisterProjectMemberResponseList;
-  // if(projectMember[0].projectMemberTypeEnum === 'BACKEND'){
-  //   console.log('hi',projectMember[0].name)
-  // }
+
   const techStack: Framework[] = props.data.frameworkResponseList;
 
   return (
@@ -33,7 +28,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
             <LikeButton projectId={project.id} loveCount={project.loveCount} isLoved={project.loved} />
           </div>
           <div className="flex flex-row justify-between box-sizing-border mt-[0.5rem]">
-            <ScrapButton projectId={project.id} />
+            <ScrapButton projectId={project.id} scraped={project.scraped} />
             <ShareButton />
           </div>
         </div>
@@ -41,10 +36,8 @@ export const ProjectView = (props: { data: ProjectData }) => {
         <div className="flex flex-row w-[100%] justify-between box-sizing-border">
           {/*소개*/}
           <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[1.4rem_1.4rem_3rem_1.4rem] box-sizing-border">
-            <div
-              className="rounded-[0.6rem] w-[100%] h-[23.2rem]"
-            >
-              <img src={project.mainImageUrl}/>
+            <div className="rounded-[0.6rem] w-[100%] h-[23.2rem]">
+              <img src={project.mainImageUrl} />
             </div>
             <p className="m-[2rem_1.1rem_0_1.1rem] whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
               {project.content}
@@ -78,16 +71,16 @@ export const ProjectView = (props: { data: ProjectData }) => {
                   </div>
                   <div className="flex flex-col justify-between self-start w-[17.8rem] mt-[0.1rem] box-sizing-border ">
                     <span className="break-words font-['Pretendard'] h-12 font-normal text-[0.9rem] text-[#FFFFFF]">
-                      {project.startDate} ~ {project.endDate}
+                      {project.startDate} <p>~ {project.endDate}</p>
                     </span>
                     <span className="break-words font-['Pretendard'] h-12 font-normal text-[0.9rem] text-[#FFFFFF]">
-                      {project.projectType}
+                      {project.projectTypeEnum}
                     </span>
                     <span className="break-words font-['Pretendard'] h-12 font-normal text-[0.9rem] text-[#FFFFFF]">
                       {project.platform}
                     </span>
                     <span className="break-words font-['Pretendard'] h-12 font-normal text-[0.9rem] text-[#FFFFFF]">
-                      {project.projectStatus}
+                      {project.projectStatusEnum === 'RUNNING' ? '운영 중' : '운영 중단'}
                     </span>
                     <div className="flex flex-row items-center box-sizing-border gap-4">
                       {project.githubLink && (
@@ -127,7 +120,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
                   techStack.map((tech) => {
-                    if (tech.frameworkTypeEnum === "BACKEND") {
+                    if (tech.frameworkTypeEnum === 'BACKEND') {
                       return (
                         <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
@@ -144,7 +137,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
                   techStack.map((tech) => {
-                    if (tech.frameworkTypeEnum === "FRONTEND") {
+                    if (tech.frameworkTypeEnum === 'FRONTEND') {
                       return (
                         <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
@@ -176,21 +169,21 @@ export const ProjectView = (props: { data: ProjectData }) => {
                 <div className="flex flex-col justify-between self-start w-[17.8rem] box-sizing-border">
                   {projectMember &&
                     projectMember.map((member) => {
-                      if (member.projectMemberTypeEnum === "LEADER") {
+                      if (member.projectMemberTypeEnum === 'LEADER') {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
                             {member.name}
                           </span>
                         );
                       }
-                      if (member.projectMemberTypeEnum === "BACKEND") {
+                      if (member.projectMemberTypeEnum === 'BACKEND') {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
                             {member.name}
                           </span>
                         );
                       }
-                      if (member.projectMemberTypeEnum === "FRONTEND") {
+                      if (member.projectMemberTypeEnum === 'FRONTEND') {
                         return (
                           <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
                             {member.name}
