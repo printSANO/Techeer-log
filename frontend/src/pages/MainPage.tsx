@@ -9,6 +9,7 @@ import Footer from '../shared/ui/Footer.tsx';
 import { useLocation } from 'react-router-dom';
 import ProjectCard from '../shared/ui/ProjectCard.tsx';
 import { prizeDate } from '../shared/types/prizeDate.ts';
+import iconPoint from '../shared/assets/image/mainImg/Icon-Point.png';
 
 export default function MainPage() {
   const OPTIONS: EmblaOptionsType = { loop: true };
@@ -65,10 +66,7 @@ export default function MainPage() {
           <>
             {/* 우수선정작 */}
             <div className="flex flex-col justify-center items-center mb-12">
-              <img
-                src="./src/shared/assets/image/mainImg/Icon-Point.png"
-                className="w-[1.875rem] h-[0.75rem] mb-[1rem]"
-              />
+              <img src={iconPoint} className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />
               <span className="font-['Pretendard-Thin'] text-[1.875rem] text-white">
                 {data.year} {renameSemester(data.semesterEnum)} 부트캠프
                 <a className="font-['Pretendard-Bold']"> 우수 선정작</a>
@@ -79,10 +77,7 @@ export default function MainPage() {
               <div ref={scrollRef}></div>
             </div>
             <div className="flex flex-col justify-center items-center mb-12">
-              <img
-                src="./src/shared/assets/image/mainImg/Icon-Point.png"
-                className="w-[1.875rem] h-[0.75rem] mb-[1rem]"
-              />
+              <img src={iconPoint} className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />
               <span className="font-['Pretendard-Thin'] text-[1.875rem] text-white">
                 테커 모든 <a className="font-['Pretendard-Bold']">프로젝트</a>
               </span>

@@ -3,6 +3,7 @@ import { useGetProjectQuery } from '../query/useGetProjectQuery.tsx';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useMemo } from 'react';
 
+
 type ProjectListProps = {
   selectedType: string;
   selectedPeriod: string;

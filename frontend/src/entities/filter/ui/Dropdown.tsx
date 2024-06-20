@@ -1,6 +1,7 @@
 import { SetStateAction } from 'react';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import iconDropdown from '../image/Icon-Dropdown.png';
 
 type DropDownProps = {
   selectedType: string;
@@ -15,8 +16,8 @@ type DropdownMenuProps = {
 };
 
 export function DropDown({ selectedType, setSelectedType, selectedPeriod, setSelectedPeriod }: DropDownProps) {
-  const firstDropdown = ['전체','부트캠프', '팀 프로젝트', '개인 프로젝트'];
-  const secondDropdown = ['전체','2023 상반기', '2023 하반기'];
+  const firstDropdown = ['전체', '부트캠프', '팀 프로젝트', '개인 프로젝트'];
+  const secondDropdown = ['전체', '2023 상반기', '2023 하반기'];
 
   // 첫 번째 드롭다운의 상태값이 바뀌면 두 번째 드롭다운의 상태값이 초기값으로 바뀜
   const handleFirstDropdownChange = (option: SetStateAction<string>) => {
@@ -32,11 +33,7 @@ export function DropDown({ selectedType, setSelectedType, selectedPeriod, setSel
         selectedOption={selectedType}
         setSelectedOption={handleFirstDropdownChange}
       />
-      <DropdownMenu
-        options={secondDropdown}
-        selectedOption={selectedPeriod}
-        setSelectedOption={setSelectedPeriod}
-      />
+      <DropdownMenu options={secondDropdown} selectedOption={selectedPeriod} setSelectedOption={setSelectedPeriod} />
     </div>
   );
 }
@@ -47,11 +44,7 @@ function DropdownMenu({ options, selectedOption, setSelectedOption }: DropdownMe
       <div>
         <Menu.Button className="w-[10rem] inline-flex justify-between rounded-md bg-[#111111] px-4 py-2 text-sm text-[#888888] shadow-sm ring-1 ring-inset ring-[#444444] hover:bg-[#242628] hover:text-[#cccccc]">
           {selectedOption}
-          <img
-            src="./src/entities/filter/image/Icon-Dropdown.png"
-            className="w-[0.625rem] h-[0.375rem] self-center ml-auto"
-            alt="Dropdown Icon"
-          />
+          <img src={iconDropdown} className="w-[0.625rem] h-[0.375rem] self-center ml-auto" alt="Dropdown Icon" />
         </Menu.Button>
       </div>
       <Transition
