@@ -13,6 +13,7 @@ import com.techeerlog.project.enums.*;
 import com.techeerlog.project.repository.ProjectRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Profile("dev")
 @Component
 public class DummyMethod {
 
