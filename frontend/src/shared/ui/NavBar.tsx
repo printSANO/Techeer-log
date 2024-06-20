@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
-export default function NavBar({ scrollRef }: { scrollRef: React.RefObject<HTMLDivElement> }) {
+export default function NavBar({ scrollRef }: { scrollRef: React.RefObject<HTMLDivElement> | null }) {
   const { logout, nickname } = useAuthStore();
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ export default function NavBar({ scrollRef }: { scrollRef: React.RefObject<HTMLD
   };
   const cursorMove = () => {
     console.log(scrollRef);
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
   };
   return (
     <div className="fixed top-0 w-screen flex justify-center items-center z-50 backdrop-blur-[4px]">
