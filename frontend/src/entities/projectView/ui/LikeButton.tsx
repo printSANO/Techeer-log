@@ -4,6 +4,7 @@ import LikeIcon from '../../../shared/assets/image/projectViewImg/Icon-Like.svg'
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postLike, deleteLike } from '../api/like.ts';
+import { useAuthStore } from '../../../shared/store/authStore.ts';
 
 interface LikeData {
   projectId: number;
@@ -37,14 +38,18 @@ export const LikeButton = ({ projectId, loveCount, isLoved }: LikeData) => {
     isLike ? postMutation.mutate(projectId) : deleteMutation.mutate(projectId);
   };
 
+  const { nickname } = useAuthStore();
+  const handleClick = () => {
+    if (!nickname) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+    setIsLike(!isLike);
+    handleLikeCheck(!isLike);
+  };
+
   return (
-    <div
-      onClick={() => {
-        setIsLike(!isLike);
-        handleLikeCheck(!isLike);
-      }}
-      className="flex flex-row box-sizing-border items-center ml-[0.4rem]"
-    >
+    <div onClick={handleClick} className="flex flex-row box-sizing-border items-center ml-[0.4rem]">
       <div className="cursor-pointer m-[0_0.6rem_0_0] w-[2.5rem] h-[2.5rem]">
         {isLike ? <img src={LikeFillIcon} alt="like" /> : <img src={LikeIcon} alt="like" />}
       </div>
