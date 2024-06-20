@@ -38,8 +38,8 @@ public class WebMvcDeployConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // CORS 설정을 모든 URL에 적용
-                .allowedOrigins("http://techeer.site",       // 혀용할 도메인 목록
-                        "https://techeer.site")
+                .allowedOrigins("http://www.techeer.site",       // 혀용할 도메인 목록
+                        "https://www.techeer.site")
                 .allowedMethods(ALLOW_METHOD_NAMES.split(","))  // 허용할 HTTP Method 목록
                 .allowedHeaders("*")        // 모든 HTTP header 허용
                 .allowCredentials(true)     // 자격 증명 허용
@@ -52,6 +52,7 @@ public class WebMvcDeployConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/v1/auth/anonymous")
                 .excludePathPatterns("/api/v1/enums")
+                .excludePathPatterns("/api/v1/health")
                 .excludePathPatterns("/swagger-ui.html", "/swagger-ui/**", "/api/v3/api-docs/**");
     }
 

@@ -1,6 +1,7 @@
-package com.techeerlog.global.support;
+package com.techeerlog.global;
 
 import com.techeerlog.global.response.ResultResponse;
+import com.techeerlog.global.support.EnumModel;
 import com.techeerlog.member.enums.RoleType;
 import com.techeerlog.project.enums.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,10 +16,17 @@ import java.util.Map;
 
 import static com.techeerlog.global.response.ResultCode.FIND_PROJECT_SUCCESS;
 
-@Tag(name = "Enum", description = "Enum API Document")
+@Tag(name = "Global", description = "Global API Document")
 @RestController
 @RequestMapping("/v1")
-public class EnumController {
+public class GlobalController {
+
+    @Operation(summary = "health check", description = "health check")
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.status(200)
+                .body("health check Ok");
+    }
 
     @Operation(summary = "Enum 조회", description = "Enum 조회")
     @GetMapping("/enums")
