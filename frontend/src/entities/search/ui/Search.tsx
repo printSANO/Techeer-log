@@ -3,6 +3,7 @@ import * as api from '../index';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cancelSearch from '../../../shared/assets/image/searchImg/Cancel-Search.svg';
+import iconSearch from '../../../shared/assets/image/searchImg/Icon-Search.png';
 
 export function Search({ setResult }: any) {
   const [searchresult, setSearchresult] = useState('');
@@ -57,7 +58,7 @@ export function Search({ setResult }: any) {
       <div className="rounded-[6.25rem] w-[30rem] h-[3rem] m-[1.5rem_0_0_0] flex justify-center items-center border border-1 border-solid border-white border-opacity-90 bg-[#111111] bg-opacity-60 backdrop-blur-[24px]">
         <img
           onClick={() => searchMutation.mutate()}
-          src="./src/shared/assets/image/searchImg/Icon-Search.png"
+          src={iconSearch}
           className="w-[0.938rem] h-[0.938rem] m-[0_0.625rem_0_0.625rem] cursor-pointer"
         />
         <input

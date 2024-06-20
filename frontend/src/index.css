@@ -23,3 +23,24 @@
     url('shared/assets/fonts/Bayon/Bayon-Regular.ttf');
     font-weight: 400;
 }
+
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: local('Pretendard-Black'),
+    url('shared/assets/fonts/Pretendard/Pretendard-Black.woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Pretendard-Thin';
+    src: local('Pretendard-Thin'),
+    url('shared/assets/fonts/Pretendard/Pretendard-Thin.woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: local('Pretendard-Medium'),
+    url('shared/assets/fonts/Pretendard/Pretendard-Medium.woff');
+    font-weight: 400;
+}
