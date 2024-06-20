@@ -7,6 +7,7 @@ import { QueryProvider } from './QueryProvider.tsx';
 import { anonymousToken } from '../shared/api';
 import { useEffect, useState } from 'react';
 import { setAccessToken } from '../shared/authorization/getToken.ts';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const initializeAnonymousToken = async () => {
   const accessToken = sessionStorage.getItem('accessToken');
@@ -33,6 +34,7 @@ function App() {
   return (
     <RecoilRoot>
       <QueryProvider>
+        <ReactQueryDevtools initialIsOpen={true} />
         <GlobalStyle />
         <RouterProvider router={router} />
       </QueryProvider>

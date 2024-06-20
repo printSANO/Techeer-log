@@ -11,6 +11,7 @@ export const ImageUpload = ({ setImageurl }: any) => {
     const { files } = e.target;
 
     if (files && files.length === 1) {
+      console.log(files[0]);
       uploadImageMutation.mutate(files[0]);
     }
   };
