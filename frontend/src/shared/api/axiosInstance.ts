@@ -3,8 +3,10 @@ import { getAccessToken, getRefreshToken, setAccessToken } from '../authorizatio
 import { useAuthStore } from '../store/authStore.ts';
 import { anonymousToken } from './anonymousToken.ts';
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: baseURL,
 });
 
 axiosInstance.interceptors.request.use((config) => {
