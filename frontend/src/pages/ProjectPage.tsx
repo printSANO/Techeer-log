@@ -15,7 +15,7 @@ export const ProjectPage = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar scrollRef={null}/>
       <Project projectId={projectId} />
       <Comments projectId={projectId} />
       <Footer />

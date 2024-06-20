@@ -4,7 +4,7 @@ import NavBar from '../../../shared/ui/NavBar.tsx';
 export const MyPage = () => {
   return (
     <div className="bg-[#111111] flex flex-col items-center w-[100vw] box-sizing-border">
-      <NavBar />
+      <NavBar scrollRef={null} />
       <div className="w-[1200px] ml-auto mr-auto mt-[8rem] mb-[8rem]">
         <div className="rounded-[16.3rem] m-[0_0_11.1rem_0] flex flex-row w-[100%] box-sizing-border justify-center">
           <div className="rounded-[16.3rem] bg-[url('shared/assests/BigProfileImg.png')] bg-[50%_50%] bg-cover bg-no-repeat m-[0_5.6rem_0_0] w-[9.4rem] h-[9.4rem]"></div>
