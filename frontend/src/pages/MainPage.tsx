@@ -21,7 +21,9 @@ export default function MainPage() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (searchQuery) {
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [searchQuery]);
 
   const data: prizeDate = {
@@ -37,7 +39,7 @@ export default function MainPage() {
   data.semesterEnum;
   return (
     <div className="bg-[#111111] flex flex-col w-screen justify-center items-center">
-      <NavBar />
+      <NavBar scrollRef={scrollRef} />
       {/* 메인페이지-소개 */}
       <div className="w-[100vw] h-[41.6vw] bg-cover bg-[url('./shared/assets/image/mainImg/Background-Main.png')] flex justify-center items-center">
         <div className="w-[100vw] h-[100vw] flex flex-col justify-center items-center font-['Pretendard-Regular'] font-normal text-[#FFFFFF]">
@@ -48,13 +50,15 @@ export default function MainPage() {
           <Search setResult={setResult} nowRef={scrollRef} />
         </div>
       </div>
-      <div className="w-[75rem] mt-[6.063rem] flex flex-col justify-center">
+      <div className="w-[75rem] mt-[6.063rem] flex flex-col justify-center mb-[15rem]">
         {searchQuery ? (
           <div ref={scrollRef} className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
             {result && result.length > 0 ? (
               result.map((results: any) => <ProjectCard key={results.id} project={results} />)
             ) : (
-              <div>No projects found.</div>
+              <div className="flex justify-center text-[1.875rem] text-[#FFFFFF] font-['Pretendard-Thin']">
+                No projects found.
+              </div>
             )}
           </div>
         ) : (
@@ -72,6 +76,7 @@ export default function MainPage() {
             </div>
             <div className="overflow-x-hidden w-[98%] mx-auto mb-[6.25rem]">
               <EmblaCarousel options={OPTIONS} date={data} />
+              <div ref={scrollRef}></div>
             </div>
             <div className="flex flex-col justify-center items-center mb-12">
               <img
