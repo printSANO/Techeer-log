@@ -435,8 +435,8 @@ export const ProjectInfo = ({ setStep }: any) => {
                       onChange={blogChange}
                       type="text"
                       name=""
-                      placeholder=""
-                      className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.9rem] bg-transparent focus:border-white focus:text-white outline-none"
+                      placeholder="Blog 링크를 입력하세요"
+                      className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
                     />
                   </label>
                 </div>
@@ -452,8 +452,8 @@ export const ProjectInfo = ({ setStep }: any) => {
                       type="text"
                       onChange={websiteChange}
                       name=""
-                      placeholder=""
-                      className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.9rem] bg-transparent focus:border-white focus:text-white outline-none"
+                      placeholder="Website 링크를 입력하세요"
+                      className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
                     />
                   </label>
                 </div>
