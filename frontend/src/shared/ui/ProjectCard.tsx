@@ -33,7 +33,7 @@ export default function ProjectCard({ project }: propsProjects) {
         <div className="m-[0_1rem_0_1rem] flex flex-row justify-between w-[92%] box-sizing-border">
           <p className="m-[0_0.5rem_0_0] break-words font-['Pre-R'] font-normal text-[0.8rem] text-[#B0B0B0]">
             {/*<span className="container-17-sub-10"></span>*/}
-            {project.projectStatus === 'RUNNING' ? (
+            {project.projectStatusEnum === 'RUNNING' ? (
               <>
                 <span className="text-green-400">•</span>
                 <span> 서비스 운영중</span>
