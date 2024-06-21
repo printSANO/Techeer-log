@@ -18,9 +18,10 @@ export default function MainPage() {
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('search') || '';
   const [selectedType, setSelectedType] = useState<string>('프로젝트 종류');
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('프로젝트 기간');
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [selectedYear, setSelectedYear] = useState<string>('프로젝트 기간');
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('전체');
 
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (searchQuery) {
       scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -85,10 +86,12 @@ export default function MainPage() {
             <DropDown
               selectedType={selectedType}
               setSelectedType={setSelectedType}
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
               selectedPeriod={selectedPeriod}
               setSelectedPeriod={setSelectedPeriod}
             />
-            <ProjectList selectedType={selectedType} selectedPeriod={selectedPeriod} />
+            <ProjectList selectedType={selectedType} selectedYear={selectedYear} selectedPeriod={selectedPeriod} />
           </>
         )}
       </div>

@@ -16,10 +16,10 @@ export interface Project {
   startDate: string;
   endDate: string;
   platform: 'WEB' | 'APP' | 'WEB_APP';
-  projectType: 'BOOTCAMP' | 'PERSONAL_PROJECT' | 'TEAM_PROJECT';
+  projectTypeEnum: 'BOOTCAMP' | 'PERSONAL_PROJECT' | 'TEAM_PROJECT';
   year: number;
-  semester: 'FIRST' | 'SECOND'; // 학기 정보
-  projectStatus: 'RUNNING' | 'COMPLETED' | 'PREPARING';
+  semesterEnum: 'FIRST' | 'SECOND'; // 학기 정보
+  projectStatusEnum: 'RUNNING' | 'COMPLETED' | 'PREPARING';
   rankEnum: 'FIRST' | 'SECOND' | 'THIRD' | 'NONE';
   loveCount: number;
   writer: Writer;
