@@ -9,7 +9,7 @@ const Footer = () => {
           © 2024 Techeer.log • All Rights Reserved
         </span>
         <span className="break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
-          contact: techeer@gmail.com
+          techeerlog@gmail.com
         </span>
       </div>
     </div>

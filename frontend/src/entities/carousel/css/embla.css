@@ -30,12 +30,13 @@
   height: var(--slide-height);
 }
 .hover-content {
-  backdrop-filter: blur(0.2rem);
+  background-color: rgba(16, 16, 16, 0.9);
   padding: 3rem;
+  border-radius: 10px;
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: calc(var(--slide-spacing) * 1);
+  width: 98%;
   height: 100%;
   display: flex;
   flex-direction: column;
