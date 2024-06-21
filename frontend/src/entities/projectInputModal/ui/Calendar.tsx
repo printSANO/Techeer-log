@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Calendars from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+//import 'react-calendar/dist/Calendar.css';
+import '../Calendar.css';
 import moment from 'moment';
 
 type ValuePiece = Date | null;
