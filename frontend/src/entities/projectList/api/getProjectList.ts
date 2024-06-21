@@ -21,8 +21,7 @@ export const getProjectList = async ({
     params,
   });
 
-  console.log(response?.data.data);
-  // const pageParam = response.data.data.nextPage
+  // console.log(response?.data.data);
 
   return response.data.data.projectItemResponseList;
 };
