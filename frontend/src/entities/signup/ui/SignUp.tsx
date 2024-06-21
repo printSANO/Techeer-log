@@ -35,6 +35,12 @@ export function SignUp() {
     }
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSignup();
+    }
+  };
+
   const handleSignup = async () => {
     try {
       const response = await axiosInstance.post('/api/v1/members/signup', {
@@ -48,7 +54,8 @@ export function SignUp() {
         return Error;
       }
     } catch (error) {
-      console.error('로그인에 실패했습니다', error);
+      console.log('error', error);
+      alert('회원가입 정보를 확인해주세요.');
     }
   };
 
@@ -93,6 +100,7 @@ export function SignUp() {
                   className="h-10 w-[14rem] text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none"
                   value={nickname}
                   onChange={nicknameChange}
+                  onKeyDown={handleKeyPress}
                 />
               </label>
               <label className="block">
@@ -104,6 +112,7 @@ export function SignUp() {
                   className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none"
                   value={loginId}
                   onChange={loginIdChange}
+                  onKeyDown={handleKeyPress}
                 />
               </label>
               <label className="block">
@@ -115,6 +124,7 @@ export function SignUp() {
                   className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none"
                   value={password}
                   onChange={passwordChange}
+                  onKeyDown={handleKeyPress}
                 />
               </label>
               <label className="block">
@@ -126,6 +136,7 @@ export function SignUp() {
                   className="w-[14rem] h-10 text-white bg-transparent border-b-2 border-gray-400 focus:border-white outline-none `${ passwordMatchError ? 'border-red-500' : ''}`"
                   value={passwordConfirmation}
                   onChange={passwordConfirmationChange}
+                  onKeyDown={handleKeyPress}
                 />
                 {passwordMatchError && (
                   <p className="mt-[0.313rem] text-sm text-red-500">비밀번호가 일치하지 않습니다.</p>

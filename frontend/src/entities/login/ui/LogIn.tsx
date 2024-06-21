@@ -16,8 +16,10 @@ export function LogIn() {
     setPassword(event.target.value);
   };
 
-  const toLogin = () => {
-    navigate('/signup');
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleClickLogin();
+    }
   };
 
   const { login, setNickname } = useAuthStore();
@@ -47,12 +49,12 @@ export function LogIn() {
 
       handleNickname();
     } catch (error) {
-      alert('로그인에 실패했습니다');
+      alert('로그인 정보를 확인해주세요.');
     }
   };
 
-  const handleSubmit = async () => {
-    handleLogin();
+  const handleClickLogin = async () => {
+    await handleLogin();
   };
 
   return (
@@ -86,9 +88,10 @@ export function LogIn() {
               name="id"
               placeholder="아이디"
               required
-              className="w-[11.25rem] m-[0.625rem] bg-transparent font-['Pretendard'] text-[1rem] text-[#E2E2E2] focus:outline-none bg-transparent"
+              className="w-[11.25rem] m-[0.625rem] bg-transparent font-['Pretendard'] text-[1rem] text-[#E2E2E2] focus:outline-none"
               value={loginId}
               onChange={loginIdChange}
+              onKeyDown={handleKeyPress}
             />
           </div>
           {/* 비밀번호 입력 Input */}
@@ -104,14 +107,15 @@ export function LogIn() {
               name="password"
               placeholder="비밀번호"
               required
-              className="w-[11.25rem] m-[0.625rem] bg-transparent font-['Pretendard'] text-[1rem] text-[#E2E2E2] focus:outline-none bg-transparent"
+              className="w-[11.25rem] m-[0.625rem] bg-transparent font-['Pretendard'] text-[1rem] text-[#E2E2E2] focus:outline-none"
               value={password}
               onChange={passwordChange}
+              onKeyDown={handleKeyPress}
             />
           </div>
           {/* 로그인 버튼 */}
           <div
-            onClick={handleSubmit}
+            onClick={handleClickLogin}
             className="cursor-pointer rounded-[0.375rem] bg-[#4344E0] relative flex flex-row justify-center w-[292px]"
           >
             <button
@@ -122,7 +126,9 @@ export function LogIn() {
             </button>
           </div>
           <span
-            onClick={toLogin}
+            onClick={() => {
+              navigate('/signup');
+            }}
             className="cursor-pointer m-[0_0_0_0.063rem] break-words font-['Pretendard'] font-normal text-[1rem] underline tracking-[0.019rem] leading-[3] text-[#757575]"
           >
             회원가입
