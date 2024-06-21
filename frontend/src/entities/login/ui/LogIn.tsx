@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useAuthStore } from '../../../shared/store/authStore';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../../shared/api/axiosInstance.ts';
+import idIcon from '../../../shared/assets/image/loginImg/Icon-Id.png';
+import passwordIcon from '../../../shared/assets/image/loginImg/Icon-Password.png';
 
 export function LogIn() {
   const [loginId, setLoginId] = useState('');
@@ -78,7 +80,7 @@ export function LogIn() {
           {/* 아이디 입력 Input */}
           <div className="rounded-[0.375rem] border border-solid border-[#E2E2E2] border-1 relative flex flex-row w-[18.25rem] h-[3.125rem]">
             <div className="flex flex-row justify-center items-center p-[0.625rem]">
-              <img className="w-[1.125rem] h-[1.125rem]" src="/src/shared/assets/image/loginImg/Icon-Id.png" />
+              <img className="w-[1.125rem] h-[1.125rem]" src={idIcon} />
             </div>
             {/* <span className="break-words font-['Pretendard'] font-normal text-[1rem] tracking-[0.019rem] leading-[3] text-[#BABABA]">
               아이디
@@ -97,7 +99,7 @@ export function LogIn() {
           {/* 비밀번호 입력 Input */}
           <div className="rounded-[0.375rem] border border-solid border-[#E2E2E2] border-1 relative flex flex-row w-[18.25rem] h-[3.125rem]">
             <div className="flex flex-row justify-center items-center p-[0.625rem]">
-              <img className="w-[1.125rem] h-[1.125rem]" src="/src/shared/assets/image/loginImg/Icon-Password.png" />
+              <img className="w-[1.125rem] h-[1.125rem]" src={passwordIcon} />
             </div>
             {/* <span className="break-words font-['Pretendard'] font-normal text-[1rem] tracking-[0.019rem] leading-[3] text-[#BABABA]">
               비밀번호
