@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS console_log;
+CREATE DATABASE IF NOT EXISTS techeer_log;
 
-use console_log;
+use techeer_log;
 
 drop table if exists comment, framework, love, member, non_register_project_member, project, project_framework, project_member, refresh_token, scrap;
 
