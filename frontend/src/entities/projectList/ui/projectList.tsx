@@ -14,8 +14,8 @@ const filterOptions: Record<string, string> = {
   '팀 프로젝트': 'TEAM_PROJECT',
   '개인 프로젝트': 'PERSONAL_PROJECT',
   '부트캠프': 'BOOTCAMP',
-  '상반기': 'FIRST',
-  '하반기': 'SECOND',
+  '동계': 'FIRST',
+  '하계': 'SECOND',
 };
 
 //프로젝트 가져온 후 필터링

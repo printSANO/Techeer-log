@@ -15,7 +15,7 @@ export default function ProjectCard({ project }: propsProjects) {
       >
         <div className="flex justify-center items-center rounded-[0.3rem] m-[0_0_1.3rem_0] w-[99.9%] h-[15rem]">
           {project.mainImageUrl ? (
-            <img alt="mainImg" className="w-full h-full object-cover" src={project.mainImageUrl} />
+            <img alt="mainImg" className="w-full h-full object-contain" src={project.mainImageUrl} />
           ) : (
             <></>
           )}

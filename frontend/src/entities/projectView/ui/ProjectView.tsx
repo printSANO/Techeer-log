@@ -85,9 +85,16 @@ export const ProjectView = (props: { data: ProjectData }) => {
         {/*글*/}
         <div className="flex flex-row w-[100%] justify-between box-sizing-border">
           {/*소개*/}
-          <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[2rem_2.4rem_3rem_2.4rem] box-sizing-border">
-            <div className="rounded-[0.6rem] w-[100%] mb-[3rem]">
-              {project.mainImageUrl ? <img alt="mainImg" src={project.mainImageUrl} /> : <></>}
+          <div
+            id="scroll-style"
+            className="rounded-[0.9rem] w-[49rem] h-[60rem] border border-solid border-[#CCCCCC] relative flex flex-col p-[2rem_2.4rem_3rem_2.4rem] box-sizing-border overflow-y-scroll"
+          >
+            <div className="justify-center flex rounded-[0.6rem] w-[100%] mb-[3rem] ">
+              {project.mainImageUrl ? (
+                <img alt="mainImg" className="flex h-[22rem]" src={project.mainImageUrl} />
+              ) : (
+                <></>
+              )}
             </div>
             <div className="whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF] w-full h-fit">
               <MarkdownView markdown={project.content} />
@@ -212,9 +219,9 @@ export const ProjectView = (props: { data: ProjectData }) => {
               </div>
               <div className="flex flex-row">
                 <div className="flex flex-col justify-between self-start w-[36rem] box-sizing-border">
-                  <div className="flex flex-row m-[0_0_0.1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
+                  <div className="flex flex-row m-[0_0_1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
                     <span>Team Leader</span>
-                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border">
+                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border flex-wrap">
                       {projectMember &&
                         projectMember.map((member, index) => {
                           if (member.projectMemberTypeEnum === 'LEADER') {
@@ -227,14 +234,17 @@ export const ProjectView = (props: { data: ProjectData }) => {
                         })}
                     </div>
                   </div>
-                  <div className="flex flex-row m-[0_0_0.1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
+                  <div className="flex flex-row m-[0_0_1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
                     <span>Backend</span>
-                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border">
+                    <div className="flex flex-row gap-3 pl-[1.5rem] w-full box-sizing-border flex-wrap">
                       {projectMember &&
                         projectMember.map((member, index) => {
                           if (member.projectMemberTypeEnum === 'BACKEND') {
                             return (
-                              <span key={index} className="break-words font-normal text-[0.9rem] text-[#FFFFFF]">
+                              <span
+                                key={index}
+                                className="break-words whitespace-normal font-normal text-[0.9rem] text-[#FFFFFF]"
+                              >
                                 {member.name}
                               </span>
                             );
@@ -244,12 +254,12 @@ export const ProjectView = (props: { data: ProjectData }) => {
                   </div>
                   <div className="flex flex-row m-[0_0_0.1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
                     <span>Frontend</span>
-                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border">
+                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border flex-wrap">
                       {projectMember &&
                         projectMember.map((member, index) => {
                           if (member.projectMemberTypeEnum === 'FRONTEND') {
                             return (
-                              <span key={index} className="break-words font-normal text-[0.9rem] text-[#FFFFFF]">
+                              <span key={index} className=" break-words font-normal text-[0.9rem] text-[#FFFFFF]">
                                 {member.name}
                               </span>
                             );

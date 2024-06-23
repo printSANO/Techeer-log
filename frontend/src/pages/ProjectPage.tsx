@@ -15,12 +15,12 @@ export const ProjectPage = () => {
 
   return (
     <>
-      <NavBar scrollRef={null}/>
+      <NavBar scrollRef={null} />
       <Project projectId={projectId} />
       <Comments projectId={projectId} />
       <Footer />
     </>
   );
-}
+};
 
 export default ProjectPage;
