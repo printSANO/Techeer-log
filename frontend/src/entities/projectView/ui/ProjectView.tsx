@@ -69,7 +69,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
           {/*소개*/}
           <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[2rem_2.4rem_3rem_2.4rem] box-sizing-border">
             <div className="rounded-[0.6rem] w-[100%] mb-[3rem]">
-              <img src={project.mainImageUrl} />
+              {project.mainImageUrl ? <img alt="mainImg" src={project.mainImageUrl} /> : <></>}
             </div>
             <div className="whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
               <MarkdownView markdown={project.content} />

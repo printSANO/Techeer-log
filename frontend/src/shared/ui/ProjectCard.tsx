@@ -14,7 +14,11 @@ export default function ProjectCard({ project }: propsProjects) {
         className="rounded-[0.3rem] border-solid border border-[#444444] flex flex-col p-[0_0_1rem_0] box-sizing-border w-[100%] cursor-pointer"
       >
         <div className="flex justify-center items-center rounded-[0.3rem] m-[0_0_1.3rem_0] w-[99.9%] h-[15rem]">
-          <img alt="mainImg" src={project.mainImageUrl} className="w-full h-full object-cover" />
+          {project.mainImageUrl ? (
+            <img alt="mainImg" className="w-full h-full object-cover" src={project.mainImageUrl} />
+          ) : (
+            <></>
+          )}
         </div>
         <div className="m-[0_1rem_0.4rem_1rem] inline-block self-start break-words font-['Pre-S'] font-semibold text-[1.3rem] bg-[#FFFFFF] text-[transparent] bg-clip-text">
           {project.title}
