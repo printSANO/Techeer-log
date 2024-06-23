@@ -5,7 +5,10 @@ import lombok.Getter;
 
 @Getter
 public enum SemesterEnum implements EnumModel {
-    FIRST("FIRST"), SECOND("SECOND");
+    FIRST("FIRST"),
+    SECOND("SECOND"),
+    ALL("ALL")
+    ;
 
     private final String name;
 
