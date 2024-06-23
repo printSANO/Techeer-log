@@ -9,7 +9,7 @@ export const Comments = ({ projectId }: { projectId: number }) => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="w-full h-full bg-transparent">Loading...</div>;
   }
 
   if (isError) {

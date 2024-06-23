@@ -80,7 +80,7 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
   const { data, isLoading, isError, error } = usePrizeProjects(date);
   // console.log('data', data);
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="bg-transparent w-full h-full">Loading...</div>;
   }
 
   if (isError) {
