@@ -9,7 +9,7 @@ export const Project = ({ projectId }: { projectId: number }) => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="bg-[#111111]"></div>;
   }
 
   if (isError) {

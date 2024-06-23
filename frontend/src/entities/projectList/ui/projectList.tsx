@@ -64,7 +64,7 @@ export const ProjectList = ({ selectedType, selectedYear, selectedPeriod }: Proj
   }, [hasNextPage, fetchNextPage, inView]);
 
   if (isFetching && !isFetchingNextPage) {
-    return <div>Loading...</div>;
+    return <div className="w-full h-full bg-transparent">Loading...</div>;
   }
   return (
     <div className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
@@ -73,7 +73,7 @@ export const ProjectList = ({ selectedType, selectedYear, selectedPeriod }: Proj
       ) : (
         <div>No projects found.</div>
       )}
-      {isFetchingNextPage ? <div>Loading...</div> : <div ref={ref} />}
+      {isFetchingNextPage ? <div className="bg-transparent w-full h-full">Loading...</div> : <div ref={ref} />}
     </div>
   );
 };

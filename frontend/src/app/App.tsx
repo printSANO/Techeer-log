@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   if (!isInitialized) {
-    return <div>Loading...</div>;
+    return <div className="w-screen h-screen bg-[#111111]"></div>;
   }
 
   return (

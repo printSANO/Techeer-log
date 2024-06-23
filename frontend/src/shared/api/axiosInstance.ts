@@ -35,7 +35,6 @@ axiosInstance.interceptors.response.use(
       }
 
       try {
-        console.log('refreshToken:', refreshToken);
         const {
           headers: { authorization: accessToken },
         } = await axios.get('/api/v1/auth/refresh', {

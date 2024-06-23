@@ -5,6 +5,7 @@ import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
 import * as projectWrite from '../../../shared/constants/index';
 import { useMutation } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
@@ -22,11 +23,30 @@ export const bottomButtons = ({ setStep }: any) => {
     githubLink,
     blogLink,
     websiteLink,
-    mainImageUrl,
     projectMemberRequestList,
     nonRegisterProjectMemberRequestList,
     frameworkResponseList,
   } = useStore();
+
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [onlyText, setonlyText] = useState<string>('');
+
+  useEffect(() => {
+    // 이미지 URL과 텍스트를 분리
+    const extractContent = (content: string) => {
+      const imageRegex = /!\[\]\((.*?)\)/;
+      const match = content.match(imageRegex);
+      if (match) {
+        setImageUrl(match[1]);
+      }
+
+      const text = content.replace(imageRegex, '').trim();
+      setonlyText(text);
+    };
+
+    extractContent(content);
+  }, []);
+
   const handleGoBack = () => {
     setStep('prev');
   };
@@ -38,12 +58,13 @@ export const bottomButtons = ({ setStep }: any) => {
   const enumProjectType = engChange(projectType);
   const enumSemester = engChange(semester);
   const enumProjectStatus = engChange(projectStatus);
+
   const handleSubmit = useMutation({
     mutationFn: () =>
       api.UploadProject(
         title,
         subtitle,
-        content,
+        onlyText,
         startDate,
         endDate,
         enumPlatform,
@@ -54,7 +75,7 @@ export const bottomButtons = ({ setStep }: any) => {
         githubLink,
         blogLink,
         websiteLink,
-        mainImageUrl,
+        imageUrl,
         projectMemberRequestList,
         nonRegisterProjectMemberRequestList,
         frameworkResponseList,
