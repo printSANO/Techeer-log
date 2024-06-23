@@ -34,8 +34,8 @@ export default function MainPage() {
     semesterEnum: 'FIRST',
   };
   function renameSemester(semester: string) {
-    if (semester === 'FIRST') return '하계';
-    if (semester === 'SECOND') return '동계';
+    if (semester === 'FIRST') return '동계';
+    if (semester === 'SECOND') return '하계';
     else return '';
   }
   data.semesterEnum;
