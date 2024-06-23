@@ -9,6 +9,7 @@ import { MarkdownView } from '../../../feature/ProjectWrite';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteProject } from '../api/project.ts';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 export const ProjectView = (props: { data: ProjectData }) => {
   const project: ProjectData = props.data;
 
@@ -31,6 +32,23 @@ export const ProjectView = (props: { data: ProjectData }) => {
     deleteMutation.mutate(projectId);
     navigate('/');
   };
+
+  const [projectType, setProjectType] = useState('');
+  const renameProjectType = (projectType: string) => {
+    if (projectType === 'BOOTCAMP') {
+      setProjectType('부트캠프');
+    }
+    if (projectType === 'TEAM_PROJECT') {
+      setProjectType('팀 프로젝트');
+    }
+    if (projectType === 'PERSONAL_PROJECT') {
+      setProjectType('개인 프로젝트');
+    }
+    return projectType;
+  };
+  useEffect(() => {
+    renameProjectType(project.projectTypeEnum);
+  }, [project.projectTypeEnum]);
 
   return (
     <div key={project.id} className="bg-[#0F1012] w-[100vw] box-sizing-border">
@@ -86,10 +104,10 @@ export const ProjectView = (props: { data: ProjectData }) => {
                 <div className="flex flex-row">
                   <div className="flex flex-col justify-between self-start w-[8rem] box-sizing-border">
                     <span className="m-[0_0.6rem_0_0] w-[8.7rem] h-12 break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
-                      프로젝트 기간
+                      진행 기간
                     </span>
                     <span className="m-[0_0.6rem_0_0] w-[8.7rem] h-12 break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
-                      진행 기수
+                      프로젝트 종류
                     </span>
                     <span className="m-[0_0.6rem_0_0] w-[8.7rem] h-12 break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
                       프로젝트 형태
@@ -106,7 +124,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
                       {project.startDate} <p>~ {project.endDate}</p>
                     </span>
                     <span className="break-words font-['Pretendard'] h-12 font-normal text-[0.9rem] text-[#FFFFFF]">
-                      {project.projectTypeEnum}
+                      {projectType}
                     </span>
                     <span className="break-words font-['Pretendard'] h-12 font-normal text-[0.9rem] text-[#FFFFFF]">
                       {project.platform}

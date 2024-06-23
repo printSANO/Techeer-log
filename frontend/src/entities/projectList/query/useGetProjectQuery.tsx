@@ -19,7 +19,6 @@ export const useGetProjectQuery = () => {
     // staleTime: Infinity, // 데이터가 만료되지 않음
 
     retry: 0,
-    refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });

@@ -18,7 +18,7 @@ export interface Project {
   platform: 'WEB' | 'APP' | 'WEB_APP';
   projectTypeEnum: 'BOOTCAMP' | 'PERSONAL_PROJECT' | 'TEAM_PROJECT';
   year: number;
-  semesterEnum: 'FIRST' | 'SECOND'; // 학기 정보
+  semesterEnum: 'FIRST' | 'SECOND' | 'ALL'; // 학기 정보
   projectStatusEnum: 'RUNNING' | 'COMPLETED' | 'PREPARING';
   rankEnum: 'FIRST' | 'SECOND' | 'THIRD' | 'NONE';
   loveCount: number;

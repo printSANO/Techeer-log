@@ -4,7 +4,7 @@ import useStore from '../../../shared/store/store';
 import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
 import * as projectWrite from '../../../shared/constants/index';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 export const bottomButtons = ({ setStep }: any) => {
@@ -48,12 +48,14 @@ export const bottomButtons = ({ setStep }: any) => {
   };
   const engChange = (platformName: any) => {
     const platform = projectWrite.projectWrite.find((item) => item.name === platformName);
-    return platform ? platform.enum : null;
+    return platform ? platform.enum : 'ALL';
   };
   const enumPlatform = engChange(platform);
   const enumProjectType = engChange(projectType);
   const enumSemester = engChange(semester);
   const enumProjectStatus = engChange(projectStatus);
+
+  const queryClient = useQueryClient();
 
   const handleSubmit = useMutation({
     mutationFn: () =>
@@ -77,6 +79,7 @@ export const bottomButtons = ({ setStep }: any) => {
         frameworkResponseList,
       ),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projectList'] });
       navigate('/');
     },
     onError: (error) => {
