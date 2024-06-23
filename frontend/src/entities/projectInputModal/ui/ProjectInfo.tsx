@@ -137,7 +137,7 @@ export const ProjectInfo = ({ setStep }: any) => {
     setIsDropDownOpen4(false);
   };
   const handleChangeService2 = () => {
-    changeprojectStatus('서비스 운영 중 아님');
+    changeprojectStatus('서비스 중단');
     setIsDropDownOpen4(false);
   };
   //달력
@@ -394,7 +394,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                             onClick={handleChangeService2}
                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-white"
                           >
-                            서비스 운영 중 아님
+                            서비스 중단
                           </li>
                         </ul>
                       </div>
