@@ -45,8 +45,8 @@ export const projectWrite = [
     type: 'projectStatus',
   },
   {
-    name: '서비스 운영 중 아님',
-    enum: 'PREPARING',
+    name: '서비스 중단',
+    enum: 'COMPLETED',
     type: 'projectStatus',
   },
 ];
