@@ -5,8 +5,8 @@ export const projectWrite = [
     type: 'platform',
   },
   {
-    name: '모바일',
-    enum: 'MOBILE',
+    name: '앱',
+    enum: 'APP',
     type: 'platform',
   },
   {

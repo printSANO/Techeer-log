@@ -125,7 +125,7 @@ export const ProjectInfo = ({ setStep }: any) => {
     setIsDropDownOpen3(false);
   };
   const handleChangePlatform2 = () => {
-    changeplatform('모바일');
+    changeplatform('앱');
     setIsDropDownOpen3(false);
   };
   const handleChangePlatform3 = () => {
@@ -354,7 +354,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                             onClick={handleChangePlatform2}
                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-white"
                           >
-                            모바일
+                            앱
                           </li>
                           <li
                             onClick={handleChangePlatform3}
