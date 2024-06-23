@@ -5,6 +5,10 @@ import { Framework, ProjectData, ProjectMember } from '../../../shared/types/pro
 import { LikeButton } from './LikeButton.tsx';
 import { ScrapButton } from './ScrapButton.tsx';
 import { ShareButton } from './ShareButton.tsx';
+import { MarkdownView } from '../../../feature/ProjectWrite';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteProject } from '../api/project.ts';
+import { useNavigate } from 'react-router-dom';
 export const ProjectView = (props: { data: ProjectData }) => {
   const project: ProjectData = props.data;
 
@@ -12,14 +16,42 @@ export const ProjectView = (props: { data: ProjectData }) => {
 
   const techStack: Framework[] = props.data.frameworkResponseList;
 
+  const currentUser = sessionStorage.getItem('nickname');
+
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: (projectId: number) => deleteProject(projectId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projectList'] });
+    },
+  });
+  const navigate = useNavigate();
+
+  const clickDeleteButton = (projectId: number) => {
+    deleteMutation.mutate(projectId);
+    navigate('/');
+  };
+
   return (
     <div key={project.id} className="bg-[#0F1012] w-[100vw] box-sizing-border">
       <div className="w-[1150px] pt-[5.5rem] relative ml-auto mr-auto">
         <div className="m-[1rem_0_1.4rem_0] flex flex-col items-centerx break-words font-['Pretendard'] font-semibold text-[2rem] text-[#FFFFFF]">
           {project.title}
         </div>
-        <div className="m-[0_0_1.3rem_0] inline-block break-words font-['Pretendard'] font-normal text-[1.1em] text-[#C7C7C7]">
-          {project.subtitle}
+        <div className="flex flex-row justify-between p-[0_0_1rem_0] text-[#C7C7C7] break-words font-['Pretendard']">
+          <div className="inline-block font-normal text-[1.1em] ">{project.subtitle}</div>
+          {currentUser === project.writer.nickname ? (
+            <div
+              onClick={() => {
+                clickDeleteButton(project.id);
+              }}
+              className="flex items-center text-[0.8rem] cursor-pointer hover:underline"
+            >
+              삭제
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="bg-[#989898] absolute w-[100%] h-[0.1rem]"></div>
         {/*좋아요, 저장, 공유*/}
@@ -35,13 +67,13 @@ export const ProjectView = (props: { data: ProjectData }) => {
         {/*글*/}
         <div className="flex flex-row w-[100%] justify-between box-sizing-border">
           {/*소개*/}
-          <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[1.4rem_1.4rem_3rem_1.4rem] box-sizing-border">
-            <div className="rounded-[0.6rem] w-[100%] h-[23.2rem]">
+          <div className="rounded-[0.9rem] w-[49rem] border border-solid border-[#CCCCCC] h-[100%] relative flex flex-col p-[2rem_2.4rem_3rem_2.4rem] box-sizing-border">
+            <div className="rounded-[0.6rem] w-[100%] mb-[3rem]">
               <img src={project.mainImageUrl} />
             </div>
-            <p className="m-[2rem_1.1rem_0_1.1rem] whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
-              {project.content}
-            </p>
+            <div className="whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
+              <MarkdownView markdown={project.content} />
+            </div>
           </div>
           {/*요약 박스*/}
           <div className="relative m-[0.2rem_0_0_0] flex flex-col w-[21rem] box-sizing-border">
@@ -86,21 +118,21 @@ export const ProjectView = (props: { data: ProjectData }) => {
                       {project.githubLink && (
                         <div className="flex">
                           <a href={project.githubLink}>
-                            <img src={GithubIcon} className="cursor-pointer w-[1.7rem] h-[1.65rem]" />
+                            <img src={GithubIcon} className="cursor-pointer w-[1.6rem] h-[1.5rem]" />
                           </a>
                         </div>
                       )}
                       {project.blogLink && (
                         <div className="flex">
                           <a href={project.blogLink}>
-                            <img src={BlogIcon} className="cursor-pointer ml-1 w-[1.5rem] h-[1.5rem]" />
+                            <img src={BlogIcon} className="cursor-pointer ml-1 w-[1.3rem] h-[1.3rem]" />
                           </a>
                         </div>
                       )}
                       {project.websiteLink && (
                         <div className="flex">
                           <a href={project.websiteLink}>
-                            <img src={WebIcon} className="cursor-pointer w-[1.7rem] h-[1.7rem]" />
+                            <img src={WebIcon} className="cursor-pointer w-[1.6rem] h-[1.6rem]" />
                           </a>
                         </div>
                       )}
@@ -119,10 +151,13 @@ export const ProjectView = (props: { data: ProjectData }) => {
               </span>
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
-                  techStack.map((tech) => {
+                  techStack.map((tech, index) => {
                     if (tech.frameworkTypeEnum === 'BACKEND') {
                       return (
-                        <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
+                        <div
+                          key={index}
+                          className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.6rem_1rem_0] flex flex-row justify-center p-[0.4rem_0.9rem_0.4rem_0.9rem] box-sizing-border"
+                        >
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
                             {tech.name}
                           </span>
@@ -136,10 +171,13 @@ export const ProjectView = (props: { data: ProjectData }) => {
               </span>
               <div className="rounded-[0.9rem] flex flex-wrap flex-row self-start w-[fit-content] box-sizing-border">
                 {techStack &&
-                  techStack.map((tech) => {
+                  techStack.map((tech, index) => {
                     if (tech.frameworkTypeEnum === 'FRONTEND') {
                       return (
-                        <div className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.8rem_1rem_0] flex flex-row justify-center p-[0.4rem_1rem_0.4rem_1rem] box-sizing-border">
+                        <div
+                          key={index}
+                          className="rounded-[0.9rem] bg-[#464646] relative m-[0_0.6rem_1rem_0] flex flex-row justify-center p-[0.4rem_0.9rem_0.4rem_0.9rem] box-sizing-border"
+                        >
                           <span className="break-words font-['Pretendard'] font-semibold text-[0.8rem] text-[#CCCCCC]">
                             {tech.name}
                           </span>
@@ -155,43 +193,54 @@ export const ProjectView = (props: { data: ProjectData }) => {
                 프로젝트 팀원
               </div>
               <div className="flex flex-row">
-                <div className="flex flex-col justify-between self-start w-[17.9rem] box-sizing-border">
-                  <span className="m-[0_0.6rem_0_0] w-[8.7rem] h-16 break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
-                    Team Leader
-                  </span>
-                  <span className="m-[0_0.6rem_0_0] w-[8.7rem] h-16 break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
-                    Backend
-                  </span>
-                  <span className="m-[0_0.6rem_0_0] w-[8.7rem] h-16 break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
-                    Frontend
-                  </span>
+                <div className="flex flex-col justify-between self-start w-[36rem] box-sizing-border">
+                  <div className="flex flex-row m-[0_0_0.1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
+                    <span>Team Leader</span>
+                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border">
+                      {projectMember &&
+                        projectMember.map((member, index) => {
+                          if (member.projectMemberTypeEnum === 'LEADER') {
+                            return (
+                              <span key={index} className="break-words font-normal text-[0.9rem] text-[#FFFFFF]">
+                                {member.name}
+                              </span>
+                            );
+                          }
+                        })}
+                    </div>
+                  </div>
+                  <div className="flex flex-row m-[0_0_0.1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
+                    <span>Backend</span>
+                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border">
+                      {projectMember &&
+                        projectMember.map((member, index) => {
+                          if (member.projectMemberTypeEnum === 'BACKEND') {
+                            return (
+                              <span key={index} className="break-words font-normal text-[0.9rem] text-[#FFFFFF]">
+                                {member.name}
+                              </span>
+                            );
+                          }
+                        })}
+                    </div>
+                  </div>
+                  <div className="flex flex-row m-[0_0_0.1rem_0] w-[15.7rem] h-[3.4rem] break-words font-['Pretendard'] font-medium text-[1rem] text-[#CCCCCC]">
+                    <span>Frontend</span>
+                    <div className="flex flex-row gap-3 pl-[1.5rem] box-sizing-border">
+                      {projectMember &&
+                        projectMember.map((member, index) => {
+                          if (member.projectMemberTypeEnum === 'FRONTEND') {
+                            return (
+                              <span key={index} className="break-words font-normal text-[0.9rem] text-[#FFFFFF]">
+                                {member.name}
+                              </span>
+                            );
+                          }
+                        })}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col justify-between self-start w-[17.8rem] box-sizing-border">
-                  {projectMember &&
-                    projectMember.map((member) => {
-                      if (member.projectMemberTypeEnum === 'LEADER') {
-                        return (
-                          <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
-                            {member.name}
-                          </span>
-                        );
-                      }
-                      if (member.projectMemberTypeEnum === 'BACKEND') {
-                        return (
-                          <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
-                            {member.name}
-                          </span>
-                        );
-                      }
-                      if (member.projectMemberTypeEnum === 'FRONTEND') {
-                        return (
-                          <span className="break-words font-['Pretendard'] h-16 font-normal text-[1rem] text-[#FFFFFF]">
-                            {member.name}
-                          </span>
-                        );
-                      }
-                    })}
-                </div>
+                <div className="flex flex-col justify-between self-start w-[17.8rem] box-sizing-border"></div>
               </div>
             </div>
           </div>
