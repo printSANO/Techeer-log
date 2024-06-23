@@ -5,7 +5,11 @@ import remarkGfm from 'remark-gfm';
 
 export const MarkdownView = ({ markdown }: { markdown: string }) => {
   return (
-    <div className={"bg-transparent w-[100%] h-[100%] text-[1.2rem] outline-none cursor-text border-none text-white focus:text-white px-1 leading-6 overflow-y-scroll"}>
+    <div
+      className={
+        'bg-transparent w-[100%] h-fit text-[1.2rem] outline-none cursor-text border-none text-white focus:text-white px-1 leading-6'
+      }
+    >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{

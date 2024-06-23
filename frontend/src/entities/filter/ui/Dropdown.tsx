@@ -27,7 +27,7 @@ export function DropDown({
 }: DropDownProps) {
   const firstDropdown = ['전체', '부트캠프', '팀 프로젝트', '개인 프로젝트'];
   const secondDropdown = ['전체', '2022', '2023', '2024'];
-  const bootCampDropdown = ['전체', '상반기', '하반기'];
+  const bootCampDropdown = ['전체', '동계', '하계'];
 
   // 첫 번째 드롭다운의 상태값이 바뀌면 두 번째 드롭다운의 상태값이 초기값으로 바뀜
   const handleFirstDropdownChange = (option: SetStateAction<string>) => {

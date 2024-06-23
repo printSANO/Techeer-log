@@ -1,7 +1,10 @@
 /* src/index.css */
+@import "./entities/projectView/ui/project.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @font-face {
     font-family: 'Pre-R';
