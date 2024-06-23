@@ -4,8 +4,8 @@ import useStore from '../../../shared/store/store';
 import * as api from '../api/index';
 import { useNavigate } from 'react-router-dom';
 import * as projectWrite from '../../../shared/constants/index';
-import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export const bottomButtons = ({ setStep }: any) => {
   const navigate = useNavigate();
@@ -30,34 +30,32 @@ export const bottomButtons = ({ setStep }: any) => {
 
   const [imageUrl, setImageUrl] = useState<string>('');
   const [onlyText, setonlyText] = useState<string>('');
+  const extractContent = (content: string) => {
+    const imageRegex = /!\[\]\((.*?)\)/;
+    const match = content.match(imageRegex);
+    if (match) {
+      setImageUrl(match[1]);
+    } else {
+      console.log('이미지를 로드할 수 없음');
+    }
 
-  useEffect(() => {
-    // 이미지 URL과 텍스트를 분리
-    const extractContent = (content: string) => {
-      const imageRegex = /!\[\]\((.*?)\)/;
-      const match = content.match(imageRegex);
-      if (match) {
-        setImageUrl(match[1]);
-      }
-
-      const text = content.replace(imageRegex, '').trim();
-      setonlyText(text);
-    };
-
-    extractContent(content);
-  }, []);
+    const text = content.replace(imageRegex, '').trim();
+    setonlyText(text);
+  };
 
   const handleGoBack = () => {
     setStep('prev');
   };
   const engChange = (platformName: any) => {
     const platform = projectWrite.projectWrite.find((item) => item.name === platformName);
-    return platform ? platform.enum : '';
+    return platform ? platform.enum : 'ALL';
   };
   const enumPlatform = engChange(platform);
   const enumProjectType = engChange(projectType);
   const enumSemester = engChange(semester);
   const enumProjectStatus = engChange(projectStatus);
+
+  const queryClient = useQueryClient();
 
   const handleSubmit = useMutation({
     mutationFn: () =>
@@ -81,6 +79,7 @@ export const bottomButtons = ({ setStep }: any) => {
         frameworkResponseList,
       ),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projectList'] });
       navigate('/');
     },
     onError: (error) => {
@@ -88,7 +87,8 @@ export const bottomButtons = ({ setStep }: any) => {
     },
   });
   const { mutate } = handleSubmit;
-  const onSubmit = async () => {
+  const onSubmit = () => {
+    extractContent(content);
     mutate();
   };
   return (
