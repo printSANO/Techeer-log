@@ -89,7 +89,7 @@ export const ProjectView = (props: { data: ProjectData }) => {
             <div className="rounded-[0.6rem] w-[100%] mb-[3rem]">
               {project.mainImageUrl ? <img alt="mainImg" src={project.mainImageUrl} /> : <></>}
             </div>
-            <div className="whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF]">
+            <div className="whitespace-pre-wrap leading-5 self-start break-words font-['Pretendard'] font-normal text-[1rem] text-[#FFFFFF] w-full h-fit">
               <MarkdownView markdown={project.content} />
             </div>
           </div>
