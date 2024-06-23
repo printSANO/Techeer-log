@@ -2,7 +2,7 @@ import { getProjectList } from '../api/getProjectList.ts';
 import { Project } from '../../../shared/types/projectList.ts';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-const SIZE_PER_PAGE = 9; //페이지당 불러올 게시글 개수
+const SIZE_PER_PAGE = 20; //페이지당 불러올 게시글 개수
 
 export const useGetProjectQuery = () => {
   const projectPerPage = 9; //한 페이지당 불러올 프로젝트 수
