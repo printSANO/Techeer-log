@@ -31,7 +31,7 @@ export default function MainPage() {
   const data: prizeDate = {
     projectTypeEnum: 'BOOTCAMP',
     year: 2023,
-    semesterEnum: 'SECOND',
+    semesterEnum: 'FIRST',
   };
   function renameSemester(semester: string) {
     if (semester === 'FIRST') return '하계';
