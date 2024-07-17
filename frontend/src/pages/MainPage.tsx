@@ -54,7 +54,7 @@ export default function MainPage() {
       </div>
       <div className="w-[75rem] mt-[6.063rem] flex flex-col justify-center mb-[15rem]">
         {searchQuery ? (
-          <div ref={scrollRef} className="grid grid-rows-3 grid-cols-3 gap-4 m-4">
+          <div ref={scrollRef} className="grid grid-cols-3 grid-rows-3 gap-4 m-4">
             {result && result.length > 0 ? (
               result.map((results: any) => <ProjectCard key={results.id} project={results} />)
             ) : (
@@ -66,7 +66,7 @@ export default function MainPage() {
         ) : (
           <>
             {/* 우수선정작 */}
-            <div className="flex flex-col justify-center items-center mb-12">
+            <div className="flex flex-col items-center justify-center mb-12">
               <img src={iconPoint} className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />
               <span className="font-['Pretendard-Thin'] text-[1.875rem] text-white">
                 {data.year} {renameSemester(data.semesterEnum)} 부트캠프
@@ -77,7 +77,7 @@ export default function MainPage() {
               <EmblaCarousel options={OPTIONS} date={data} />
               <div ref={scrollRef}></div>
             </div>
-            <div className="flex flex-col justify-center items-center mb-12">
+            <div className="flex flex-col items-center justify-center mb-12">
               <img src={iconPoint} className="w-[1.875rem] h-[0.75rem] mb-[1rem]" />
               <span className="font-['Pretendard-Thin'] text-[1.875rem] text-white">
                 테커 모든 <a className="font-['Pretendard-Bold']">프로젝트</a>
