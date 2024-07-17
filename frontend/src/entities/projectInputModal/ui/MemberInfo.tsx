@@ -8,6 +8,8 @@ export const MemberInfo = ({ setStep }: any) => {
   const [fronttags, setFrontTags] = useState<string[]>([]);
   const [backtags, setBackTags] = useState<string[]>([]);
   const [leader, setLeader] = useState<string>('');
+  const [trigger1, setTrigger1] = useState<boolean>(false);
+  const [trigger2, setTrigger2] = useState<boolean>(false);
   const nextStep = () => {
     changefrontprojectMemberList(fronttags);
     changebackprojectMemberList(backtags);
@@ -21,13 +23,27 @@ export const MemberInfo = ({ setStep }: any) => {
     setStep('prev');
   };
   const handleFrontChange = (tag: string[]) => {
+    const koreanRegex = /[\uac00-\ud7a3\u3131-\u318E\u1100-\u11FF]/;
+    if (koreanRegex.test(tag[tag.length - 1]) && !trigger1) {
+      setTrigger1(true);
+    } else if (koreanRegex.test(tag[tag.length - 1]) && trigger1) {
+      tag.pop();
+      setTrigger1(false);
+    }
     setFrontTags(tag);
   };
   const handleBackChange = (tag: string[]) => {
+    const koreanRegex = /[\uac00-\ud7a3\u3131-\u318E\u1100-\u11FF]/;
+    if (koreanRegex.test(tag[tag.length - 1]) && !trigger2) {
+      setTrigger2(true);
+    } else if (koreanRegex.test(tag[tag.length - 1]) && trigger2) {
+      tag.pop();
+      setTrigger2(false);
+    }
     setBackTags(tag);
   };
   return (
-    <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen">
+    <div className="flex flex-col items-center justify-center w-screen h-screen bg-black bg-opacity-90">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">
         <div className="relative flex flex-col gap-[2.5rem] items-center w-[85%] h-[91%]">
           {/*상단 제목, 스텝퍼*/}
