@@ -62,6 +62,7 @@ export function Search({ setResult }: any) {
           className="w-[0.938rem] h-[0.938rem] m-[0_0.625rem_0_0.625rem] cursor-pointer"
         />
         <input
+          autoComplete="off"
           ref={inputRef}
           value={searchresult}
           onKeyDown={onSubmitSearch}
