@@ -12,9 +12,9 @@ export default function NavBar({ scrollRef }: { scrollRef: React.RefObject<HTMLD
     logout();
     window.location.replace('/');
   };
-  // const goProjectWrite = () => {
-  //   navigate('/projectwrite');
-  // };
+  const goProjectWrite = () => {
+    navigate('/projectwrite');
+  };
   const cursorMove = () => {
     console.log(scrollRef);
     scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
@@ -31,16 +31,16 @@ export default function NavBar({ scrollRef }: { scrollRef: React.RefObject<HTMLD
           </span>
         </div>
         <div className="flex flex-row justify-between gap-[1rem] h-[fit-content] box-sizing-border">
-          {/*<div className="flex flex-row justify-center box-sizing-border">*/}
-          {/*  {nickname && (*/}
-          {/*    <span*/}
-          {/*      onClick={goProjectWrite}*/}
-          {/*      className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]"*/}
-          {/*    >*/}
-          {/*      새 프로젝트 작성*/}
-          {/*    </span>*/}
-          {/*  )}*/}
-          {/*</div>*/}
+          <div className="flex flex-row justify-center box-sizing-border">
+            {nickname && (
+              <span
+                onClick={goProjectWrite}
+                className="cursor-pointer break-words font-['Pretendard'] font-normal text-[1rem] leading-[1.5] text-[#FFFFFF]"
+              >
+                새 프로젝트 작성
+              </span>
+            )}
+          </div>
           <div className="flex flex-row justify-center box-sizing-border">
             <span
               onClick={cursorMove}
