@@ -44,9 +44,11 @@ export function Search({ setResult }: any) {
     },
     onSuccess: (data) => {
       setResult(data);
-      const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-      const updatedSearches = [searchQuery, ...recentSearches.filter((item: string) => item !== searchQuery)];
-      localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      if (searchQuery !== '') {
+        const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+        const updatedSearches = [searchQuery, ...recentSearches.filter((item: string) => item !== searchQuery)];
+        localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      }
     },
     onError: (error: any) => {
       console.log(error);
@@ -62,6 +64,7 @@ export function Search({ setResult }: any) {
           className="w-[0.938rem] h-[0.938rem] m-[0_0.625rem_0_0.625rem] cursor-pointer"
         />
         <input
+          autoComplete="off"
           ref={inputRef}
           value={searchresult}
           onKeyDown={onSubmitSearch}

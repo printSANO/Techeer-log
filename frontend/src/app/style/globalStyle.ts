@@ -88,4 +88,20 @@ strong {
     font-family: 'Pre-B';
     font-weight: 800;
 }
+
+@media (max-width: 1600px) , (max-height : 920px) {
+    html {
+      font-size: 15px;
+    }
+@media (max-width: 1400px) , (max-height : 870px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 1200px) , (max-height: 700px) {
+    html {
+      font-size: 12px;
+    }
+  }
+}
 `;
