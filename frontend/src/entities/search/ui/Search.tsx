@@ -44,9 +44,11 @@ export function Search({ setResult }: any) {
     },
     onSuccess: (data) => {
       setResult(data);
-      const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-      const updatedSearches = [searchQuery, ...recentSearches.filter((item: string) => item !== searchQuery)];
-      localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      if (searchQuery !== '') {
+        const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+        const updatedSearches = [searchQuery, ...recentSearches.filter((item: string) => item !== searchQuery)];
+        localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+      }
     },
     onError: (error: any) => {
       console.log(error);
