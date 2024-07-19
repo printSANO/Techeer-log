@@ -12,6 +12,7 @@ import useStore from '../../shared/store/store';
 export const ProjectWrite = ({ setStep }: any) => {
   const [markdown, setMarkdown] = useState('');
   const {
+    content,
     changecontent,
     leader,
     changenonRegisterProjectMemberRequestList,
@@ -174,7 +175,7 @@ export const ProjectWrite = ({ setStep }: any) => {
           <textarea
             value={markdown}
             onChange={handleMarkdownChange}
-            placeholder="내용을 입력하세요."
+            placeholder={content || '내용을 입력하세요.'}
             // rows={10}
             // cols={100}
             className="bg-transparent inline-flex text-[1.2rem] outline-none cursor-text border-none text-gray-400 focus:text-white px-1 h-full w-full resize-none leading-6 overflow-y-auto"
