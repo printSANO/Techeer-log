@@ -38,7 +38,8 @@ export default function MainPage() {
     if (semester === 'SECOND') return '하계';
     else return '';
   }
-  data.semesterEnum;
+  // data.semesterEnum;
+
   return (
     <div className="bg-[#111111] flex flex-col w-screen justify-center items-center">
       <NavBar scrollRef={scrollRef} />
@@ -95,7 +96,6 @@ export default function MainPage() {
           </>
         )}
       </div>
-      {/* 메인페이지-프로젝트 */}
       <Footer />
     </div>
   );

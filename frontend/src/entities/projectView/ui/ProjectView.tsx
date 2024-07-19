@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteProject } from '../api/project.ts';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import useStore from '../../../shared/store/store.ts';
 export const ProjectView = (props: { data: ProjectData }) => {
   const project: ProjectData = props.data;
 
@@ -26,7 +27,13 @@ export const ProjectView = (props: { data: ProjectData }) => {
       queryClient.invalidateQueries({ queryKey: ['projectList'] });
     },
   });
+
   const navigate = useNavigate();
+  const clickEditButton = (projectId: number) => {
+    const setProjectData = useStore.getState().setProjectData;
+    setProjectData(project);
+    navigate(`/project/edit/${projectId}`);
+  };
 
   const clickDeleteButton = (projectId: number) => {
     deleteMutation.mutate(projectId);
@@ -59,13 +66,23 @@ export const ProjectView = (props: { data: ProjectData }) => {
         <div className="flex flex-row justify-between p-[0_0_1rem_0] text-[#C7C7C7] break-words font-['Pretendard']">
           <div className="inline-block font-normal text-[1.1em] ">{project.subtitle}</div>
           {currentUser === project.writer.nickname ? (
-            <div
-              onClick={() => {
-                clickDeleteButton(project.id);
-              }}
-              className="flex items-center text-[0.8rem] cursor-pointer hover:underline"
-            >
-              삭제
+            <div className="flex flex-row gap-3">
+              <div
+                onClick={() => {
+                  clickEditButton(project.id);
+                }}
+                className="flex items-center text-[0.8rem] cursor-pointer hover:underline"
+              >
+                수정
+              </div>
+              <div
+                onClick={() => {
+                  clickDeleteButton(project.id);
+                }}
+                className="flex items-center text-[0.8rem] cursor-pointer hover:underline"
+              >
+                삭제
+              </div>
             </div>
           ) : (
             <></>

@@ -1,55 +1,12 @@
-// store.js
 import create from 'zustand';
+import { ProjectType } from '../types/projectStore.ts';
 
-interface Type {
-  title: string;
-  subtitle: string;
-  content: string;
-  startDate: string;
-  endDate: string;
-  platform: string;
-  projectType: string;
-  year: number;
-  semester: string;
-  projectStatus: string;
-  githubLink: string;
-  blogLink: string;
-  websiteLink: string;
-  mainImageUrl: string;
-  projectMemberRequestList: [];
-  frontframeworkRequestList: [];
-  backframeworkRequestList: [];
-  frontprojectMemberList: [];
-  backprojectMemberList: [];
-  nonRegisterProjectMemberRequestList: [];
-  leader: string;
-  frameworkResponseList: [];
-  changeplatform: (value: string) => void;
-  changeprojectType: (value: string) => void;
-  changeyear: (value: any) => void;
-  changeprojectStatus: (value: any) => void;
-  changegithubLink: (value: any) => void;
-  changeblogLink: (value: any) => void;
-  changewebsiteLink: (value: any) => void;
-  changesemester: (value: any) => void;
-  changefrontframeworkRequestList: (value: any) => void;
-  changebackframeworkRequestList: (value: any) => void;
-  changefrontprojectMemberList: (value: any) => void;
-  changebackprojectMemberList: (value: any) => void;
-  changeleader: (value: any) => void;
-  changeTitle: (value: any) => void;
-  changeSubtitle: (value: any) => void;
-  changestartDate: (value: any) => void;
-  changeendDate: (value: any) => void;
-  changenonRegisterProjectMemberRequestList: (value: any) => void;
-  changeframeworkResponseList: (value: any) => void;
-  changecontent: (value: any) => void;
-}
-
-const useStore = create<Type>((set) => ({
+const useStore = create<ProjectType>((set) => ({
   title: '',
   subtitle: '',
   content: '',
+  mainImageUrl: '',
+
   startDate: '0000.00.00',
   endDate: '0000.00.00',
   platform: '웹',
@@ -60,15 +17,38 @@ const useStore = create<Type>((set) => ({
   githubLink: '',
   blogLink: '',
   websiteLink: '',
-  mainImageUrl: '',
+
   projectMemberRequestList: [],
   nonRegisterProjectMemberRequestList: [],
+  leader: '',
+  frontprojectMemberList: [],
+  backprojectMemberList: [],
+
   frameworkResponseList: [],
   frontframeworkRequestList: [],
   backframeworkRequestList: [],
-  frontprojectMemberList: [],
-  backprojectMemberList: [],
-  leader: '',
+
+  changeTitle: (value: any) =>
+    set({
+      title: value,
+    }),
+  changeSubtitle: (value: any) =>
+    set({
+      subtitle: value,
+    }),
+  changecontent: (value: any) =>
+    set({
+      content: value,
+    }),
+
+  changestartDate: (value: any) =>
+    set({
+      startDate: value,
+    }),
+  changeendDate: (value: any) =>
+    set({
+      endDate: value,
+    }),
   changeplatform: (value: string) =>
     set({
       platform: value,
@@ -81,7 +61,10 @@ const useStore = create<Type>((set) => ({
     set({
       year: value,
     }),
-
+  changesemester: (value: any) =>
+    set({
+      semester: value,
+    }),
   changeprojectStatus: (value: any) =>
     set({
       projectStatus: value,
@@ -98,9 +81,27 @@ const useStore = create<Type>((set) => ({
     set({
       websiteLink: value,
     }),
-  changesemester: (value: any) =>
+
+  changenonRegisterProjectMemberRequestList: (value: any) =>
     set({
-      semester: value,
+      nonRegisterProjectMemberRequestList: value,
+    }),
+  changeleader: (value: any) =>
+    set({
+      leader: value,
+    }),
+  changefrontprojectMemberList: (value: any) =>
+    set({
+      frontprojectMemberList: value,
+    }),
+  changebackprojectMemberList: (value: any) =>
+    set({
+      backprojectMemberList: value,
+    }),
+
+  changeframeworkResponseList: (value: any) =>
+    set({
+      frameworkResponseList: value,
     }),
   changefrontframeworkRequestList: (value: any) =>
     set({
@@ -111,45 +112,39 @@ const useStore = create<Type>((set) => ({
       backframeworkRequestList: value,
     }),
 
-  changefrontprojectMemberList: (value: any) =>
+  setProjectData: (data) =>
     set({
-      frontprojectMemberList: value,
-    }),
-  changebackprojectMemberList: (value: any) =>
-    set({
-      backprojectMemberList: value,
-    }),
-  changeleader: (value: any) =>
-    set({
-      leader: value,
-    }),
-  changeTitle: (value: any) =>
-    set({
-      title: value,
-    }),
-  changeSubtitle: (value: any) =>
-    set({
-      subtitle: value,
-    }),
-  changestartDate: (value: any) =>
-    set({
-      startDate: value,
-    }),
-  changeendDate: (value: any) =>
-    set({
-      endDate: value,
-    }),
-  changenonRegisterProjectMemberRequestList: (value: any) =>
-    set({
-      nonRegisterProjectMemberRequestList: value,
-    }),
-  changeframeworkResponseList: (value: any) =>
-    set({
-      frameworkResponseList: value,
-    }),
-  changecontent: (value: any) =>
-    set({
-      content: value,
+      title: data.title,
+      subtitle: data.subtitle,
+      content: data.content,
+      mainImageUrl: data.mainImageUrl,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      platform: data.platform,
+      projectType: data.projectTypeEnum,
+      year: data.year,
+      semester: data.semesterEnum,
+      projectStatus: data.projectStatusEnum,
+      githubLink: data.githubLink,
+      blogLink: data.blogLink,
+      websiteLink: data.websiteLink,
+
+      projectMemberRequestList: data.projectMemberResponseList || [],
+      nonRegisterProjectMemberRequestList: data.nonRegisterProjectMemberResponseList || [],
+
+      leader:
+        data.nonRegisterProjectMemberResponseList.find((member) => member.projectMemberTypeEnum === 'LEADER')?.name ||
+        '',
+      frontprojectMemberList:
+        data.nonRegisterProjectMemberResponseList.filter((member) => member.projectMemberTypeEnum === 'FRONTEND') || [],
+      backprojectMemberList:
+        data.nonRegisterProjectMemberResponseList.filter((member) => member.projectMemberTypeEnum === 'BACKEND') || [],
+
+      frameworkResponseList: data.frameworkResponseList || [],
+      frontframeworkRequestList:
+        data.frameworkResponseList.filter((framework) => framework.frameworkTypeEnum === 'FRONTEND') || [],
+      backframeworkRequestList:
+        data.frameworkResponseList.filter((framework) => framework.frameworkTypeEnum === 'BACKEND') || [],
     }),
 }));
 

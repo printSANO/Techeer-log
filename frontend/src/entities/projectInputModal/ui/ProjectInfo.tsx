@@ -166,6 +166,7 @@ export const ProjectInfo = ({ setStep }: any) => {
     setNowDate2(moment(selectedDate).format('YYYY.MM.DD'));
     changeendDate(moment(selectedDate).format('YYYY.MM.DD'));
   };
+
   return (
     <div className="flex flex-col justify-center items-center bg-black bg-opacity-90 w-screen h-screen z-20">
       <div className="flex flex-row justify-center items-center font-['Pretendard'] bg-[#242424] rounded-2xl border-solid border-[#8a8991] border-[0.1rem] h-[42rem] w-[40rem] text-white box-border">
