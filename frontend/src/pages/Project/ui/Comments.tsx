@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getComments, ProjectComment } from '../../../entities/ProjectComment';
+import { getComments, ProjectComment } from '../../../entities/projectComments';
 import { CommentData } from '../../../shared/types/comments.ts';
 
 export const Comments = ({ projectId }: { projectId: number }) => {

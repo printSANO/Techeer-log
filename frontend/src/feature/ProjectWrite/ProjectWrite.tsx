@@ -30,10 +30,10 @@ export const ProjectWrite = ({ setStep }: any) => {
     setProjectMemberRequestList2([]);
     setProjectMemberRequestList3([]);
     frontprojectMemberList.map((item: any) => {
-      projectMemberRequestList2.push({ "name": item, "projectMemberTypeEnum": 'FRONTEND' });
+      projectMemberRequestList2.push({ name: item, projectMemberTypeEnum: 'FRONTEND' });
     });
     backprojectMemberList.map((item: any) => {
-      projectMemberRequestList3.push({ "name": item, "projectMemberTypeEnum": 'BACKEND' });
+      projectMemberRequestList3.push({ name: item, projectMemberTypeEnum: 'BACKEND' });
     });
     changenonRegisterProjectMemberRequestList([
       ...projectMemberRequestList2,
@@ -43,13 +43,14 @@ export const ProjectWrite = ({ setStep }: any) => {
     setProjectFrameworkList2([]);
     setProjectFrameworkList3([]);
     frontframeworkRequestList.map((item: any) => {
-      projectFrameworkList2.push({ "name": item, "frameworkTypeEnum": 'FRONTEND' });
+      projectFrameworkList2.push({ name: item, frameworkTypeEnum: 'FRONTEND' });
     });
     backframeworkRequestList.map((item: any) => {
-      projectFrameworkList3.push({ "name": item, "frameworkTypeEnum": 'BACKEND' });
+      projectFrameworkList3.push({ name: item, frameworkTypeEnum: 'BACKEND' });
     });
     changeframeworkResponseList([...projectFrameworkList2, ...projectFrameworkList3]);
   }, []);
+
   // Markdown 내용이 변경될 때 호출되는 함수
   const onsetImageurl = (markdown: string) => {
     setMarkdown((prev) => prev + markdown);
