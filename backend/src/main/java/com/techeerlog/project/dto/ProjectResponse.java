@@ -2,10 +2,7 @@ package com.techeerlog.project.dto;
 
 import com.techeerlog.framework.dto.FrameworkResponse;
 import com.techeerlog.member.dto.MemberResponse;
-import com.techeerlog.project.enums.PlatformEnum;
-import com.techeerlog.project.enums.ProjectStatusEnum;
-import com.techeerlog.project.enums.ProjectTypeEnum;
-import com.techeerlog.project.enums.SemesterEnum;
+import com.techeerlog.project.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +25,7 @@ public class ProjectResponse {
     private LocalDate endDate;
     private PlatformEnum platform;
     private ProjectTypeEnum projectTypeEnum;
+    private ProjectTeamNameEnum projectTeamNameEnum;
     private int year;
     private SemesterEnum semesterEnum;
     private ProjectStatusEnum projectStatusEnum;

@@ -24,6 +24,7 @@ public class ProjectItemResponse {
     private LocalDate endDate;
     private PlatformEnum platform;
     private ProjectTypeEnum projectTypeEnum;
+    private ProjectTeamNameEnum projectTeamNameEnum;
     private int year;
     private SemesterEnum semesterEnum;
     private RankEnum rankEnum;
