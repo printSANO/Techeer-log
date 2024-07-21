@@ -7,8 +7,8 @@ const useStore = create<ProjectType>((set) => ({
   content: '',
   mainImageUrl: '',
 
-  startDate: '0000.00.00',
-  endDate: '0000.00.00',
+  startDate: '',
+  endDate: '',
   platform: '웹',
   projectType: '부트캠프',
   year: 2024,
