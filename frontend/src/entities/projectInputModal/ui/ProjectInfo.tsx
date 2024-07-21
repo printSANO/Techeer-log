@@ -10,6 +10,8 @@ import moment from 'moment';
 
 export const ProjectInfo = ({ setStep }: any) => {
   const {
+    startDate,
+    endDate,
     projectType,
     changeprojectType,
     year,
@@ -25,7 +27,11 @@ export const ProjectInfo = ({ setStep }: any) => {
     changewebsiteLink,
     changestartDate,
     changeendDate,
+    blogLink,
+    githubLink,
+    websiteLink,
   } = useStore();
+
   // 다음, 이전 버튼
   const nextStep = () => {
     setStep('next');
@@ -143,13 +149,20 @@ export const ProjectInfo = ({ setStep }: any) => {
   //달력
   const [isCalendarOpen1, setIsCalendarOpen1] = useState(false);
   const [isCalendarOpen2, setIsCalendarOpen2] = useState(false);
-  const today = new Date();
-  const [nowDate1, setNowDate1] = useState(moment(today).format('YYYY.MM.DD'));
-  const [nowDate2, setNowDate2] = useState(moment(today).format('YYYY.MM.DD'));
+
+  const createDate = (date: string): Date => {
+    return date === '' ? new Date() : new Date(date);
+  };
+  const projectDate1 = createDate(startDate);
+  const projectDate2 = createDate(endDate);
+  const [nowDate1, setNowDate1] = useState(moment(projectDate1).format('YYYY.MM.DD'));
+  const [nowDate2, setNowDate2] = useState(moment(projectDate2).format('YYYY.MM.DD'));
+
   useEffect(() => {
-    changestartDate(moment(today).format('YYYY.MM.DD'));
-    changeendDate(moment(today).format('YYYY.MM.DD'));
+    changestartDate(moment(projectDate1).format('YYYY.MM.DD'));
+    changeendDate(moment(projectDate2).format('YYYY.MM.DD'));
   }, []);
+
   const calendarOpen1 = () => {
     setIsCalendarOpen1(!isCalendarOpen1);
   };
@@ -214,7 +227,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                     </div>
                   </div>
                 </div>
-                {isCalendarOpen1 && <Calendar onChange={handleDateChange1} />}
+                {isCalendarOpen1 && <Calendar onChange={handleDateChange1} dateKey={'start'} />}
                 {/* 우측 */}
                 <div className="flex flex-col gap-2">
                   <div className="w-[16rem] break-words font-['Pretendard'] font-normal text-[0.9rem] leading-[1.286] text-[#ECEFF5]">
@@ -226,7 +239,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                       <img src={calendarImg} className="inline" />
                     </div>
                   </div>
-                  {isCalendarOpen2 && <Calendar onChange={handleDateChange2} />}
+                  {isCalendarOpen2 && <Calendar onChange={handleDateChange2} dateKey={'end'} />}
                 </div>
               </div>
               {/* 2열 */}
@@ -418,7 +431,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                       onChange={githubChange}
                       type="text"
                       name=""
-                      placeholder="Github 링크를 입력하세요"
+                      placeholder={githubLink || 'Github 링크를 입력하세요'}
                       required
                       className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
                     />
@@ -436,7 +449,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                       onChange={blogChange}
                       type="text"
                       name=""
-                      placeholder="Blog 링크를 입력하세요"
+                      placeholder={blogLink || 'Blog 링크를 입력하세요'}
                       className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
                     />
                   </label>
@@ -453,7 +466,7 @@ export const ProjectInfo = ({ setStep }: any) => {
                       type="text"
                       onChange={websiteChange}
                       name=""
-                      placeholder="Website 링크를 입력하세요"
+                      placeholder={websiteLink || 'Website 링크를 입력하세요'}
                       className="rounded-r-[0.4rem] border-[#9492A0] border-solid border-[0.08rem] w-[100%] -ml-[0.08rem] pl-2 h-[2.1rem] text-[#9492A0] text-[0.8rem] font-['Pretendard'] bg-transparent focus:border-white focus:text-white outline-none"
                     />
                   </label>
