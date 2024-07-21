@@ -2,6 +2,8 @@ CREATE DATABASE IF NOT EXISTS techeer_log;
 
 use techeer_log;
 
+drop table if exists comment, framework, love, member, non_register_project_member, project, project_framework, project_member, refresh_token, scrap;
+
 CREATE TABLE comment
 (
     comment_id BIGINT AUTO_INCREMENT NOT NULL,
@@ -58,27 +60,27 @@ CREATE TABLE non_register_project_member
 
 CREATE TABLE project
 (
-    project_id          BIGINT AUTO_INCREMENT NOT NULL,
-    created_at          datetime              NOT NULL,
-    updated_at          datetime              NULL,
-    deleted             BIT(1)                NULL,
-    main_image_url      VARCHAR(255)          NULL,
-    title               VARCHAR(255)          NOT NULL,
-    subtitle            VARCHAR(255)          NULL,
-    content             LONGTEXT              NOT NULL,
-    start_date          date                  NULL,
-    end_date            date                  NULL,
-    platform            VARCHAR(255)          NULL,
-    project_type_enum   VARCHAR(255)          NULL,
-    project_name        VARCHAR(255)          NULL,
-    year                INT                   NOT NULL,
-    semester_enum       VARCHAR(255)          NULL,
-    rank_enum           VARCHAR(255)          NULL,
-    project_status_enum VARCHAR(255)          NULL,
-    github_link         VARCHAR(255)          NULL,
-    blog_link           VARCHAR(255)          NULL,
-    website_link        VARCHAR(255)          NULL,
-    member_id           BIGINT                NOT NULL,
+    project_id             BIGINT AUTO_INCREMENT NOT NULL,
+    created_at             datetime              NOT NULL,
+    updated_at             datetime              NULL,
+    deleted                BIT(1)                NULL,
+    main_image_url         VARCHAR(255)          NULL,
+    title                  VARCHAR(255)          NOT NULL,
+    subtitle               VARCHAR(255)          NULL,
+    content                LONGTEXT              NOT NULL,
+    start_date             date                  NULL,
+    end_date               date                  NULL,
+    platform               VARCHAR(255)          NULL,
+    project_type_enum      VARCHAR(255)          NULL,
+    project_team_name_enum VARCHAR(255)          NULL,
+    year                   INT                   NOT NULL,
+    semester_enum          VARCHAR(255)          NULL,
+    rank_enum              VARCHAR(255)          NULL,
+    project_status_enum    VARCHAR(255)          NULL,
+    github_link            VARCHAR(255)          NULL,
+    blog_link              VARCHAR(255)          NULL,
+    website_link           VARCHAR(255)          NULL,
+    member_id              BIGINT                NOT NULL,
     CONSTRAINT pk_project PRIMARY KEY (project_id)
 );
 

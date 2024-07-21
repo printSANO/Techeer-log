@@ -67,54 +67,33 @@ public class DummyMethod {
         Long i = 1L;
         for (; i <= 50; i++) {
             projects.add(new Project(
-                    i, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.PERSONAL_PROJECT, 2021, SemesterEnum.FIRST, RankEnum.NONE,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                    i, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.PERSONAL_PROJECT, ProjectTeamNameEnum.A,2021, SemesterEnum.FIRST, RankEnum.NONE,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
             ));
         }
         projects.add(
                 new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2023, SemesterEnum.FIRST, RankEnum.FIRST,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, ProjectTeamNameEnum.B,2023, SemesterEnum.FIRST, RankEnum.FIRST,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
                 )
         );
         projects.add(
                 new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2023, SemesterEnum.FIRST, RankEnum.SECOND,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, ProjectTeamNameEnum.C, 2023, SemesterEnum.FIRST, RankEnum.SECOND,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
                 )
         );
         projects.add(
                 new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2023, SemesterEnum.FIRST, RankEnum.THIRD,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
-                )
-        );
-
-        projects.add(
-                new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2023, SemesterEnum.SECOND, RankEnum.FIRST,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
-                )
-        );
-        projects.add(
-                new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2023, SemesterEnum.SECOND, RankEnum.SECOND,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
-                )
-        );
-        projects.add(
-                new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2023, SemesterEnum.SECOND, RankEnum.THIRD,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, ProjectTeamNameEnum.D, 2023, SemesterEnum.FIRST, RankEnum.THIRD,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
                 )
         );
 
         projects.add(
                 new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2024, SemesterEnum.FIRST, RankEnum.FIRST,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, ProjectTeamNameEnum.A, 2023, SemesterEnum.SECOND, RankEnum.FIRST,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
                 )
         );
         projects.add(
                 new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2024, SemesterEnum.FIRST, RankEnum.SECOND,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
-                )
-        );
-        projects.add(
-                new Project(
-                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, 2024, SemesterEnum.FIRST, RankEnum.THIRD,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+                        i++, "mainImageUrl1", "title1", "subtitle1", "content1", LocalDate.now(), LocalDate.now(), PlatformEnum.WEB, ProjectTypeEnum.BOOTCAMP, ProjectTeamNameEnum.A, 2023, SemesterEnum.SECOND, RankEnum.SECOND,ProjectStatusEnum.COMPLETED, "githubLink1", "blogLink1", "websiteLink1", member, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
                 )
         );
         projectRepository.saveAll(projects);

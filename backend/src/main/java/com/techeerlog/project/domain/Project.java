@@ -55,7 +55,7 @@ public class Project extends BaseEntity {
     private ProjectTypeEnum projectTypeEnum;
 
     @Enumerated(EnumType.STRING)
-    private ProjectName projectName;
+    private ProjectTeamNameEnum projectTeamNameEnum;
 
     private int year;
 
