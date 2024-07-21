@@ -180,7 +180,12 @@ public class ProjectService {
         Sort.Direction sortDirection = projectListRequest.getSortDirection();
         String searchKeyword = projectListRequest.getSearchKeyword();
 
-        Pageable pageable = PageRequest.of(pageStart, pageSize, Sort.by(sortDirection, "id"));
+        Sort sort = Sort.by(
+                new Sort.Order(sortDirection, "projectTeamNameEnum"),
+                new Sort.Order(sortDirection, "id")
+        );
+
+        Pageable pageable = PageRequest.of(pageStart, pageSize, sort);
 
         switch (searchFieldEnum) {
             case TITLE -> projectSlice = projectRepository.findAllByTitleContaining(searchKeyword, pageable);
