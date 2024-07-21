@@ -2,8 +2,6 @@ CREATE DATABASE IF NOT EXISTS techeer_log;
 
 use techeer_log;
 
-drop table if exists comment, framework, love, member, non_register_project_member, project, project_framework, project_member, refresh_token, scrap;
-
 CREATE TABLE comment
 (
     comment_id BIGINT AUTO_INCREMENT NOT NULL,
@@ -72,6 +70,7 @@ CREATE TABLE project
     end_date            date                  NULL,
     platform            VARCHAR(255)          NULL,
     project_type_enum   VARCHAR(255)          NULL,
+    project_name        VARCHAR(255)          NULL,
     year                INT                   NOT NULL,
     semester_enum       VARCHAR(255)          NULL,
     rank_enum           VARCHAR(255)          NULL,
